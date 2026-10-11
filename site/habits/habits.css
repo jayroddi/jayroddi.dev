@@ -21,6 +21,7 @@ body.board{--habit-gap:16px;height:auto;min-height:100svh;overflow-x:hidden;disp
 body.board .stage{position:relative;z-index:2;flex:none;display:flex;align-items:flex-start;padding:10px 0 var(--habit-gap)}
 body.board .copy{margin-left:var(--left);width:var(--col);max-width:var(--col);display:flex;flex-direction:column;font-size:16px;text-shadow:0 0 8px rgba(var(--bg-rgb),.8)}
 body.board .foot{flex:none}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .home{display:inline-block;margin:0 0 8px;font-size:14px;line-height:1.5;color:var(--c);letter-spacing:.02em}
 body.board .home{margin:0 0 var(--habit-gap)}
 .home:hover,.home:focus-visible{color:var(--c)}
