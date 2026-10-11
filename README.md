@@ -138,4 +138,6 @@ v2.12: the matrix rain matches the homepage on every page that has it. Rain behi
 
 v2.13: `site/habits/journal-jarvis.json` adds 7 on 2026-10-08 and 9 on 2026-10-09. Those days already have a daily update and no Obsidian count, so the journal totals are 8 and 10. The hover is "1 note + 7 entries" and "1 note + 9 entries".
 
-v2.12: the /daily-update/ page is taken down (it now 404s) and removed from the sitemap and the homepage. `site/daily-update/recaps.json` stays as the record and still feeds the habits journal count; no new updates are published to it.
+v2.14: the /daily-update/ page is taken down (it now 404s) and removed from the sitemap and the homepage. `site/daily-update/recaps.json` stays as the record and still feeds the habits journal count; no new updates are published to it.
+
+v2.15: workouts include 2026-10-10 (one 136-minute ride). The ride is one code session on that day. The public files stay per-day counts. `habits.css` is `?v=2.11`. `habits.js` is `?v=2.12`.
