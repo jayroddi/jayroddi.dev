@@ -1,129 +1,19 @@
 <!doctype html>
-<html lang="en" data-intro="on">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8DYYL3KYM"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());(function(){var l=location.href;try{var u=new URL(l),d=[];u.searchParams.forEach(function(v,k){if(/mail/i.test(k)||v.indexOf('@')>=0)d.push(k);});d.forEach(function(k){u.searchParams.delete(k);});l=u.href;}catch(e){}gtag('config','G-G8DYYL3KYM',{page_location:l});})();</script>
+<title>jay tha ninja</title>
+<!-- v2.16: every page except / forwards home. location.replace keeps ?query and #hash, and the stub never sits in the back history. -->
+<script>location.replace("/" + location.search + location.hash)</script>
+<meta http-equiv="refresh" content="0; url=/">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
-<meta name="color-scheme" content="dark light">
-<script>document.documentElement.classList.add('js')</script>
-<title>habits · jay tha ninja</title>
-<link rel="stylesheet" href="/habits/habits.css?v=2.11">
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="canonical" href="https://jaytha.ninja/habits/">
-<meta name="description" content="a year of habits. sleep, fitness, code, and journal. the squares fill in.">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="jaytha.ninja">
-<meta property="og:url" content="https://jaytha.ninja/habits/">
-<meta property="og:title" content="habits · jay tha ninja">
-<meta property="og:description" content="a year of habits. sleep, fitness, code, and journal.">
-<meta property="og:image" content="https://jaytha.ninja/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:type" content="image/png">
-<meta property="og:image:alt" content="jaytha.ninja: a human building something human, with a little help from his 🤖 team">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@jaythaninja">
-<meta name="twitter:title" content="habits · jay tha ninja">
-<meta name="twitter:description" content="a year of habits. sleep, fitness, code, and journal.">
-<meta name="twitter:image" content="https://jaytha.ninja/og-image.png">
-<meta name="twitter:image:alt" content="jaytha.ninja: a human building something human, with a little help from his 🤖 team">
-<link rel="stylesheet" href="/assets/rain.css?v=2.04"><script src="/assets/rain.js?v=2.04"></script>
-<link rel="stylesheet" href="/assets/foot.css?v=1.97"><script src="/assets/foot.js?v=2.03" defer></script>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://jaytha.ninja/">
+<style>html,body{margin:0;background:#000;color:#f6efe9}body{font:16px/1.5 "JetBrains Mono",ui-monospace,monospace;padding:24px}a{color:#FF4D1A;text-decoration:none}</style>
 </head>
-<body class="board">
-<div class="glows" aria-hidden="true">
-  <div class="glow" style="right:-260px;top:calc(50vh - 460px);width:1100px;height:900px;background:radial-gradient(closest-side,rgba(26,173,179,.10),rgba(26,173,179,.03) 55%,rgba(26,173,179,0))"></div>
-  <div class="glow" style="left:-340px;top:calc(100vh - 380px);width:1000px;height:700px;background:radial-gradient(closest-side,rgba(26,173,179,.12),rgba(26,173,179,0))"></div>
-</div>
-<canvas id="rain" aria-hidden="true"></canvas>
-<div class="scan" aria-hidden="true"></div>
-<main class="stage">
-  <div class="copy">
-    <a class="home" href="/">&larr; jaytha.ninja</a>
-    <div class="trackers">
-      <section class="tracker" data-id="sleep" data-kind="sleep" data-unit="night" data-src="/habits/sleep.json" aria-label="sleep">
-        <h2 class="kicker"><span class="kt">sleep</span></h2>
-        <div class="fit">
-          <div class="graph">
-            <div class="months"></div>
-            <div class="dow" aria-hidden="true"><span></span><span>mon</span><span></span><span>wed</span><span></span><span>fri</span><span></span></div>
-            <div class="weeks"></div>
-          </div>
-          <p class="legend"><span>less</span><span class="swatches" aria-hidden="true"><i data-lv="0"></i><i data-lv="1"></i><i data-lv="2"></i><i data-lv="3"></i><i data-lv="4"></i><i data-lv="5"></i></span><span>more</span></p>
-        </div>
-        <div class="stats">
-          <div class="stat"><span class="sl">year avg score</span><b class="sv" data-k="total">0</b></div>
-          <div class="stat"><span class="sl">best month</span><b class="sv" data-k="month">—</b></div>
-          <div class="stat"><span class="sl">best night</span><b class="sv" data-k="day">—</b></div>
-          <div class="stat"><span class="sl">longest streak</span><b class="sv" data-k="longest">0d</b></div>
-          <div class="stat"><span class="sl">current streak</span><b class="sv" data-k="current">0d</b></div>
-        </div>
-      </section>
-      <section class="tracker" data-id="workouts" data-unit="workout" data-metric="minutes" data-src="/habits/workouts.json" aria-label="fitness">
-        <h2 class="kicker"><span class="kt">fitness</span></h2>
-        <div class="fit">
-          <div class="graph">
-            <div class="months"></div>
-            <div class="dow" aria-hidden="true"><span></span><span>mon</span><span></span><span>wed</span><span></span><span>fri</span><span></span></div>
-            <div class="weeks"></div>
-          </div>
-          <p class="legend"><span>less</span><span class="swatches" aria-hidden="true"><i data-lv="0"></i><i data-lv="1"></i><i data-lv="2"></i><i data-lv="3"></i><i data-lv="4"></i><i data-lv="5"></i></span><span>more</span></p>
-        </div>
-        <div class="stats">
-          <div class="stat"><span class="sl">year</span><b class="sv" data-k="total">0</b></div>
-          <div class="stat"><span class="sl">most active month</span><b class="sv" data-k="month">—</b></div>
-          <div class="stat"><span class="sl">most active day</span><b class="sv" data-k="day">—</b></div>
-          <div class="stat"><span class="sl">longest streak</span><b class="sv" data-k="longest">0d</b></div>
-          <div class="stat"><span class="sl">current streak</span><b class="sv" data-k="current">0d</b></div>
-        </div>
-      </section>
-      <section class="tracker" data-id="cursor" data-unit="contribution" data-src="/habits/cursor.json" aria-label="code">
-        <h2 class="kicker"><span class="kt">code</span></h2>
-        <div class="fit">
-          <div class="graph">
-            <div class="months"></div>
-            <div class="dow" aria-hidden="true"><span></span><span>mon</span><span></span><span>wed</span><span></span><span>fri</span><span></span></div>
-            <div class="weeks"></div>
-          </div>
-          <p class="legend"><span>less</span><span class="swatches" aria-hidden="true"><i data-lv="0"></i><i data-lv="1"></i><i data-lv="2"></i><i data-lv="3"></i><i data-lv="4"></i><i data-lv="5"></i></span><span>more</span></p>
-        </div>
-        <div class="stats">
-          <div class="stat"><span class="sl">year</span><b class="sv" data-k="total">0</b></div>
-          <div class="stat"><span class="sl">most active month</span><b class="sv" data-k="month">—</b></div>
-          <div class="stat"><span class="sl">most active day</span><b class="sv" data-k="day">—</b></div>
-          <div class="stat"><span class="sl">longest streak</span><b class="sv" data-k="longest">0d</b></div>
-          <div class="stat"><span class="sl">current streak</span><b class="sv" data-k="current">0d</b></div>
-        </div>
-      </section>
-      <section class="tracker" data-id="journal" data-kind="journal" data-unit="note" data-src="/habits/journal.json" aria-label="journal">
-        <h2 class="kicker"><span class="kt">journal</span></h2>
-        <div class="fit">
-          <div class="graph">
-            <div class="months"></div>
-            <div class="dow" aria-hidden="true"><span></span><span>mon</span><span></span><span>wed</span><span></span><span>fri</span><span></span></div>
-            <div class="weeks"></div>
-          </div>
-          <p class="legend"><span>less</span><span class="swatches" aria-hidden="true"><i data-lv="0"></i><i data-lv="1"></i><i data-lv="2"></i><i data-lv="3"></i><i data-lv="4"></i><i data-lv="5"></i></span><span>more</span></p>
-        </div>
-        <div class="stats">
-          <div class="stat"><span class="sl">year</span><b class="sv" data-k="total">0</b></div>
-          <div class="stat"><span class="sl">most active month</span><b class="sv" data-k="month">—</b></div>
-          <div class="stat"><span class="sl">most active day</span><b class="sv" data-k="day">—</b></div>
-          <div class="stat"><span class="sl">longest streak</span><b class="sv" data-k="longest">0d</b></div>
-          <div class="stat"><span class="sl">current streak</span><b class="sv" data-k="current">0d</b></div>
-        </div>
-      </section>
-    </div>
-  </div>
-</main>
-<footer class="foot" data-ref="habits">
-</footer>
-<script src="/habits/habits.js?v=2.12"></script>
+<body>
+<p><a href="/">jaytha.ninja</a></p>
 </body>
 </html>

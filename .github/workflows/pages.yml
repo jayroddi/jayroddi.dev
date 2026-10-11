@@ -30,7 +30,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Habits (refresh cursor counts)
-        # rebuilds site/habits/cursor.json from GitHub. day pages stay off unless HABITS_DAY_PAGES=1.
+        # rebuilds site/habits/cursor.json from GitHub. day pages stay redirects to / unless HABITS_DAY_PAGES=1.
         # HABITS_GITHUB_TOKEN (repo scope) is optional; without it private repos are skipped and the public repo still counts.
         # a failed fetch keeps the committed cursor.json. this step never blocks the deploy.
         env:
