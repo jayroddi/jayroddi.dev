@@ -151,3 +151,5 @@ v2.18: the speed hint at the top of `/` is gone. Tapping the page still changes 
 v2.19: the ninja in the top social row pulses in the speed colour from the moment the row is on the page, before the grids finish. Reduced motion keeps a steady glow in that same colour from the start. `rain.css` is `?v=2.19`.
 
 v2.20: the email field on `/` uses the same font family, size, weight, and letter-spacing as the grid stat labels (`current streak` and the rest): 11px on desktop, 10px on a phone, weight 400. The placeholder and the typed text share that type. The placeholder is `enter your email if you know ball`. `habits.css` and `signup.js` are `?v=2.20`.
+
+v2.21: the email field still looks like those stat labels, but its computed font-size stays 16px on every screen so iPhone Safari does not zoom when the field is tapped. The input sits in a wrapper scaled to 11/16 on desktop and 10/16 on a phone (`transform-origin: 0 0`), and the wrapper's width and bottom margin give that scale back so the line, the placeholder, and the rocket stay where they were. The placeholder and the typed text both scale with that wrapper. `habits.css` and `signup.js` are `?v=2.21`.
