@@ -1,4 +1,4 @@
-/* v2.17: the pre-v2.16 homepage rocket, charging cable, failed launch, and konami code.
+/* v2.21: the email field is 16px inside a wrapper scaled to the stat-label size. the cable follows that visual box.
    the prompt line above the form is gone. the field placeholder is "enter your email if you know ball".
    the thanks line is the same copy, shown at once (the old typewriter lived in the homepage intro). */
 (() => {
@@ -32,8 +32,9 @@ cblT.append(...segT); cblF.forEach((sv, i) => sv.appendChild(segF[i])); cblW.app
 form.append(cblT, ...cblF, cblW); form.classList.add('cabled');
 const cblAll = [cblT, ...cblF, cblW];
 const placeCable = () => {
-  const x0 = emailIn.offsetLeft, yb = emailIn.offsetTop + emailIn.offsetHeight - .5, bw = rkBtn.offsetWidth, bh = rkBtn.offsetHeight;
-  const xp = rkBtn.offsetLeft + bw*PORT[0], yp = Math.min(yb, rkBtn.offsetTop + bh*PORT[1]), pad = 12, run = bw*.6, xs = Math.max(x0, xp - run), d = Math.min(8, (yb - yp)*.5);
+  const formBox = form.getBoundingClientRect(), inBox = emailIn.getBoundingClientRect(), rkBox = rkBtn.getBoundingClientRect();
+  const x0 = inBox.left - formBox.left, yb = inBox.bottom - formBox.top - .5, bw = rkBox.width, bh = rkBox.height;
+  const xp = rkBox.left - formBox.left + bw*PORT[0], yp = Math.min(yb, rkBox.top - formBox.top + bh*PORT[1]), pad = 12, run = bw*.6, xs = Math.max(x0, xp - run), d = Math.min(8, (yb - yp)*.5);
   const L = x0 - pad, T = yp - pad, X = v => (v - L).toFixed(2), Y = v => (v - T).toFixed(2);
   const curve = `C${X(xs + (xp - xs)*.55)} ${Y(yb)} ${X(xp - d)} ${Y(yp + d)} ${X(xp)} ${Y(yp)}`, a = x0 + (xs - x0)/3, b = x0 + (xs - x0)*2/3;
   const seg = [`M${X(x0)} ${Y(yb)}H${X(xs)}${curve}`];
