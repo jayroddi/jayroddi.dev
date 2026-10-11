@@ -1,5 +1,5 @@
 /* v2.17: the pre-v2.16 homepage rocket, charging cable, failed launch, and konami code.
-   the prompt line above the form is gone. the field placeholder is "subscribe for updates".
+   the prompt line above the form is gone. the field placeholder is "enter your email if you know ball".
    the thanks line is the same copy, shown at once (the old typewriter lived in the homepage intro). */
 (() => {
 const form = document.querySelector('form.notify');
