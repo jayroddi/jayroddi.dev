@@ -1,4 +1,4 @@
-/* v2.03 (jay 2026.10.10): the shared footer is the icon row only. the email signup stays on the homepage.
+/* v2.17 (jay 2026.10.11): the shared footer is the icon row. the homepage also keeps its signup and konami pad, so this appends the row instead of replacing the footer.
    every other page has <footer class="foot"></footer> plus this script. it builds the cartoon ninja first
    (a quiet link to /now/; plain on /now/ itself), then the 8 icons. the row is the shared content column (foot.css):
    the ninja is flush with the left edge and email is flush with the right, spread evenly between. the footer's height
@@ -15,7 +15,10 @@ const esc = t => String(t).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', 
 const onNow = /^\/now\/?$/.test(location.pathname);
 const njItem = onNow ? `<li class="who"><span class="who-t">${NJ}</span></li>` : `<li class="who"><a class="who-t" href="/now/" aria-label="now">${NJ}</a></li>`;
 const icon = s => `<li><a href="${esc(s.href)}" aria-label="${esc(s.label)}" title="${esc(s.label)}"${/^https?:/.test(s.href) ? ' target="_blank" rel="noopener"' : ''}>${ICONS[s.icon] || ''}</a></li>`;
-foot.innerHTML = `<nav class="elsewhere" aria-label="elsewhere"><ul class="social">${njItem}${SOCIALS.map(icon).join('')}</ul></nav>`;
+const row = `<nav class="elsewhere" aria-label="elsewhere"><ul class="social">${njItem}${SOCIALS.map(icon).join('')}</ul></nav>`;
+const pad = foot.querySelector('.pad');
+if (pad) pad.insertAdjacentHTML('beforebegin', row);
+else foot.insertAdjacentHTML('beforeend', row);
 // v1.99: typing pages set data-intro="on" and call JayRain.introDone() when the caret would have stayed.
 // a footer with no intro has neither, so the ninja starts pulsing once the page has loaded.
 const armPulse = () => {
