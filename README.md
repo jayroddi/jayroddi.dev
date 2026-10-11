@@ -13,7 +13,6 @@ The homepage's daily lines (top half) each read one file; the daily pages read t
 | `// yyyy.mm.dd` | (none) | `COPY.dayDate` in `site/index.html` |
 | `🎧 <lyric> →` | /song-of-the-day/ | `site/song-of-the-day/songs.json` (+ `COPY.lyric`) |
 | `💭 <quote> →` | /quote-of-the-day/ | `site/quote-of-the-day/quotes.json` |
-| `📝 <update> →` (hidden on the homepage for now; /daily-update/ stays) | /daily-update/ | `site/daily-update/recaps.json` |
 | photo + `📸 snap of the day →` caption, centred (only when the newest entry is dated today or yesterday, America/Chicago) | /snap-of-the-day/ | `site/snap-of-the-day/snaps.json` + `site/snap-of-the-day/snaps/` |
 
 Lyrics have exactly one blank line between every line (v1.69, jay 2026.10.04): no lines touching and no bigger gap at verse breaks. `songs.json` stores the lyric one line per line (no blank lines); `pick.py` (`lyric_lines`, in /home/box/jaytha-songs) does that when the drop stages the song, whatever spacing the paste came with (lyrics sites often double-space). /song-of-the-day/ then shows the non-blank lines with one blank line between each, today's and the archive. The homepage 🎧 line runs the lyric together on one line as before. Only lyrics: daily updates keep exactly the spacing jay pastes.
@@ -138,3 +137,5 @@ v2.11: `site/habits/journal-jarvis.json` is a counts-only date map, and it start
 v2.12: the matrix rain matches the homepage on every page that has it. Rain behind the text stays at 75%. The footer is not dimmed. Subpages had been holding that rain at 30%, which also dropped glyphs under the draw cutoff, so the same drops looked thinner. A tall page keeps the homepage's drop count on each screen instead of spreading that count down the whole document. `rain.css` and `rain.js` are `?v=2.04`. `foot.js` stays `?v=2.03`.
 
 v2.13: `site/habits/journal-jarvis.json` adds 7 on 2026-10-08 and 9 on 2026-10-09. Those days already have a daily update and no Obsidian count, so the journal totals are 8 and 10. The hover is "1 note + 7 entries" and "1 note + 9 entries".
+
+v2.12: the /daily-update/ page is taken down (it now 404s) and removed from the sitemap and the homepage. `site/daily-update/recaps.json` stays as the record and still feeds the habits journal count; no new updates are published to it.
