@@ -1,10 +1,8 @@
-/* v2.17 (jay 2026.10.11): the shared footer is the icon row. the homepage also keeps its signup and konami pad, so this appends the row instead of replacing the footer.
-   every other page has <footer class="foot"></footer> plus this script. it builds the cartoon ninja first
-   (a quiet link to /now/; plain on /now/ itself), then the 8 icons. the row is the shared content column (foot.css):
-   the ninja is flush with the left edge and email is flush with the right, spread evenly between. the footer's height
-   is reserved, so building the row moves nothing. colours follow the page states (--c / --f). a page with a typing
-   intro sets data-intro="on" on <html>; rain.js marks the page when that intro finishes and the ninja pulses (rain.css).
-   a footer page with no intro pulses once the page has loaded. */
+/* v2.18 (jay 2026.10.11): the homepage puts this row in header.mast, above the grids, as the title.
+   every other page still gets it in the footer. the homepage footer keeps its signup and konami pad, so a footer
+   with a pad is not replaced. the cartoon ninja is first (a quiet link to /now/; plain on /now/ itself), then the 8 icons.
+   colours follow the page states (--c / --f). a page with a typing intro sets data-intro="on" on <html>; rain.js marks
+   the page when that intro finishes and the ninja pulses (rain.css). a page with no intro pulses once it has loaded. */
 (() => {
 const foot = document.querySelector('footer.foot');
 if (!foot || foot.dataset.built) return; foot.dataset.built = '1';
@@ -16,9 +14,13 @@ const onNow = /^\/now\/?$/.test(location.pathname);
 const njItem = onNow ? `<li class="who"><span class="who-t">${NJ}</span></li>` : `<li class="who"><a class="who-t" href="/now/" aria-label="now">${NJ}</a></li>`;
 const icon = s => `<li><a href="${esc(s.href)}" aria-label="${esc(s.label)}" title="${esc(s.label)}"${/^https?:/.test(s.href) ? ' target="_blank" rel="noopener"' : ''}>${ICONS[s.icon] || ''}</a></li>`;
 const row = `<nav class="elsewhere" aria-label="elsewhere"><ul class="social">${njItem}${SOCIALS.map(icon).join('')}</ul></nav>`;
-const pad = foot.querySelector('.pad');
-if (pad) pad.insertAdjacentHTML('beforebegin', row);
-else foot.insertAdjacentHTML('beforeend', row);
+const mast = document.querySelector('.mast');
+if (mast) mast.insertAdjacentHTML('beforeend', row);
+else {
+  const pad = foot.querySelector('.pad');
+  if (pad) pad.insertAdjacentHTML('beforebegin', row);
+  else foot.insertAdjacentHTML('beforeend', row);
+}
 // v1.99: typing pages set data-intro="on" and call JayRain.introDone() when the caret would have stayed.
 // a footer with no intro has neither, so the ninja starts pulsing once the page has loaded.
 const armPulse = () => {

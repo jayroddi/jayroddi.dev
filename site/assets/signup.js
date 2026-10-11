@@ -5,7 +5,7 @@
 const form = document.querySelector('form.notify');
 const emailIn = form && form.querySelector('input[type=email]');
 const statusEl = document.querySelector('.signup .status');
-const ul = document.querySelector('footer.foot .social');
+const ul = document.querySelector('.mast .social') || document.querySelector('footer.foot .social');
 if (!form || !emailIn || !statusEl || !ul || !window.JayRain) return;
 const state = window.__intro || (window.__intro = {});
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -233,7 +233,9 @@ function launchSpace(){
   let fly = null, dx = 0, dy = 0;
   const climb = () => {
     const stage = document.getElementById('stage'), rect = stage.getBoundingClientRect(), clone = stage.cloneNode(true);
-    clone.querySelectorAll('[id]').forEach(n => n.removeAttribute('id')); clone.removeAttribute('id'); clone.inert = true; clone.classList.add('kos-page');
+    clone.querySelectorAll('[id]').forEach(n => { n.id = n.id + '-kos'; });
+    clone.querySelectorAll('*').forEach(n => { [...n.attributes].forEach(a => { if (a.value && a.value.indexOf('url(#') !== -1) n.setAttribute(a.name, a.value.replace(/url\(#([^)]+)\)/g, (_, id) => 'url(#' + (id.endsWith('-kos') ? id : id + '-kos') + ')')); }); });
+    clone.removeAttribute('id'); clone.inert = true; clone.classList.add('kos-page');
     clone.style.cssText = 'position:fixed;left:' + rect.left + 'px;top:' + rect.top + 'px;width:' + rect.width + 'px;height:' + rect.height + 'px;margin:0;min-height:0;pointer-events:none;z-index:1';
     root.insertBefore(clone, hold);
     mask.animate([{opacity: 0}, {opacity: 1}], {duration: 180, fill: 'forwards'}); sky.boost(1);
