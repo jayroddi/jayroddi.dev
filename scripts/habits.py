@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rebuild the cursor habit graph. Day pages stay redirects to /habits/.
+"""Rebuild the cursor habit graph. Day pages stay redirects to /.
 
   python3 scripts/habits.py all      # fetch github, merge cursor-lines.json. day urls stay redirects
   python3 scripts/habits.py fetch    # cursor.json only
@@ -45,7 +45,7 @@ WORKOUTS = HABITS / "workouts.json"
 JOURNAL = HABITS / "journal.json"
 JARVIS = HABITS / "journal-jarvis.json"
 SLEEP = HABITS / "sleep.json"
-INDEX = HABITS / "index.html"
+INDEX = ROOT / "site" / "index.html"
 TZ = ZoneInfo("America/Chicago")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 RIDE_FROM = "2026-01-01"
@@ -489,7 +489,7 @@ def check_index(cfg: dict) -> None:
     html = INDEX.read_text(encoding="utf-8")
     for tracker in cfg["trackers"]:
         if tracker.get("enabled", True) and f'data-id="{tracker["id"]}"' not in html:
-            raise SystemExit(f"habits: site/habits/index.html has no section for {tracker['id']}")
+            raise SystemExit(f"habits: site/index.html has no section for {tracker['id']}")
 
 
 def date_keys(data: dict) -> list[date]:
@@ -565,19 +565,19 @@ REDIRECT_STUB = """<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>habits · jay tha ninja</title>
-<!-- v1.92 (jay 2026.10.09): /habits/YYYY-MM-DD/ forwards to /habits/. location.replace keeps ?query and #hash, and the stub never sits in the back history. -->
-<script>location.replace("/habits/" + location.search + location.hash)</script>
-<meta http-equiv="refresh" content="0; url=/habits/">
+<title>jay tha ninja</title>
+<!-- v2.16: every page except / forwards home. location.replace keeps ?query and #hash, and the stub never sits in the back history. -->
+<script>location.replace("/" + location.search + location.hash)</script>
+<meta http-equiv="refresh" content="0; url=/">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
-<link rel="canonical" href="https://jaytha.ninja/habits/">
+<link rel="canonical" href="https://jaytha.ninja/">
 <style>html,body{margin:0;background:#000;color:#f6efe9}body{font:16px/1.5 "JetBrains Mono",ui-monospace,monospace;padding:24px}a{color:#FF4D1A;text-decoration:none}</style>
 </head>
 <body>
-<p><a href="/habits/">habits → jaytha.ninja/habits/</a></p>
+<p><a href="/">jaytha.ninja</a></p>
 </body>
 </html>
 """
@@ -601,7 +601,7 @@ def assert_pages(today: date) -> tuple[date, date]:
     html = INDEX.read_text(encoding="utf-8")
     marker = f'data-pages-through="{end.isoformat()}"'
     if marker not in html:
-        raise SystemExit(f"habits: site/habits/index.html is missing {marker}")
+        raise SystemExit(f"habits: site/index.html is missing {marker}")
     return grid_start, end
 
 
@@ -614,7 +614,7 @@ def write_redirects() -> int:
         (child / "index.html").write_text(REDIRECT_STUB, encoding="utf-8")
         n += 1
     clear_coverage()
-    print(f"habits: day pages off; {n} old dates redirect to /habits/")
+    print(f"habits: day pages off; {n} old dates redirect to /")
     return n
 
 
@@ -622,6 +622,8 @@ def assert_redirects() -> int:
     html = INDEX.read_text(encoding="utf-8")
     if 'data-pages-through="' in html:
         raise SystemExit("habits: data-pages-through is set while day pages are off")
+    marker = 'location.replace("/" + location.search + location.hash)'
+    refresh = 'content="0; url=/"'
     n = 0
     for child in HABITS.iterdir():
         if not child.is_dir() or not DATE_RE.fullmatch(child.name):
@@ -630,11 +632,14 @@ def assert_redirects() -> int:
         if not page.is_file():
             raise SystemExit(f"habits: {child.name} has no redirect")
         text = page.read_text(encoding="utf-8")
-        if 'location.replace("/habits/"' not in text or "day.js" in text:
-            raise SystemExit(f"habits: {child.name} is not a redirect to /habits/")
+        if marker not in text or refresh not in text or "day.js" in text:
+            raise SystemExit(f"habits: {child.name} is not a redirect to /")
         n += 1
     if n == 0:
         raise SystemExit("habits: no day-page redirects under site/habits")
+    habits_page = (HABITS / "index.html").read_text(encoding="utf-8")
+    if marker not in habits_page or refresh not in habits_page:
+        raise SystemExit("habits: site/habits/index.html is not a redirect to /")
     return n
 
 
@@ -949,7 +954,7 @@ def check() -> None:
     check_sleep()
     check_jarvis()
     n = assert_redirects()
-    pages = f"{n} day urls redirect to /habits/"
+    pages = f"{n} day urls redirect to /"
     print(
         f"habits: check ok. cursor active {len(days)}, total {total}, year {year_total}, "
         f"longest {longest}, current {current}, best month {best_mo} ({best_mo_n}), best day {best_day} ({best_n}); "
