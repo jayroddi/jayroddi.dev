@@ -549,7 +549,6 @@ const COPY = {
   egg: "today's quote",
   eggData: "/quote-of-the-day/quotes.json",
   recapData: "/daily-update/recaps.json",
-  recapHref: "/daily-update/",
   snapData: "/snap-of-the-day/snaps.json",
   snapHref: "/snap-of-the-day/",
   snapText: "snap of the day",
@@ -680,7 +679,7 @@ const curLi = mk('li', 'cur'); curLi.setAttribute('aria-hidden', 'true'); const 
 const eggEl = $('.egg');
 
 const lc = t => String(t || '').replace(/\s+/g, ' ').trim().toLowerCase();
-const EGG = [{icon: '//', body: COPY.dayDate || '', day: true}, {icon: '🎧', body: lc(COPY.lyric), href: COPY.lyricHref, song: true}, {icon: '💭', body: lc(COPY.egg), href: COPY.eggHref, quote: true}, {icon: '📝', body: '', href: COPY.recapHref, recap: true}, {icon: '🗓️', body: "daily habits i'm currently tracking", href: '/habits/', habits: true}, {icon: '📸', body: '', href: COPY.snapHref, snap: true}];
+const EGG = [{icon: '//', body: COPY.dayDate || '', day: true}, {icon: '🎧', body: lc(COPY.lyric), href: COPY.lyricHref, song: true}, {icon: '💭', body: lc(COPY.egg), href: COPY.eggHref, quote: true}, {icon: '📝', body: '', recap: true}, {icon: '🗓️', body: "daily habits i'm currently tracking", href: '/habits/', habits: true}, {icon: '📸', body: '', href: COPY.snapHref, snap: true}];
 const quoteLine = EGG.find(l => l.quote), recapLine = EGG.find(l => l.recap), snapLine = EGG.find(l => l.snap), songLine = EGG.find(l => l.song), dayLine = EGG.find(l => l.day);
 const snapFig = gateTap(mk('a', 'snapfig')), snapImg = mk('img'), snapCv = mk('canvas');
 snapFig.setAttribute('href', COPY.snapHref); snapFig.setAttribute('aria-label', COPY.snapText); snapCv.setAttribute('aria-hidden', 'true');
