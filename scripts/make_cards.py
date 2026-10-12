@@ -126,19 +126,20 @@ const { chromium } = require('playwright-core');
   })).newPage();
   const errors = [];
   p.on('pageerror', e => errors.push(String(e)));
+  const want = process.argv[4];
   await p.goto(process.argv[2], {waitUntil: 'networkidle'});
-  await p.waitForFunction(() => {
+  await p.waitForFunction(want => {
     const line = document.querySelector('.mast .line');
     const nj = document.querySelector('.mast .social .nj');
     const pad = document.querySelector('.pad');
     const form = document.querySelector('form.notify');
     const cable = document.querySelector('.notify.cabled .cbl-t path');
     const lyrics = [...document.querySelectorAll('.lyrics p')].map(n => n.textContent);
-    return line && line.textContent.trim() === 'the clearest view of a man is from below'
+    return line && line.textContent.trim() === want
       && nj && pad && pad.classList.contains('in') && !pad.classList.contains('go')
       && form && form.classList.contains('cabled') && cable && (cable.getAttribute('d') || '').length > 8
       && lyrics.length === 4;
-  }, null, {timeout: 20000});
+  }, want, {timeout: 20000});
   await p.evaluate(() => document.fonts.ready);
   await p.waitForFunction(() => {
     const c = document.getElementById('rain');
@@ -169,6 +170,8 @@ const { chromium } = require('playwright-core');
       pad: pad.getBoundingClientRect()
     };
     return {
+      text: line.textContent,
+      wrap: line.scrollWidth > line.clientWidth + 1,
       color: ls.color, font: ls.fontFamily, size: ls.fontSize, weight: ls.fontWeight,
       njFilter: cs.filter, njTransform: cs.transform,
       njLeft: Math.round(nr.left), rowLeft: Math.round(rr.left),
@@ -228,7 +231,8 @@ def render_replica(repo, dests):
         shot = tmp/'shot.js'; png = tmp/'og-image.png'
         shot.write_text(REPLICA_SHOT, encoding='utf-8')
         env = dict(os.environ, NODE_PATH=os.environ.get('NODE_PATH', '/tmp/pw/node_modules'))
-        r = subprocess.run(['node', str(shot), f'http://127.0.0.1:{port}/', str(png)], env=env, capture_output=True, text=True)
+        line = json.loads((site/'header.json').read_text(encoding='utf-8'))['line']
+        r = subprocess.run(['node', str(shot), f'http://127.0.0.1:{port}/', str(png), line], env=env, capture_output=True, text=True)
         print(r.stdout, end='')
         if r.returncode:
             sys.exit('replica render failed: ' + r.stderr)
