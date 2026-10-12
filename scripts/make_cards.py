@@ -14,7 +14,7 @@ the entries ship at the 11:31pm drop but stay hidden until 12:00am CT (v1.59), s
                                                           site/og/ and rewrites ?d=. stdlib only, never fails the deploy, a no-op otherwise
   python3 scripts/make_cards.py now --date YYYY-MM-DD [--generic]
                                                           by hand: render straight into site/og/ + rewrite ?d= (--generic also re-renders
-                                                          site/og-image.png + og-image-v128.png, the static generic card)
+                                                          site/og-image.png + og-image-v128.png, the static lyric card)
   python3 scripts/make_cards.py stamp --date YYYY-MM-DD   only rewrite the ?d= values
 
 --repo (default: this checkout) is the site repo. the song's album art comes from spotify's public oembed (no key); if that fails the song card keeps
@@ -28,7 +28,7 @@ CT = zoneinfo.ZoneInfo('America/Chicago')
 NAMES = ('home', 'snap', 'quote', 'song')
 NEXT = 'og-next'
 INTRO = [('the internet was a place to make ', 'genuine connections with other humans'), ('somewhere along the way, ', 'we messed up'), ('my team and i hope to ', 'run it back')]
-TAGLINE = ('a human building ', 'something human', ', with a little help from his 🤖 team')
+LYRICS = ("don't tell your dreams to everybody around", 'some people smile, but wanna see you down', "keep it quiet, don't make a sound", 'let your success be what shakes the ground')
 CARD_URL = re.compile(r'(https://jaytha\.ninja/og/(?:home|snap|quote|song)\.png)(?:\?d=\d{4}-\d{2}-\d{2})?(?=")')
 LIVE = re.compile(r'https://jaytha\.ninja/og/home\.png\?d=(\d{4}-\d{2}-\d{2})"')
 e = lambda s: html.escape(s, quote=False)
@@ -96,9 +96,9 @@ def cards(repo, day, generic):
             f'<div class="txt"><p class="t lab">🎧 song of the day</p>' + (f'<p class="ly" data-fit>{ly}</p>' if ly else '') +
             f'<p class="g by" data-fit>{e(track.lower())} // {e(artist.lower())}</p></div><img src="__ART__">', 'jaytha.ninja/song-of-the-day')
     if generic:
-        a, b, c = TAGLINE
-        out['site'] = fill('home', '// because being here matters', '.main{margin-top:96px;font-size:46px;line-height:1.3}',
-                           f'<p data-fit>{e(a)}<span class="t">{e(b)}</span>{e(c)}</p>', 'jaytha.ninja')
+        out['site'] = fill('home', '// because being here matters',
+                           '.main{margin-top:72px;font-size:36px;line-height:1.45}.main p{margin:0 0 18px;white-space:nowrap}.main p:last-child{margin-bottom:0}',
+                           ''.join(f'<p data-fit>{e(line)}</p>' for line in LYRICS), 'jaytha.ninja')
     return out, art
 
 SHOT = r"""
