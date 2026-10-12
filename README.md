@@ -180,3 +180,5 @@ v2.27: the daily quotes are back, under the konami row on `/`. The feed is still
 v2.28: the matrix rain is a fixed canvas one large viewport tall (`100lvh`, with `100vh` behind it), so it continues behind the quotes as the page scrolls. Brightness, density, the tap-anywhere speed toggle, and reduced motion are unchanged. Glyphs behind the grids and the quote list stay at the 75% floor; the footer form and konami row are not dimmed. A scroll, or iOS Safari showing and hiding its toolbar, does not rebuild the drops. A width or orientation change still does. `habits.css`, `habits.js`, `rain.css`, and `rain.js` are `?v=2.28`.
 
 v2.29: rain glyphs behind the text are at 50% (was 75%). That is `partFloor` in `site/assets/rain.js`. The grids and the quote list use it. The footer form and konami row are still not dimmed. Density, the tap-anywhere speed toggle, reduced motion, and the fixed viewport canvas are unchanged. `rain.css` and `rain.js` are `?v=2.29`.
+
+v2.30: rain glyphs behind the text are at 25% (was 50%). That is still `partFloor` in `site/assets/rain.js`. Nothing else about the rain changes. `rain.css` and `rain.js` are `?v=2.30`.
