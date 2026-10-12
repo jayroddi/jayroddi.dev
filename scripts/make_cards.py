@@ -14,7 +14,7 @@ the entries ship at the 11:31pm drop but stay hidden until 12:00am CT (v1.59), s
                                                           site/og/ and rewrites ?d=. stdlib only, never fails the deploy, a no-op otherwise
   python3 scripts/make_cards.py now --date YYYY-MM-DD [--generic]
                                                           by hand: render straight into site/og/ + rewrite ?d= (--generic also re-renders
-                                                          site/og-image.png + og-image-v128.png, the static lyric card)
+                                                          site/og-image.png + og-image-v128.png, a 1200x630 screenshot of the live homepage stack)
   python3 scripts/make_cards.py stamp --date YYYY-MM-DD   only rewrite the ?d= values
 
 --repo (default: this checkout) is the site repo. the song's album art comes from spotify's public oembed (no key); if that fails the song card keeps
@@ -57,7 +57,7 @@ const bad=()=>els.some(x=>x.getBoundingClientRect().bottom>f.getBoundingClientRe
 for(let n=0;n<60&&bad();n++)els.forEach(x=>{x.style.fontSize=(parseFloat(getComputedStyle(x).fontSize)*.96)+'px'});window.__fit=bad()?'overflow':'ok'})</script>"""
     return s.replace('</body>', fit + '</body>')
 
-def cards(repo, day, generic):
+def cards(repo, day):
     site = repo/'site'
     d8 = day.replace('-', '.')
     out = {}
@@ -95,10 +95,6 @@ def cards(repo, day, generic):
             '.main{margin-top:44px;display:flex;gap:48px;align-items:center}.main img{flex:none;width:330px;height:330px;border-radius:14px;box-shadow:0 0 40px rgba(26,173,179,.25),0 0 0 1px rgba(26,173,179,.35)}.txt{flex:1;min-width:0}.lab{font-size:28px;margin-bottom:24px}.ly{font-size:31px;line-height:1.4;color:#fff}.by{margin-top:22px;font-size:23px}',
             f'<div class="txt"><p class="t lab">🎧 song of the day</p>' + (f'<p class="ly" data-fit>{ly}</p>' if ly else '') +
             f'<p class="g by" data-fit>{e(track.lower())} // {e(artist.lower())}</p></div><img src="__ART__">', 'jaytha.ninja/song-of-the-day')
-    if generic:
-        out['site'] = fill('home', '// because being here matters',
-                           '.main{margin-top:72px;font-size:36px;line-height:1.45}.main p{margin:0 0 18px;white-space:nowrap}.main p:last-child{margin-bottom:0}',
-                           ''.join(f'<p data-fit>{e(line)}</p>' for line in LYRICS), 'jaytha.ninja')
     return out, art
 
 SHOT = r"""
@@ -116,12 +112,141 @@ const { chromium } = require('playwright-core'); const fs = require('fs');
 })().catch(e => { console.error(e); process.exit(1); });
 """
 
+REPLICA_SHOT = r"""
+const { chromium } = require('playwright-core');
+(async () => {
+  const b = await chromium.launch({
+    executablePath: process.env.CHROME || '/usr/bin/google-chrome',
+    args: ['--no-sandbox', '--force-device-scale-factor=1']
+  });
+  const p = await (await b.newContext({
+    viewport: {width: 1200, height: 630},
+    deviceScaleFactor: 1,
+    colorScheme: 'dark'
+  })).newPage();
+  const errors = [];
+  p.on('pageerror', e => errors.push(String(e)));
+  await p.goto(process.argv[2], {waitUntil: 'networkidle'});
+  await p.waitForFunction(() => {
+    const line = document.querySelector('.mast .line');
+    const nj = document.querySelector('.mast .social .nj');
+    const pad = document.querySelector('.pad');
+    const form = document.querySelector('form.notify');
+    const cable = document.querySelector('.notify.cabled .cbl-t path');
+    const lyrics = [...document.querySelectorAll('.lyrics p')].map(n => n.textContent);
+    return line && line.textContent.trim() === 'the clearest view of a man is from below'
+      && nj && pad && pad.classList.contains('in') && !pad.classList.contains('go')
+      && form && form.classList.contains('cabled') && cable && (cable.getAttribute('d') || '').length > 8
+      && lyrics.length === 4;
+  }, null, {timeout: 20000});
+  await p.evaluate(() => document.fonts.ready);
+  await p.waitForFunction(() => {
+    const c = document.getElementById('rain');
+    if (!c || c.width < 100) return false;
+    const px = c.getContext('2d').getImageData(0, 80, Math.min(c.width, 400), 40).data;
+    for (let i = 3; i < px.length; i += 16) if (px[i] > 10) return true;
+    return false;
+  }, null, {timeout: 8000});
+  const info = await p.evaluate(() => {
+    const nj = document.querySelector('.mast .social .nj');
+    const row = document.querySelector('.mast .social');
+    const line = document.querySelector('.mast .line');
+    const mail = document.querySelector('.notify .mail input');
+    const pad = document.querySelector('.pad');
+    const cs = getComputedStyle(nj);
+    const ls = getComputedStyle(line);
+    const ms = getComputedStyle(mail);
+    const ps = getComputedStyle(pad);
+    const nr = nj.getBoundingClientRect();
+    const rr = row.getBoundingClientRect();
+    const lyrics = [...document.querySelectorAll('.lyrics p')].map(n => ({
+      t: n.textContent, overflow: n.scrollWidth > n.clientWidth + 1, size: getComputedStyle(n).fontSize
+    }));
+    const boxes = {
+      line: line.getBoundingClientRect(),
+      lyrics: document.querySelector('.lyrics').getBoundingClientRect(),
+      form: document.querySelector('form.notify').getBoundingClientRect(),
+      pad: pad.getBoundingClientRect()
+    };
+    return {
+      color: ls.color, font: ls.fontFamily, size: ls.fontSize, weight: ls.fontWeight,
+      njFilter: cs.filter, njTransform: cs.transform,
+      njLeft: Math.round(nr.left), rowLeft: Math.round(rr.left),
+      mailSize: ms.fontSize, placeholder: mail.getAttribute('placeholder'),
+      padColor: ps.color,
+      lyrics, boxes,
+      scheme: getComputedStyle(document.documentElement).colorScheme
+    };
+  });
+  console.log(JSON.stringify(info));
+  if (errors.length) console.log('pageerrors', errors.join(' | '));
+  await p.screenshot({path: process.argv[3]});
+  await b.close();
+})().catch(e => { console.error(e); process.exit(1); });
+"""
+
+def render_replica(repo, dests):
+    """1200x630 screenshot of the live homepage stack (header, social row, lyrics, email, konami) into dests."""
+    import http.server, threading
+    site = repo/'site'
+    original = (site/'index.html').read_text(encoding='utf-8')
+    i = original.index('<footer class="foot"')
+    j = original.index('</footer>') + len('</footer>')
+    lyrics = '\n'.join(f'      <p>{e(line)}</p>' for line in LYRICS)
+    card = (TPL/'share-replica.html').read_text(encoding='utf-8').replace('<!--FOOTER-->', original[i:j]).replace('<!--LYRICS-->', '\n' + lyrics + '\n    ')
+    body = card.encode('utf-8')
+    class Handler(http.server.BaseHTTPRequestHandler):
+        def do_GET(self):
+            path = urllib.parse.urlparse(self.path).path
+            if path in ('/', '/index.html'):
+                self.send_response(200)
+                self.send_header('Content-Type', 'text/html; charset=utf-8')
+                self.send_header('Content-Length', str(len(body)))
+                self.send_header('Cache-Control', 'no-store')
+                self.end_headers()
+                self.wfile.write(body)
+                return
+            rel = path.lstrip('/')
+            file = (site/rel).resolve()
+            if not str(file).startswith(str(site.resolve())) or not file.is_file():
+                self.send_error(404); return
+            data = file.read_bytes()
+            kind = 'text/css' if file.suffix == '.css' else 'application/javascript' if file.suffix == '.js' else 'application/json' if file.suffix == '.json' else 'application/octet-stream'
+            self.send_response(200)
+            self.send_header('Content-Type', kind)
+            self.send_header('Content-Length', str(len(data)))
+            self.send_header('Cache-Control', 'no-store')
+            self.end_headers()
+            self.wfile.write(data)
+        def log_message(self, fmt, *args):
+            return
+    httpd = http.server.ThreadingHTTPServer(('127.0.0.1', 0), Handler)
+    port = httpd.server_address[1]
+    threading.Thread(target=httpd.serve_forever, daemon=True).start()
+    tmp = pathlib.Path(tempfile.mkdtemp(prefix='replica-'))
+    try:
+        shot = tmp/'shot.js'; png = tmp/'og-image.png'
+        shot.write_text(REPLICA_SHOT, encoding='utf-8')
+        env = dict(os.environ, NODE_PATH=os.environ.get('NODE_PATH', '/tmp/pw/node_modules'))
+        r = subprocess.run(['node', str(shot), f'http://127.0.0.1:{port}/', str(png)], env=env, capture_output=True, text=True)
+        print(r.stdout, end='')
+        if r.returncode:
+            sys.exit('replica render failed: ' + r.stderr)
+        if not png.is_file():
+            sys.exit('replica render wrote no png')
+        for p in dests:
+            p.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(png, p)
+    finally:
+        httpd.shutdown()
+        shutil.rmtree(tmp, ignore_errors=True)
+
 def ctday(): return datetime.datetime.now(CT).date().isoformat()
 def isday(s): return bool(re.fullmatch(r'\d{4}-\d{2}-\d{2}', s or '')) and bool(datetime.date.fromisoformat(s))
 
-def render(repo, day, generic, dest):
+def render(repo, day, dest):
     """render day's cards; dest(name) -> the path each png goes to. returns the names written"""
-    out, art = cards(repo, day, generic)
+    out, art = cards(repo, day)
     tmp = pathlib.Path(tempfile.mkdtemp(prefix='cards-'))
     try:
         if art: (tmp/'art.jpg').write_bytes(art)
@@ -186,7 +311,7 @@ def main():
         promote(repo, today)   # yesterday's staged cards are live by now (the midnight deploy), so the repo catches up
         nxt = repo/NEXT
         if nxt.exists(): shutil.rmtree(nxt)
-        names = render(repo, a.date, False, lambda k: [nxt/f'{k}.png'])
+        names = render(repo, a.date, lambda k: [nxt/f'{k}.png'])
         (nxt/'date.txt').write_text(a.date + '\n')
         print(f'staged cards for {a.date} in {NEXT}/ ({", ".join(names)}); they flip at 12:00am CT on {a.date}')
         if a.date <= today: print('note: that date has already started in chicago, so the next deploy flips them right away')
@@ -195,7 +320,10 @@ def main():
     def dest(k):
         if k == 'site': return [repo/'site/og-image.png', repo/'site/og-image-v128.png']   # v128 = the pre-v1.61 url, so an old cached link gets the new card too
         return [repo/f'site/og/{k}.png']
-    names = render(repo, a.date, a.generic, dest)
+    names = render(repo, a.date, dest)
+    if a.generic:
+        render_replica(repo, dest('site'))
+        names = names + ['site']
     files = stamp(repo, a.date)
     print(f'cards for {a.date} -> site/og ({", ".join(names)}); ?d={a.date} in {len(files)} files')
 
