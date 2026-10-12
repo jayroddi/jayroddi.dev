@@ -1,4 +1,5 @@
-/* v2.32: three columns under 900px, six from 900px. flex columns share one top edge. */
+/* v2.33: three columns under 900px, six from 900px. flex columns share one top edge.
+   the lightbox is the full viewport. the photo box is the aspect ratio, contained. */
 body.snaps .stage{flex-direction:column;align-items:center;width:100%}
 body.snaps .gallery{width:min(1280px,calc(100vw - 32px));margin:0 auto 32px;position:relative;z-index:2}
 .month h2{margin:22px 0 10px;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;line-height:1.25;color:var(--c);text-shadow:0 0 8px rgba(var(--bg-rgb),.8)}
@@ -9,9 +10,32 @@ body.snaps .gallery{width:min(1280px,calc(100vw - 32px));margin:0 auto 32px;posi
 .shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .shot:focus-visible{outline:2px solid var(--c);outline-offset:2px}
 .note{margin:12px 0 0;text-align:center;font-size:14px;line-height:1.4;font-weight:500;color:var(--ink-3)}
-.light{padding:0;border:0;background:transparent;max-width:none;max-height:none}
+html.light-open,html.light-open body{overflow:hidden;height:100%}
+.light:not([open]){display:none}
+.light[open]{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;box-sizing:border-box;touch-action:none;overscroll-behavior:none;user-select:none}
+.light:focus{outline:0}
 .light::backdrop{background:rgba(0,0,0,.9)}
-.light img{display:block;width:auto;height:auto;max-width:min(96vw,2048px);max-height:92vh;margin:0}
+.fit{position:relative;z-index:1;flex:none;--w:1;--h:1;aspect-ratio:var(--w)/var(--h);width:min(calc(95vw - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)),calc((92vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))*var(--w)/var(--h)));max-height:calc(92vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));height:auto;background:#111;pointer-events:none}
+@supports (height:100dvh){
+  .fit{width:min(calc(95vw - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)),calc((92dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))*var(--w)/var(--h)));max-height:calc(92dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
+}
+.fit img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.fit .hi{opacity:0}
+.fit .hi.on{opacity:1}
+.light .nav,.light .x{margin:0;padding:0;border:0;background:transparent;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.light .nav{position:absolute;top:0;bottom:0;z-index:2;width:50%}
+.light .nav.prev{left:0}
+.light .nav.next{right:0}
+.light .nav svg,.light .x svg{display:block;width:22px;height:22px;padding:11px;border-radius:50%;background:rgba(0,0,0,.45);box-sizing:content-box}
+.light .nav svg{position:absolute;top:50%;margin-top:-22px}
+.light .nav.prev svg{left:max(10px,env(safe-area-inset-left,0px))}
+.light .nav.next svg{right:max(10px,env(safe-area-inset-right,0px))}
+.light .nav.off{cursor:default}
+.light .nav.off svg{opacity:.28}
+.light .nav:focus{outline:0}
+.light .nav:focus-visible svg,.light .x:focus-visible{outline:2px solid var(--c);outline-offset:3px}
+.light .x{position:absolute;z-index:3;top:max(10px,env(safe-area-inset-top,0px));right:max(10px,env(safe-area-inset-right,0px));width:44px;height:44px}
+.light .x svg{width:18px;height:18px;padding:13px}
 @media (max-width:760px){
   .month h2{font-size:13px}
   body.snaps .gallery{width:min(1100px,calc(100vw - 24px))}
