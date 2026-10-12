@@ -42,6 +42,17 @@ body.board .pad button[data-k="start"]{flex:0 1 auto;width:auto;min-width:44px;p
 body.board .pad button::before{width:100%;height:100%}
 body.board .tap-hint{display:none}
 body.board .foot{flex:none}
+/* v2.27: daily quotes, under the konami row. the list is inserted whole, after that row finishes. */
+body.board .quotes{list-style:none;width:100%;margin:48px 0 8px;padding:0;text-align:center}
+body.board .quotes,
+body.board .quotes li{animation:none;transition:none;text-align:center}
+body.board .quotes li + li{margin-top:35.5px}
+body.board .quotes .d,
+body.board .quotes .q,
+body.board .quotes .by{margin:0;text-align:center;font-family:var(--mono);font-weight:500}
+body.board .quotes .d{font-size:14px;line-height:1.5;color:rgba(var(--c-rgb),.75)}
+body.board .quotes .q{margin-top:4px;font-size:16px;line-height:1.65;color:var(--ink-2);text-transform:lowercase;white-space:pre-line;overflow-wrap:anywhere}
+body.board .quotes .by{margin-top:4px;font-size:15px;line-height:1.5;color:var(--ink-3);text-transform:lowercase}
 .visually-hidden,.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .home{display:inline-block;margin:0 0 8px;font-size:14px;line-height:1.5;color:var(--c);letter-spacing:.02em}
 body.board .home{margin:0 0 var(--habit-gap)}
@@ -168,6 +179,11 @@ body.day .home{margin:0 0 22px}
   body.board .notify{--mail-s:calc(10 / 16);--mail-slot:56px}
   body.board .notify .mail input{width:100%;max-width:none;flex:none;margin:0;transform:none}
   body.board .signup{margin-right:auto}
+  body.board .quotes{margin-top:36px}
+  body.board .quotes li + li{margin-top:27.5px}
+  body.board .quotes .d{font-size:12px}
+  body.board .quotes .q{font-size:14px;line-height:1.6}
+  body.board .quotes .by{font-size:13px}
 }
 
 /* v2.17: konami row and the gold flight, from the pre-v2.16 homepage. */

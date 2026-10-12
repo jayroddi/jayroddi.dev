@@ -12,12 +12,23 @@ The homepage's daily lines (top half) each read one file; the daily pages read t
 |---|---|---|
 | `// yyyy.mm.dd` | (none) | `COPY.dayDate` in `site/index.html` |
 | `🎧 <lyric> →` | /song-of-the-day/ | `site/song-of-the-day/songs.json` (+ `COPY.lyric`) |
-| `💭 <quote> →` | /quote-of-the-day/ | `site/quote-of-the-day/quotes.json` |
+| quotes, under the konami row | /quote-of-the-day/ still redirects to `/` | `site/quote-of-the-day/quotes.json` |
 | photo + `📸 snap of the day →` caption, centred (only when the newest entry is dated today or yesterday, America/Chicago) | /snap-of-the-day/ | `site/snap-of-the-day/snaps.json` + `site/snap-of-the-day/snaps/` |
 
 Lyrics have exactly one blank line between every line (v1.69, jay 2026.10.04): no lines touching and no bigger gap at verse breaks. `songs.json` stores the lyric one line per line (no blank lines); `pick.py` (`lyric_lines`, in /home/box/jaytha-songs) does that when the drop stages the song, whatever spacing the paste came with (lyrics sites often double-space). /song-of-the-day/ then shows the non-blank lines with one blank line between each, today's and the archive. The homepage 🎧 line runs the lyric together on one line as before. Only lyrics: daily updates keep exactly the spacing jay pastes.
 
 Every page shows the newest entry dated today or earlier (America/Chicago) at the top and the older ones below it, newest first. Future-dated entries stay hidden until their day.
+
+### quotes.json (v2.27)
+`site/quote-of-the-day/quotes.json` is the daily quote feed. Newest first, UTF-8, 2-space indent. One object per day, and only these three fields:
+
+```json
+{"date": "YYYY-MM-DD", "text": "the quote", "author": "Name"}
+```
+
+A nightly drop appends that day's object at the top of the array. `date` is America/Chicago. `text` keeps the quote's original casing; the homepage lowercases it. `author` is the person's name. Do not add a slug or any other field.
+
+The homepage lists every entry dated today or earlier, newest first, in one block under the konami row. The whole list appears at once after that row finishes. `/quote-of-the-day/` still redirects to `/`. The same file feeds the quote share card (`text`, or the older `quote` key).
 
 ### snaps.json (v1.56)
 `[{"date": "YYYY-MM-DD", "src": "/snap-of-the-day/snaps/snap-YYYY-MM-DD.webp", "w": <src width>, "h": <src height>, "home": "/snap-of-the-day/snaps/snap-YYYY-MM-DD-home.webp", "alt": "<what's in the photo>"}, …]`, newest first, UTF-8, 2-space indent.
@@ -163,3 +174,5 @@ v2.24: every share and canonical URL is `https://jaytha.ninja/`. That is the can
 v2.25: the `/` share card is a 1200×630 screenshot of the live homepage stack. Top to bottom: the `line` in `site/header.json` (metric type, speed colour), the social row with the cartoon ninja first and glowing in that colour, the four lyric lines, the email field (`enter your email if you know ball` and the rocket), and the konami row. The page is `scripts/cards/share-replica.html`. It loads the real `habits.css`, `rain.css`, and `foot.css`. `python3 scripts/make_cards.py now --date YYYY-MM-DD --generic` screenshots it (Playwright, dark colour scheme) into `site/og-image.png` and `site/og-image-v128.png`. `/` points at `https://jaytha.ninja/og-image.png?v=2.25`. The page `<title>`, `og:title`, and `twitter:title` are `let your success be what shakes the ground`. `og:url` stays `https://jaytha.ninja/`. The Open Graph and Twitter descriptions stay `a year of habits // sleep, fitness, code, and journal`.
 
 v2.26: the one-line header on `/` is `let your success be what shakes the ground`. That string is still only the `line` field in `site/header.json`. The type, the speed colour, and the slot above the social row are unchanged. The share card is redrawn with that header. `/` points at `https://jaytha.ninja/og-image.png?v=2.26`. The page `<title>`, `og:title`, and `twitter:title` stay `let your success be what shakes the ground`.
+
+v2.27: the daily quotes are back, under the konami row on `/`. The feed is still `site/quote-of-the-day/quotes.json`. Each entry is `date`, `text`, and `author`, newest first. The list runs through 2026-10-12, including Paul Graham on that day. There was no quote dated 2026-10-11. The whole section is center-justified and appears at once after the konami row finishes. `/quote-of-the-day/` still redirects to `/`. `habits.css` and `quotes.js` are `?v=2.27`.
