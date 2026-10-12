@@ -574,6 +574,24 @@ REDIRECT_STUB = """<!doctype html>
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://jaytha.ninja/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="jaytha.ninja">
+<meta property="og:url" content="https://jaytha.ninja/">
+<meta property="og:title" content="habits · jay tha ninja">
+<meta property="og:description" content="a year of habits // sleep, fitness, code, and journal">
+<meta property="og:image" content="https://jaytha.ninja/og-image.png?v=2.23">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="don't tell your dreams to everybody around / some people smile, but wanna see you down / keep it quiet, don't make a sound / let your success be what shakes the ground">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@jaythaninja">
+<meta name="twitter:url" content="https://jaytha.ninja/">
+<meta name="twitter:title" content="habits · jay tha ninja">
+<meta name="twitter:description" content="a year of habits // sleep, fitness, code, and journal">
+<meta name="twitter:image" content="https://jaytha.ninja/og-image.png?v=2.23">
+<meta name="twitter:image:alt" content="don't tell your dreams to everybody around / some people smile, but wanna see you down / keep it quiet, don't make a sound / let your success be what shakes the ground">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"jaytha.ninja","url":"https://jaytha.ninja/"}</script>
 <style>html,body{margin:0;background:#000;color:#f6efe9}body{font:16px/1.5 "JetBrains Mono",ui-monospace,monospace;padding:24px}a{color:#FF4D1A;text-decoration:none}</style>
 </head>
 <body>
@@ -606,7 +624,7 @@ def assert_pages(today: date) -> tuple[date, date]:
 
 
 def write_redirects() -> int:
-    """Replace each published day page with a forward to /habits/. New dates are not added."""
+    """Replace each published day page with a forward to /. New dates are not added."""
     n = 0
     for child in sorted(HABITS.iterdir()):
         if not child.is_dir() or not DATE_RE.fullmatch(child.name):
