@@ -14,7 +14,7 @@ const columnCount = () => (innerWidth >= COL_BREAK ? 6 : 3);
 const SIZES = '(min-width: 900px) 200px, 30vw';
 const gallery = document.getElementById('gallery');
 const light = document.getElementById('light');
-const fit = light.querySelector('.fit');
+const frame = light.querySelector('.frame');
 const lo = light.querySelector('.lo');
 const hi = light.querySelector('.hi');
 const nameEl = document.getElementById('light-name');
@@ -33,6 +33,7 @@ let savedY = 0;
 let locked = false;
 let gesture = null;
 let pinch = false;
+let dragged = false;
 let eatClick = false;
 let stepping = false;
 let held = [];
@@ -155,9 +156,9 @@ function go(i) {
   cursor = i;
   const photo = sequence[i];
   const mine = ++token;
-  fit.style.setProperty('--w', String(photo.w || 1));
-  fit.style.setProperty('--h', String(photo.h || 1));
-  fit.style.background = '#' + (photo.c || '111');
+  frame.style.setProperty('--w', String(photo.w || 1));
+  frame.style.setProperty('--h', String(photo.h || 1));
+  frame.style.background = '#' + (photo.c || '111');
   const thumb = thumbOf(i);
   const full = fullOf(photo);
   lo.src = thumb;
@@ -211,6 +212,13 @@ function lockScroll() {
   body.style.width = '100%';
 }
 
+function placeScroll() {
+  const y = savedY;
+  window.scrollTo(0, y);
+  setTimeout(() => window.scrollTo(0, y), 0);
+  requestAnimationFrame(() => window.scrollTo(0, y));
+}
+
 function unlockScroll() {
   if (!locked) return;
   locked = false;
@@ -221,7 +229,7 @@ function unlockScroll() {
   body.style.left = '';
   body.style.right = '';
   body.style.width = '';
-  window.scrollTo(0, savedY);
+  placeScroll();
 }
 
 function openAt(i) {
@@ -249,15 +257,17 @@ light.addEventListener('close', () => {
   lo.removeAttribute('src');
   held = [];
   unlockScroll();
-  if (!trap) return;
-  trap = false;
-  ignorePop = true;
-  history.back();
-  setTimeout(() => { ignorePop = false; }, 600);
+  if (trap) {
+    trap = false;
+    ignorePop = true;
+    history.back();
+    setTimeout(() => { ignorePop = false; }, 600);
+  }
+  placeScroll();
 });
 
 addEventListener('popstate', () => {
-  if (ignorePop) { ignorePop = false; return; }
+  if (ignorePop) { ignorePop = false; placeScroll(); return; }
   if (!light.open) return;
   trap = false;
   light.close();
@@ -303,7 +313,9 @@ light.addEventListener('touchend', event => {
   if (!event.touches.length) pinch = false;
 }, {passive: true});
 light.addEventListener('touchmove', event => {
-  if (event.touches.length === 1) event.preventDefault();
+  if (event.touches.length !== 1) return;
+  dragged = true;
+  event.preventDefault();
 }, {passive: false});
 light.addEventListener('pointerdown', event => {
   event.stopPropagation();
@@ -316,23 +328,25 @@ light.addEventListener('pointerup', event => {
   const dx = event.clientX - gesture.x;
   const dy = event.clientY - gesture.y;
   gesture = null;
+  const moved = dragged;
+  dragged = false;
   if (pinch) return;
-  if (Math.hypot(dx, dy) > 12) {
+  if (Math.hypot(dx, dy) > 12 && !moved) {
     eatClick = true;
-    setTimeout(() => { eatClick = false; }, 400);
+    setTimeout(() => { eatClick = false; }, 0);
   }
   if (Math.abs(dx) >= SWIPE && Math.abs(dx) > Math.abs(dy) * 1.3) {
     if (dx < 0) older();
     else newer();
   }
 });
-light.addEventListener('pointercancel', () => { gesture = null; });
+light.addEventListener('pointercancel', () => { gesture = null; dragged = false; });
 light.addEventListener('wheel', event => event.preventDefault(), {passive: false});
 
 light.addEventListener('click', event => {
   if (eatClick) { eatClick = false; event.preventDefault(); return; }
   if (event.target.closest('.x')) { shut(); return; }
-  const box = fit.getBoundingClientRect();
+  const box = frame.getBoundingClientRect();
   const x = event.clientX;
   const y = event.clientY;
   const letterbox = x >= box.left && x <= box.right && (y < box.top || y > box.bottom);

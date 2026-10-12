@@ -15,13 +15,13 @@ html.light-open,html.light-open body{overflow:hidden;height:100%}
 .light[open]{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:transparent;color:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;box-sizing:border-box;touch-action:none;overscroll-behavior:none;user-select:none}
 .light:focus{outline:0}
 .light::backdrop{background:rgba(0,0,0,.9)}
-.fit{position:relative;z-index:1;flex:none;--w:1;--h:1;aspect-ratio:var(--w)/var(--h);width:min(calc(95vw - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)),calc((92vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))*var(--w)/var(--h)));max-height:calc(92vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));height:auto;background:#111;pointer-events:none}
+.frame{position:relative;z-index:1;flex:none;min-width:0;min-height:0;--w:1;--h:1;aspect-ratio:var(--w)/var(--h);width:min(calc(95vw - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)),calc((92vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))*var(--w)/var(--h)));max-height:calc(92vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));height:auto;background:#111;pointer-events:none}
 @supports (height:100dvh){
-  .fit{width:min(calc(95vw - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)),calc((92dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))*var(--w)/var(--h)));max-height:calc(92dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
+  .frame{width:min(calc(95vw - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)),calc((92dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))*var(--w)/var(--h)));max-height:calc(92dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
 }
-.fit img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
-.fit .hi{opacity:0}
-.fit .hi.on{opacity:1}
+.frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.frame .hi{opacity:0}
+.frame .hi.on{opacity:1}
 .light .nav,.light .x{margin:0;padding:0;border:0;background:transparent;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .light .nav{position:absolute;top:0;bottom:0;z-index:2;width:50%}
 .light .nav.prev{left:0}
