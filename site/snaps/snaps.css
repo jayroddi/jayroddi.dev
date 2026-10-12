@@ -1,22 +1,17 @@
-/* v2.31: /snaps. the header stays in the shared column. the grid is wider so a desktop can hold four columns. */
+/* v2.32: three columns under 900px, six from 900px. flex columns share one top edge. */
 body.snaps .stage{flex-direction:column;align-items:center;width:100%}
-body.snaps .gallery{width:min(1100px,calc(100vw - 32px));margin:0 auto 32px;position:relative;z-index:2}
+body.snaps .gallery{width:min(1280px,calc(100vw - 32px));margin:0 auto 32px;position:relative;z-index:2}
 .month h2{margin:22px 0 10px;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;line-height:1.25;color:var(--c);text-shadow:0 0 8px rgba(var(--bg-rgb),.8)}
 .month:first-child h2{margin-top:4px}
-.grid{columns:2;column-gap:8px}
-.shot{position:relative;display:block;width:100%;margin:0 0 8px;padding:0;border:0;background:#111;break-inside:avoid;page-break-inside:avoid;cursor:zoom-in;-webkit-tap-highlight-color:transparent;aspect-ratio:var(--r,1)}
+.grid{display:flex;align-items:flex-start;gap:8px}
+.col{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:8px}
+.shot{position:relative;display:block;width:100%;margin:0;padding:0;border:0;background:#111;cursor:zoom-in;-webkit-tap-highlight-color:transparent;aspect-ratio:var(--r,1)}
 .shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .shot:focus-visible{outline:2px solid var(--c);outline-offset:2px}
 .note{margin:12px 0 0;text-align:center;font-size:14px;line-height:1.4;font-weight:500;color:var(--ink-3)}
 .light{padding:0;border:0;background:transparent;max-width:none;max-height:none}
 .light::backdrop{background:rgba(0,0,0,.9)}
 .light img{display:block;width:auto;height:auto;max-width:min(96vw,2048px);max-height:92vh;margin:0}
-@media (min-width:760px){
-  .grid{columns:3}
-}
-@media (min-width:1100px){
-  .grid{columns:4}
-}
 @media (max-width:760px){
   .month h2{font-size:13px}
   body.snaps .gallery{width:min(1100px,calc(100vw - 24px))}
