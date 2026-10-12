@@ -1,6 +1,6 @@
 # jaytha.ninja
 
-Personal site. The homepage is the single page in `site/`.
+Personal site. The homepage in `site/` is the habits page. `/snaps` is the photo grid.
 
 Pushes to `main` deploy that folder to GitHub Pages through GitHub Actions. The custom domain is jaytha.ninja. DNS lives at Namecheap.
 
@@ -53,6 +53,20 @@ Link previews use `/og/home.png` (the intro + `// yyyy.mm.dd`), `/og/song.png`, 
 - **11:31pm, with the drop:** `python3 scripts/make_cards.py stage --date YYYY-MM-DD` (needs node + playwright-core and chrome; `NODE_PATH` / `CHROME` override the box defaults). It first catches the repo up with the cards that went live at the last midnight, then renders that date's cards into `og-next/` (outside `site/`, so never deployed) with `og-next/date.txt`.
 - **12:00am CT, no commit needed:** the Pages workflow also runs just after midnight (cron `2,32 5,6 * * *` UTC covers CDT + CST) and on every push. Before uploading `site/` it runs `python3 scripts/make_cards.py flip`, which copies `og-next/` into `site/og/` and rewrites `?d=` once that date has started in Chicago. Before then, or if the cards are already live, it does nothing. It never fails the deploy.
 - By hand: `make_cards.py now --date YYYY-MM-DD` renders straight into `site/og/` and rewrites `?d=` (`--generic` also redoes `og-image.png`). `make_cards.py stamp --date YYYY-MM-DD` only rewrites `?d=`. `make_cards.py flip --today YYYY-MM-DD` runs the flip as if it were that day (try it on a scratch checkout).
+
+## snaps (v2.31)
+
+`/snaps` is a photo grid of Jay's public Lightroom album. It is a real page (it does not redirect home). The homepage does not link to it. The sitemap stays `/` only.
+
+`python3 scripts/sync_snaps.py` reads the public album and writes `site/snaps/`. Images stay on Adobe. Nothing with a location is stored.
+
+The listing is `GET https://photos.adobe.io/v2/spaces/70e5cd134b2e42feae9e82952152c5e8/resources` with header `x-api-key: LightroomMobileWeb1`. The body is JSON after a `while (1) {}` line. The album's `/rels/space_album_images_videos` link is paged with `links.next` (album `86ec4bba2cd6437da54cced3b2c6f50d`). Capture date is the camera's local date. If that is missing, the import time is read in America/Chicago.
+
+`site/snaps/snaps.json` is the index: `base`, `key`, and `months` (newest first, `{m, n}`). Each month is `site/snaps/m/YYYY-MM.json`, newest first. A photo is `{i, v, d, w, h, t, s, l, c}`: asset id, revision, date, oriented width and height, the 640 / 1280 / 2048 rendition ids, and a dominant color (`rrggbb`) from the 640 JPEG. `scripts/snaps_colors.json` remembers those colors so the next run does not download an unchanged rendition.
+
+The grid asks for the 640 rendition (the smallest Adobe size that stays sharp, about 512px on the long edge) and offers the 1280 in `srcset`. The 2048 loads only in the lightbox. The page draws the newest month, then one more when the sentinel scrolls into view. A short month keeps loading until the screen is full. The first photo is requested on its own (`loading="eager"`, high priority) so it does not share the connection. The other tiles stay their color until that photo arrives, then load with `loading="lazy"` and `decoding="async"`. Each tile is sized from `w` / `h`, so the grid does not jump. The page preconnects to `https://photos.adobe.io`.
+
+Sync runs at 11:41pm America/Chicago (`41 4,5 * * *` UTC, CDT and CST) and on manual dispatch (`.github/workflows/snaps.yml`). It commits `site/snaps/` and the color cache only when something changed, then starts the Pages deploy. A token push does not start that deploy by itself.
 
 ## konami (v1.74)
 The homepage rocket still fails on a normal tap. Under the social icons, a quiet row (up, down, left, right, b, a, start) is the liftoff that makes it: up up down down left right left right b a start. On the keyboard the same arrows, then b a, then Enter, work when focus is outside a text field. Enter is start: the sequence succeeds only after that full run, Enter lights start, and a different key on that step is a miss. Enter inside the email field stays with the field. The view follows the gold rocket (the same one a successful launch flies) into a starfield, the cartoon ninja turns gold for the rest of the visit, and `+30 lives` shows (lowercase, no period). A reload clears it. Nothing is stored. The row sits in the dim gray until the code starts, then pulses the launch-hold gold, and hides while the page is gold. iOS haptics use the iOS 18 switch-input workaround.
@@ -182,3 +196,5 @@ v2.28: the matrix rain is a fixed canvas one large viewport tall (`100lvh`, with
 v2.29: rain glyphs behind the text are at 50% (was 75%). That is `partFloor` in `site/assets/rain.js`. The grids and the quote list use it. The footer form and konami row are still not dimmed. Density, the tap-anywhere speed toggle, reduced motion, and the fixed viewport canvas are unchanged. `rain.css` and `rain.js` are `?v=2.29`.
 
 v2.30: rain glyphs behind the text are at 25% (was 50%). That is still `partFloor` in `site/assets/rain.js`. Nothing else about the rain changes. `rain.css` and `rain.js` are `?v=2.30`.
+
+v2.31: `/snaps` is Jay's public Lightroom album as a photo grid, newest month first. The page is real, so it is not sent home with the other HTML redirects. The homepage does not link to it, and the sitemap stays `/` only. `scripts/sync_snaps.py` writes `site/snaps/snaps.json` plus one file per month. A nightly workflow (11:41pm America/Chicago, and manual dispatch) commits that data when the album changed and then starts the Pages deploy. `snaps.css` and `snaps.js` are `?v=2.31`.
