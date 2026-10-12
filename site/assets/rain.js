@@ -12,8 +12,8 @@
   const LIGHT_Q=matchMedia('(prefers-color-scheme: light)'), L_TEAL=[18,127,132], L_ORANGE=[232,93,12], L_GOLD=[166,124,0];
   const modeName=()=>document.documentElement.dataset.mode==='fast'?'fast':'normal';
 function Rain(cv, o){
-  // v2.04: homepage rain behind text stays at 75% (v1.13). subpages passed .3, which dimmed the same drops and skipped glyphs under alpha .012, so the page looked thinner. every page uses that floor. the footer is not a dim target (the homepage selector is .copy only).
-  o.partFloor = .75;
+  // v2.29: glyphs behind text stay at 50% (was 75%, v2.04 / v1.13). subpages passed .3, which dimmed the same drops and skipped glyphs under alpha .012, so the page looked thinner. every page uses that floor. the footer is not a dim target (the homepage selector is .copy only).
+  o.partFloor = .5;
   if (o.partSel){
     const sel = String(o.partSel).split(',').map(s => s.trim()).filter(s => s && s !== '.foot');
     o.partSel = sel.length ? sel.join(', ') : null;
