@@ -1,9 +1,11 @@
-/* v2.31: newest months first. the first two are drawn immediately; the rest arrive
-   when the sentinel scrolls into view. grid images are the 640 rendition, with
-   the 1280 in srcset. the 2048 loads only in the lightbox. */
+/* v2.31: newest month first. one month is drawn, then another when the sentinel
+   scrolls into view (a short month keeps going until the screen is full).
+   grid images are the 640 rendition, with the 1280 in srcset. the first row is
+   eager so the largest paint is not deferred; the rest are lazy. the 2048
+   loads only in the lightbox. */
 (() => {
 const NAMES = ['january','february','march','april','may','june','july','august','september','october','november','december'];
-const FIRST = 2;
+const FIRST = 1;
 const gallery = document.getElementById('gallery');
 const light = document.getElementById('light');
 const big = light.querySelector('img');
@@ -27,31 +29,71 @@ function render(meta, photos) {
   const grid = document.createElement('div');
   grid.className = 'grid';
   const frag = document.createDocumentFragment();
-  photos.forEach(photo => {
+  const already = gallery.querySelectorAll('.shot').length;
+  photos.forEach((photo, n) => {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'shot';
     button.style.background = '#' + (photo.c || '111');
+    button.style.setProperty('--r', photo.w + ' / ' + photo.h);
     button.setAttribute('aria-label', photo.d || 'photo');
-    const img = document.createElement('img');
-    img.alt = '';
-    img.width = photo.w;
-    img.height = photo.h;
-    img.loading = 'lazy';
-    img.decoding = 'async';
     const thumb = url(photo, photo.t);
     const resource = long => Math.max(1, Math.round(photo.w * long / (Math.max(photo.w, photo.h) || 1)));
-    img.src = thumb;
-    if (photo.s) img.srcset = thumb + ' ' + resource(640) + 'w, ' + url(photo, photo.s) + ' ' + resource(1280) + 'w';
-    img.sizes = '(min-width: 1100px) 260px, (min-width: 760px) 33vw, 46vw';
-    button.appendChild(img);
+    button.dataset.src = thumb;
+    button.dataset.w = photo.w;
+    button.dataset.h = photo.h;
+    if (photo.s) button.dataset.srcset = thumb + ' ' + resource(640) + 'w, ' + url(photo, photo.s) + ' ' + resource(1280) + 'w';
+    button.dataset.eager = already + n < 4 ? '1' : '';
     button.addEventListener('click', () => open(photo));
+    if (already + n === 0) mount(button, true);
+    else if (button.dataset.eager) afterLead(() => mount(button));
+    else watch.observe(button);
     frag.appendChild(button);
   });
   grid.appendChild(frag);
   section.append(heading, grid);
   gallery.insertBefore(section, sentinel);
 }
+
+let leadOpen = false;
+const leadWait = [];
+function leadReady() {
+  if (leadOpen) return;
+  leadOpen = true;
+  leadWait.splice(0).forEach(fn => fn());
+}
+function afterLead(fn) {
+  if (leadOpen) fn();
+  else leadWait.push(fn);
+}
+setTimeout(leadReady, 8000);
+
+function mount(button, high) {
+  if (button.querySelector('img')) return;
+  const img = document.createElement('img');
+  img.alt = '';
+  img.width = +button.dataset.w;
+  img.height = +button.dataset.h;
+  img.decoding = 'async';
+  img.sizes = '(min-width: 1100px) 260px, (min-width: 760px) 33vw, 46vw';
+  img.loading = high ? 'eager' : 'lazy';
+  if (high) {
+    img.fetchPriority = 'high';
+    img.addEventListener('load', leadReady, {once: true});
+    img.addEventListener('error', leadReady, {once: true});
+  }
+  if (button.dataset.srcset) img.srcset = button.dataset.srcset;
+  img.src = button.dataset.src;
+  button.appendChild(img);
+}
+
+const watch = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    watch.unobserve(entry.target);
+    afterLead(() => mount(entry.target));
+  });
+}, {rootMargin: '600px'});
 
 function open(photo) {
   const id = photo.l || photo.s || photo.t;
