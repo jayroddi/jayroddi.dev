@@ -71,11 +71,12 @@ def cards(repo, day):
             '.main{margin-top:40px;display:flex;gap:48px;align-items:center}.txt{flex:1;min-width:0}.lab{font-size:34px;margin-bottom:26px}.cap{font-size:25px;line-height:1.45;color:#c9c3be}.main img{flex:none;width:540px;height:360px;object-fit:cover;border-radius:16px;box-shadow:0 0 40px rgba(26,173,179,.25),0 0 0 1px rgba(26,173,179,.35)}',
             f'<div class="txt"><p class="t lab">📸 snap of the day</p><p class="cap" data-fit>{e(sn.get("alt", "").lower())}</p></div><img src="{src.as_uri()}">', 'jaytha.ninja/snap-of-the-day')
     quotes = json.loads((site/'quote-of-the-day/quotes.json').read_text(encoding='utf-8'))
-    q = newest(quotes, day, lambda r: r.get('quote') and r.get('author'))
+    q = newest(quotes, day, lambda r: (r.get('text') or r.get('quote')) and r.get('author'))
     if q:   # word for word, lowercased like the page (css text-transform there)
+        quote = q.get('text') or q.get('quote')
         out['quote'] = fill('quote', '// ' + q['date'].replace('-', '.'),
             '.main{margin-top:64px}.lab{font-size:28px;margin-bottom:30px}.q{font-size:50px;line-height:1.25;color:#fff}.by{margin-top:26px;font-size:24px}',
-            f'<p class="t lab">💭 today\'s quote</p><p class="q" data-fit>{qbr(q["quote"].lower())}</p><p class="g by" data-fit>{e(q["author"].lower())}</p>', 'jaytha.ninja/quote-of-the-day')
+            f'<p class="t lab">💭 today\'s quote</p><p class="q" data-fit>{qbr(quote.lower())}</p><p class="g by" data-fit>{e(q["author"].lower())}</p>', 'jaytha.ninja/quote-of-the-day')
     songs = json.loads((site/'song-of-the-day/songs.json').read_text(encoding='utf-8'))
     so = newest(songs, day, lambda r: r.get('id') and r.get('track'))
     art = None
