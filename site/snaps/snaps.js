@@ -1,11 +1,15 @@
-/* v2.31: newest month first. one month is drawn, then another when the sentinel
+/* v2.32: newest month first. one month is drawn, then another when the sentinel
    scrolls into view (a short month keeps going until the screen is full).
-   grid images are the 640 rendition, with the 1280 in srcset. the first row is
-   eager so the largest paint is not deferred; the rest are lazy. the 2048
-   loads only in the lightbox. */
+   photos go round-robin into 3 columns, or 6 from 900px, so each row reads
+   newest to oldest left to right and the first row shares one top edge.
+   grid images are the 640 rendition, with the 1280 in srcset. the first photo
+   is eager; the rest are lazy. the 2048 loads only in the lightbox. */
 (() => {
 const NAMES = ['january','february','march','april','may','june','july','august','september','october','november','december'];
 const FIRST = 1;
+const COL_BREAK = 900;
+const columnCount = () => (innerWidth >= COL_BREAK ? 6 : 3);
+const SIZES = '(min-width: 900px) 200px, 30vw';
 const gallery = document.getElementById('gallery');
 const light = document.getElementById('light');
 const big = light.querySelector('img');
@@ -28,12 +32,13 @@ function render(meta, photos) {
   heading.textContent = monthName(meta.m);
   const grid = document.createElement('div');
   grid.className = 'grid';
-  const frag = document.createDocumentFragment();
   const already = gallery.querySelectorAll('.shot').length;
-  photos.forEach((photo, n) => {
+  const eagerCount = columnCount();
+  const shots = photos.map((photo, n) => {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'shot';
+    button.dataset.order = String(n);
     button.style.background = '#' + (photo.c || '111');
     button.style.setProperty('--r', photo.w + ' / ' + photo.h);
     button.setAttribute('aria-label', photo.d || 'photo');
@@ -43,14 +48,14 @@ function render(meta, photos) {
     button.dataset.w = photo.w;
     button.dataset.h = photo.h;
     if (photo.s) button.dataset.srcset = thumb + ' ' + resource(640) + 'w, ' + url(photo, photo.s) + ' ' + resource(1280) + 'w';
-    button.dataset.eager = already + n < 4 ? '1' : '';
+    button.dataset.eager = already + n < eagerCount ? '1' : '';
     button.addEventListener('click', () => open(photo));
     if (already + n === 0) mount(button, true);
     else if (button.dataset.eager) afterLead(() => mount(button));
     else watch.observe(button);
-    frag.appendChild(button);
+    return button;
   });
-  grid.appendChild(frag);
+  place(grid, shots);
   section.append(heading, grid);
   gallery.insertBefore(section, sentinel);
 }
@@ -75,7 +80,7 @@ function mount(button, high) {
   img.width = +button.dataset.w;
   img.height = +button.dataset.h;
   img.decoding = 'async';
-  img.sizes = '(min-width: 1100px) 260px, (min-width: 760px) 33vw, 46vw';
+  img.sizes = SIZES;
   img.loading = high ? 'eager' : 'lazy';
   if (high) {
     img.fetchPriority = 'high';
@@ -175,11 +180,32 @@ document.fonts.ready.then(() => {
   rain.build();
   requestAnimationFrame(rain.frame);
 });
+function place(grid, shots) {
+  const n = columnCount();
+  const columns = Array.from({length: n}, () => {
+    const col = document.createElement('div');
+    col.className = 'col';
+    return col;
+  });
+  shots.forEach((shot, i) => columns[i % n].appendChild(shot));
+  grid.replaceChildren(...columns);
+  grid.dataset.cols = String(n);
+}
+
+function relayout() {
+  const n = String(columnCount());
+  document.querySelectorAll('.grid').forEach(grid => {
+    if (grid.dataset.cols === n) return;
+    const shots = [...grid.querySelectorAll('.shot')].sort((a, b) => +a.dataset.order - +b.dataset.order);
+    place(grid, shots);
+  });
+}
+
 let lastW = innerWidth, rt;
 addEventListener('resize', () => {
   if (innerWidth === lastW) return;
   lastW = innerWidth;
   clearTimeout(rt);
-  rt = setTimeout(rain.build, 150);
+  rt = setTimeout(() => { relayout(); rain.build(); }, 150);
 });
 })();
