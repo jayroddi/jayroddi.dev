@@ -37,15 +37,23 @@ function Rain(cv, o){
     R.paleTint = {from: R.paleTintAt(now), to: fast ? o.paleOrange : o.paleTint, t0: now, dur}; R.last = 0;
   };
   R.build = () => {
-    const w = document.documentElement.clientWidth, H = document.documentElement.scrollHeight;
-    R.w = w; R.H = H; cv.style.height = H + 'px';
+    // v2.28: the canvas is position:fixed and one large viewport tall (100lvh in css). drops live in viewport
+    // space, so the same screen of rain stays up as the page scrolls. do not size to scrollHeight and do not
+    // write an inline height: iOS Safari's toolbar changes the dynamic viewport on scroll, and an inline
+    // height would stretch this bitmap. a width or orientation change still calls build() and starts fresh.
+    cv.style.height = '';
+    const box = cv.getBoundingClientRect();
+    const w = Math.max(1, Math.round(box.width || document.documentElement.clientWidth));
+    const H = Math.max(1, Math.round(box.height || window.innerHeight));
+    R.w = w; R.H = H;
     cv.width = Math.round(w*DPR); cv.height = Math.round(H*DPR);
     const ctx = cv.getContext('2d'); ctx.setTransform(DPR,0,0,DPR,0,0); R.ctx = ctx;
     const fs = w < 600 ? o.fsMobile : o.fs; R.fs = fs; R.lh = Math.round(fs*1.32); R.cw = Math.round(fs*1.12);
     ctx.font = `500 ${fs}px ${o.mono}`; ctx.textBaseline = 'top'; ctx.textAlign = 'left';
     seed = o.seed || 17; R.drops = [];
     // v2.04: perCol is the homepage's count for one screen. a taller page used to spread that same count down the whole document, so the rain looked sparser. scale with the page so each screen stays as dense.
-    const view = Math.max(1, window.innerHeight || H);
+    // v2.28: the band is the viewport, so one screen of that count fills the fixed canvas.
+    const view = H;
     for (const band of o.bands(w, H)){
       const rows = Math.ceil((band.y1 - band.y0)/R.lh);
       const screens = Math.max(1, (band.y1 - band.y0) / view);
@@ -62,13 +70,14 @@ function Rain(cv, o){
     }
     R.measure();
   };
-  R.measure = () => { R.rects = o.partSel ? [...document.querySelectorAll(o.partSel)].map(el => { const r = el.getBoundingClientRect(); return {l:r.left, t:r.top + scrollY, r:r.right, b:r.bottom + scrollY}; }) : []; };
+  R.measure = () => { R.rects = o.partSel ? [...document.querySelectorAll(o.partSel)].map(el => { const r = el.getBoundingClientRect(); return {l:r.left, t:r.top, r:r.right, b:r.bottom}; }) : []; };
   const part = (x, y) => { let f = 1; for (const q of R.rects){ const dx = Math.max(q.l - x, 0, x - q.r), dy = Math.max(q.t - y, 0, y - q.b); const d = Math.hypot(dx, dy); f = Math.min(f, o.partFloor + (1 - o.partFloor)*sm(0, o.partPad, d)); } return f; };
   R.frame = (now) => {
     requestAnimationFrame(R.frame);
     const sp = R.speedAt(now);   // jay 2026.09.30 v1.33: 20fps up to 2x as before; faster rain (the homepage's skip-to-end, up to 6x) draws up to 60fps so drops glide instead of skipping rows
     if (now - R.last < (sp > 2 ? Math.max(16, 100/sp) : 50)) return; R.last = now;
-    const all = window.__rainAll, vt = all ? 0 : Math.max(0, scrollY - 60), vb = all ? R.H : Math.min(R.H, scrollY + innerHeight + 60), ctx = R.ctx, lh = R.lh;
+    R.measure();
+    const vt = 0, vb = R.H, ctx = R.ctx, lh = R.lh;
     ctx.clearRect(0, vt, R.w, vb - vt);
     const speed = R.speedAt(now);
     R.fast = modeName()==="fast";
@@ -102,7 +111,7 @@ function Rain(cv, o){
       }
     }
   };
-  addEventListener('pointermove', e => { R.ptr.x = e.clientX; R.ptr.y = e.clientY + scrollY; });
+  addEventListener('pointermove', e => { R.ptr.x = e.clientX; R.ptr.y = e.clientY; });
   document.addEventListener('pointerleave', () => { R.ptr.x = R.ptr.y = -9999; });
   return R;
 }
@@ -214,7 +223,7 @@ function Rain(cv, o){
     auClear();const h=document.documentElement;h.classList.remove('gld-out');
     const ms=REDUCED?0:(o.ms??1700); if(o.lock)auLock=true;else auFx=true; hintNext();
     const vh=innerHeight, y0=o.y??vh/2, maxD=Math.max(y0,vh-y0,1), fade=Math.max(120,Math.min(450,ms*.25));
-    if(rain)rain.au={y:y0+scrollY,t0:performance.now(),ms,maxD,fade:ms?fade:1,out:null};
+    if(rain)rain.au={y:y0,t0:performance.now(),ms,maxD,fade:ms?fade:1,out:null};
     if(!ms){h.classList.add('gld');return Promise.resolve();}
     if(o.track)return goldTrack(o);
     auWave(fade);
@@ -230,7 +239,7 @@ function Rain(cv, o){
      climbs past it. a page that rides past the rocket (konami) crosses the same line, with the same .gld fade, instead of being born gold. */
   const goldTrack=o=>{
     const h=document.documentElement,trk=o.track,fade=o.fade??320;auWave(fade);
-    if(rain)rain.au={trk:()=>{const y=trk();return y===-Infinity?-Infinity:y+scrollY},soft:o.soft??70,out:null};
+    if(rain)rain.au={trk:()=>{const y=trk();return y===-Infinity?-Infinity:y},soft:o.soft??70,out:null};
     const skip=e=>{const tg=e.tagName.toLowerCase();return(tg!=='svg'&&!!e.closest('svg'))||/^(script|style|canvas|br|noscript)$/.test(tg);};
     const seen=new Set(),pending=[];
     const collect=()=>{document.body.querySelectorAll('*').forEach(e=>{
