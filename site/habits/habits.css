@@ -109,6 +109,8 @@ body.board .graph{width:100%}
 .cell[data-lv="4"],.swatches i[data-lv="4"]{background:color-mix(in srgb, var(--c) 80%, transparent)}
 .cell[data-lv="5"],.swatches i[data-lv="5"]{background:var(--c)}
 .cell.hot{background:var(--fg)}
+/* v2.38: the load cursor is one bright speed-colour block. the cell's own level is already set underneath, and it shows once this class leaves. the shadow does not change the grid size. */
+.cell.sweep{background:var(--c-wh);box-shadow:0 0 7px 1px var(--c);position:relative;z-index:3}
 .cell.future{cursor:default}
 
 .legend{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;margin:0;min-height:1.5em;font-size:12px;line-height:1.2;font-weight:400;color:var(--ink-3)}

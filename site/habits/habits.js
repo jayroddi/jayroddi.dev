@@ -1,20 +1,15 @@
-/* jaytha.ninja/ (v2.37): five year graphs in one column (faith, sleep, fitness, code, journal). paths stay root-absolute so the homepage loads /habits/habits.css, /habits/habits.js, /habits/faith.json, /habits/workouts.json, /habits/cursor.json, /habits/sleep.json, /habits/journal.json, /habits/journal-jarvis.json, /daily-update/recaps.json, and /habits/trackers.json. faith is yes or no: every day from the start in faith.json through today (America/Chicago) is a full cell unless that date is listed in no. a new day is yes without a commit. five colour steps plus empty. fitness, journal, and sleep cut those steps from their own nonzero days. code uses a fixed scale set from the days since 2026-09-29. from that same day a daily update adds one note on top of the obsidian count, and the hover says "N notes". jarvis counts in journal-jarvis.json add on top of that. a jarvis day says "N journal entries", and a daily-update day keeps the note line and adds "+ N entries". a failed recaps or jarvis load keeps the counts already on the grid. a streak day uses that same scale. longest and current stay. */
+/* jaytha.ninja/ (v2.38): five year graphs in one column (faith, sleep, fitness, code, journal) fill on one clock. a bright speed-colour cursor sweeps every grid together from the first cell through today in about 1.5s, and each cell keeps its real colour once the cursor has passed. reduced motion shows the filled grids at once. paths stay root-absolute so the homepage loads /habits/habits.css, /habits/habits.js, /habits/faith.json, /habits/workouts.json, /habits/cursor.json, /habits/sleep.json, /habits/journal.json, /habits/journal-jarvis.json, /daily-update/recaps.json, and /habits/trackers.json. faith is yes or no: every day from the start in faith.json through today (America/Chicago) is a full cell unless that date is listed in no. a new day is yes without a commit. five colour steps plus empty. fitness, journal, and sleep cut those steps from their own nonzero days. code uses a fixed scale set from the days since 2026-09-29. from that same day a daily update adds one note on top of the obsidian count, and the hover says "N notes". jarvis counts in journal-jarvis.json add on top of that. a jarvis day says "N journal entries", and a daily-update day keeps the note line and adds "+ N entries". a failed recaps or jarvis load keeps the counts already on the grid. a streak day uses that same scale. longest and current stay. */
 (() => {
 const VER = 'habits-1.84';
-const TIMING = {kickerSpeed: 55, window: 4, afterKicker: 280};
+const SWEEP_MS = 1500;
 const SHORT = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
 const LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const LOWER = ['january','february','march','april','may','june','july','august','september','october','november','december'];
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const RAIN_GLYPHS = '0123456789{}[]<>/\\=+*:;.-_#$%&@abcdefhjknrstuvxyz'.split('');
-const rg = () => RAIN_GLYPHS[Math.floor(Math.random() * RAIN_GLYPHS.length)];
-const seg = typeof Intl !== 'undefined' && Intl.Segmenter ? new Intl.Segmenter('en', {granularity: 'grapheme'}) : null;
-const graphemes = t => seg ? Array.from(seg.segment(t), x => x.segment) : Array.from(t);
-const cursor = document.createElement('span'); cursor.className = 'cursor';
 const mk = (tag, cls) => { const e = document.createElement(tag); if (cls) e.className = cls; return e; };
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
-let pace = 2, skipped = false, ready = false, current = null;
+let pace = 2, skipped = false, ready = false;
 const state = window.__intro = {head: 0, done: false, pace};
 const final = new Map();
 
@@ -416,59 +411,64 @@ document.addEventListener('click', e => {
   if (armed !== cell){ e.preventDefault(); armed = cell; showTip(cell); }
 });
 
-function prepare(el, text){
-  el.textContent = '';
-  const node = mk('span'), res = mk('span', 'res'), scr = mk('span', 'scr'), ghost = mk('span', 'ghost');
-  ghost.textContent = text; node.append(res, scr, ghost); el.appendChild(node);
-  const g = graphemes(text);
-  return {el, runs: [{node, res, scr, ghost, g, start: 0}], n: g.length};
-}
-function render(t, head, win){
-  const resolved = Math.max(0, head - win), top = Math.min(head, t.n), r = t.runs[0], L = r.g.length;
-  const a = Math.min(L, Math.max(0, resolved)), b = Math.min(L, Math.max(0, top));
-  r.res.textContent = r.g.slice(0, a).join('');
-  r.scr.textContent = r.g.slice(a, b).map(c => /\s/.test(c) ? c : rg()).join('');
-  r.ghost.textContent = r.g.slice(b).join('');
-  r.node.insertBefore(cursor, r.ghost);
-}
-function type(t, opt){
-  const win = opt.window, base = opt.speed, all = t.runs[0].g;
-  let head = 0, cancelled = false;
-  const p = new Promise(resolve => {
-    const tick = () => {
-      if (cancelled) return resolve();
-      head++; render(t, head, win); state.head = head;
-      if (head - win >= t.n) return resolve();
-      const c = all[Math.min(head, t.n) - 1];
-      const delay = head > t.n ? base * .7 : c === '.' ? base * 1.6 : base * (.75 + Math.random() * .6);
-      setTimeout(tick, reduced ? 0 : delay / pace);
-    };
-    tick();
-  });
-  p.stop = () => { cancelled = true; };
-  return p;
-}
-const wait = ms => new Promise(r => setTimeout(r, reduced ? 0 : ms / pace));
-
-/* one graph, left to right, same step as before: a hot flash, then the colour. */
-async function sweepSection(section){
-  const columns = model.weeks.length;
-  const cells = section.querySelectorAll('.cell');
-  for (let i = 0; i < columns; i++){
-    if (skipped) return;
-    const live = [];
-    for (let r = 0; r < 7; r++){
-      const cell = cells[i * 7 + r];
-      if (!cell) continue;
-      const f = final.get(cell);
-      if (f && f.lv > 0) live.push(cell);
-    }
-    live.forEach(c => c.classList.add('hot'));
-    await wait(18);
-    if (skipped) return;
-    live.forEach(c => { const f = final.get(c); paint(c, f.lv); });
-    await wait(26);
+/* one shared clock. every grid's cursor sits on the same date, from the first cell through today. */
+function sweepAll(){
+  const grids = $$('.tracker').map(section => {
+    const today = section.dataset.today || '';
+    const byDate = new Map();
+    section.querySelectorAll('.cell').forEach(cell => {
+      const iso = cell.dataset.date;
+      if (iso && iso <= today) byDate.set(iso, cell);
+    });
+    return byDate;
+  }).filter(byDate => byDate.size);
+  const dates = grids.length ? [...grids[0].keys()] : [];
+  const count = dates.length;
+  if (!count){
+    revealAllStats();
+    finish();
+    return Promise.resolve();
   }
+  let painted = -1;
+  let cursor = -1;
+  const at = i => grids.map(byDate => byDate.get(dates[i])).filter(Boolean);
+  const clearCursor = () => {
+    if (cursor < 0) return;
+    at(cursor).forEach(cell => cell.classList.remove('sweep'));
+    cursor = -1;
+  };
+  const showLevel = cell => {
+    const fin = final.get(cell);
+    paint(cell, fin ? fin.lv : 0);
+  };
+  const fillTo = idx => {
+    for (let i = painted + 1; i <= idx; i++) at(i).forEach(showLevel);
+    if (idx > painted) painted = idx;
+  };
+  const t0 = performance.now();
+  return new Promise(resolve => {
+    const frame = now => {
+      if (skipped || state.done){ resolve(); return; }
+      const t = Math.min(1, (now - t0) / SWEEP_MS);
+      if (t >= 1){
+        clearCursor();
+        fillTo(count - 1);
+        revealAllStats();
+        finish();
+        resolve();
+        return;
+      }
+      const idx = Math.min(count - 1, Math.floor(t * count));
+      if (idx > cursor){
+        clearCursor();
+        fillTo(idx);
+        at(idx).forEach(cell => cell.classList.add('sweep'));
+        cursor = idx;
+      }
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+  });
 }
 
 const T = [26, 173, 179], PALE_TEAL = [121, 205, 207], HEAD = [255, 255, 255], PALE_ORANGE = [255, 150, 121];
@@ -482,7 +482,7 @@ const rain = JayRain.Rain(document.getElementById('rain'), {
   partSel: '.copy', partPad: 50, partFloor: .3
 });
 const fastNow = () => document.documentElement.dataset.mode === 'fast';
-let lines = [], wantNow = false;
+let wantNow = false;
 function finish(){
   if (state.done) return;
   JayRain.introDone();
@@ -493,8 +493,7 @@ function finish(){
 }
 function complete(){
   skipped = true;
-  current && current.stop();
-  lines.forEach(t => render(t, t.n + TIMING.window, TIMING.window));
+  $$('.cell.sweep').forEach(cell => cell.classList.remove('sweep'));
   paintAll();
   revealAllStats();
   finish();
@@ -571,63 +570,15 @@ async function withJarvis(days){
   }
 }
 const dataReady = loadAll();
-/* v2.00: the intro walks trackers.json, not a fixed list. a section with no matching id still plays, after those. */
-const orderReady = (async () => {
-  const have = $$('.tracker');
-  const byId = new Map(have.map(s => [s.dataset.id, s]));
-  let ids = [];
-  try {
-    const res = await fetch('/habits/trackers.json', {cache: 'no-cache'});
-    if (res.ok){
-      const data = await res.json();
-      ids = (data.trackers || []).map(t => t && t.id).filter(Boolean);
-    }
-  } catch (e) {}
-  const ordered = [], seen = new Set();
-  ids.forEach(id => {
-    const section = byId.get(id);
-    if (!section || seen.has(section)) return;
-    ordered.push(section);
-    seen.add(section);
-  });
-  have.forEach(section => { if (!seen.has(section)) ordered.push(section); });
-  return ordered;
-})();
 
 async function main(){
-  await document.fonts.ready;
   await dataReady;
-  const sections = await orderReady;
-  const steps = [];
-  sections.forEach(section => {
-    const el = section.querySelector('.kt');
-    if (!el) return;
-    const line = prepare(el, el.textContent);
-    lines.push(line);
-    steps.push({section, line});
-  });
-  lines.forEach(t => render(t, 0, TIMING.window));
-  cursor.remove();
-  rain.build(); requestAnimationFrame(rain.frame);
+  rain.build();
+  requestAnimationFrame(rain.frame);
   if (reduced || JayRain.returning(VER) || wantNow){ complete(); return; }
   ready = true;
   if (fastNow()) JayRain.dump(true);
-  await wait(300);
-  if (skipped) return;
-  for (let i = 0; i < steps.length; i++){
-    const step = steps[i];
-    state.head = 0;
-    current = type(step.line, {speed: TIMING.kickerSpeed, window: TIMING.window});
-    await current;
-    if (skipped) return;
-    /* same breath that used to sit between titles, now between a title and its own cells. */
-    await wait(TIMING.afterKicker);
-    if (skipped) return;
-    await sweepSection(step.section);
-    if (skipped) return;
-    revealStats(step.section);
-  }
-  finish();
+  await sweepAll();
 }
 main();
 let lastW = innerWidth, rt;
