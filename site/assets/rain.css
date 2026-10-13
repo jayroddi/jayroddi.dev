@@ -56,7 +56,7 @@ html.au-snap,html.au-snap *,html.au-snap *::before,html.au-snap *::after{transit
    v2.29: that floor is 50% (was 75%).
    v2.30: that floor is 25% (was 50%).
    v2.50: that 25% is the only floor, on every page, behind the column, the snaps gallery, and the footer. a phone applies it to the whole screen. the canvas stays undimmed in css.
-   v2.51: /snaps is back to the earlier rain. the photo grid is not dimmed. home, tweets, quotes, and confirmed stay at 25%. */
+   v2.52: /snaps is full strength, no floor. home, tweets, quotes, and confirmed are 50% behind content, and a phone applies that to the whole screen. */
 #rain{position:fixed;left:0;top:0;width:100%;height:100vh;height:100lvh;z-index:1;pointer-events:none}
 @keyframes nj-pulse{0%,100%{transform:scale(1);filter:drop-shadow(0 0 2px rgba(var(--c-rgb),.45))}50%{transform:scale(1.08);filter:drop-shadow(0 0 12px rgba(var(--c-rgb),.95))}}
 .social .nj{transform-origin:50% 50%;animation:nj-pulse 1.05s ease-in-out infinite}

@@ -10,17 +10,12 @@
   const T=[26,173,179], RAIN_ORANGE=[255,77,26];
   // v1.53: light theme (prefers-color-scheme): on white every glyph is the state colour itself (deeper teal #127F84 (v1.60; was #13888D), orange #E85D0C (v1.58; was #D93D11), gold #A67C00), no white heads
   const LIGHT_Q=matchMedia('(prefers-color-scheme: light)'), L_TEAL=[18,127,132], L_ORANGE=[232,93,12], L_GOLD=[166,124,0];
-  const RAIN_FLOOR=.25, RAIN_CONTENT='.copy, .gallery, .foot', rainMobile=()=>matchMedia('(max-width: 760px)').matches;
+  const RAIN_FLOOR=.5, RAIN_CONTENT='.copy, .gallery, .foot', rainMobile=()=>matchMedia('(max-width: 760px)').matches;
   const modeName=()=>document.documentElement.dataset.mode==='fast'?'fast':'normal';
 function Rain(cv, o){
-  // v2.51: snaps keeps the pre-2.50 targets (nav column and month headings only). rain in the photo grid stays full strength, and a phone does not spread the 25% floor across that page. every other page stays at 25% behind the column, the gallery, and the footer, and a phone applies that floor to the whole screen.
-  o.partFloor = RAIN_FLOOR;
-  if (o.partKeep){
-    if (o.partSel){
-      const sel = String(o.partSel).split(',').map(s => s.trim()).filter(s => s && s !== '.foot');
-      o.partSel = sel.length ? sel.join(', ') : null;
-    }
-  } else o.partSel = RAIN_CONTENT;
+  // v2.52: snaps is full strength, no floor. home, tweets, quotes, and confirmed are 50% behind content. a phone applies that 50% to the whole screen.
+  if (o.full){ o.partFloor = 1; o.partSel = null; }
+  else { o.partFloor = RAIN_FLOOR; o.partSel = RAIN_CONTENT; }
   const R = {cv, o, drops:[], rects:[], ptr:{x:-9999,y:-9999}, last:0};
   // v1.14 preview: both palette families ease together, including drops already mid-fall.
   R.tint = o.tint ? {from: o.tint, to: o.tint, t0: 0, dur: 1} : null;
@@ -74,7 +69,8 @@ function Rain(cv, o){
     R.measure();
   };
   R.measure = () => {
-    if (!o.partKeep && rainMobile()){ R.rects = [{l:0, t:0, r:R.w, b:R.H}]; return; }
+    if (o.full){ R.rects = []; return; }
+    if (rainMobile()){ R.rects = [{l:0, t:0, r:R.w, b:R.H}]; return; }
     R.rects = o.partSel ? [...document.querySelectorAll(o.partSel)].map(el => { const r = el.getBoundingClientRect(); return {l:r.left, t:r.top, r:r.right, b:r.bottom}; }).filter(q => q.r > q.l && q.b > q.t) : [];
   };
   const part = (x, y) => { let f = 1; for (const q of R.rects){ const dx = Math.max(q.l - x, 0, x - q.r), dy = Math.max(q.t - y, 0, y - q.b); const d = Math.hypot(dx, dy); f = Math.min(f, o.partFloor + (1 - o.partFloor)*sm(0, o.partPad, d)); } return f; };
