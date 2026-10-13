@@ -26,9 +26,9 @@ body.board .kicker,body.board .legend,body.board .stat,body.board .status{text-a
 body.board .legend{justify-content:center}
 body.board .foot{margin-left:auto;margin-right:auto;text-align:center}
 body.board .mast{--k:.9167;--kx:.8;width:100%;min-height:44px;margin:0 0 var(--habit-gap)}
-/* v2.34: the header line is a centered nav. links are the old grid-title size, italic, speed colour. separators are the foreground (white / black). the share-card replica still uses .line. */
+/* v2.36: nav links match the habit grid titles (14px, 13px on a phone), still italic and the speed colour. separators are the foreground (white / black). the share-card replica still uses .line. */
 body.board .mast .line{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:44px;margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:normal;line-height:1.25;color:var(--c)}
-body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;width:100%;min-height:44px;margin:0;text-align:center;font-family:var(--mono);font-size:21px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:1.4;color:var(--c)}
+body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;width:100%;min-height:44px;margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:1.25;color:var(--c)}
 body.board .mast .pages a{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 12px;font-style:italic;color:var(--c);text-decoration:none;-webkit-tap-highlight-color:transparent}
 body.board .mast .pages a[aria-current="page"]{text-decoration:underline;text-underline-offset:.18em}
 body.board .mast .pages .sep{font-style:normal;color:var(--fg);pointer-events:none}
@@ -64,7 +64,7 @@ body.board .quotes .by{margin-top:4px;font-size:15px;line-height:1.5;color:var(-
 .home{display:inline-block;margin:0 0 8px;font-size:14px;line-height:1.5;color:var(--c);letter-spacing:.02em}
 body.board .home{margin:0 0 var(--habit-gap)}
 .home:hover,.home:focus-visible{color:var(--c)}
-/* v2.34: grid titles use the old header size (14px, 13px on a phone). the nav took 21px. */
+/* v2.36: grid titles and the nav share this size (14px, 13px on a phone). */
 .kicker{font-size:14px;line-height:1.25;color:var(--c)}
 .trackers{display:flex;flex-direction:column;gap:var(--habit-gap)}
 .tracker{display:flex;flex-direction:column;gap:var(--habit-gap)}
@@ -168,7 +168,7 @@ body.day .home{margin:0 0 22px}
   body.board .stage{padding:32px 0 var(--habit-gap)}
   body.board .mast{--k:.8333;--kx:.7143}
   body.board .mast .line{font-size:13px}
-  body.board .mast .pages{font-size:17px}
+  body.board .mast .pages{font-size:13px}
   body.board .copy{min-width:0}
   .kicker,.tracker .kicker{font-size:13px}
   .daysec h2{font-size:17px}
