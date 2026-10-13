@@ -13,9 +13,14 @@
   const RAIN_FLOOR=.25, RAIN_CONTENT='.copy, .gallery, .foot', rainMobile=()=>matchMedia('(max-width: 760px)').matches;
   const modeName=()=>document.documentElement.dataset.mode==='fast'?'fast':'normal';
 function Rain(cv, o){
-  // v2.50: one floor. glyphs behind content are 25% on home, snaps, tweets, quotes, and confirmed (was a caller .3, and snaps left the gallery at full strength). a phone applies that floor to the whole viewport. desktop measures the column, the snaps gallery, and the footer.
+  // v2.51: snaps keeps the pre-2.50 targets (nav column and month headings only). rain in the photo grid stays full strength, and a phone does not spread the 25% floor across that page. every other page stays at 25% behind the column, the gallery, and the footer, and a phone applies that floor to the whole screen.
   o.partFloor = RAIN_FLOOR;
-  o.partSel = RAIN_CONTENT;
+  if (o.partKeep){
+    if (o.partSel){
+      const sel = String(o.partSel).split(',').map(s => s.trim()).filter(s => s && s !== '.foot');
+      o.partSel = sel.length ? sel.join(', ') : null;
+    }
+  } else o.partSel = RAIN_CONTENT;
   const R = {cv, o, drops:[], rects:[], ptr:{x:-9999,y:-9999}, last:0};
   // v1.14 preview: both palette families ease together, including drops already mid-fall.
   R.tint = o.tint ? {from: o.tint, to: o.tint, t0: 0, dur: 1} : null;
@@ -69,7 +74,7 @@ function Rain(cv, o){
     R.measure();
   };
   R.measure = () => {
-    if (rainMobile()){ R.rects = [{l:0, t:0, r:R.w, b:R.H}]; return; }
+    if (!o.partKeep && rainMobile()){ R.rects = [{l:0, t:0, r:R.w, b:R.H}]; return; }
     R.rects = o.partSel ? [...document.querySelectorAll(o.partSel)].map(el => { const r = el.getBoundingClientRect(); return {l:r.left, t:r.top, r:r.right, b:r.bottom}; }).filter(q => q.r > q.l && q.b > q.t) : [];
   };
   const part = (x, y) => { let f = 1; for (const q of R.rects){ const dx = Math.max(q.l - x, 0, x - q.r), dy = Math.max(q.t - y, 0, y - q.b); const d = Math.hypot(dx, dy); f = Math.min(f, o.partFloor + (1 - o.partFloor)*sm(0, o.partPad, d)); } return f; };
