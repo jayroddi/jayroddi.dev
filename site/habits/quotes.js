@@ -1,5 +1,6 @@
-/* v2.34: daily quotes on /quotes. the feed is still /quote-of-the-day/quotes.json
+/* v2.44: daily quotes on /quotes. the feed is still /quote-of-the-day/quotes.json
    (newest first; one object per day: date, text, author). the whole list paints at once.
+   the quote is left-justified. the name is its own line, with no leading dash.
    a nightly append to that file shows up here. future dates stay hidden until America/Chicago. */
 (() => {
   const host = document.querySelector('.copy') || document.querySelector('main');
@@ -30,7 +31,7 @@
       q.textContent = e.text;
       const by = document.createElement('p');
       by.className = 'by';
-      by.textContent = '- ' + e.author;
+      by.textContent = e.author.replace(/^\s*[-–—]\s*/, '');
       li.append(d, q, by);
       frag.appendChild(li);
     });

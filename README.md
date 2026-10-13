@@ -19,7 +19,7 @@ Lyrics have exactly one blank line between every line (v1.69, jay 2026.10.04): n
 
 Every page shows the newest entry dated today or earlier (America/Chicago) at the top and the older ones below it, newest first. Future-dated entries stay hidden until their day.
 
-### quotes.json (v2.27)
+### quotes.json (v2.44)
 `site/quote-of-the-day/quotes.json` is the daily quote feed. Newest first, UTF-8, 2-space indent. One object per day, and only these three fields:
 
 ```json
@@ -28,7 +28,7 @@ Every page shows the newest entry dated today or earlier (America/Chicago) at th
 
 A nightly drop appends that day's object at the top of the array. `date` is America/Chicago. `text` keeps the quote's original casing; `/quotes` lowercases it. `author` is the person's name. Do not add a slug or any other field.
 
-`/quotes` lists every entry dated today or earlier, newest first, centered, in one block. The whole list appears at once. The file stays at `site/quote-of-the-day/quotes.json`, so a nightly append still feeds the page. `/quote-of-the-day/` still redirects to `/`. The same file feeds the quote share card (`text`, or the older `quote` key).
+`/quotes` lists every entry dated today or earlier, newest first, in one centered column. The quote text is left-justified. The attribution is on its own line, right-justified, in the speed color, with no leading dash. The whole list appears at once. The file stays at `site/quote-of-the-day/quotes.json`, so a nightly append still feeds the page. `/quote-of-the-day/` still redirects to `/`. The same file feeds the quote share card (`text`, or the older `quote` key).
 
 ### tweets.json (v2.43)
 `site/tweets/tweets.json` is the `/tweets` timeline. Newest first, UTF-8, 2-space indent. One object per tweet:
@@ -255,3 +255,5 @@ v2.41: `/tweets` is built from `inputs/tweets/YYYY-MM-DD.md`. A tweet is a times
 v2.42: a vault tweet header is `- 9:32 am —`, and the words are the indented lines under it. The builder strips `- ` and the trailing ` —`, then dedents the body. Only the first camera line is the photo. Another camera line is dropped instead of being added to the text. Raw photos in `inputs/tweets/` stay gitignored. The committed image is the EXIF-free webp.
 
 v2.43: each tweet on `/tweets` is the time, then the photo, then the text. `tweets.css` and `tweets.js` are `?v=2.43`.
+
+v2.44: on `/quotes`, each quote's text is left-justified. The attribution is on its own line, right-justified, in the speed color, with no leading dash. The column stays centered. `habits.css` and `quotes.js` on that page are `?v=2.44`.
