@@ -26,7 +26,12 @@ body.board .kicker,body.board .legend,body.board .stat,body.board .status{text-a
 body.board .legend{justify-content:center}
 body.board .foot{margin-left:auto;margin-right:auto;text-align:center}
 body.board .mast{--k:.9167;--kx:.8;width:100%;min-height:44px;margin:0 0 var(--habit-gap)}
+/* v2.34: the header line is a centered nav. links are the old grid-title size, italic, speed colour. separators are the foreground (white / black). the share-card replica still uses .line. */
 body.board .mast .line{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:44px;margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:normal;line-height:1.25;color:var(--c)}
+body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;width:100%;min-height:44px;margin:0;text-align:center;font-family:var(--mono);font-size:21px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:1.4;color:var(--c)}
+body.board .mast .pages a{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 12px;font-style:italic;color:var(--c);text-decoration:none;-webkit-tap-highlight-color:transparent}
+body.board .mast .pages a[aria-current="page"]{text-decoration:underline;text-underline-offset:.18em}
+body.board .mast .pages .sep{font-style:normal;color:var(--fg);pointer-events:none}
 body.board .mast .elsewhere{width:100%;margin:0}
 body.board .mast .social{width:100%;max-width:100%;margin:0;justify-content:space-between;align-items:center;gap:0}
 body.board .mast .social li{flex:0 1 44px;width:44px;min-width:0;max-width:44px;height:44px;display:flex;align-items:center;justify-content:center}
@@ -43,8 +48,9 @@ body.board .pad button[data-k="start"]{flex:0 1 auto;width:auto;min-width:44px;p
 body.board .pad button::before{width:100%;height:100%}
 body.board .tap-hint{display:none}
 body.board .foot{flex:none}
-/* v2.27: daily quotes, under the konami row. the list is inserted whole, after that row finishes. */
+/* v2.34: the quote list lives on /quotes, inside .copy, and paints all at once. */
 body.board .quotes{list-style:none;width:100%;margin:48px 0 8px;padding:0;text-align:center}
+body.board .copy > .quotes{margin-top:0}
 body.board .quotes,
 body.board .quotes li{animation:none;transition:none;text-align:center}
 body.board .quotes li + li{margin-top:35.5px}
@@ -58,11 +64,11 @@ body.board .quotes .by{margin-top:4px;font-size:15px;line-height:1.5;color:var(-
 .home{display:inline-block;margin:0 0 8px;font-size:14px;line-height:1.5;color:var(--c);letter-spacing:.02em}
 body.board .home{margin:0 0 var(--habit-gap)}
 .home:hover,.home:focus-visible{color:var(--c)}
-/* same heading as /song-of-the-day/ and /daily-update/: .kicker{font-size:21px;line-height:1.4;color:var(--c)} */
-.kicker{font-size:21px;line-height:1.4;color:var(--c)}
+/* v2.34: grid titles use the old header size (14px, 13px on a phone). the nav took 21px. */
+.kicker{font-size:14px;line-height:1.25;color:var(--c)}
 .trackers{display:flex;flex-direction:column;gap:var(--habit-gap)}
 .tracker{display:flex;flex-direction:column;gap:var(--habit-gap)}
-.tracker .kicker{flex:none;margin:0;font-size:21px;line-height:1.4}
+.tracker .kicker{flex:none;margin:0;font-size:14px;line-height:1.25}
 
 /* the square size comes from the width. aspect-ratio reserves that height before the cells exist, so the legend never drops away while the page types in. the legend lives in .fit, so the habit gap below .fit is the gap between the graph and its stats. */
 .fit{flex:none;height:auto;min-height:0;width:100%;display:flex;flex-direction:column;gap:4px;overflow:visible}
@@ -162,8 +168,9 @@ body.day .home{margin:0 0 22px}
   body.board .stage{padding:32px 0 var(--habit-gap)}
   body.board .mast{--k:.8333;--kx:.7143}
   body.board .mast .line{font-size:13px}
+  body.board .mast .pages{font-size:17px}
   body.board .copy{min-width:0}
-  .kicker,.tracker .kicker{font-size:17px}
+  .kicker,.tracker .kicker{font-size:13px}
   .daysec h2{font-size:17px}
   body.board .graph{width:100%;--gap:1px;--lab:0px;--mh:13px;grid-template-columns:minmax(0,1fr);column-gap:0}
   body.board .months{grid-column:1}
@@ -181,6 +188,7 @@ body.day .home{margin:0 0 22px}
   body.board .notify .mail input{width:100%;max-width:none;flex:none;margin:0;transform:none}
   body.board .signup{margin-right:auto}
   body.board .quotes{margin-top:36px}
+  body.board .copy > .quotes{margin-top:0}
   body.board .quotes li + li{margin-top:27.5px}
   body.board .quotes .d{font-size:12px}
   body.board .quotes .q{font-size:14px;line-height:1.6}

@@ -2,6 +2,7 @@
    the lightbox is the full viewport. the photo box is the aspect ratio, contained. */
 body.snaps .stage{flex-direction:column;align-items:center;width:100%}
 body.snaps .gallery{width:min(1280px,calc(100vw - 32px));margin:0 auto 32px;position:relative;z-index:2}
+/* v2.34: month headings stay at the old header size, which is now the grid-title size. */
 .month h2{margin:22px 0 10px;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;line-height:1.25;color:var(--c);text-shadow:0 0 8px rgba(var(--bg-rgb),.8)}
 .month:first-child h2{margin-top:4px}
 .grid{display:flex;align-items:flex-start;gap:8px}
