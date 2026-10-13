@@ -1,4 +1,4 @@
-/* jaytha.ninja/ (v2.16): four year graphs in one column (sleep, fitness, code, journal). paths stay root-absolute so the homepage loads /habits/habits.css, /habits/habits.js, /habits/workouts.json, /habits/cursor.json, /habits/sleep.json, /habits/journal.json, /habits/journal-jarvis.json, /daily-update/recaps.json, and /habits/trackers.json. five colour steps plus empty. fitness, journal, and sleep cut those steps from their own nonzero days. code uses a fixed scale set from the days since 2026-09-29. from that same day a daily update adds one note on top of the obsidian count, and the hover says "N notes". jarvis counts in journal-jarvis.json add on top of that. a jarvis day says "N journal entries", and a daily-update day keeps the note line and adds "+ N entries". a failed recaps or jarvis load keeps the counts already on the grid. a streak day uses that same scale. longest and current stay. */
+/* jaytha.ninja/ (v2.37): five year graphs in one column (faith, sleep, fitness, code, journal). paths stay root-absolute so the homepage loads /habits/habits.css, /habits/habits.js, /habits/faith.json, /habits/workouts.json, /habits/cursor.json, /habits/sleep.json, /habits/journal.json, /habits/journal-jarvis.json, /daily-update/recaps.json, and /habits/trackers.json. faith is yes or no: every day from the start in faith.json through today (America/Chicago) is a full cell unless that date is listed in no. a new day is yes without a commit. five colour steps plus empty. fitness, journal, and sleep cut those steps from their own nonzero days. code uses a fixed scale set from the days since 2026-09-29. from that same day a daily update adds one note on top of the obsidian count, and the hover says "N notes". jarvis counts in journal-jarvis.json add on top of that. a jarvis day says "N journal entries", and a daily-update day keeps the note line and adds "+ N entries". a failed recaps or jarvis load keeps the counts already on the grid. a streak day uses that same scale. longest and current stay. */
 (() => {
 const VER = 'habits-1.84';
 const TIMING = {kickerSpeed: 55, window: 4, afterKicker: 280};
@@ -169,6 +169,8 @@ const SLEEP_STREAK = 70;
    earlier days stay the obsidian counts in journal.json. a failed recaps load keeps those counts.
    journal-jarvis.json adds its count on top of whatever is already there. a failed load changes nothing. */
 const JOURNAL_FROM = '2026-09-29';
+/* faith.json names the first tracked day and the dates that are no. every other day from that start through today is yes. */
+const FAITH_FROM = '2026-08-25';
 function computeStats(days, start, today, metric){
   let total = 0, longest = 0, run = 0, bestN = 0;
   let bestDay = '', bestMo = '', bestMoN = 0;
@@ -281,6 +283,7 @@ function daysOf(section, data){
     });
     return days;
   }
+  if (kind === 'faith') return faithDays(section, data);
   if (kind === 'sleep'){
     const days = {};
     const raw = (data && data.days) || {};
@@ -295,6 +298,17 @@ function daysOf(section, data){
   }
   return (data && data.days) || {};
 }
+function faithDays(section, data){
+  const start = (data && typeof data.start === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(data.start)) ? data.start : FAITH_FROM;
+  const nos = new Set(Array.isArray(data && data.no) ? data.no.filter(d => typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d)) : []);
+  const today = section.dataset.today || chicagoToday();
+  section.dataset.since = start;
+  const days = {};
+  for (let iso = start; iso <= today; iso = addDays(iso, 1)){
+    if (!nos.has(iso)) days[iso] = {total: 1};
+  }
+  return days;
+}
 function apply(section, days, meta){
   const kind = section.dataset.kind || '';
   const unit = section.dataset.unit || 'contribution';
@@ -302,6 +316,19 @@ function apply(section, days, meta){
   const today = section.dataset.today;
   const start = section.dataset.start;
   const cells = [...section.querySelectorAll('.cell')];
+  if (kind === 'faith'){
+    const since = section.dataset.since || '';
+    cells.forEach(cell => {
+      const iso = cell.dataset.date;
+      if (iso > today) return;
+      const yes = !!since && iso >= since && !!((days[iso] && days[iso].total) > 0);
+      final.set(cell, {lv: yes ? 5 : 0, n: yes ? 1 : 0});
+      if (!since || iso < since) labelCell(cell, shortDate(iso));
+      else labelCell(cell, shortDate(iso) + ': ' + (yes ? 'yes' : 'no'));
+    });
+    fillStats(section, computeStats(days, start, today));
+    return;
+  }
   const dates = cells.map(c => c.dataset.date);
   const measure = day => {
     if (!day) return 0;
