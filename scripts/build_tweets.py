@@ -3,8 +3,9 @@
 
 Tess writes one file per day, inputs/tweets/YYYY-MM-DD.md. An exchange
 starts with a header. The indented lines under it are Jay's message.
-A reply is an indented line that starts with a name and a colon. More
-indented lines stay with that reply:
+A reply is an indented line whose name is in KNOWN_AUTHORS (tess, for now).
+Anything else, including links and "ps:", stays in the tweet text. More
+indented lines stay with that reply, and the reply text is kept as written:
 
 - 9:32 am —
   the tweet
@@ -47,6 +48,7 @@ HEADER = re.compile(
 )
 PHOTO_LINE = re.compile(r"^📷\ufe0f?[ \t]+(\S+)\s*$")
 AUTHOR_LINE = re.compile(r"^(?P<name>[A-Za-z][A-Za-z0-9_-]{0,32}):[ \t]*(?P<rest>.*)$")
+KNOWN_AUTHORS = ["tess"]
 
 
 @dataclass
@@ -113,10 +115,22 @@ def leading_space(line: str) -> str:
     return line[:index]
 
 
-def reply_author(line: str) -> re.Match[str] | None:
+def reply_author(line: str) -> tuple[str, str] | None:
+    """A known reply, or None when the line stays in the current text.
+
+    Only an indented name from KNOWN_AUTHORS starts a reply. A line such as
+    "ps:" or a link stays tweet text.
+    """
     if not line or line[0] not in " \t":
         return None
-    return AUTHOR_LINE.match(line.strip())
+    match = AUTHOR_LINE.match(line.strip())
+    if not match:
+        return None
+    wanted = match.group("name").lower()
+    for name in KNOWN_AUTHORS:
+        if name.lower() == wanted:
+            return name, match.group("rest")
+    return None
 
 
 def finish(exchange: Exchange) -> Exchange:
@@ -153,8 +167,8 @@ def parse_day(path: Path) -> list[Exchange]:
             continue
         reply = reply_author(line)
         if reply:
-            rest = reply.group("rest")
-            message = Message(author=reply.group("name").lower(), indent=leading_space(line))
+            name, rest = reply
+            message = Message(author=name, indent=leading_space(line))
             if rest:
                 message.lines.append(rest)
             current.messages.append(message)
