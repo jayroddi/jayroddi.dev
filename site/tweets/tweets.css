@@ -1,0 +1,15 @@
+/* v2.40: /tweets timeline. centered, newest first. a photo sits above its text. */
+body.board .tweets{list-style:none;width:100%;margin:0;padding:0;text-align:center}
+body.board .tweets li{text-align:center}
+body.board .tweets li + li{margin-top:28px;padding-top:28px;border-top:1px solid rgba(var(--fg-rgb),.14)}
+body.board .tweets .pic{display:block;width:auto;max-width:100%;height:auto;margin:0 auto 12px}
+body.board .tweets .txt,
+body.board .tweets .when{margin:0;text-align:center;font-family:var(--mono);font-weight:500}
+body.board .tweets .txt{font-size:16px;line-height:1.65;color:var(--ink-2);white-space:pre-line;overflow-wrap:anywhere}
+body.board .tweets .when{margin-top:8px;font-size:14px;line-height:1.5;color:rgba(var(--c-rgb),.75)}
+body.board .tweets .empty .when{margin-top:0}
+@media (max-width:760px){
+  body.board .tweets li + li{margin-top:22px;padding-top:22px}
+  body.board .tweets .txt{font-size:14px;line-height:1.6}
+  body.board .tweets .when{font-size:12px}
+}
