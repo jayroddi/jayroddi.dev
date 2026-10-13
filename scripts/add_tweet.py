@@ -113,22 +113,43 @@ def main() -> None:
 
     when = parse_ts(args.ts)
     stamp = when.isoformat(timespec="seconds")
+    def jay_text(row: dict) -> str:
+        messages = row.get("messages")
+        if isinstance(messages, list):
+            for message in messages:
+                if isinstance(message, dict) and str(message.get("author", "")).lower() == "jay":
+                    return str(message.get("text", "")).strip()
+        return str(row.get("text", "")).strip()
+
+    def photo_used(name: str) -> bool:
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
+            if row.get("photo") == name:
+                return True
+            messages = row.get("messages")
+            if isinstance(messages, list) and any(
+                isinstance(message, dict) and message.get("photo") == name for message in messages
+            ):
+                return True
+        return False
+
     rows = load()
     for row in rows:
-        if isinstance(row, dict) and row.get("ts") == stamp and str(row.get("text", "")).strip() == text:
+        if isinstance(row, dict) and row.get("ts") == stamp and jay_text(row) == text:
             print(f"add_tweet: already there ({stamp})")
             return
 
-    entry = {"ts": stamp, "text": text}
+    jay = {"author": "jay", "text": text}
+    entry = {"ts": stamp, "messages": [jay]}
     if args.photo:
         name = photo_name(when, ".webp")
-        used = any(isinstance(row, dict) and row.get("photo") == name for row in rows)
-        if used or (PHOTOS / name).exists():
+        if photo_used(name) or (PHOTOS / name).exists():
             raise SystemExit(f"add_tweet: {name} is already used")
         width, height = save_photo(args.photo, PHOTOS / name)
-        entry["photo"] = name
-        entry["w"] = width
-        entry["h"] = height
+        jay["photo"] = name
+        jay["w"] = width
+        jay["h"] = height
 
     rows.append(entry)
 
@@ -140,7 +161,7 @@ def main() -> None:
 
     rows.sort(key=instant, reverse=True)
     save(rows)
-    print(f"add_tweet: {stamp}" + (f" photo {entry['photo']}" if entry.get("photo") else ""))
+    print(f"add_tweet: {stamp}" + (f" photo {jay['photo']}" if jay.get("photo") else ""))
 
 
 if __name__ == "__main__":

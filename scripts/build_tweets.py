@@ -1,19 +1,24 @@
 #!/usr/bin/env python3
 """Rebuild site/tweets/tweets.json from the vault log.
 
-Tess writes one file per day, inputs/tweets/YYYY-MM-DD.md. A tweet starts
-with a header and the words sit on indented lines under it:
+Tess writes one file per day, inputs/tweets/YYYY-MM-DD.md. An exchange
+starts with a header. The indented lines under it are Jay's message.
+A reply is an indented line that starts with a name and a colon. More
+indented lines stay with that reply:
 
 - 9:32 am —
   the tweet
   another line
   📷 2026-10-13-0932.jpg
+  tess: a reply
+  that continues
 
-The header loses the leading "- " and the trailing " —". The body is
-dedented. Only the first camera line is the photo. Later camera lines are
-dropped, so they do not become text. The photo file sits in that same
-folder and is not committed. The published copy is an EXIF-free webp.
-Only tweets at or after 2026-10-13 09:30 America/Chicago are published.
+The header loses the leading "- " and the trailing " —". Jay's body is
+dedented. Only the first camera line on a message is its photo. Later
+camera lines are dropped, so they do not become text. The photo file sits
+in that same folder and is not committed. The published copy is an
+EXIF-free webp. Only exchanges at or after 2026-10-13 09:30
+America/Chicago are published.
 """
 
 from __future__ import annotations
@@ -41,14 +46,22 @@ HEADER = re.compile(
     re.IGNORECASE,
 )
 PHOTO_LINE = re.compile(r"^📷\ufe0f?[ \t]+(\S+)\s*$")
+AUTHOR_LINE = re.compile(r"^(?P<name>[A-Za-z][A-Za-z0-9_-]{0,32}):[ \t]*(?P<rest>.*)$")
 
 
 @dataclass
-class Tweet:
-    when: datetime
-    text: str
-    photo: str = ""
+class Message:
+    author: str
     lines: list[str] = field(default_factory=list)
+    photo: str = ""
+    text: str = ""
+    indent: str = ""
+
+
+@dataclass
+class Exchange:
+    when: datetime
+    messages: list[Message] = field(default_factory=list)
 
 
 def clock(hour: int, minute: int, ap: str | None) -> tuple[int, int] | None:
@@ -93,33 +106,72 @@ def photo_name(line: str) -> str | None:
     return match.group(1) if match else ""
 
 
-def parse_day(path: Path) -> list[Tweet]:
+def leading_space(line: str) -> str:
+    index = 0
+    while index < len(line) and line[index] in " \t":
+        index += 1
+    return line[:index]
+
+
+def reply_author(line: str) -> re.Match[str] | None:
+    if not line or line[0] not in " \t":
+        return None
+    return AUTHOR_LINE.match(line.strip())
+
+
+def finish(exchange: Exchange) -> Exchange:
+    kept: list[Message] = []
+    for message in exchange.messages:
+        message.text = textwrap.dedent("\n".join(message.lines)).strip()
+        if message.text or message.photo:
+            kept.append(message)
+    exchange.messages = kept
+    return exchange
+
+
+def parse_day(path: Path) -> list[Exchange]:
     match = DAY_FILE.match(path.name)
     if not match:
         return []
     year, month, day = (int(part) for part in match.group(1).split("-"))
-    tweets: list[Tweet] = []
-    current: Tweet | None = None
+    exchanges: list[Exchange] = []
+    current: Exchange | None = None
     for raw in path.read_text(encoding="utf-8").splitlines():
         line = raw.rstrip("\r")
         named = photo_name(line)
         if named is not None:
-            if current is not None and named and not current.photo:
-                current.photo = named
+            if current is not None and current.messages and named and not current.messages[-1].photo:
+                current.messages[-1].photo = named
             continue
         when = header_when(line, year, month, day)
         if when is not None:
             if current is not None:
-                tweets.append(current)
-            current = Tweet(when=when, text="")
+                exchanges.append(finish(current))
+            current = Exchange(when=when, messages=[Message(author="jay")])
             continue
-        if current is not None and (not line or line[0] in " \t"):
-            current.lines.append(line)
+        if current is None or not (not line or line[0] in " \t"):
+            continue
+        reply = reply_author(line)
+        if reply:
+            rest = reply.group("rest")
+            message = Message(author=reply.group("name").lower(), indent=leading_space(line))
+            if rest:
+                message.lines.append(rest)
+            current.messages.append(message)
+            continue
+        message = current.messages[-1]
+        if message.author == "jay":
+            message.lines.append(line)
+            continue
+        if not line.strip():
+            message.lines.append("")
+        elif message.indent and line.startswith(message.indent):
+            message.lines.append(line[len(message.indent):])
+        else:
+            message.lines.append(line.strip())
     if current is not None:
-        tweets.append(current)
-    for tweet in tweets:
-        tweet.text = textwrap.dedent("\n".join(tweet.lines)).strip()
-    return [tweet for tweet in tweets if tweet.text]
+        exchanges.append(finish(current))
+    return [exchange for exchange in exchanges if exchange.messages]
 
 
 def find_photo(folder: Path, name: str) -> Path | None:
@@ -170,34 +222,65 @@ def published_name(when: datetime, source_name: str) -> str:
     return when.strftime("%Y-%m-%d-%H%M") + ".webp"
 
 
+def message_row(message: Message, folder: Path, when: datetime) -> dict | None:
+    item: dict = {"author": message.author}
+    if message.text:
+        item["text"] = message.text
+    if message.photo:
+        src = find_photo(folder, message.photo)
+        if src is None:
+            print(f"build_tweets: missing photo {message.photo}", file=sys.stderr)
+        else:
+            name = published_name(when, src.name)
+            width, height = save_photo(src, PHOTOS / name)
+            item["photo"] = name
+            item["w"] = width
+            item["h"] = height
+    if "text" not in item and "photo" not in item:
+        return None
+    return item
+
+
 def build(log_dir: Path = LOG) -> list[dict]:
     rows: list[dict] = []
     if not log_dir.is_dir():
         return rows
     for path in sorted(log_dir.glob("*.md")):
-        for tweet in parse_day(path):
-            if tweet.when < CUTOFF:
+        for exchange in parse_day(path):
+            if exchange.when < CUTOFF:
                 continue
-            entry = {"ts": tweet.when.isoformat(timespec="seconds"), "text": tweet.text}
-            if tweet.photo:
-                src = find_photo(path.parent, tweet.photo)
-                if src is None:
-                    print(f"build_tweets: missing photo {tweet.photo}", file=sys.stderr)
-                else:
-                    name = published_name(tweet.when, src.name)
-                    width, height = save_photo(src, PHOTOS / name)
-                    entry["photo"] = name
-                    entry["w"] = width
-                    entry["h"] = height
-            rows.append(entry)
+            messages = []
+            for message in exchange.messages:
+                item = message_row(message, path.parent, exchange.when)
+                if item is not None:
+                    messages.append(item)
+            if messages:
+                rows.append({"ts": exchange.when.isoformat(timespec="seconds"), "messages": messages})
     rows.sort(key=lambda row: row["ts"], reverse=True)
     return rows
+
+
+def photo_names(rows: list[dict]) -> set[str]:
+    names: set[str] = set()
+    for row in rows:
+        messages = row.get("messages")
+        if not isinstance(messages, list):
+            photo = row.get("photo")
+            if isinstance(photo, str) and photo:
+                names.add(photo)
+            continue
+        for message in messages:
+            if isinstance(message, dict):
+                photo = message.get("photo")
+                if isinstance(photo, str) and photo:
+                    names.add(photo)
+    return names
 
 
 def write(rows: list[dict]) -> None:
     FEED.parent.mkdir(parents=True, exist_ok=True)
     PHOTOS.mkdir(parents=True, exist_ok=True)
-    keep = {row.get("photo") for row in rows if row.get("photo")}
+    keep = photo_names(rows)
     for child in PHOTOS.iterdir():
         if child.name == ".gitkeep" or not child.is_file():
             continue
