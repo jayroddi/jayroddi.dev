@@ -1,9 +1,9 @@
-/* v2.41: /tweets. newest first from /tweets/tweets.json.
+/* v2.43: /tweets. newest first from /tweets/tweets.json.
    one object: ts (ISO with an explicit offset), text, optional photo
    (a file name in /tweets/photos/) plus w and h when that photo is present.
-   the photo sits above the text and its alt is empty. the time is
-   America/Chicago, "oct 13, 2026 · 9:18 am". a timestamp with no offset,
-   and one still in the future, stays hidden. */
+   each tweet is the Chicago time, then the photo, then the text.
+   the photo alt is empty. the time reads "oct 13, 2026 · 9:18 am".
+   a timestamp with no offset, and one still in the future, stays hidden. */
 (() => {
   const host = document.querySelector('.copy');
   if (!host) return;
@@ -60,6 +60,13 @@
     const frag = document.createDocumentFragment();
     list.forEach(entry => {
       const li = document.createElement('li');
+      const whenP = document.createElement('p');
+      whenP.className = 'when';
+      const time = document.createElement('time');
+      time.dateTime = entry.ts;
+      time.textContent = entry.label;
+      whenP.appendChild(time);
+      li.appendChild(whenP);
       const src = photoURL(entry.photo);
       if (src){
         const img = document.createElement('img');
@@ -76,13 +83,7 @@
       const text = document.createElement('p');
       text.className = 'txt';
       text.textContent = entry.text;
-      const whenP = document.createElement('p');
-      whenP.className = 'when';
-      const time = document.createElement('time');
-      time.dateTime = entry.ts;
-      time.textContent = entry.label;
-      whenP.appendChild(time);
-      li.append(text, whenP);
+      li.appendChild(text);
       frag.appendChild(li);
     });
     ol.appendChild(frag);
