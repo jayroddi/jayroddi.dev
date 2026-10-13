@@ -391,7 +391,7 @@ const rain = JayRain.Rain(document.getElementById('rain'), {
   palette: (x, w, r) => r < .84 ? T : PALE_TEAL,
   bands: (w, H) => [{y0: 0, y1: H, perCol: mob() ? 1.6 : 2.1, lenMin: 8, lenMax: 30, alpha: .56, stepMin: 60, stepMax: 170, colDensity: () => 1}],
   alphaAt: (x, y, R) => 1 - .45 * JayRain.smooth(R.H * .55, R.H, y),
-  partSel: '.copy, .month h2', partPad: 50, partFloor: .3
+  partSel: '.copy, .gallery, .foot', partPad: 50, partFloor: .25
 });
 JayRain.register(rain);
 document.fonts.ready.then(() => {

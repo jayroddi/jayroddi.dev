@@ -10,14 +10,12 @@
   const T=[26,173,179], RAIN_ORANGE=[255,77,26];
   // v1.53: light theme (prefers-color-scheme): on white every glyph is the state colour itself (deeper teal #127F84 (v1.60; was #13888D), orange #E85D0C (v1.58; was #D93D11), gold #A67C00), no white heads
   const LIGHT_Q=matchMedia('(prefers-color-scheme: light)'), L_TEAL=[18,127,132], L_ORANGE=[232,93,12], L_GOLD=[166,124,0];
+  const RAIN_FLOOR=.25, RAIN_CONTENT='.copy, .gallery, .foot', rainMobile=()=>matchMedia('(max-width: 760px)').matches;
   const modeName=()=>document.documentElement.dataset.mode==='fast'?'fast':'normal';
 function Rain(cv, o){
-  // v2.30: glyphs behind text stay at 25% (was 50%, v2.29; 75% in v2.04 / v1.13). subpages passed .3, which dimmed the same drops and skipped glyphs under alpha .012, so the page looked thinner. every page uses that floor. the footer is not a dim target (the homepage selector is .copy only).
-  o.partFloor = .25;
-  if (o.partSel){
-    const sel = String(o.partSel).split(',').map(s => s.trim()).filter(s => s && s !== '.foot');
-    o.partSel = sel.length ? sel.join(', ') : null;
-  }
+  // v2.50: one floor. glyphs behind content are 25% on home, snaps, tweets, quotes, and confirmed (was a caller .3, and snaps left the gallery at full strength). a phone applies that floor to the whole viewport. desktop measures the column, the snaps gallery, and the footer.
+  o.partFloor = RAIN_FLOOR;
+  o.partSel = RAIN_CONTENT;
   const R = {cv, o, drops:[], rects:[], ptr:{x:-9999,y:-9999}, last:0};
   // v1.14 preview: both palette families ease together, including drops already mid-fall.
   R.tint = o.tint ? {from: o.tint, to: o.tint, t0: 0, dur: 1} : null;
@@ -70,7 +68,10 @@ function Rain(cv, o){
     }
     R.measure();
   };
-  R.measure = () => { R.rects = o.partSel ? [...document.querySelectorAll(o.partSel)].map(el => { const r = el.getBoundingClientRect(); return {l:r.left, t:r.top, r:r.right, b:r.bottom}; }) : []; };
+  R.measure = () => {
+    if (rainMobile()){ R.rects = [{l:0, t:0, r:R.w, b:R.H}]; return; }
+    R.rects = o.partSel ? [...document.querySelectorAll(o.partSel)].map(el => { const r = el.getBoundingClientRect(); return {l:r.left, t:r.top, r:r.right, b:r.bottom}; }).filter(q => q.r > q.l && q.b > q.t) : [];
+  };
   const part = (x, y) => { let f = 1; for (const q of R.rects){ const dx = Math.max(q.l - x, 0, x - q.r), dy = Math.max(q.t - y, 0, y - q.b); const d = Math.hypot(dx, dy); f = Math.min(f, o.partFloor + (1 - o.partFloor)*sm(0, o.partPad, d)); } return f; };
   R.frame = (now) => {
     requestAnimationFrame(R.frame);
@@ -282,6 +283,6 @@ function Rain(cv, o){
   const newDay=cb=>{dayCb=cb||null};
   // v2.03 (jay 2026.10.10): the intro's resting caret goes away. the ninja (first in the social row) takes that pulse. pages call this from the same place they used to park the caret.
   const introDone=()=>{document.querySelectorAll('.cursor').forEach(el=>el.remove());document.documentElement.classList.add('intro-done')};
-  window.JayRain={Rain,register,mode,dump,rendered:markRendered,smooth:sm,returning,seen,burst,gold,goldOff,golden:()=>auLock,day:ctDay,newDay,ref,introDone};
+  window.JayRain={Rain,register,mode,dump,rendered:markRendered,smooth:sm,returning,seen,burst,gold,goldOff,golden:()=>auLock,day:ctDay,newDay,ref,introDone,floor:RAIN_FLOOR};
   if(document.readyState!=='loading')boot();else addEventListener('DOMContentLoaded',boot,{once:true});
 })();

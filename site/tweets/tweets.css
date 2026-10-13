@@ -1,4 +1,4 @@
-/* v2.49: clear glass. dark mode keeps a softer light edge. light mode uses a faint dark outline so the glass shows on white. */
+/* v2.50: the bubble interior is clear. no fill, no backdrop blur. the glass is a 1.5px gradient ring and a soft outer shadow. light mode keeps a dark edge so it shows on white. */
 body.board .tweets{list-style:none;width:100%;margin:0;padding:0;text-align:center}
 body.board .tweets li{text-align:center}
 body.board .tweets li + li{margin-top:28px;padding-top:28px;border-top:1px solid rgba(var(--fg-rgb),.14)}
@@ -13,12 +13,14 @@ body.board .tweets .txt,
 body.board .tweets .when{margin:0;font-family:var(--mono);font-weight:500}
 body.board .tweets .who{margin-bottom:4px;font-size:12px;line-height:1.4;color:var(--ink-3)}
 body.board .tweets .msg.right .who{color:var(--c)}
-body.board .tweets .bubble{display:inline-block;max-width:100%;box-sizing:border-box;margin:0;padding:10px 14px;border:1px solid rgba(255,255,255,.55);border-radius:18px;background:transparent;box-shadow:inset 0 1px 0 rgba(255,255,255,.7);text-align:left;vertical-align:top;-webkit-backdrop-filter:blur(32px) saturate(1.8);backdrop-filter:blur(32px) saturate(1.8)}
+body.board .tweets .bubble{position:relative;display:inline-block;max-width:100%;box-sizing:border-box;margin:0;padding:10px 14px;border:0;border-radius:18px;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 1px 2px rgba(0,0,0,.28),0 8px 18px rgba(0,0,0,.16);text-align:left;vertical-align:top}
+body.board .tweets .bubble::before{content:"";position:absolute;inset:0;box-sizing:border-box;padding:1.5px;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(255,255,255,.16));pointer-events:none;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude}
 body.board .tweets .msg.right .bubble{border-bottom-right-radius:7px}
 body.board .tweets .msg.left .bubble{border-bottom-left-radius:7px}
 body.board .tweets .txt{font-size:16px;line-height:1.65;color:var(--ink);text-align:left;white-space:pre-line;overflow-wrap:anywhere;text-shadow:0 0 8px var(--bg),0 0 2px var(--bg)}
 @media (prefers-color-scheme:light){
-  body.board .tweets .bubble{border-color:rgba(0,0,0,.12);box-shadow:inset 0 1px 0 rgba(255,255,255,.65)}
+  body.board .tweets .bubble{box-shadow:0 1px 2px rgba(0,0,0,.10),0 6px 14px rgba(0,0,0,.07)}
+  body.board .tweets .bubble::before{background:linear-gradient(180deg,rgba(0,0,0,.22),rgba(0,0,0,.08) 46%,rgba(255,255,255,.7))}
 }
 body.board .tweets .when{margin-bottom:12px;font-size:14px;line-height:1.5;text-align:center;color:rgba(var(--c-rgb),.75)}
 body.board .tweets .empty .when{margin-bottom:0}
