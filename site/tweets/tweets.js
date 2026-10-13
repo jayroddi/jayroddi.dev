@@ -1,7 +1,9 @@
-/* v2.40: /tweets. newest first from /tweets/tweets.json.
-   one object: ts (ISO), text, optional photo (a file name in /tweets/photos/).
-   the photo sits above the text. the time is America/Chicago, "oct 13, 2026 · 9:18 am".
-   a timestamp still in the future stays hidden. */
+/* v2.41: /tweets. newest first from /tweets/tweets.json.
+   one object: ts (ISO with an explicit offset), text, optional photo
+   (a file name in /tweets/photos/) plus w and h when that photo is present.
+   the photo sits above the text and its alt is empty. the time is
+   America/Chicago, "oct 13, 2026 · 9:18 am". a timestamp with no offset,
+   and one still in the future, stays hidden. */
 (() => {
   const host = document.querySelector('.copy');
   if (!host) return;
@@ -63,7 +65,7 @@
         const img = document.createElement('img');
         img.className = 'pic';
         img.src = src;
-        img.alt = entry.text;
+        img.alt = '';
         img.loading = 'lazy';
         img.decoding = 'async';
         if (entry.w) img.width = entry.w;
@@ -89,7 +91,8 @@
   fetch('/tweets/tweets.json', {cache: 'no-cache'}).then(r => r.ok ? r.json() : Promise.reject()).then(rows => {
     if (!Array.isArray(rows)) return;
     const now = Date.now();
-    const list = rows.filter(entry => entry && typeof entry.ts === 'string' && typeof entry.text === 'string' && entry.text.trim())
+    const offset = /(?:Z|[+-]\d{2}:?\d{2})$/;
+    const list = rows.filter(entry => entry && typeof entry.ts === 'string' && offset.test(entry.ts.trim()) && typeof entry.text === 'string' && entry.text.trim())
       .map(entry => ({ts: entry.ts, text: entry.text.trim(), photo: entry.photo, w: Number(entry.w) || 0, h: Number(entry.h) || 0, at: Date.parse(entry.ts)}))
       .filter(entry => Number.isFinite(entry.at) && entry.at <= now)
       .sort((a, b) => b.at - a.at)

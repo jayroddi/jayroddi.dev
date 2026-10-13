@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 """Append one tweet to site/tweets/tweets.json.
 
-  python3 scripts/add_tweet.py "the words"
-  python3 scripts/add_tweet.py "the words" --photo shot.jpg
+  python3 scripts/add_tweet.py "the words" --ts 2026-10-13T09:30:00-05:00
+  python3 scripts/add_tweet.py "the words" --photo shot.jpg --ts 2026-10-13T09:30:00-05:00
   python3 scripts/add_tweet.py --text "line one
-line two" --ts 2026-10-13T09:18 --photo shot.jpg
+line two" --ts 2026-10-13T09:30:00-05:00 --photo shot.jpg
 
-ts with no offset is America/Chicago. The photo is optional. Pillow resizes
-its long edge to 1600px, strips metadata, and writes
-site/tweets/photos/YYYY-MM-DD-HHMM.webp. That name is the tweet's
-America/Chicago time on a 24-hour clock (9:18am CT is 0918). Newest tweets
-stay at the top. The feed ships empty. A tweet with the same ts and text is
-left as it is.
+--ts must include an explicit offset (2026-10-13T09:30:00-05:00). The photo
+is optional. Pillow resizes its long edge to 1600px, strips metadata, and
+writes site/tweets/photos/YYYY-MM-DD-HHMM.webp plus w and h. That name is
+the tweet's America/Chicago time on a 24-hour clock. Newest tweets stay at
+the top. A tweet with the same ts and text is left as it is.
+
+python3 scripts/build_tweets.py rebuilds the feed from inputs/tweets/ and replaces tweets.json.
 """
 
 from __future__ import annotations
@@ -42,10 +43,10 @@ def parse_ts(raw: str | None) -> datetime:
     except ValueError as exc:
         raise SystemExit(f"add_tweet: ts must be ISO, got {raw!r}") from exc
     if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=CHICAGO)
-    else:
-        parsed = parsed.astimezone(CHICAGO)
-    return parsed.replace(microsecond=0)
+        raise SystemExit(
+            "add_tweet: ts needs an explicit offset, for example 2026-10-13T09:30:00-05:00"
+        )
+    return parsed.astimezone(CHICAGO).replace(microsecond=0)
 
 
 def load() -> list:
@@ -100,7 +101,7 @@ def main() -> None:
     parser.add_argument("words", nargs="?", help="tweet text")
     parser.add_argument("--text", help="tweet text (use this when it has more than one line)")
     parser.add_argument("--photo", type=Path, help="one image to place above the text")
-    parser.add_argument("--ts", help="ISO timestamp; no offset means America/Chicago")
+    parser.add_argument("--ts", help="ISO timestamp with an explicit offset")
     args = parser.parse_args()
     if args.words and args.text:
         raise SystemExit("add_tweet: pass the text once, either as the argument or as --text")
