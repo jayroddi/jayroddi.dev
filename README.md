@@ -265,3 +265,5 @@ v2.45: `/tweets` is a chat. Each exchange is `ts` plus `messages` (`author`, opt
 v2.46: an indented `name:` line is a reply only when the name is known. The list is `tess` for now. `ps:` and links stay in the tweet text. Jay's label stays the speed color. Other names are muted. Reply text is kept as written. `tweets.css` is `?v=2.46`.
 
 v2.47: each text block on `/tweets` sits in a frosted-glass bubble. The name stays above the bubble. Photos stay outside it, with rounded corners. The corner on the speaker's side is tighter. A browser without backdrop-filter gets a more opaque fill. `tweets.css` and `tweets.js` are `?v=2.47`.
+
+v2.48: the `/tweets` bubble has no fill, in either theme, including when backdrop-filter is missing. The glass is a stronger blur with a little saturate, a light 1px border, and an inset highlight along the top. The words stay readable. `tweets.css` is `?v=2.48`.

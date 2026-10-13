@@ -1,4 +1,4 @@
-/* v2.47: text sits in a frosted bubble. the name stays above it. photos stay outside, with rounded corners. */
+/* v2.48: the bubble is clear glass. no fill. blur, a light border, and an inner top highlight. */
 body.board .tweets{list-style:none;width:100%;margin:0;padding:0;text-align:center}
 body.board .tweets li{text-align:center}
 body.board .tweets li + li{margin-top:28px;padding-top:28px;border-top:1px solid rgba(var(--fg-rgb),.14)}
@@ -13,20 +13,12 @@ body.board .tweets .txt,
 body.board .tweets .when{margin:0;font-family:var(--mono);font-weight:500}
 body.board .tweets .who{margin-bottom:4px;font-size:12px;line-height:1.4;color:var(--ink-3)}
 body.board .tweets .msg.right .who{color:var(--c)}
-body.board .tweets .bubble{display:inline-block;max-width:100%;box-sizing:border-box;margin:0;padding:10px 14px;border:1px solid rgba(255,255,255,.28);border-radius:18px;background:rgba(8,12,14,.72);text-align:left;vertical-align:top}
+body.board .tweets .bubble{display:inline-block;max-width:100%;box-sizing:border-box;margin:0;padding:10px 14px;border:1px solid rgba(255,255,255,.72);border-radius:18px;background:transparent;box-shadow:inset 0 1px 0 rgba(255,255,255,.85);text-align:left;vertical-align:top;-webkit-backdrop-filter:blur(32px) saturate(1.8);backdrop-filter:blur(32px) saturate(1.8)}
 body.board .tweets .msg.right .bubble{border-bottom-right-radius:7px}
 body.board .tweets .msg.left .bubble{border-bottom-left-radius:7px}
-body.board .tweets .txt{font-size:16px;line-height:1.65;color:var(--ink-2);text-align:left;white-space:pre-line;overflow-wrap:anywhere}
-@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
-  body.board .tweets .bubble{background:rgba(8,12,14,.28);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4)}
-}
+body.board .tweets .txt{font-size:16px;line-height:1.65;color:var(--ink);text-align:left;white-space:pre-line;overflow-wrap:anywhere;text-shadow:0 0 8px var(--bg),0 0 2px var(--bg)}
 @media (prefers-color-scheme:light){
-  body.board .tweets .bubble{border-color:rgba(0,0,0,.12);background:rgba(255,255,255,.88)}
-}
-@media (prefers-color-scheme:light){
-  @supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
-    body.board .tweets .bubble{background:rgba(255,255,255,.5)}
-  }
+  body.board .tweets .bubble{border-color:rgba(255,255,255,.92);box-shadow:inset 0 1px 0 rgba(255,255,255,.98)}
 }
 body.board .tweets .when{margin-bottom:12px;font-size:14px;line-height:1.5;text-align:center;color:rgba(var(--c-rgb),.75)}
 body.board .tweets .empty .when{margin-bottom:0}
