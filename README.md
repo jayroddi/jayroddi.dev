@@ -30,14 +30,14 @@ A nightly drop appends that day's object at the top of the array. `date` is Amer
 
 `/quotes` lists every entry dated today or earlier, newest first, centered, in one block. The whole list appears at once. The file stays at `site/quote-of-the-day/quotes.json`, so a nightly append still feeds the page. `/quote-of-the-day/` still redirects to `/`. The same file feeds the quote share card (`text`, or the older `quote` key).
 
-### tweets.json (v2.42)
+### tweets.json (v2.43)
 `site/tweets/tweets.json` is the `/tweets` timeline. Newest first, UTF-8, 2-space indent. One object per tweet:
 
 ```json
 {"ts": "2026-10-13T09:30:00-05:00", "text": "the tweet", "photo": "2026-10-13-0930.webp", "w": 1600, "h": 900}
 ```
 
-`ts` is an ISO timestamp and it must include an explicit offset, such as `-05:00` or `Z`. A timestamp with no offset is not shown. `text` keeps the original casing and line breaks. `photo` is optional and is only a file name in `site/tweets/photos/` (one photo per tweet). The file name is `YYYY-MM-DD-HHMM.<ext>` from that tweet's America/Chicago time on a 24-hour clock: `2026-10-13-0930.webp` is 9:30am CT, and `2026-06-03-2105.jpg` is 9:05pm CT. When `photo` is present, `w` and `h` are the pixel width and height of that published file. The page shows the photo above the text, with `alt=""`, then the Chicago time as `oct 13, 2026 · 9:18 am`. A timestamp still in the future stays hidden. An empty list shows `no tweets yet`, centered, in lowercase. The sitemap stays `/` only. `/tweets` does not redirect home.
+`ts` is an ISO timestamp and it must include an explicit offset, such as `-05:00` or `Z`. A timestamp with no offset is not shown. `text` keeps the original casing and line breaks. `photo` is optional and is only a file name in `site/tweets/photos/` (one photo per tweet). The file name is `YYYY-MM-DD-HHMM.<ext>` from that tweet's America/Chicago time on a 24-hour clock: `2026-10-13-0930.webp` is 9:30am CT, and `2026-06-03-2105.jpg` is 9:05pm CT. When `photo` is present, `w` and `h` are the pixel width and height of that published file. The page shows the Chicago time first (`oct 13, 2026 · 9:18 am`), then the photo, then the text. The photo `alt` is empty. A timestamp still in the future stays hidden. An empty list shows `no tweets yet`, centered, in lowercase. The sitemap stays `/` only. `/tweets` does not redirect home.
 
 The source is the vault log `inputs/tweets/YYYY-MM-DD.md`. Tess starts a tweet with `- 9:32 am —`. The words are the indented lines under that header. The builder strips the leading `- ` and the trailing ` —`, then dedents the body. One photo is a camera line under the tweet. A second camera line is ignored, so the file name does not become part of the text. The raw file stays in that folder and is gitignored. The site commits only the optimized copy:
 
@@ -253,3 +253,5 @@ v2.40: the nav is `home // snaps // tweets // quotes` on `/`, `/snaps`, `/tweets
 v2.41: `/tweets` is built from `inputs/tweets/YYYY-MM-DD.md`. A tweet is a timestamped line. A photo is the next line, `  📷 YYYY-MM-DD-HHMM.<ext>`, and that file sits in the same folder. `python3 scripts/build_tweets.py` publishes only tweets at or after 2026-10-13 09:30 America/Chicago. `ts` must include an explicit offset. A photo's `w` and `h` are the published pixel size, and the image `alt` is empty. An empty feed shows `no tweets yet`. `tweets.js` is `?v=2.41`.
 
 v2.42: a vault tweet header is `- 9:32 am —`, and the words are the indented lines under it. The builder strips `- ` and the trailing ` —`, then dedents the body. Only the first camera line is the photo. Another camera line is dropped instead of being added to the text. Raw photos in `inputs/tweets/` stay gitignored. The committed image is the EXIF-free webp.
+
+v2.43: each tweet on `/tweets` is the time, then the photo, then the text. `tweets.css` and `tweets.js` are `?v=2.43`.
