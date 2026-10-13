@@ -283,3 +283,5 @@ v2.54: the 2:42 pm exchange includes its photo, `2026-10-13-1442.webp`, EXIF-fre
 v2.55: rain behind content is 25% on home, snaps, tweets, quotes, and confirmed. On a phone that floor is the whole screen. `rain.css`, `rain.js`, `snaps.js`, `tweets.js`, `habits.js`, and `quotes.js` are `?v=2.55`.
 
 v2.56: `/tweets` adds the 4:16 pm exchange. Jay's photo is `2026-10-13-1616.webp`, EXIF-free. Tess answers the slim jim and jump-line note.
+
+v2.57: `/tweets` adds the 5:27 pm exchange. Jay's photo is `2026-10-13-1727.webp`, EXIF-free. Tess reads the boarded-off ramp as a closed feature.
