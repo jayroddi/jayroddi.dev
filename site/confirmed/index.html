@@ -82,7 +82,7 @@ a:focus-visible{outline:2px solid var(--c);outline-offset:2px}
 <meta name="twitter:image" content="https://jaytha.ninja/og-image.png?v=2.26">
 <meta name="twitter:image:alt" content="don't tell your dreams to everybody around / some people smile, but wanna see you down / keep it quiet, don't make a sound / let your success be what shakes the ground">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"jaytha.ninja","url":"https://jaytha.ninja/"}</script>
-<link rel="stylesheet" href="/assets/rain.css?v=2.30"><script src="/assets/rain.js?v=2.30"></script>
+<link rel="stylesheet" href="/assets/rain.css?v=2.50"><script src="/assets/rain.js?v=2.50"></script>
 <link rel="stylesheet" href="/assets/foot.css?v=1.97"><script src="/assets/foot.js?v=2.18" defer></script>
 </head>
 <body>
@@ -201,7 +201,7 @@ const rain = JayRain.Rain(document.getElementById('rain'), {
   palette: (x, w, r) => r < .84 ? T : PALE_TEAL,
   bands: (w, H) => [{y0: 0, y1: H, perCol: mob() ? 1.6 : 2.1, lenMin: 8, lenMax: 30, alpha: .56, stepMin: 60, stepMax: 170, colDensity: () => 1}],
   alphaAt: (x, y, R) => 1 - .45*JayRain.smooth(R.H*.55, R.H, y),
-  partSel: '.copy', partPad: 50, partFloor: .3
+  partSel: '.copy, .gallery, .foot', partPad: 50, partFloor: .25
 });
 const fastNow = () => document.documentElement.dataset.mode === 'fast';
 let lines = [], ready = false, skipped = false, dumping = false, current = null, lineAt = 0, burst = null, wantNow = false;
