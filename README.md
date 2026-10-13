@@ -267,3 +267,5 @@ v2.46: an indented `name:` line is a reply only when the name is known. The list
 v2.47: each text block on `/tweets` sits in a frosted-glass bubble. The name stays above the bubble. Photos stay outside it, with rounded corners. The corner on the speaker's side is tighter. A browser without backdrop-filter gets a more opaque fill. `tweets.css` and `tweets.js` are `?v=2.47`.
 
 v2.48: the `/tweets` bubble has no fill, in either theme, including when backdrop-filter is missing. The glass is a stronger blur with a little saturate, a light 1px border, and an inset highlight along the top. The words stay readable. `tweets.css` is `?v=2.48`.
+
+v2.49: in light mode the `/tweets` bubble outline is a faint dark line (`rgba(0,0,0,.12)`) with a faint top highlight, so the glass shows on white. Dark mode stays a clear bubble with a slightly softer light edge. `tweets.css` is `?v=2.49`.
