@@ -1,6 +1,6 @@
 # jaytha.ninja
 
-Personal site. The homepage in `site/` is the habits page. `/snaps` is the photo grid.
+Personal site. The homepage in `site/` is the habits page. `/snaps` is the photo grid. `/quotes` is the daily quote list.
 
 Pushes to `main` deploy that folder to GitHub Pages through GitHub Actions. The custom domain is jaytha.ninja. DNS lives at Namecheap.
 
@@ -12,7 +12,7 @@ The homepage's daily lines (top half) each read one file; the daily pages read t
 |---|---|---|
 | `// yyyy.mm.dd` | (none) | `COPY.dayDate` in `site/index.html` |
 | `🎧 <lyric> →` | /song-of-the-day/ | `site/song-of-the-day/songs.json` (+ `COPY.lyric`) |
-| quotes, under the konami row | /quote-of-the-day/ still redirects to `/` | `site/quote-of-the-day/quotes.json` |
+| quotes | /quotes (the list). /quote-of-the-day/ still redirects to `/` | `site/quote-of-the-day/quotes.json` |
 | photo + `📸 snap of the day →` caption, centred (only when the newest entry is dated today or yesterday, America/Chicago) | /snap-of-the-day/ | `site/snap-of-the-day/snaps.json` + `site/snap-of-the-day/snaps/` |
 
 Lyrics have exactly one blank line between every line (v1.69, jay 2026.10.04): no lines touching and no bigger gap at verse breaks. `songs.json` stores the lyric one line per line (no blank lines); `pick.py` (`lyric_lines`, in /home/box/jaytha-songs) does that when the drop stages the song, whatever spacing the paste came with (lyrics sites often double-space). /song-of-the-day/ then shows the non-blank lines with one blank line between each, today's and the archive. The homepage 🎧 line runs the lyric together on one line as before. Only lyrics: daily updates keep exactly the spacing jay pastes.
@@ -26,9 +26,9 @@ Every page shows the newest entry dated today or earlier (America/Chicago) at th
 {"date": "YYYY-MM-DD", "text": "the quote", "author": "Name"}
 ```
 
-A nightly drop appends that day's object at the top of the array. `date` is America/Chicago. `text` keeps the quote's original casing; the homepage lowercases it. `author` is the person's name. Do not add a slug or any other field.
+A nightly drop appends that day's object at the top of the array. `date` is America/Chicago. `text` keeps the quote's original casing; `/quotes` lowercases it. `author` is the person's name. Do not add a slug or any other field.
 
-The homepage lists every entry dated today or earlier, newest first, in one block under the konami row. The whole list appears at once after that row finishes. `/quote-of-the-day/` still redirects to `/`. The same file feeds the quote share card (`text`, or the older `quote` key).
+`/quotes` lists every entry dated today or earlier, newest first, centered, in one block. The whole list appears at once. The file stays at `site/quote-of-the-day/quotes.json`, so a nightly append still feeds the page. `/quote-of-the-day/` still redirects to `/`. The same file feeds the quote share card (`text`, or the older `quote` key).
 
 ### snaps.json (v1.56)
 `[{"date": "YYYY-MM-DD", "src": "/snap-of-the-day/snaps/snap-YYYY-MM-DD.webp", "w": <src width>, "h": <src height>, "home": "/snap-of-the-day/snaps/snap-YYYY-MM-DD-home.webp", "alt": "<what's in the photo>"}, …]`, newest first, UTF-8, 2-space indent.
@@ -56,7 +56,7 @@ Link previews use `/og/home.png` (the intro + `// yyyy.mm.dd`), `/og/song.png`, 
 
 ## snaps (v2.33)
 
-`/snaps` is a photo grid of Jay's public Lightroom album. It is a real page (it does not redirect home). The homepage does not link to it. The sitemap stays `/` only.
+`/snaps` is a photo grid of Jay's public Lightroom album. It is a real page (it does not redirect home). The site nav links `/`, `/snaps`, and `/quotes`. The sitemap stays `/` only.
 
 `python3 scripts/sync_snaps.py` reads the public album and writes `site/snaps/`. Images stay on Adobe. Nothing with a location is stored.
 
@@ -202,3 +202,5 @@ v2.31: `/snaps` is Jay's public Lightroom album as a photo grid, newest month fi
 v2.32: each month on `/snaps` is three columns below 900px and six columns from 900px. The photos are dealt round-robin into flex columns, newest first, so the top row reads left to right and those photos share one top edge. `snaps.css` and `snaps.js` are `?v=2.32`.
 
 v2.33: the `/snaps` lightbox fills the viewport with the same 90% black and locks page scroll. The photo is centered, contained inside the safe area (about 95vw by 92vh), and the grid thumbnail is replaced by the 2048 in that same box once it loads. Arrow keys, the side arrows, a horizontal swipe, and the left and right halves of the screen move newer and older through the grid, loading the next month when the open one runs out. Esc, the close button, a tap on the letterbox outside the photo, and the back gesture close it. `snaps.css` and `snaps.js` are `?v=2.33`.
+
+v2.34: the header line is a centered nav, `home // snaps // quotes`, on `/`, `/snaps`, and `/quotes`. The links are italic in the speed colour at the old grid-title size (21px, 17px on a phone). Each link is at least 44px tall. The current page is underlined. The ` // ` separators are not links; they are white in the dark theme and black in the light theme. The social row sits under the nav, then the page. Habit grid titles and the snaps month headings are the old header size (14px, 13px on a phone). The month headings were already that size. The daily quotes moved from under the konami row to `/quotes`, still centered, newest first, all at once, still read from `site/quote-of-the-day/quotes.json`, with the same rain floor behind the list. `/quotes` does not redirect home. `/quote-of-the-day/` still does. Page titles are `home`, `snaps`, and `quotes`. The share card image is unchanged. The homepage still has the konami row, the email field, the rocket, and the rain. `habits.css`, `habits.js`, `quotes.js`, and `snaps.css` are `?v=2.34`.

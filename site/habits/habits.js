@@ -452,7 +452,7 @@ const rain = JayRain.Rain(document.getElementById('rain'), {
   palette: (x, w, r) => r < .84 ? T : PALE_TEAL,
   bands: (w, H) => [{y0: 0, y1: H, perCol: mob() ? 1.6 : 2.1, lenMin: 8, lenMax: 30, alpha: .56, stepMin: 60, stepMax: 170, colDensity: () => 1}],
   alphaAt: (x, y, R) => 1 - .45 * JayRain.smooth(R.H * .55, R.H, y),
-  partSel: '.copy, .quotes', partPad: 50, partFloor: .3
+  partSel: '.copy', partPad: 50, partFloor: .3
 });
 const fastNow = () => document.documentElement.dataset.mode === 'fast';
 let lines = [], wantNow = false;

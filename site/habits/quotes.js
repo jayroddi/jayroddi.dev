@@ -1,18 +1,21 @@
-/* v2.27: daily quotes under the konami row. the feed is /quote-of-the-day/quotes.json
-   (newest first; one object per day: date, text, author). the whole list is inserted at once,
-   after the konami row's fade has finished. nothing in the list is staggered. */
+/* v2.34: daily quotes on /quotes. the feed is still /quote-of-the-day/quotes.json
+   (newest first; one object per day: date, text, author). the whole list paints at once.
+   a nightly append to that file shows up here. future dates stay hidden until America/Chicago. */
 (() => {
-  const foot = document.querySelector('footer.foot');
-  const pad = foot && foot.querySelector('.pad');
-  if (!foot) return;
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const host = document.querySelector('.copy') || document.querySelector('main');
+  if (!host) return;
   const chicago = () => new Intl.DateTimeFormat('en-CA', {timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit'}).format(new Date());
   const dots = d => d.replace(/-/g, '.');
 
   function paint(list){
-    const ol = document.createElement('ol');
-    ol.className = 'quotes';
+    let ol = host.querySelector('ol.quotes');
+    if (!ol){
+      ol = document.createElement('ol');
+      ol.className = 'quotes';
+      host.appendChild(ol);
+    }
     ol.setAttribute('aria-label', 'quotes');
+    ol.replaceChildren();
     const frag = document.createDocumentFragment();
     list.forEach(e => {
       const li = document.createElement('li');
@@ -32,36 +35,6 @@
       frag.appendChild(li);
     });
     ol.appendChild(frag);
-    if (pad) pad.insertAdjacentElement('afterend', ol);
-    else foot.appendChild(ol);
-  }
-
-  function whenPadDone(fn){
-    if (!pad){ fn(); return; }
-    let done = false;
-    const go = () => { if (done) return; done = true; fn(); };
-    const waitFade = () => {
-      if (reduced){ go(); return; }
-      const running = typeof pad.getAnimations === 'function' && pad.getAnimations().some(a => a.playState === 'running');
-      const opaque = parseFloat(getComputedStyle(pad).opacity) >= 0.99;
-      if (!running && opaque){ go(); return; }
-      const onEnd = e => {
-        if (e.target !== pad || e.propertyName !== 'opacity') return;
-        pad.removeEventListener('transitionend', onEnd);
-        go();
-      };
-      pad.addEventListener('transitionend', onEnd);
-      setTimeout(go, 500);
-    };
-    if (pad.classList.contains('in')) waitFade();
-    else {
-      const mo = new MutationObserver(() => {
-        if (!pad.classList.contains('in')) return;
-        mo.disconnect();
-        waitFade();
-      });
-      mo.observe(pad, {attributes: true, attributeFilter: ['class']});
-    }
   }
 
   fetch('/quote-of-the-day/quotes.json', {cache: 'no-cache'}).then(r => r.ok ? r.json() : Promise.reject()).then(rows => {
@@ -71,6 +44,25 @@
       .map(e => ({date: e.date, text: (e.text || e.quote).trim(), author: String(e.author).trim()}))
       .sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0);
     if (!list.length) return;
-    whenPadDone(() => paint(list));
+    paint(list);
   }).catch(() => {});
+
+  const canvas = document.getElementById('rain');
+  if (canvas && window.JayRain){
+    const T = [26, 173, 179], PALE_TEAL = [121, 205, 207], HEAD = [255, 255, 255], PALE_ORANGE = [255, 150, 121];
+    const mob = () => document.documentElement.clientWidth < 760;
+    const rain = JayRain.Rain(canvas, {
+      fs: 16, fsMobile: 13, mono: '"JetBrains Mono", monospace', seed: 5, head: HEAD, headMix: .6,
+      tint: T, paleTint: PALE_TEAL, paleOrange: PALE_ORANGE,
+      palette: (x, w, r) => r < .84 ? T : PALE_TEAL,
+      bands: (w, H) => [{y0: 0, y1: H, perCol: mob() ? 1.6 : 2.1, lenMin: 8, lenMax: 30, alpha: .56, stepMin: 60, stepMax: 170, colDensity: () => 1}],
+      alphaAt: (x, y, R) => 1 - .45 * JayRain.smooth(R.H * .55, R.H, y),
+      partSel: '.copy', partPad: 50, partFloor: .3
+    });
+    JayRain.register(rain);
+    document.fonts.ready.then(() => {
+      rain.build();
+      requestAnimationFrame(rain.frame);
+    });
+  }
 })();
