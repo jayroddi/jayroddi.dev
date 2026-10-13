@@ -3,3 +3,8 @@ dist
 .DS_Store
 *.local
 __pycache__/
+# Raw vault photos. The site commits the optimized webp copies only.
+inputs/tweets/**
+!inputs/tweets/**/
+!inputs/tweets/**/*.md
+!inputs/tweets/.gitkeep

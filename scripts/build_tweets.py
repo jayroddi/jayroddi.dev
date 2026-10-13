@@ -2,14 +2,18 @@
 """Rebuild site/tweets/tweets.json from the vault log.
 
 Tess writes one file per day, inputs/tweets/YYYY-MM-DD.md. A tweet starts
-with a timestamped line. A photo, when there is one, is the next line:
+with a header and the words sit on indented lines under it:
 
-  📷 YYYY-MM-DD-HHMM.jpg
+- 9:32 am —
+  the tweet
+  another line
+  📷 2026-10-13-0932.jpg
 
-The photo file sits in that same folder. Only tweets at or after
-2026-10-13 09:30 America/Chicago are published. The feed is rewritten from
-the log, newest first. Each stored ts has an explicit offset. A photo is
-resized to a 1600px long edge, saved as webp, and recorded with w and h.
+The header loses the leading "- " and the trailing " —". The body is
+dedented. Only the first camera line is the photo. Later camera lines are
+dropped, so they do not become text. The photo file sits in that same
+folder and is not committed. The published copy is an EXIF-free webp.
+Only tweets at or after 2026-10-13 09:30 America/Chicago are published.
 """
 
 from __future__ import annotations
@@ -17,6 +21,7 @@ from __future__ import annotations
 import json
 import re
 import sys
+import textwrap
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
@@ -31,11 +36,11 @@ CUTOFF = datetime(2026, 10, 13, 9, 30, tzinfo=CHICAGO)
 LONG_EDGE = 1600
 MAX_BYTES = 300_000
 DAY_FILE = re.compile(r"^(\d{4}-\d{2}-\d{2})\.md$")
-TIME_LINE = re.compile(
-    r"^(?P<h>\d{1,2}):(?P<m>\d{2})\s*(?P<ap>am|pm)?\b[ \t]*(?P<text>.*)$",
+HEADER = re.compile(
+    r"^(?P<h>\d{1,2}):(?P<m>\d{2})\s*(?P<ap>am|pm)\b\s*$",
     re.IGNORECASE,
 )
-PHOTO_LINE = re.compile(r"^[\t ]*📷\ufe0f?[ \t]+(\S+)\s*$")
+PHOTO_LINE = re.compile(r"^📷\ufe0f?[ \t]+(\S+)\s*$")
 
 
 @dataclass
@@ -60,6 +65,34 @@ def clock(hour: int, minute: int, ap: str | None) -> tuple[int, int] | None:
     return hour, minute
 
 
+def header_when(line: str, year: int, month: int, day: int) -> datetime | None:
+    if line.startswith((" ", "\t")) or not line.startswith("- "):
+        return None
+    body = line[2:].strip()
+    body = re.sub(r"\s*[-—–]\s*$", "", body)
+    timed = HEADER.match(body)
+    if not timed:
+        return None
+    parsed = clock(int(timed.group("h")), int(timed.group("m")), timed.group("ap"))
+    if parsed is None:
+        return None
+    hour, minute = parsed
+    return datetime(year, month, day, hour, minute, tzinfo=CHICAGO)
+
+
+def photo_name(line: str) -> str | None:
+    """A camera line, or None when the line is ordinary text.
+
+    The first camera line in a tweet is the photo. Any later one is still
+    a camera line, so the file name does not fall through into the text.
+    """
+    stripped = line.strip()
+    if not stripped.startswith("📷"):
+        return None
+    match = PHOTO_LINE.match(stripped)
+    return match.group(1) if match else ""
+
+
 def parse_day(path: Path) -> list[Tweet]:
     match = DAY_FILE.match(path.name)
     if not match:
@@ -69,32 +102,23 @@ def parse_day(path: Path) -> list[Tweet]:
     current: Tweet | None = None
     for raw in path.read_text(encoding="utf-8").splitlines():
         line = raw.rstrip("\r")
-        photo = PHOTO_LINE.match(line)
-        if photo and current is not None and not current.photo:
-            current.photo = photo.group(1)
+        named = photo_name(line)
+        if named is not None:
+            if current is not None and named and not current.photo:
+                current.photo = named
             continue
-        timed = TIME_LINE.match(line.strip())
-        if timed:
-            parsed = clock(int(timed.group("h")), int(timed.group("m")), timed.group("ap"))
-            if parsed is None:
-                if current is not None:
-                    current.lines.append(line)
-                continue
+        when = header_when(line, year, month, day)
+        if when is not None:
             if current is not None:
                 tweets.append(current)
-            hour, minute = parsed
-            when = datetime(year, month, day, hour, minute, tzinfo=CHICAGO)
-            current = Tweet(when=when, text=timed.group("text"))
+            current = Tweet(when=when, text="")
             continue
-        if current is not None:
+        if current is not None and (not line or line[0] in " \t"):
             current.lines.append(line)
     if current is not None:
         tweets.append(current)
     for tweet in tweets:
-        extra = "\n".join(tweet.lines).strip("\n")
-        text = tweet.text.strip()
-        tweet.text = text + (("\n" + extra) if extra else "")
-        tweet.text = tweet.text.strip()
+        tweet.text = textwrap.dedent("\n".join(tweet.lines)).strip()
     return [tweet for tweet in tweets if tweet.text]
 
 
@@ -125,6 +149,10 @@ def save_photo(src: Path, dest: Path) -> tuple[int, int]:
                 (max(1, round(im.width * scale)), max(1, round(im.height * scale))),
                 Image.Resampling.LANCZOS,
             )
+        # A fresh image drops EXIF, GPS, and any other source metadata.
+        clean = Image.new(im.mode, im.size)
+        clean.putdata(im.getdata())
+        im = clean
         dest.parent.mkdir(parents=True, exist_ok=True)
         quality = 82
         while True:
