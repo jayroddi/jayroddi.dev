@@ -7,9 +7,11 @@
 line two" --ts 2026-10-13T09:18 --photo shot.jpg
 
 ts with no offset is America/Chicago. The photo is optional. Pillow resizes
-its long edge to 1600px, strips metadata, and writes a webp in
-site/tweets/photos/. Newest tweets stay at the top. A tweet with the same
-ts and text is left as it is.
+its long edge to 1600px, strips metadata, and writes
+site/tweets/photos/YYYY-MM-DD-HHMM.webp. That name is the tweet's
+America/Chicago time on a 24-hour clock (9:18am CT is 0918). Newest tweets
+stay at the top. The feed ships empty. A tweet with the same ts and text is
+left as it is.
 """
 
 from __future__ import annotations
@@ -60,14 +62,11 @@ def save(rows: list) -> None:
     FEED.write_text(json.dumps(rows, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
-def photo_name(when: datetime, taken: set[str]) -> str:
-    stem = when.strftime("%Y-%m-%d-%H%M")
-    name = stem + ".webp"
-    n = 2
-    while name in taken or (PHOTOS / name).exists():
-        name = f"{stem}-{n}.webp"
-        n += 1
-    return name
+def photo_name(when: datetime, ext: str = ".webp") -> str:
+    """YYYY-MM-DD-HHMM.<ext> from America/Chicago, 24-hour."""
+    if not ext.startswith("."):
+        ext = "." + ext
+    return when.strftime("%Y-%m-%d-%H%M") + ext.lower()
 
 
 def save_photo(src: Path, dest: Path) -> tuple[int, int]:
@@ -121,8 +120,10 @@ def main() -> None:
 
     entry = {"ts": stamp, "text": text}
     if args.photo:
-        taken = {str(row.get("photo")) for row in rows if isinstance(row, dict) and row.get("photo")}
-        name = photo_name(when, taken)
+        name = photo_name(when, ".webp")
+        used = any(isinstance(row, dict) and row.get("photo") == name for row in rows)
+        if used or (PHOTOS / name).exists():
+            raise SystemExit(f"add_tweet: {name} is already used")
         width, height = save_photo(args.photo, PHOTOS / name)
         entry["photo"] = name
         entry["w"] = width

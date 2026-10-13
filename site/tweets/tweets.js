@@ -45,6 +45,16 @@
     }
     ol.setAttribute('aria-label', 'tweets');
     ol.replaceChildren();
+    if (!list.length){
+      const li = document.createElement('li');
+      li.className = 'empty';
+      const note = document.createElement('p');
+      note.className = 'when';
+      note.textContent = 'no tweets yet';
+      li.appendChild(note);
+      ol.appendChild(li);
+      return;
+    }
     const frag = document.createDocumentFragment();
     list.forEach(entry => {
       const li = document.createElement('li');
@@ -86,7 +96,7 @@
       .map(entry => ({...entry, label: when(entry.ts)}))
       .filter(entry => entry.label);
     paint(list);
-  }).catch(() => {});
+  }).catch(() => paint([]));
 
   const canvas = document.getElementById('rain');
   if (canvas && window.JayRain){

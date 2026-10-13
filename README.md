@@ -37,7 +37,7 @@ A nightly drop appends that day's object at the top of the array. `date` is Amer
 {"ts": "2026-10-13T09:18:00-05:00", "text": "the tweet", "photo": "2026-10-13-0918.webp"}
 ```
 
-`ts` is an ISO timestamp. With no offset it is America/Chicago. `text` keeps the original casing and line breaks. `photo` is optional and is only a file name in `site/tweets/photos/` (one photo per tweet). The page shows that photo above the text, then the Chicago time as `oct 13, 2026 · 9:18 am`. A timestamp still in the future stays hidden. The sitemap stays `/` only. `/tweets` does not redirect home.
+`ts` is an ISO timestamp. With no offset it is America/Chicago. `text` keeps the original casing and line breaks. `photo` is optional and is only a file name in `site/tweets/photos/` (one photo per tweet). The file name is `YYYY-MM-DD-HHMM.<ext>` from that tweet's America/Chicago time on a 24-hour clock: `2026-10-13-0918.webp` is 9:18am CT, and `2026-06-03-2105.jpg` is 9:05pm CT. The page shows that photo above the text, then the Chicago time as `oct 13, 2026 · 9:18 am`. A timestamp still in the future stays hidden. The file ships as `[]`. An empty list shows `no tweets yet`, centered. The sitemap stays `/` only. `/tweets` does not redirect home.
 
 Append one tweet and open the pull request from that commit:
 
@@ -46,7 +46,7 @@ python3 scripts/add_tweet.py "the words"
 python3 scripts/add_tweet.py "the words" --photo shot.jpg --ts 2026-10-13T09:18
 ```
 
-`--photo` needs Pillow. The script resizes the long edge to 1600px, strips metadata, writes a webp under `site/tweets/photos/`, and puts the new object at the top of `tweets.json`. A tweet with the same `ts` and `text` is left as it is.
+`--photo` needs Pillow. The script resizes the long edge to 1600px, strips metadata, and writes `site/tweets/photos/YYYY-MM-DD-HHMM.webp` (24-hour America/Chicago). It puts the new object at the top of `tweets.json`. A tweet with the same `ts` and `text` is left as it is. A second photo in that same minute is refused, so the name stays exact.
 
 ### snaps.json (v1.56)
 `[{"date": "YYYY-MM-DD", "src": "/snap-of-the-day/snaps/snap-YYYY-MM-DD.webp", "w": <src width>, "h": <src height>, "home": "/snap-of-the-day/snaps/snap-YYYY-MM-DD-home.webp", "alt": "<what's in the photo>"}, …]`, newest first, UTF-8, 2-space indent.
@@ -74,7 +74,7 @@ Link previews use `/og/home.png` (the intro + `// yyyy.mm.dd`), `/og/song.png`, 
 
 ## snaps (v2.33)
 
-`/snaps` is a photo grid of Jay's public Lightroom album. It is a real page (it does not redirect home). The site nav links `/`, `/snaps`, and `/quotes`. The sitemap stays `/` only.
+`/snaps` is a photo grid of Jay's public Lightroom album. It is a real page (it does not redirect home). The site nav links `/`, `/snaps`, `/tweets`, and `/quotes`. The sitemap stays `/` only.
 
 `python3 scripts/sync_snaps.py` reads the public album and writes `site/snaps/`. Images stay on Adobe. Nothing with a location is stored.
 
@@ -234,4 +234,4 @@ v2.38: the homepage habit grids fill together. One clock moves a bright speed-co
 
 v2.39: faith starts 2026-06-03. `site/habits/faith.json` holds `start`, `full` (`2026-08-25`), and the `no` list. The days from the start through the day before full split evenly into levels 1, 2, 3, and 4. From the full date through today each day is level 5 unless it is listed in `no`. A streak counts any day at level 1 or higher. `habits.js` is `?v=2.39`.
 
-v2.40: the nav is `home // snaps // tweets // quotes` on `/`, `/snaps`, `/tweets`, and `/quotes`. The styling is unchanged. `/tweets` is a centered timeline, newest first, titled `tweets`. Each tweet shows its America/Chicago time (`oct 13, 2026 · 9:18 am`). One optional photo sits above the text and is lazy loaded from `site/tweets/photos/`. The feed is `site/tweets/tweets.json` (`ts`, `text`, optional `photo`). `python3 scripts/add_tweet.py` appends a tweet. The page does not redirect home. The sitemap stays `/` only. `tweets.css` and `tweets.js` are `?v=2.40`.
+v2.40: the nav is `home // snaps // tweets // quotes` on `/`, `/snaps`, `/tweets`, and `/quotes`. The styling is unchanged. `/tweets` is a centered timeline, newest first, titled `tweets`. The feed ships empty and shows `no tweets yet`. Each tweet shows its America/Chicago time (`oct 13, 2026 · 9:18 am`). One optional photo sits above the text and is lazy loaded from `site/tweets/photos/`. A photo file is `YYYY-MM-DD-HHMM.<ext>`, 24-hour Chicago time. The feed is `site/tweets/tweets.json` (`ts`, `text`, optional `photo`). `python3 scripts/add_tweet.py` appends a tweet. The page does not redirect home. The sitemap stays `/` only. `tweets.css` and `tweets.js` are `?v=2.40`.
