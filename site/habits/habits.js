@@ -1,4 +1,4 @@
-/* jaytha.ninja/ (v2.38): five year graphs in one column (faith, sleep, fitness, code, journal) fill on one clock. a bright speed-colour cursor sweeps every grid together from the first cell through today in about 1.5s, and each cell keeps its real colour once the cursor has passed. reduced motion shows the filled grids at once. paths stay root-absolute so the homepage loads /habits/habits.css, /habits/habits.js, /habits/faith.json, /habits/workouts.json, /habits/cursor.json, /habits/sleep.json, /habits/journal.json, /habits/journal-jarvis.json, /daily-update/recaps.json, and /habits/trackers.json. faith is yes or no: every day from the start in faith.json through today (America/Chicago) is a full cell unless that date is listed in no. a new day is yes without a commit. five colour steps plus empty. fitness, journal, and sleep cut those steps from their own nonzero days. code uses a fixed scale set from the days since 2026-09-29. from that same day a daily update adds one note on top of the obsidian count, and the hover says "N notes". jarvis counts in journal-jarvis.json add on top of that. a jarvis day says "N journal entries", and a daily-update day keeps the note line and adds "+ N entries". a failed recaps or jarvis load keeps the counts already on the grid. a streak day uses that same scale. longest and current stay. */
+/* jaytha.ninja/ (v2.39): five year graphs in one column (faith, sleep, fitness, code, journal) fill on one clock. a bright speed-colour cursor sweeps every grid together from the first cell through today in about 1.5s, and each cell keeps its real colour once the cursor has passed. reduced motion shows the filled grids at once. paths stay root-absolute so the homepage loads /habits/habits.css, /habits/habits.js, /habits/faith.json, /habits/workouts.json, /habits/cursor.json, /habits/sleep.json, /habits/journal.json, /habits/journal-jarvis.json, /daily-update/recaps.json, and /habits/trackers.json. faith ramps from the start in faith.json through four levels until full, then every day through today (America/Chicago) is a full cell unless that date is listed in no. a new day is full without a commit. any level of 1 or higher counts toward the streak. five colour steps plus empty. fitness, journal, and sleep cut those steps from their own nonzero days. code uses a fixed scale set from the days since 2026-09-29. from that same day a daily update adds one note on top of the obsidian count, and the hover says "N notes". jarvis counts in journal-jarvis.json add on top of that. a jarvis day says "N journal entries", and a daily-update day keeps the note line and adds "+ N entries". a failed recaps or jarvis load keeps the counts already on the grid. a streak day uses that same scale. longest and current stay. */
 (() => {
 const VER = 'habits-1.84';
 const SWEEP_MS = 1500;
@@ -164,8 +164,10 @@ const SLEEP_STREAK = 70;
    earlier days stay the obsidian counts in journal.json. a failed recaps load keeps those counts.
    journal-jarvis.json adds its count on top of whatever is already there. a failed load changes nothing. */
 const JOURNAL_FROM = '2026-09-29';
-/* faith.json names the first tracked day and the dates that are no. every other day from that start through today is yes. */
-const FAITH_FROM = '2026-08-25';
+/* faith.json names the first tracked day, the first full day, and the dates that are no.
+   the days from start through the day before full split evenly into levels 1–4. full through today is level 5. */
+const FAITH_FROM = '2026-06-03';
+const FAITH_FULL = '2026-08-25';
 function computeStats(days, start, today, metric){
   let total = 0, longest = 0, run = 0, bestN = 0;
   let bestDay = '', bestMo = '', bestMoN = 0;
@@ -294,13 +296,23 @@ function daysOf(section, data){
   return (data && data.days) || {};
 }
 function faithDays(section, data){
-  const start = (data && typeof data.start === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(data.start)) ? data.start : FAITH_FROM;
-  const nos = new Set(Array.isArray(data && data.no) ? data.no.filter(d => typeof d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(d)) : []);
+  const isoOk = value => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value);
+  const start = isoOk(data && data.start) ? data.start : FAITH_FROM;
+  const full = isoOk(data && data.full) ? data.full : FAITH_FULL;
+  const nos = new Set(Array.isArray(data && data.no) ? data.no.filter(isoOk) : []);
   const today = section.dataset.today || chicagoToday();
   section.dataset.since = start;
+  let span = 0;
+  if (full > start){
+    for (let iso = start; iso < full; iso = addDays(iso, 1)) span++;
+  }
   const days = {};
+  let index = 0;
   for (let iso = start; iso <= today; iso = addDays(iso, 1)){
-    if (!nos.has(iso)) days[iso] = {total: 1};
+    let lv = 5;
+    if (span > 0 && iso < full) lv = Math.min(4, Math.floor(index * 4 / span) + 1);
+    if (!nos.has(iso) && lv >= 1) days[iso] = {total: 1, lv};
+    if (iso < full) index++;
   }
   return days;
 }
@@ -316,10 +328,12 @@ function apply(section, days, meta){
     cells.forEach(cell => {
       const iso = cell.dataset.date;
       if (iso > today) return;
-      const yes = !!since && iso >= since && !!((days[iso] && days[iso].total) > 0);
-      final.set(cell, {lv: yes ? 5 : 0, n: yes ? 1 : 0});
+      const day = days[iso];
+      const active = !!since && iso >= since && !!(day && day.total > 0);
+      const lv = active ? (day.lv || 0) : 0;
+      final.set(cell, {lv, n: active ? 1 : 0});
       if (!since || iso < since) labelCell(cell, shortDate(iso));
-      else labelCell(cell, shortDate(iso) + ': ' + (yes ? 'yes' : 'no'));
+      else labelCell(cell, shortDate(iso) + ': ' + (active ? String(lv) : 'no'));
     });
     fillStats(section, computeStats(days, start, today));
     return;
