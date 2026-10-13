@@ -263,3 +263,5 @@ v2.44: on `/quotes`, each quote's text is left-justified. The attribution is on 
 v2.45: `/tweets` is a chat. Each exchange is `ts` plus `messages` (`author`, optional `text`, optional `photo`). The time stays centered. Jay is on the right, with the photo first and a small `jay` label above the text. Everyone else is on the left, with their name above the text. A vault reply is an indented `name:` line under Jay's message, and more indented lines stay with that reply. `quotes.js` guards a missing author with `(e.author || '')`. `tweets.css` and `tweets.js` are `?v=2.45`. `quotes.js` is `?v=2.45`.
 
 v2.46: an indented `name:` line is a reply only when the name is known. The list is `tess` for now. `ps:` and links stay in the tweet text. Jay's label stays the speed color. Other names are muted. Reply text is kept as written. `tweets.css` is `?v=2.46`.
+
+v2.47: each text block on `/tweets` sits in a frosted-glass bubble. The name stays above the bubble. Photos stay outside it, with rounded corners. The corner on the speaker's side is tighter. A browser without backdrop-filter gets a more opaque fill. `tweets.css` and `tweets.js` are `?v=2.47`.

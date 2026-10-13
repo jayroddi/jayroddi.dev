@@ -1,4 +1,4 @@
-/* v2.45: /tweets is a chat. newest exchange first from /tweets/tweets.json.
+/* v2.47: /tweets is a chat. newest exchange first from /tweets/tweets.json.
    one object: ts (ISO with an explicit offset) and messages.
    a message is author, optional text, optional photo (a file name in
    /tweets/photos/) plus w and h when that photo is present.
@@ -108,10 +108,13 @@
           const who = document.createElement('p');
           who.className = 'who';
           who.textContent = message.author;
+          const bubble = document.createElement('div');
+          bubble.className = 'bubble';
           const text = document.createElement('p');
           text.className = 'txt';
           text.textContent = message.text;
-          box.append(who, text);
+          bubble.appendChild(text);
+          box.append(who, bubble);
         }
         li.appendChild(box);
       });
