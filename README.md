@@ -30,28 +30,30 @@ A nightly drop appends that day's object at the top of the array. `date` is Amer
 
 `/quotes` lists every entry dated today or earlier, newest first, in one centered column. The quote text is left-justified. The attribution is on its own line, right-justified, in the speed color, with no leading dash. The whole list appears at once. The file stays at `site/quote-of-the-day/quotes.json`, so a nightly append still feeds the page. `/quote-of-the-day/` still redirects to `/`. The same file feeds the quote share card (`text`, or the older `quote` key).
 
-### tweets.json (v2.43)
-`site/tweets/tweets.json` is the `/tweets` timeline. Newest first, UTF-8, 2-space indent. One object per tweet:
+### tweets.json (v2.45)
+`site/tweets/tweets.json` is the `/tweets` chat. Newest exchange first, UTF-8, 2-space indent. One object per exchange:
 
 ```json
-{"ts": "2026-10-13T09:30:00-05:00", "text": "the tweet", "photo": "2026-10-13-0930.webp", "w": 1600, "h": 900}
+{"ts": "2026-10-13T09:30:00-05:00", "messages": [{"author": "jay", "text": "the tweet", "photo": "2026-10-13-0930.webp", "w": 1600, "h": 900}, {"author": "tess", "text": "a reply"}]}
 ```
 
-`ts` is an ISO timestamp and it must include an explicit offset, such as `-05:00` or `Z`. A timestamp with no offset is not shown. `text` keeps the original casing and line breaks. `photo` is optional and is only a file name in `site/tweets/photos/` (one photo per tweet). The file name is `YYYY-MM-DD-HHMM.<ext>` from that tweet's America/Chicago time on a 24-hour clock: `2026-10-13-0930.webp` is 9:30am CT, and `2026-06-03-2105.jpg` is 9:05pm CT. When `photo` is present, `w` and `h` are the pixel width and height of that published file. The page shows the Chicago time first (`oct 13, 2026 · 9:18 am`), then the photo, then the text. The photo `alt` is empty. A timestamp still in the future stays hidden. An empty list shows `no tweets yet`, centered, in lowercase. The sitemap stays `/` only. `/tweets` does not redirect home.
+`ts` is an ISO timestamp and it must include an explicit offset, such as `-05:00` or `Z`. A timestamp with no offset is not shown. Each message has `author`, optional `text`, and optional `photo`. `text` keeps the original casing and line breaks. `photo` is only a file name in `site/tweets/photos/`. The file name is `YYYY-MM-DD-HHMM.<ext>` from that exchange's America/Chicago time on a 24-hour clock: `2026-10-13-0930.webp` is 9:30am CT, and `2026-06-03-2105.jpg` is 9:05pm CT. When `photo` is present, `w` and `h` are the pixel width and height of that published file. The page centers the Chicago time (`oct 13, 2026 · 9:18 am`). Jay is on the right: the photo, then a small `jay` label, then the text. Anyone else is on the left, with their name above the text. The photo `alt` is empty. A timestamp still in the future stays hidden. An empty list shows `no tweets yet`, centered, in lowercase. The sitemap stays `/` only. `/tweets` does not redirect home.
 
-The source is the vault log `inputs/tweets/YYYY-MM-DD.md`. Tess starts a tweet with `- 9:32 am —`. The words are the indented lines under that header. The builder strips the leading `- ` and the trailing ` —`, then dedents the body. One photo is a camera line under the tweet. A second camera line is ignored, so the file name does not become part of the text. The raw file stays in that folder and is gitignored. The site commits only the optimized copy:
+The source is the vault log `inputs/tweets/YYYY-MM-DD.md`. Tess starts Jay's message with `- 9:32 am —`. The words are the indented lines under that header. The builder strips the leading `- ` and the trailing ` —`, then dedents the body. One photo is a camera line under that message. A second camera line on the same message is ignored, so the file name does not become part of the text. A reply is an indented line that starts with `name:`. More indented lines stay with that reply. An exchange with no reply shows only Jay. The raw file stays in that folder and is gitignored. The site commits only the optimized copy:
 
 ```
 - 9:32 am —
   the tweet
   another line
   📷 2026-10-13-0932.jpg
+  tess: a reply
+  that continues
 
 - 10:15 pm —
   a later one
 ```
 
-`python3 scripts/build_tweets.py` rewrites the feed from that log. It keeps tweets at or after 2026-10-13 09:30 America/Chicago and drops every earlier one. Pillow resizes the long edge to 1600px, strips EXIF, and writes `site/tweets/photos/YYYY-MM-DD-HHMM.webp` with `w` and `h`.
+`python3 scripts/build_tweets.py` rewrites the feed from that log. It keeps exchanges at or after 2026-10-13 09:30 America/Chicago and drops every earlier one. Pillow resizes the long edge to 1600px, strips EXIF, and writes `site/tweets/photos/YYYY-MM-DD-HHMM.webp` with `w` and `h`.
 
 One tweet can also be appended by hand. `--ts` needs the offset:
 
@@ -257,3 +259,5 @@ v2.42: a vault tweet header is `- 9:32 am —`, and the words are the indented l
 v2.43: each tweet on `/tweets` is the time, then the photo, then the text. `tweets.css` and `tweets.js` are `?v=2.43`.
 
 v2.44: on `/quotes`, each quote's text is left-justified. The attribution is on its own line, right-justified, in the speed color, with no leading dash. The column stays centered. `habits.css` and `quotes.js` on that page are `?v=2.44`.
+
+v2.45: `/tweets` is a chat. Each exchange is `ts` plus `messages` (`author`, optional `text`, optional `photo`). The time stays centered. Jay is on the right, with the photo first and a small `jay` label above the text. Everyone else is on the left, with their name above the text. A vault reply is an indented `name:` line under Jay's message, and more indented lines stay with that reply. `quotes.js` guards a missing author with `(e.author || '')`. `tweets.css` and `tweets.js` are `?v=2.45`. `quotes.js` is `?v=2.45`.

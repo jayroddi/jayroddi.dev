@@ -31,7 +31,7 @@
       q.textContent = e.text;
       const by = document.createElement('p');
       by.className = 'by';
-      by.textContent = e.author.replace(/^\s*[-–—]\s*/, '');
+      by.textContent = (e.author || '').replace(/^\s*[-–—]\s*/, '');
       li.append(d, q, by);
       frag.appendChild(li);
     });

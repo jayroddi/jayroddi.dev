@@ -1,8 +1,10 @@
-/* v2.43: /tweets. newest first from /tweets/tweets.json.
-   one object: ts (ISO with an explicit offset), text, optional photo
-   (a file name in /tweets/photos/) plus w and h when that photo is present.
-   each tweet is the Chicago time, then the photo, then the text.
-   the photo alt is empty. the time reads "oct 13, 2026 · 9:18 am".
+/* v2.45: /tweets is a chat. newest exchange first from /tweets/tweets.json.
+   one object: ts (ISO with an explicit offset) and messages.
+   a message is author, optional text, optional photo (a file name in
+   /tweets/photos/) plus w and h when that photo is present.
+   the time is centered. jay is on the right: photo, then a "jay" label,
+   then the text. everyone else is on the left with their name above the
+   text. the photo alt is empty. the time reads "oct 13, 2026 · 9:18 am".
    a timestamp with no offset, and one still in the future, stays hidden. */
 (() => {
   const host = document.querySelector('.copy');
@@ -38,6 +40,26 @@
     return '/tweets/photos/' + base;
   }
 
+  function side(author){
+    return String(author || '').trim().toLowerCase() === 'jay' ? 'right' : 'left';
+  }
+
+  function messagesOf(entry){
+    const raw = Array.isArray(entry.messages) ? entry.messages : (
+      (typeof entry.text === 'string' && entry.text.trim()) || entry.photo
+        ? [{author: 'jay', text: entry.text, photo: entry.photo, w: entry.w, h: entry.h}]
+        : []
+    );
+    return raw.map(message => {
+      if (!message || typeof message !== 'object') return null;
+      const author = String(message.author || '').trim().toLowerCase();
+      const text = typeof message.text === 'string' ? message.text.trim() : '';
+      const photo = photoURL(message.photo);
+      if (!author || (!text && !photo)) return null;
+      return {author: author, text: text, photo: photo, w: Number(message.w) || 0, h: Number(message.h) || 0};
+    }).filter(Boolean);
+  }
+
   function paint(list){
     let ol = host.querySelector('ol.tweets');
     if (!ol){
@@ -67,23 +89,32 @@
       time.textContent = entry.label;
       whenP.appendChild(time);
       li.appendChild(whenP);
-      const src = photoURL(entry.photo);
-      if (src){
-        const img = document.createElement('img');
-        img.className = 'pic';
-        img.src = src;
-        img.alt = '';
-        img.loading = 'lazy';
-        img.decoding = 'async';
-        if (entry.w) img.width = entry.w;
-        if (entry.h) img.height = entry.h;
-        img.addEventListener('error', () => img.remove());
-        li.appendChild(img);
-      }
-      const text = document.createElement('p');
-      text.className = 'txt';
-      text.textContent = entry.text;
-      li.appendChild(text);
+      entry.messages.forEach(message => {
+        const box = document.createElement('div');
+        box.className = 'msg ' + side(message.author);
+        if (message.photo){
+          const img = document.createElement('img');
+          img.className = 'pic';
+          img.src = message.photo;
+          img.alt = '';
+          img.loading = 'lazy';
+          img.decoding = 'async';
+          if (message.w) img.width = message.w;
+          if (message.h) img.height = message.h;
+          img.addEventListener('error', () => img.remove());
+          box.appendChild(img);
+        }
+        if (message.text){
+          const who = document.createElement('p');
+          who.className = 'who';
+          who.textContent = message.author;
+          const text = document.createElement('p');
+          text.className = 'txt';
+          text.textContent = message.text;
+          box.append(who, text);
+        }
+        li.appendChild(box);
+      });
       frag.appendChild(li);
     });
     ol.appendChild(frag);
@@ -93,9 +124,9 @@
     if (!Array.isArray(rows)) return;
     const now = Date.now();
     const offset = /(?:Z|[+-]\d{2}:?\d{2})$/;
-    const list = rows.filter(entry => entry && typeof entry.ts === 'string' && offset.test(entry.ts.trim()) && typeof entry.text === 'string' && entry.text.trim())
-      .map(entry => ({ts: entry.ts, text: entry.text.trim(), photo: entry.photo, w: Number(entry.w) || 0, h: Number(entry.h) || 0, at: Date.parse(entry.ts)}))
-      .filter(entry => Number.isFinite(entry.at) && entry.at <= now)
+    const list = rows.filter(entry => entry && typeof entry.ts === 'string' && offset.test(entry.ts.trim()))
+      .map(entry => ({ts: entry.ts, messages: messagesOf(entry), at: Date.parse(entry.ts)}))
+      .filter(entry => entry.messages.length && Number.isFinite(entry.at) && entry.at <= now)
       .sort((a, b) => b.at - a.at)
       .map(entry => ({...entry, label: when(entry.ts)}))
       .filter(entry => entry.label);
