@@ -275,3 +275,5 @@ v2.50: a `/tweets` bubble has no fill and no backdrop blur. Rain glyphs inside t
 v2.51: every name on `/tweets` is the speed color, including Tess and any later author. The glass ring is unchanged. `/snaps` rain is back to the earlier targets: the nav column and the month headings sit at 25%, and the photo grid stays full strength. A phone does not spread that floor across the snaps screen. Home, tweets, quotes, and confirmed stay at 25%. `tweets.css`, `rain.css`, `rain.js`, and `snaps.js` are `?v=2.51`.
 
 v2.52: `/snaps` rain is full strength, with no floor. Home, tweets, quotes, and confirmed are 50% behind content. On a phone that 50% covers the whole screen. Names on `/tweets` stay the speed color. `rain.css`, `rain.js`, `snaps.js`, `tweets.js`, `habits.js`, and `quotes.js` are `?v=2.52`.
+
+v2.53: `/tweets` adds the 2:42 pm exchange from 2026-10-13. Jay asks about the Yeti e-bike golden sticker. Tess's reply says the bike is yeti turquoise (Turq carbon, obviously).
