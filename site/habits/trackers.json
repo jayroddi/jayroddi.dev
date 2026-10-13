@@ -9,6 +9,15 @@
   ],
   "trackers": [
     {
+      "id": "faith",
+      "label": "faith",
+      "enabled": true,
+      "unit": "day",
+      "kind": "faith",
+      "data": "/habits/faith.json",
+      "sources": []
+    },
+    {
       "id": "sleep",
       "label": "sleep",
       "enabled": true,
