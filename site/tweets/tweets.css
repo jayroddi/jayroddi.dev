@@ -1,11 +1,11 @@
-/* v2.46: /tweets is a chat. the time stays centered. jay is on the right in the speed colour. other names are muted. */
+/* v2.47: text sits in a frosted bubble. the name stays above it. photos stay outside, with rounded corners. */
 body.board .tweets{list-style:none;width:100%;margin:0;padding:0;text-align:center}
 body.board .tweets li{text-align:center}
 body.board .tweets li + li{margin-top:28px;padding-top:28px;border-top:1px solid rgba(var(--fg-rgb),.14)}
 body.board .tweets .msg + .msg{margin-top:16px}
 body.board .tweets .msg.right{text-align:right}
 body.board .tweets .msg.left{text-align:left}
-body.board .tweets .pic{display:block;width:auto;max-width:100%;height:auto}
+body.board .tweets .pic{display:block;width:auto;max-width:100%;height:auto;border-radius:18px}
 body.board .tweets .msg.right .pic{margin:0 0 12px auto}
 body.board .tweets .msg.left .pic{margin:0 auto 12px 0}
 body.board .tweets .who,
@@ -13,7 +13,21 @@ body.board .tweets .txt,
 body.board .tweets .when{margin:0;font-family:var(--mono);font-weight:500}
 body.board .tweets .who{margin-bottom:4px;font-size:12px;line-height:1.4;color:var(--ink-3)}
 body.board .tweets .msg.right .who{color:var(--c)}
-body.board .tweets .txt{font-size:16px;line-height:1.65;color:var(--ink-2);text-align:inherit;white-space:pre-line;overflow-wrap:anywhere}
+body.board .tweets .bubble{display:inline-block;max-width:100%;box-sizing:border-box;margin:0;padding:10px 14px;border:1px solid rgba(255,255,255,.28);border-radius:18px;background:rgba(8,12,14,.72);text-align:left;vertical-align:top}
+body.board .tweets .msg.right .bubble{border-bottom-right-radius:7px}
+body.board .tweets .msg.left .bubble{border-bottom-left-radius:7px}
+body.board .tweets .txt{font-size:16px;line-height:1.65;color:var(--ink-2);text-align:left;white-space:pre-line;overflow-wrap:anywhere}
+@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
+  body.board .tweets .bubble{background:rgba(8,12,14,.28);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4)}
+}
+@media (prefers-color-scheme:light){
+  body.board .tweets .bubble{border-color:rgba(0,0,0,.12);background:rgba(255,255,255,.88)}
+}
+@media (prefers-color-scheme:light){
+  @supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
+    body.board .tweets .bubble{background:rgba(255,255,255,.5)}
+  }
+}
 body.board .tweets .when{margin-bottom:12px;font-size:14px;line-height:1.5;text-align:center;color:rgba(var(--c-rgb),.75)}
 body.board .tweets .empty .when{margin-bottom:0}
 @media (max-width:760px){
