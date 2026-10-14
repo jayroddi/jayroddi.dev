@@ -1,6 +1,6 @@
 # jaytha.ninja
 
-Personal site. The homepage in `site/` is the habits page. `/snaps` is the photo grid. `/quotes` is the daily quote list. `/tweets` redirects to `/`.
+Personal site. The homepage in `site/` is the habits page. The header line is `planned obsolescence`. `/snaps`, `/quotes`, and `/tweets` redirect to `/`. `/confirmed/` stays for the Buttondown confirmation landing.
 
 Pushes to `main` deploy that folder to GitHub Pages through GitHub Actions. The custom domain is jaytha.ninja. DNS lives at Namecheap.
 
@@ -28,7 +28,7 @@ Every page shows the newest entry dated today or earlier (America/Chicago) at th
 
 A nightly drop appends that day's object at the top of the array. `date` is America/Chicago. `text` keeps the quote's original casing; `/quotes` lowercases it. `author` is the person's name. Do not add a slug or any other field.
 
-`/quotes` lists every entry dated today or earlier, newest first, in one centered column. The quote text is left-justified. The attribution is on its own line, right-justified, in the speed color, with no leading dash. The whole list appears at once. The file stays at `site/quote-of-the-day/quotes.json`, so a nightly append still feeds the page. `/quote-of-the-day/` still redirects to `/`. The same file feeds the quote share card (`text`, or the older `quote` key).
+`/quotes` redirects to `/` (v2.63). While the page was up it listed every entry dated today or earlier, newest first, in one centered column. The quote text is left-justified. The attribution is on its own line, right-justified, in the speed color, with no leading dash. The whole list appears at once. The file stays at `site/quote-of-the-day/quotes.json`, so a nightly append still feeds the page. `/quote-of-the-day/` still redirects to `/`. The same file feeds the quote share card (`text`, or the older `quote` key).
 
 ### tweets (v2.59)
 `/tweets` redirects to `/`. The public page, `site/tweets/tweets.json`, and `site/tweets/photos/` are not deployed. `scripts/build_tweets.py` and `scripts/add_tweet.py` stay in the repo and are not part of the deploy. The journal grid does not read that feed.
@@ -297,3 +297,5 @@ v2.60: one line under the homepage email field reads `ball knowers, lemme know w
 v2.61: that line sits under the konami row. The gap above it matches the gap between the email field and the konami row. `habits.css` is `?v=2.61` on `/`.
 
 v2.62: the line under the konami row is gone. The homepage email placeholder is `enter email for liftoff, or cheat code below`. The field's accessible name stays `email`. `habits.css` is `?v=2.62` on `/`.
+
+v2.63: the header line is `planned obsolescence`, plain text in the normal text colour, italic, the same size and place as the old nav. `/snaps` and `/quotes` redirect to `/`. `/confirmed/` stays. `habits.css` is `?v=2.63` on `/`.
