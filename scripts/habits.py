@@ -11,7 +11,7 @@ Dates are America/Chicago. A day total is commits + pull requests opened + pull
 requests merged + ai line edits + bike rides + journal thinking + non-cycling
 workouts. GitHub's own calendar counts a pull request once and drops some commits;
 this file keeps the breakdown instead. A cycling workout on or after 2026-01-01
-counts as one coding session, kept in `rides`. A day from 2026-03-01 through
+counts one per 10 ride minutes (each ride rounded half up, at least 1), kept in `rides`. A day from 2026-03-01 through
 2026-06-30 with at least one journal note counts as one, kept in `thinking`.
 A non-cycling workout on or after 2026-06-01 counts as one, kept in `workouts`.
 Cycling is not counted again.
@@ -156,21 +156,39 @@ def is_cycling(item: dict) -> bool:
     return raw in RIDE_TYPES or compact in RIDE_TYPES or compact.endswith("cycling")
 
 
+RIDE_MINUTES_PER_POINT = 10
+
+
+def ride_points(minutes: float) -> int:
+    """One contribution per 10 ride minutes, rounded half up (85 min -> 9, 84.9 -> 8), never under 1."""
+    return max(1, int(float(minutes) / RIDE_MINUTES_PER_POINT + 0.5))
+
+
 def ride_counts(workouts: dict | None = None) -> dict[str, int]:
-    """One coding session per cycling workout on or after 2026-01-01. Two rides on a day count as two."""
+    """Code contributions from cycling on or after 2026-01-01: each ride is ride_points(its minutes).
+
+    Per-ride minutes come from day items, else the day's ride_min list. A day with neither
+    splits its minutes evenly when every workout that day is a ride, else counts 1 per ride."""
     if workouts is None:
         if not WORKOUTS.exists():
             return {}
         workouts = load_json(WORKOUTS)
     counts: dict[str, int] = {}
     for day_key, day in (workouts.get("days") or {}).items():
-        if not DATE_RE.fullmatch(str(day_key)) or day_key < RIDE_FROM:
+        if not DATE_RE.fullmatch(str(day_key)) or day_key < RIDE_FROM or not isinstance(day, dict):
             continue
-        # items are the day-page list. once those are unpublished, the day's rides count is enough.
         if "items" in day:
-            n = sum(1 for item in (day.get("items") or []) if isinstance(item, dict) and is_cycling(item))
+            mins = [float(item.get("duration_min") or item.get("minutes") or 0)
+                    for item in (day.get("items") or []) if isinstance(item, dict) and is_cycling(item)]
+        elif isinstance(day.get("ride_min"), list):
+            mins = [float(m or 0) for m in day["ride_min"]]
         else:
-            n = int(day.get("rides") or 0)
+            rides = int(day.get("rides") or 0)
+            if rides and rides == int(day.get("total") or 0):
+                mins = [float(day.get("minutes") or 0) / rides] * rides
+            else:
+                mins = [0.0] * rides
+        n = sum(ride_points(m) for m in mins)
         if n:
             counts[str(day_key)] = n
     return counts
@@ -247,8 +265,8 @@ def counting_text() -> str:
         "A pull request counts on the day it was opened and, if merged, again on the day it merged. "
         "GitHub's contribution calendar counts a pull request once and omits some commits; this file keeps the breakdown. "
         "AI line edits come only from cursor-lines.json. "
-        "A cycling workout on or after 2026-01-01 counts as one ride, a coding session. "
-        "Two rides on one day count as two. The ride still counts on the workouts graph. "
+        "A cycling workout on or after 2026-01-01 counts one contribution per 10 minutes of ride time "
+        "(each ride rounded half up, at least 1), kept in rides. The ride still counts on the workouts graph. "
         "A day from 2026-03-01 through 2026-06-30 with at least one journal note counts as one thinking session. "
         "A non-cycling workout on or after 2026-06-01 counts as one coding session, kept in workouts. "
         "Cycling is not counted again. The site shows the day's total only."
@@ -291,7 +309,7 @@ def refresh_rides() -> None:
     work_n = sum(int(day.get("workouts") or 0) for day in days)
     print(
         f"habits: sessions folded into cursor.json "
-        f"({ride_n} rides on {ride_days} days, {think_n} thinking, {work_n} non-cycling workouts)"
+        f"({ride_n} ride points on {ride_days} days, {think_n} thinking, {work_n} non-cycling workouts)"
     )
 
 
@@ -671,7 +689,10 @@ def publish_counts() -> None:
         if not isinstance(day, dict):
             continue
         if "items" in day:
-            rides = sum(1 for item in (day.get("items") or []) if isinstance(item, dict) and is_cycling(item))
+            ride_items = [item for item in (day.get("items") or []) if isinstance(item, dict) and is_cycling(item)]
+            rides = len(ride_items)
+            if rides:
+                day["ride_min"] = [_round1(item.get("duration_min") or 0) for item in ride_items]
             day.pop("items", None)
         else:
             rides = int(day.get("rides") or 0)
@@ -679,6 +700,7 @@ def publish_counts() -> None:
             day["rides"] = rides
         else:
             day.pop("rides", None)
+            day.pop("ride_min", None)
     dump_json(WORKOUTS, workouts)
 
 
@@ -802,6 +824,7 @@ def write_workouts(src: Path) -> dict:
         entry = {"total": len(items), "minutes": minutes}
         if rides:
             entry["rides"] = rides
+            entry["ride_min"] = [round(float(row.get("duration_min") or 0), 1) for row in rows if is_cycling(row)]
         if day_pages_enabled():
             entry["items"] = items
         days[day_key] = entry
@@ -962,11 +985,11 @@ def check() -> None:
     for key, n in expected_rides.items():
         got = int((days.get(key) or {}).get("rides") or 0)
         if got != n:
-            raise SystemExit(f"habits: {key} rides {got} != {n} cycling workouts")
+            raise SystemExit(f"habits: {key} rides {got} != {n} ride points")
     for key, day in days.items():
         got = int(day.get("rides") or 0)
         if got and expected_rides.get(key, 0) != got:
-            raise SystemExit(f"habits: {key} rides {got} has no matching cycling workout")
+            raise SystemExit(f"habits: {key} rides {got} has no matching ride points")
         got_t = int(day.get("thinking") or 0)
         if got_t != expected_thinking.get(key, 0):
             raise SystemExit(f"habits: {key} thinking {got_t} != {expected_thinking.get(key, 0)}")
@@ -1030,6 +1053,8 @@ def check() -> None:
             raise SystemExit(f"habits: {key} workout total {day['total']} != {len(items)} items")
         if int(day.get("minutes") or 0) <= 0:
             raise SystemExit(f"habits: {key} is an active day with no minutes")
+        if "ride_min" in day and len(day["ride_min"]) != int(day.get("rides") or 0):
+            raise SystemExit(f"habits: {key} ride_min has {len(day['ride_min'])} entries for {day.get('rides') or 0} rides")
         if key.startswith("2025-") or key[5:7] in {"04", "05"} and key.startswith("2026-"):
             raise SystemExit(f"habits: {key} falls in a real empty stretch and should not be in the file")
     check_sleep()
