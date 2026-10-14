@@ -301,3 +301,5 @@ v2.62: the line under the konami row is gone. The homepage email placeholder is 
 v2.63: the header line is `planned obsolescence`, plain text in the normal text colour, italic, the same size and place as the old nav. `/snaps` and `/quotes` redirect to `/`. `/confirmed/` stays. `habits.css` is `?v=2.63` on `/`.
 
 v2.64: threads and strava are gone from the social row. The remaining icons stay evenly spaced. `foot.js` is `?v=2.64`.
+
+v2.65: Apple exercise minutes are 303 on 2026-10-13 and 76 on 2026-10-14. The exercise map runs through 2026-10-14. October 14 has no workout and no ride.
