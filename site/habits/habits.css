@@ -26,12 +26,9 @@ body.board .kicker,body.board .legend,body.board .stat,body.board .status{text-a
 body.board .legend{justify-content:center}
 body.board .foot{margin-left:auto;margin-right:auto;text-align:center}
 body.board .mast{--k:.9167;--kx:.8;width:100%;min-height:44px;margin:0 0 var(--habit-gap)}
-/* v2.36: nav links match the habit grid titles (14px, 13px on a phone), still italic and the speed colour. separators are the foreground (white / black). the share-card replica still uses .line. */
+/* v2.63: the header line is plain text, italic, the same size as the old nav, in the normal text colour. the share-card replica still uses .line. */
 body.board .mast .line{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:44px;margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:normal;line-height:1.25;color:var(--c)}
-body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;width:100%;min-height:44px;margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:1.25;color:var(--c)}
-body.board .mast .pages a{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 12px;font-style:italic;color:var(--c);text-decoration:none;-webkit-tap-highlight-color:transparent}
-body.board .mast .pages a[aria-current="page"]{text-decoration:underline;text-underline-offset:.18em}
-body.board .mast .pages .sep{font-style:normal;color:var(--fg);pointer-events:none}
+body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;width:100%;min-height:44px;margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:1.25;color:var(--ink)}
 body.board .mast .elsewhere{width:100%;margin:0}
 body.board .mast .social{width:100%;max-width:100%;margin:0;justify-content:space-between;align-items:center;gap:0}
 body.board .mast .social li{flex:0 1 44px;width:44px;min-width:0;max-width:44px;height:44px;display:flex;align-items:center;justify-content:center}
