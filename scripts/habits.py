@@ -5,6 +5,7 @@
   python3 scripts/habits.py fetch    # cursor.json only
   python3 scripts/habits.py pages    # refresh ride counts and keep the redirects
   python3 scripts/habits.py check    # schema only, no network
+  python3 scripts/habits.py exercise <health_export_all.json>   # fitness colours from Apple exercise minutes
 
 Dates are America/Chicago. A day total is commits + pull requests opened + pull
 requests merged + ai line edits + bike rides + journal thinking + non-cycling
@@ -736,8 +737,46 @@ def slim_workout(raw: dict) -> dict:
     return item
 
 
+EXERCISE_FROM = "2025-10-05"  # first day the habit graphs cover
+# fitness cell levels from Apple's daily exercise minutes (activity summary appleExerciseTime).
+# a cut is the top of its level: 1-14, 15-29, 30-59 (ring closed, goal 30), 60-89, 90+.
+# set from the full Apple Health history 2015-06-20..2026-10-13 (3974 days): median 14, p60 28, p80 53, p95 91.
+EXERCISE_CUTS = [14, 29, 59, 89]
+EXERCISE_LEGEND = ("A cell is the day's Apple exercise minutes (activity summary appleExerciseTime). "
+                   "1 is 1 to 14, 2 is 15 to 29, 3 is 30 to 59 (ring goal closed), 4 is 60 to 89, 5 is 90 or more. "
+                   "No record or 0 is empty.")
+
+
+def exercise_from_export(src: Path, through: str) -> dict[str, int]:
+    """{date: minutes} from activity summaries, EXERCISE_FROM..through, zero days left out."""
+    raw = load_json(src)
+    rows = raw.get("activity_summary") if isinstance(raw, dict) else raw
+    out = {}
+    for row in rows or []:
+        key = str(row.get("dateComponents") or "")
+        if not DATE_RE.fullmatch(key) or key < EXERCISE_FROM or key > through:
+            continue
+        try:
+            mins = int(round(float(row.get("appleExerciseTime") or 0)))
+        except (TypeError, ValueError):
+            continue
+        if mins > 0:
+            out[key] = mins
+    return dict(sorted(out.items()))
+
+
+def write_exercise(src: Path) -> None:
+    data = load_json(WORKOUTS)
+    data["exercise"] = exercise_from_export(src, data.get("through") or chicago_today().isoformat())
+    data["intensity"] = {"metric": "exercise_min", "edges": EXERCISE_CUTS, "legend": EXERCISE_LEGEND}
+    dump_json(WORKOUTS, data)
+    print(f"habits: fitness colours from exercise minutes on {len(data['exercise'])} days")
+
+
 def write_workouts(src: Path) -> dict:
     """Build the public workouts.json from a merged Health + Strava export.
+
+    The exercise map and its intensity (write_exercise) are kept from the current file.
 
     Intensity is the day's active minutes (duration_min summed), not the workout
     count. Edges are fixed: under 45, 45–89, 90–149, 150+. Records with
@@ -792,6 +831,10 @@ def write_workouts(src: Path) -> dict:
         },
         "days": days,
     }
+    old = load_json(WORKOUTS) if WORKOUTS.exists() else {}
+    if isinstance(old.get("exercise"), dict):
+        data["intensity"] = old.get("intensity") or data["intensity"]
+        data["exercise"] = old["exercise"]
     dump_json(WORKOUTS, data)
     refresh_rides()
     longest = run = 0
@@ -859,6 +902,25 @@ def check_sleep() -> None:
             raise SystemExit(f"habits: {key} asleep_min {mins} is not a minute count")
 
 
+def check_exercise(workouts: dict) -> None:
+    ex = workouts.get("exercise")
+    metric = (workouts.get("intensity") or {}).get("metric")
+    if ex is None:
+        if metric == "exercise_min":
+            raise SystemExit("habits: workouts.json intensity is exercise_min but has no exercise map")
+        return
+    if metric != "exercise_min" or (workouts.get("intensity") or {}).get("edges") != EXERCISE_CUTS:
+        raise SystemExit("habits: workouts.json exercise map needs intensity exercise_min with EXERCISE_CUTS")
+    if not isinstance(ex, dict):
+        raise SystemExit("habits: workouts.json exercise must be an object")
+    through = workouts.get("through") or ""
+    for key, val in ex.items():
+        if not DATE_RE.fullmatch(key) or key < EXERCISE_FROM or (through and key > through):
+            raise SystemExit(f"habits: exercise day {key} outside {EXERCISE_FROM}..{through}")
+        if not isinstance(val, int) or isinstance(val, bool) or not 0 < val <= 1440:
+            raise SystemExit(f"habits: exercise {key} = {val!r} is not 1..1440 minutes")
+
+
 def check() -> None:
     cfg = load_json(TRACKERS)
     check_index(cfg)
@@ -866,6 +928,7 @@ def check() -> None:
     workouts = load_json(WORKOUTS)
     if not isinstance(workouts.get("days"), dict):
         raise SystemExit("habits: workouts.json days must be an object")
+    check_exercise(workouts)
     days = cursor.get("days") or {}
     for key, day in days.items():
         if not DATE_RE.fullmatch(key):
@@ -982,8 +1045,14 @@ def check() -> None:
 
 def main(argv: list[str]) -> None:
     cmd = argv[1] if len(argv) > 1 else "all"
-    if cmd not in {"all", "fetch", "pages", "check", "workouts"}:
-        raise SystemExit("usage: habits.py [all|fetch|pages|check|workouts <merged.json>]")
+    if cmd not in {"all", "fetch", "pages", "check", "workouts", "exercise"}:
+        raise SystemExit("usage: habits.py [all|fetch|pages|check|workouts <merged.json>|exercise <export.json>]")
+    if cmd == "exercise":
+        if len(argv) < 3:
+            raise SystemExit("usage: habits.py exercise <health_export_all.json>")
+        write_exercise(Path(argv[2]))
+        check()
+        return
     if cmd == "workouts":
         if len(argv) < 3:
             raise SystemExit("usage: habits.py workouts <merged.json>")

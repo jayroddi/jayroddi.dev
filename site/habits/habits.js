@@ -1,4 +1,4 @@
-/* jaytha.ninja/ (v2.39): five year graphs in one column (faith, sleep, fitness, code, journal) fill on one clock. a bright speed-colour cursor sweeps every grid together from the first cell through today in about 1.5s, and each cell keeps its real colour once the cursor has passed. reduced motion shows the filled grids at once. paths stay root-absolute so the homepage loads /habits/habits.css, /habits/habits.js, /habits/faith.json, /habits/workouts.json, /habits/cursor.json, /habits/sleep.json, /habits/journal.json, /habits/journal-jarvis.json, /daily-update/recaps.json, and /habits/trackers.json. faith ramps from the start in faith.json through four levels until full, then every day through today (America/Chicago) is a full cell unless that date is listed in no. a new day is full without a commit. any level of 1 or higher counts toward the streak. five colour steps plus empty. fitness, journal, and sleep cut those steps from their own nonzero days. code uses a fixed scale set from the days since 2026-09-29. from that same day a daily update adds one note on top of the obsidian count, and the hover says "N notes". jarvis counts in journal-jarvis.json add on top of that. a jarvis day says "N journal entries", and a daily-update day keeps the note line and adds "+ N entries". a failed recaps or jarvis load keeps the counts already on the grid. a streak day uses that same scale. longest and current stay. */
+/* jaytha.ninja/ (v2.39): five year graphs in one column (faith, sleep, fitness, code, journal) fill on one clock. a bright speed-colour cursor sweeps every grid together from the first cell through today in about 1.5s, and each cell keeps its real colour once the cursor has passed. reduced motion shows the filled grids at once. paths stay root-absolute so the homepage loads /habits/habits.css, /habits/habits.js, /habits/faith.json, /habits/workouts.json, /habits/cursor.json, /habits/sleep.json, /habits/journal.json, /habits/journal-jarvis.json, /daily-update/recaps.json, and /habits/trackers.json. faith ramps from the start in faith.json through four levels until full, then every day through today (America/Chicago) is a full cell unless that date is listed in no. a new day is full without a commit. any level of 1 or higher counts toward the streak. five colour steps plus empty. fitness colours each day by apple exercise minutes (workouts.json exercise) on the fixed cuts in its intensity.edges, 1-14, 15-29, 30-59 (ring closed), 60-89, 90+, and its streak counts days with any exercise. journal and sleep cut those steps from their own nonzero days. code uses a fixed scale set from the days since 2026-09-29. from that same day a daily update adds one note on top of the obsidian count, and the hover says "N notes". jarvis counts in journal-jarvis.json add on top of that. a jarvis day says "N journal entries", and a daily-update day keeps the note line and adds "+ N entries". a failed recaps or jarvis load keeps the counts already on the grid. a streak day uses that same scale. longest and current stay. */
 (() => {
 const VER = 'habits-1.84';
 const SWEEP_MS = 1500;
@@ -38,9 +38,10 @@ function unitWord(n, unit){
   if (unit === 'entry') return 'entries';
   return unit.endsWith('s') ? unit : unit + 's';
 }
-function sentence(n, iso, unit, minutes){
+function sentence(n, iso, unit, minutes, exercise){
   const when = LONG[+iso.slice(5, 7) - 1] + ' ' + ordinal(+iso.slice(8));
   const head = n + ' ' + unitWord(n, unit);
+  if (exercise != null) return exercise + ' exercise min · ' + head + ' on ' + when + '.';
   if (minutes == null) return head + ' on ' + when + '.';
   return head + ' · ' + minutes + ' min on ' + when + '.';
 }
@@ -168,6 +169,31 @@ const JOURNAL_FROM = '2026-09-29';
    the days from start through the day before full split evenly into levels 1–4. full through today is level 5. */
 const FAITH_FROM = '2026-06-03';
 const FAITH_FULL = '2026-08-25';
+/* exercise days: a day is active when it has any apple exercise minutes; best day/month rank by those minutes. */
+function computeExerciseStats(days, ex, start, today){
+  let total = 0, longest = 0, run = 0, bestN = 0;
+  let bestDay = '', bestMo = '', bestMoN = 0;
+  const byMonth = {};
+  const mins = iso => Number(ex[iso]) || 0;
+  for (let iso = start; iso <= today; iso = addDays(iso, 1)){
+    total += (days[iso] && days[iso].total) || 0;
+    const m = mins(iso);
+    if (m > 0){
+      run++;
+      if (run > longest) longest = run;
+      const mo = iso.slice(0, 7);
+      byMonth[mo] = (byMonth[mo] || 0) + m;
+      if (m > bestN || (m === bestN && iso > bestDay)){ bestN = m; bestDay = iso; }
+    } else run = 0;
+  }
+  Object.keys(byMonth).forEach(mo => {
+    if (byMonth[mo] > bestMoN || (byMonth[mo] === bestMoN && mo > bestMo)){ bestMo = mo; bestMoN = byMonth[mo]; }
+  });
+  let current = 0;
+  let cursorDay = mins(today) > 0 ? today : addDays(today, -1);
+  while (mins(cursorDay) > 0){ current++; cursorDay = addDays(cursorDay, -1); }
+  return {total, longest, current, bestDay, bestMo};
+}
 function computeStats(days, start, today, metric){
   let total = 0, longest = 0, run = 0, bestN = 0;
   let bestDay = '', bestMo = '', bestMoN = 0;
@@ -339,14 +365,19 @@ function apply(section, days, meta){
     return;
   }
   const dates = cells.map(c => c.dataset.date);
+  const ex = (metric === 'exercise_min' && meta && meta.exercise && typeof meta.exercise === 'object') ? meta.exercise : null;
   const measure = day => {
     if (!day) return 0;
     if (kind === 'sleep') return Number.isFinite(day.score) ? day.score : 0;
     if (metric === 'minutes') return Math.round(day.minutes || 0);
     return day.total || 0;
   };
+  const amountOf = iso => ex ? (Number(ex[iso]) || 0) : measure(days[iso]);
   let scale = CODE_CUTS;
-  if (section.dataset.id !== 'cursor'){
+  if (ex){
+    const edges = meta.intensity && meta.intensity.edges;
+    scale = Array.isArray(edges) && edges.length === 4 ? edges : [14, 29, 59, 89];
+  } else if (section.dataset.id !== 'cursor'){
     const samples = [];
     dates.forEach(iso => {
       if (iso >= start && iso <= today) samples.push(measure(days[iso]));
@@ -358,7 +389,7 @@ function apply(section, days, meta){
     if (iso > today) return;
     const day = days[iso];
     const n = (day && day.total) || 0;
-    const amount = measure(day);
+    const amount = amountOf(iso);
     if (kind === 'sleep'){
       const recorded = !!(day && Number.isFinite(day.score));
       const score = recorded ? day.score : 0;
@@ -368,9 +399,10 @@ function apply(section, days, meta){
     }
     const minutes = metric === 'minutes' ? amount : null;
     final.set(cell, {lv: level(amount, scale), n, minutes});
-    labelCell(cell, kind === 'journal' ? noteLine(n, iso, day) : sentence(n, iso, unit, minutes));
+    labelCell(cell, kind === 'journal' ? noteLine(n, iso, day) : sentence(n, iso, unit, ex ? null : minutes, ex ? amount : null));
   });
   if (kind === 'sleep') fillSleepStats(section, computeSleepStats(days, start, today));
+  else if (ex) fillStats(section, computeExerciseStats(days, ex, start, today));
   else fillStats(section, computeStats(days, start, today, metric));
 }
 
