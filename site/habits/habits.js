@@ -129,11 +129,11 @@ function build(section, model){
   });
 }
 
-/* code is hand-set from the 12 nonzero days since 2026-09-29, when the bot work started.
-   those days are 5, 6, 9, 18, 21, 25, 26, 30, 37, 45, 54, 62.
-   the steps are 1–10, 11–24, 25–36, 37–50, 51+, which puts them at 3, 2, 3, 2, 2.
-   an older day just falls into the step its count hits. */
-const CODE_CUTS = [10, 24, 36, 50];
+/* code cuts after rides became one per 10 ride minutes (v2.57). last 365 days have 101 active days,
+   44 of them a single thinking or workout session. nonzero p50 3, p60 9, p75 16, p90 26.
+   the steps are 1–2, 3–8, 9–14, 15–24, 25+, which puts them at 48, 9, 16, 15, 13.
+   a 45 minute ride is 5 (step 2), a two hour ride 12 (step 3). */
+const CODE_CUTS = [2, 8, 14, 24];
 /* five colour steps. the cuts are the 20/40/60/80th of the nonzero days.
    a tied cut would skip a step, so it moves up to the next value the data actually has. */
 function thresholds(values){

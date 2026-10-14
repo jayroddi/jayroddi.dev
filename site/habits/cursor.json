@@ -16,7 +16,7 @@
     }
   ],
   "manual": "cursor-lines.json",
-  "counting": "total = commits + prs opened + prs merged + ai line edits + bike rides + journal thinking + non-cycling workouts. Commit dates are author dates in America/Chicago. Merge commits are skipped. A pull request counts on the day it was opened and, if merged, again on the day it merged. GitHub's contribution calendar counts a pull request once and omits some commits; this file keeps the breakdown. AI line edits come only from cursor-lines.json. A cycling workout on or after 2026-01-01 counts as one ride, a coding session. Two rides on one day count as two. The ride still counts on the workouts graph. A day from 2026-03-01 through 2026-06-30 with at least one journal note counts as one thinking session. A non-cycling workout on or after 2026-06-01 counts as one coding session, kept in workouts. Cycling is not counted again. The site shows the day's total only.",
+  "counting": "total = commits + prs opened + prs merged + ai line edits + bike rides + journal thinking + non-cycling workouts. Commit dates are author dates in America/Chicago. Merge commits are skipped. A pull request counts on the day it was opened and, if merged, again on the day it merged. GitHub's contribution calendar counts a pull request once and omits some commits; this file keeps the breakdown. AI line edits come only from cursor-lines.json. A cycling workout on or after 2026-01-01 counts one contribution per 10 minutes of ride time (each ride rounded half up, at least 1), kept in rides. The ride still counts on the workouts graph. A day from 2026-03-01 through 2026-06-30 with at least one journal note counts as one thinking session. A non-cycling workout on or after 2026-06-01 counts as one coding session, kept in workouts. Cycling is not counted again. The site shows the day's total only.",
   "days": {
     "2026-03-01": {
       "total": 1,
@@ -369,259 +369,259 @@
       "workouts": 3
     },
     "2026-07-27": {
-      "total": 1,
+      "total": 13,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 13
     },
     "2026-07-28": {
-      "total": 1,
+      "total": 19,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 19
     },
     "2026-07-29": {
-      "total": 2,
+      "total": 32,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 2
+      "rides": 32
     },
     "2026-07-30": {
-      "total": 1,
+      "total": 18,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 18
     },
     "2026-07-31": {
-      "total": 2,
+      "total": 24,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 2
+      "rides": 24
     },
     "2026-08-01": {
-      "total": 1,
+      "total": 25,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 25
     },
     "2026-08-02": {
-      "total": 1,
+      "total": 38,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 38
     },
     "2026-08-04": {
-      "total": 1,
+      "total": 19,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 19
     },
     "2026-08-05": {
-      "total": 1,
+      "total": 17,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 17
     },
     "2026-08-06": {
-      "total": 2,
+      "total": 23,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 2
+      "rides": 23
     },
     "2026-08-07": {
-      "total": 1,
+      "total": 10,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 10
     },
     "2026-08-08": {
-      "total": 1,
+      "total": 8,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 8
     },
     "2026-08-09": {
-      "total": 1,
+      "total": 14,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 14
     },
     "2026-08-10": {
-      "total": 2,
+      "total": 25,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 2
+      "rides": 25
     },
     "2026-08-11": {
-      "total": 1,
+      "total": 12,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 12
     },
     "2026-08-13": {
-      "total": 2,
+      "total": 4,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1,
+      "rides": 3,
       "workouts": 1
     },
     "2026-08-15": {
-      "total": 1,
+      "total": 16,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 16
     },
     "2026-08-16": {
-      "total": 1,
+      "total": 9,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 9
     },
     "2026-08-17": {
-      "total": 2,
+      "total": 10,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1,
+      "rides": 9,
       "workouts": 1
     },
     "2026-08-20": {
-      "total": 3,
+      "total": 15,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 2,
+      "rides": 14,
       "workouts": 1
     },
     "2026-08-21": {
-      "total": 2,
+      "total": 8,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 2
+      "rides": 8
     },
     "2026-08-28": {
-      "total": 1,
+      "total": 6,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 6
     },
     "2026-08-29": {
-      "total": 1,
+      "total": 17,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 17
     },
     "2026-08-30": {
-      "total": 1,
+      "total": 14,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 14
     },
     "2026-08-31": {
-      "total": 1,
+      "total": 9,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 9
     },
     "2026-09-07": {
-      "total": 1,
+      "total": 15,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 15
     },
     "2026-09-10": {
-      "total": 1,
+      "total": 10,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 10
     },
     "2026-09-12": {
-      "total": 1,
+      "total": 16,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 16
     },
     "2026-09-16": {
-      "total": 1,
+      "total": 10,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 10
     },
     "2026-09-18": {
-      "total": 1,
+      "total": 5,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 5
     },
     "2026-09-19": {
-      "total": 2,
+      "total": 19,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 2
+      "rides": 19
     },
     "2026-09-20": {
-      "total": 1,
+      "total": 11,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 11
     },
     "2026-09-21": {
-      "total": 1,
+      "total": 11,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 11
     },
     "2026-09-22": {
-      "total": 1,
+      "total": 10,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 10
     },
     "2026-09-25": {
-      "total": 1,
+      "total": 9,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 9
     },
     "2026-09-26": {
-      "total": 1,
+      "total": 17,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 17
     },
     "2026-09-28": {
       "total": 2,
@@ -686,46 +686,46 @@
       "workouts": 1
     },
     "2026-10-08": {
-      "total": 25,
+      "total": 30,
       "commits": 8,
       "prs_opened": 8,
       "prs_merged": 8,
-      "rides": 1
+      "rides": 6
     },
     "2026-10-09": {
-      "total": 21,
+      "total": 32,
       "commits": 6,
       "prs_opened": 7,
       "prs_merged": 7,
-      "rides": 1
+      "rides": 12
     },
     "2026-10-10": {
-      "total": 46,
+      "total": 59,
       "commits": 15,
       "prs_opened": 15,
       "prs_merged": 15,
-      "rides": 1
+      "rides": 14
     },
     "2026-10-11": {
-      "total": 2,
+      "total": 17,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 2
+      "rides": 17
     },
     "2026-10-12": {
-      "total": 1,
+      "total": 14,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1
+      "rides": 14
     },
     "2026-10-13": {
-      "total": 2,
+      "total": 26,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 2
+      "rides": 26
     }
   }
 }
