@@ -1,6 +1,6 @@
 # jaytha.ninja
 
-Personal site. The homepage in `site/` is the habits page. `/snaps` is the photo grid. `/tweets` is the timeline. `/quotes` is the daily quote list.
+Personal site. The homepage in `site/` is the habits page. `/snaps` is the photo grid. `/quotes` is the daily quote list. `/tweets` redirects to `/`.
 
 Pushes to `main` deploy that folder to GitHub Pages through GitHub Actions. The custom domain is jaytha.ninja. DNS lives at Namecheap.
 
@@ -30,14 +30,16 @@ A nightly drop appends that day's object at the top of the array. `date` is Amer
 
 `/quotes` lists every entry dated today or earlier, newest first, in one centered column. The quote text is left-justified. The attribution is on its own line, right-justified, in the speed color, with no leading dash. The whole list appears at once. The file stays at `site/quote-of-the-day/quotes.json`, so a nightly append still feeds the page. `/quote-of-the-day/` still redirects to `/`. The same file feeds the quote share card (`text`, or the older `quote` key).
 
-### tweets.json (v2.45)
-`site/tweets/tweets.json` is the `/tweets` chat. Newest exchange first, UTF-8, 2-space indent. One object per exchange:
+### tweets (v2.59)
+`/tweets` redirects to `/`. The public page, `site/tweets/tweets.json`, and `site/tweets/photos/` are not deployed. `scripts/build_tweets.py` and `scripts/add_tweet.py` stay in the repo and are not part of the deploy. The journal grid does not read that feed.
+
+The feed those scripts write, when the page is up, is newest exchange first. One object per exchange:
 
 ```json
 {"ts": "2026-10-13T09:30:00-05:00", "messages": [{"author": "jay", "text": "the tweet", "photo": "2026-10-13-0930.webp", "w": 1600, "h": 900}, {"author": "tess", "text": "a reply"}]}
 ```
 
-`ts` is an ISO timestamp and it must include an explicit offset, such as `-05:00` or `Z`. A timestamp with no offset is not shown. Each message has `author`, optional `text`, and optional `photo`. `text` keeps the original casing and line breaks. `photo` is only a file name in `site/tweets/photos/`. The file name is `YYYY-MM-DD-HHMM.<ext>` from that exchange's America/Chicago time on a 24-hour clock: `2026-10-13-0930.webp` is 9:30am CT, and `2026-06-03-2105.jpg` is 9:05pm CT. When `photo` is present, `w` and `h` are the pixel width and height of that published file. The page centers the Chicago time (`oct 13, 2026 · 9:18 am`). Jay is on the right: the photo, then a small `jay` label in the speed color, then the text. Anyone else is on the left, with their name in a muted color above the text. Reply text is kept as written. The photo `alt` is empty. A timestamp still in the future stays hidden. An empty list shows `no tweets yet`, centered, in lowercase. The sitemap stays `/` only. `/tweets` does not redirect home.
+`ts` is an ISO timestamp and it must include an explicit offset, such as `-05:00` or `Z`. A timestamp with no offset is not shown. Each message has `author`, optional `text`, and optional `photo`. `text` keeps the original casing and line breaks. `photo` is only a file name in `site/tweets/photos/`. The file name is `YYYY-MM-DD-HHMM.<ext>` from that exchange's America/Chicago time on a 24-hour clock: `2026-10-13-0930.webp` is 9:30am CT, and `2026-06-03-2105.jpg` is 9:05pm CT. When `photo` is present, `w` and `h` are the pixel width and height of that published file. The page centers the Chicago time (`oct 13, 2026 · 9:18 am`). Jay is on the right: the photo, then a small `jay` label in the speed color, then the text. Anyone else is on the left, with their name in a muted color above the text. Reply text is kept as written. The photo `alt` is empty. A timestamp still in the future stays hidden. An empty list shows `no tweets yet`, centered, in lowercase. The sitemap stays `/` only. While the page is down, `/tweets` redirects home and those files are not deployed.
 
 The source is the vault log `inputs/tweets/YYYY-MM-DD.md`. Tess starts Jay's message with `- 9:32 am —`. The words are the indented lines under that header. The builder strips the leading `- ` and the trailing ` —`, then dedents the body. One photo is a camera line under that message. A second camera line on the same message is ignored, so the file name does not become part of the text. A reply is an indented line whose name is in the known list, which is `tess` for now. More indented lines stay with that reply. A line such as `ps:` or a link stays in the tweet text. An exchange with no reply shows only Jay. The raw file stays in that folder and is gitignored. The site commits only the optimized copy:
 
@@ -90,7 +92,7 @@ Link previews use `/og/home.png` (the intro + `// yyyy.mm.dd`), `/og/song.png`, 
 
 ## snaps (v2.33)
 
-`/snaps` is a photo grid of Jay's public Lightroom album. It is a real page (it does not redirect home). The site nav links `/`, `/snaps`, `/tweets`, and `/quotes`. The sitemap stays `/` only.
+`/snaps` is a photo grid of Jay's public Lightroom album. It is a real page (it does not redirect home). The site nav links `/`, `/snaps`, and `/quotes`. The sitemap stays `/` only.
 
 `python3 scripts/sync_snaps.py` reads the public album and writes `site/snaps/`. Images stay on Adobe. Nothing with a location is stored.
 
@@ -287,3 +289,5 @@ v2.56: `/tweets` adds the 4:16 pm exchange. Jay's photo is `2026-10-13-1616.webp
 v2.57: `/tweets` adds the 5:27 pm exchange. Jay's photo is `2026-10-13-1727.webp`, EXIF-free. Tess reads the boarded-off ramp as a closed feature.
 
 v2.58: `/tweets` adds the 5:28 pm exchange. Jay's photo is `2026-10-13-1728.webp`, EXIF-free. Tess keeps the 6:16 pm deadline.
+
+v2.59: `/tweets` is down. The nav is `home // snaps // quotes` on `/`, `/snaps`, and `/quotes`. `/tweets` redirects to `/`. The public page, `tweets.json`, and the published photos are gone. The journal grid is unchanged. `habits.css` is `?v=2.59`.
