@@ -291,3 +291,5 @@ v2.57: `/tweets` adds the 5:27 pm exchange. Jay's photo is `2026-10-13-1727.webp
 v2.58: `/tweets` adds the 5:28 pm exchange. Jay's photo is `2026-10-13-1728.webp`, EXIF-free. Tess keeps the 6:16 pm deadline.
 
 v2.59: `/tweets` is down. The nav is `home // snaps // quotes` on `/`, `/snaps`, and `/quotes`. `/tweets` redirects to `/`. The public page, `tweets.json`, and the published photos are gone. The journal grid is unchanged. `habits.css` is `?v=2.59`.
+
+v2.60: one line under the homepage email field reads `ball knowers, lemme know when you got it`. It uses the placeholder's family, weight, visual size, and colour. `habits.css` is `?v=2.60` on `/`.
