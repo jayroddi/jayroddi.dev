@@ -293,3 +293,5 @@ v2.58: `/tweets` adds the 5:28 pm exchange. Jay's photo is `2026-10-13-1728.webp
 v2.59: `/tweets` is down. The nav is `home // snaps // quotes` on `/`, `/snaps`, and `/quotes`. `/tweets` redirects to `/`. The public page, `tweets.json`, and the published photos are gone. The journal grid is unchanged. `habits.css` is `?v=2.59`.
 
 v2.60: one line under the homepage email field reads `ball knowers, lemme know when you got it`. It uses the placeholder's family, weight, visual size, and colour. `habits.css` is `?v=2.60` on `/`.
+
+v2.61: that line sits under the konami row. The gap above it matches the gap between the email field and the konami row. `habits.css` is `?v=2.61` on `/`.
