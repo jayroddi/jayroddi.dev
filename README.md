@@ -295,3 +295,5 @@ v2.59: `/tweets` is down. The nav is `home // snaps // quotes` on `/`, `/snaps`,
 v2.60: one line under the homepage email field reads `ball knowers, lemme know when you got it`. It uses the placeholder's family, weight, visual size, and colour. `habits.css` is `?v=2.60` on `/`.
 
 v2.61: that line sits under the konami row. The gap above it matches the gap between the email field and the konami row. `habits.css` is `?v=2.61` on `/`.
+
+v2.62: the line under the konami row is gone. The homepage email placeholder is `enter email for liftoff, or cheat code below`. The field's accessible name stays `email`. `habits.css` is `?v=2.62` on `/`.
