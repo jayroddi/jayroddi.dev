@@ -299,3 +299,5 @@ v2.61: that line sits under the konami row. The gap above it matches the gap bet
 v2.62: the line under the konami row is gone. The homepage email placeholder is `enter email for liftoff, or cheat code below`. The field's accessible name stays `email`. `habits.css` is `?v=2.62` on `/`.
 
 v2.63: the header line is `planned obsolescence`, plain text in the normal text colour, italic, the same size and place as the old nav. `/snaps` and `/quotes` redirect to `/`. `/confirmed/` stays. `habits.css` is `?v=2.63` on `/`.
+
+v2.64: threads and strava are gone from the social row. The remaining icons stay evenly spaced. `foot.js` is `?v=2.64`.
