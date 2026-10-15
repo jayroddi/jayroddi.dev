@@ -303,3 +303,5 @@ v2.63: the header line is `planned obsolescence`, plain text in the normal text 
 v2.64: threads and strava are gone from the social row. The remaining icons stay evenly spaced. `foot.js` is `?v=2.64`.
 
 v2.65: Apple exercise minutes are 303 on 2026-10-13 and 76 on 2026-10-14. The exercise map runs through 2026-10-14. October 14 has no workout and no ride.
+
+v2.66: 2026-10-14 is one 76-minute bike ride (`ride_min` 76). Exercise minutes stay 76. The code grid adds 8 ride points (76 minutes, half up per 10).
