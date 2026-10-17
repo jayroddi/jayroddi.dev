@@ -1,11 +1,12 @@
-/* v2.67: linkedin is jayroddi too.
+/* v2.68: on /snaps the ninja links home (same tab); everywhere else it links to /snaps.
+   v2.67: linkedin is jayroddi too.
    v2.66: x and instagram are jayroddi again. github stays jaythaninja.
    v2.65: the ninja links to /snaps (jay's hidden photography) instead of /now/.
    v2.64: threads and strava are gone from the row. the rest stay evenly spaced.
    v2.22: the homepage line above this row is the text in /header.json.
    v2.18 (jay 2026.10.11): the homepage puts this row in header.mast, above the grids, as the title.
    every other page still gets it in the footer. the homepage footer keeps its signup and konami pad, so a footer
-   with a pad is not replaced. the cartoon ninja is first (a quiet link to /snaps, same tab; plain on /snaps itself), then the 6 icons.
+   with a pad is not replaced. the cartoon ninja is first (a quiet link to /snaps, same tab; on /snaps it links home), then the 6 icons.
    colours follow the page states (--c / --f). a page with a typing intro sets data-intro="on" on <html>; rain.js marks
    the page when that intro finishes and the ninja pulses (rain.css). a page with no intro pulses once it has loaded. */
 (() => {
@@ -20,7 +21,7 @@ const ICONS = {"x": "<svg class=\"ic\" style=\"--s:17.4;--k:var(--kx)\" aria-hid
 const SOCIALS = [{"label": "𝕏", "icon": "x", "href": "https://x.com/jayroddi"}, {"label": "instagram", "icon": "instagram", "href": "https://www.instagram.com/jayroddi"}, {"label": "github", "icon": "github", "href": "https://github.com/jaythaninja"}, {"label": "spotify playlist", "icon": "spotify", "href": "https://open.spotify.com/playlist/4agJs1yW7WQcFx1Lg5VVZq?si=5117b6d947e84f1f"}, {"label": "linkedin", "icon": "linkedin", "href": "https://www.linkedin.com/in/jayroddi"}, {"label": "email", "icon": "email", "href": "mailto:jay@jaytha.ninja"}];
 const esc = t => String(t).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'})[c]);
 const onSnaps = /^\/snaps\/?$/.test(location.pathname);
-const njItem = onSnaps ? `<li class="who"><span class="who-t">${NJ}</span></li>` : `<li class="who"><a class="who-t" href="/snaps" aria-label="snaps">${NJ}</a></li>`;
+const njItem = onSnaps ? `<li class="who"><a class="who-t" href="/" aria-label="home">${NJ}</a></li>` : `<li class="who"><a class="who-t" href="/snaps" aria-label="snaps">${NJ}</a></li>`;
 const icon = s => `<li><a href="${esc(s.href)}" aria-label="${esc(s.label)}" title="${esc(s.label)}"${/^https?:/.test(s.href) ? ' target="_blank" rel="noopener"' : ''}>${ICONS[s.icon] || ''}</a></li>`;
 const row = `<nav class="elsewhere" aria-label="elsewhere"><ul class="social">${njItem}${SOCIALS.map(icon).join('')}</ul></nav>`;
 const mast = document.querySelector('.mast');
