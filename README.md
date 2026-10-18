@@ -305,3 +305,5 @@ v2.64: threads and strava are gone from the social row. The remaining icons stay
 v2.65: Apple exercise minutes are 303 on 2026-10-13 and 76 on 2026-10-14. The exercise map runs through 2026-10-14. October 14 has no workout and no ride.
 
 v2.66: 2026-10-14 is one 76-minute bike ride (`ride_min` 76). Exercise minutes stay 76. The code grid adds 8 ride points (76 minutes, half up per 10).
+
+data 2026-10-18: Apple Health export from 2026-10-18 merged. Sleep scores for 2026-10-15 to 2026-10-18 (64, 96, 20, 70). Exercise minutes are 79 on 2026-10-14 (the full-day number; 76 was a 6:42 pm screenshot), 10, 116 and 113 on 2026-10-15 to 2026-10-17, and 1 on 2026-10-18 so far. Workouts are unchanged: the export has no workouts after 2026-10-13, the 2026-10-13 Strava rides keep their manual moving times, and 2026-10-14 stays one 76-minute ride. cursor.json is refreshed from GitHub through 2026-10-18.
