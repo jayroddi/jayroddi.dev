@@ -1,6 +1,6 @@
 # jaytha.ninja
 
-Personal site. The homepage in `site/` is the habits page. The header line is `planned obsolescence`. `/snaps`, `/quotes`, and `/tweets` redirect to `/`. `/confirmed/` stays for the Buttondown confirmation landing.
+Personal site. The homepage `/` (`site/index.html`) is the snaps photo grid; its data stays in `site/snaps/` (`snaps.json`, `m/`), written by `scripts/sync_snaps.py`. The habit grids page is `/habits/` (`site/habits/index.html`, next to its data files). The header line is `suffering is optional`, linking to `/quotes/`. `/snaps/`, `/tweets`, the old day pages and the other retired pages redirect to `/`. `/confirmed/` stays for the Buttondown confirmation landing.
 
 Pushes to `main` deploy that folder to GitHub Pages through GitHub Actions. The custom domain is jaytha.ninja. DNS lives at Namecheap.
 
@@ -307,3 +307,5 @@ v2.65: Apple exercise minutes are 303 on 2026-10-13 and 76 on 2026-10-14. The ex
 v2.66: 2026-10-14 is one 76-minute bike ride (`ride_min` 76). Exercise minutes stay 76. The code grid adds 8 ride points (76 minutes, half up per 10).
 
 data 2026-10-18: Apple Health export from 2026-10-18 merged. Sleep scores for 2026-10-15 to 2026-10-18 (64, 96, 20, 70). Exercise minutes are 79 on 2026-10-14 (the full-day number; 76 was a 6:42 pm screenshot), 10, 116 and 113 on 2026-10-15 to 2026-10-17, and 1 on 2026-10-18 so far. Workouts are unchanged: the export has no workouts after 2026-10-13, the 2026-10-13 Strava rides keep their manual moving times, and 2026-10-14 stays one 76-minute ride. cursor.json is refreshed from GitHub through 2026-10-18.
+
+v2.72 (2026-10-19): `/` is the snaps page and the grids moved to `/habits/`. `/snaps/` redirects to `/`. The ninja links to `/habits/` from `/` and home from every other page. `scripts/habits.py` checks and stamps `site/habits/index.html`. The homepage share image is `og-snaps.jpg`.
