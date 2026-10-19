@@ -9,6 +9,29 @@
   ],
   "trackers": [
     {
+      "id": "cursor",
+      "label": "code",
+      "enabled": true,
+      "unit": "contribution",
+      "data": "/habits/cursor.json",
+      "manual": "cursor-lines.json",
+      "sources": [
+        {"key": "commits", "label": "commits"},
+        {"key": "prs_opened", "label": "prs opened"},
+        {"key": "prs_merged", "label": "prs merged"},
+        {"key": "ai_lines", "label": "ai line edits", "when": "present"},
+        {"key": "rides", "label": "🚵 ride (thinking time)", "when": "present"}
+      ]
+    },
+    {
+      "id": "workouts",
+      "label": "fitness",
+      "enabled": true,
+      "unit": "workout",
+      "data": "/habits/workouts.json",
+      "sources": []
+    },
+    {
       "id": "faith",
       "label": "faith",
       "enabled": true,
@@ -27,32 +50,9 @@
       "sources": []
     },
     {
-      "id": "workouts",
-      "label": "fitness",
-      "enabled": true,
-      "unit": "workout",
-      "data": "/habits/workouts.json",
-      "sources": []
-    },
-    {
-      "id": "cursor",
-      "label": "code",
-      "enabled": true,
-      "unit": "contribution",
-      "data": "/habits/cursor.json",
-      "manual": "cursor-lines.json",
-      "sources": [
-        {"key": "commits", "label": "commits"},
-        {"key": "prs_opened", "label": "prs opened"},
-        {"key": "prs_merged", "label": "prs merged"},
-        {"key": "ai_lines", "label": "ai line edits", "when": "present"},
-        {"key": "rides", "label": "🚵 ride (thinking time)", "when": "present"}
-      ]
-    },
-    {
       "id": "journal",
       "label": "journal",
-      "enabled": true,
+      "enabled": false,
       "unit": "note",
       "kind": "journal",
       "data": "/habits/journal.json",
