@@ -159,8 +159,9 @@ function Rain(cv, o){
   const glowTwins=()=>document.querySelectorAll('.glow:not(.glow-fast):not([data-twin])').forEach(g=>{g.dataset.twin='1';const t=g.cloneNode(false);t.classList.add('glow-fast');t.setAttribute('style',(g.getAttribute('style')||'').replace(/rgba\(26,\s*173,\s*179,/g,'rgba(255,77,26,'));g.after(t);const u=g.cloneNode(false);u.classList.add('glow-au');u.setAttribute('style',(g.getAttribute('style')||'').replace(/rgba\(26,\s*173,\s*179,/g,'rgba(255,215,0,'));t.after(u);});   // v1.52: + a gold twin (shown while .gld)
   const ensure=()=>{
     glowTwins();
-    // v2.18: / has no speed hint. tapping still changes speed. other pages keep the sentence.
-    if(/^\/(index\.html)?$/.test(location.pathname)){
+    // v2.18: the grids page has no speed hint. tapping still changes speed. other pages keep the sentence.
+    // v2.72: the grids moved from / to /habits/ (/ is the snaps page now), so the rule follows them.
+    if(/^\/habits\/(index\.html)?$/.test(location.pathname)){
       document.querySelectorAll('.tap-hint').forEach(n=>n.remove());
       hint=null;
       return;
