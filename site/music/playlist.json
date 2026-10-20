@@ -1,0 +1,914 @@
+{
+ "playlist": {
+  "id": "2gnGKUyfcjB5aecShkH33N",
+  "name": "🫯",
+  "owner": "jayroddi",
+  "url": "https://open.spotify.com/playlist/2gnGKUyfcjB5aecShkH33N",
+  "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da8428d5589687a7e40944263179"
+ },
+ "source": "public embed + oEmbed (no API creds on box)",
+ "fetched": "2026-10-20",
+ "count": 100,
+ "tracks": [
+  {
+   "n": 1,
+   "name": "Messy",
+   "artists": "Lola Young",
+   "url": "https://open.spotify.com/track/3SKH53SPQbEnZR4cJPVaz2",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02a0cb974834e04f46b63b99a8",
+   "explicit": true,
+   "duration_ms": 284068
+  },
+  {
+   "n": 2,
+   "name": "Shivers",
+   "artists": "Ed Sheeran",
+   "url": "https://open.spotify.com/track/50nfwKoDiSYg8zOCREWAm5",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02dc806722f6802a8ea9953c89",
+   "explicit": false,
+   "duration_ms": 207853
+  },
+  {
+   "n": 3,
+   "name": "U.F.O",
+   "artists": "haruno, A.G.O",
+   "url": "https://open.spotify.com/track/19EJa9xsAVtkpsTnynNQpN",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02b53721f4808d2a1129598f1f",
+   "explicit": false,
+   "duration_ms": 230346
+  },
+  {
+   "n": 4,
+   "name": "Somewhere Only We Know",
+   "artists": "Keane",
+   "url": "https://open.spotify.com/track/0ll8uFnc0nANY35E0Lfxvg",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02045d0a38105fbe7bde43c490",
+   "explicit": false,
+   "duration_ms": 236160
+  },
+  {
+   "n": 5,
+   "name": "Beauty And A Beat",
+   "artists": "Justin Bieber, Nicki Minaj",
+   "url": "https://open.spotify.com/track/190jyVPHYjAqEaOGmMzdyk",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e026c20c4638a558132ba95bc39",
+   "explicit": false,
+   "duration_ms": 227986
+  },
+  {
+   "n": 6,
+   "name": "Devil On My Shoulder",
+   "artists": "Lost Stars",
+   "url": "https://open.spotify.com/track/7soY9QzpSB9vI1LKwVxDuY",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02cf93c024194f5f2ee3492cef",
+   "explicit": false,
+   "duration_ms": 180571
+  },
+  {
+   "n": 7,
+   "name": "Today Was Weirdly Nice",
+   "artists": "Muse Petal",
+   "url": "https://open.spotify.com/track/2ZaKYDDVcMfSHr4Wiw1b9Y",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e026dcbda3536ea81563fbed9fe",
+   "explicit": false,
+   "duration_ms": 191391
+  },
+  {
+   "n": 8,
+   "name": "Punk Rock Kid",
+   "artists": "Love Angeles",
+   "url": "https://open.spotify.com/track/4kyOzzObVH9GsSkRp1YmU1",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e023d1eedcba55346885e759408",
+   "explicit": false,
+   "duration_ms": 188215
+  },
+  {
+   "n": 9,
+   "name": "私の好きなこと",
+   "artists": "ちるうた散歩",
+   "url": "https://open.spotify.com/track/5pFslcjwxdFR3xF7WJAbK4",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02737b3556b97444596afeab4e",
+   "explicit": false,
+   "duration_ms": 177039
+  },
+  {
+   "n": 10,
+   "name": "Welcome to My Life",
+   "artists": "Simple Plan",
+   "url": "https://open.spotify.com/track/714Lw0m2SmCEhKSPw0Dn8J",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e024b8f07661094509866c382f6",
+   "explicit": false,
+   "duration_ms": 206773
+  },
+  {
+   "n": 11,
+   "name": "Thnks fr th Mmrs",
+   "artists": "Fall Out Boy",
+   "url": "https://open.spotify.com/track/3Zwu2K0Qa5sT6teCCHPShP",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02da071ae7564949fbbfc6904d",
+   "explicit": false,
+   "duration_ms": 203506
+  },
+  {
+   "n": 12,
+   "name": "Everlong - Acoustic Version",
+   "artists": "Foo Fighters",
+   "url": "https://open.spotify.com/track/3QmesrvdbPjwf7i40nht1D",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02136d7250568820409f8fdd60",
+   "explicit": false,
+   "duration_ms": 250906
+  },
+  {
+   "n": 13,
+   "name": "Don't tell your dreams (Afrobeat)",
+   "artists": "LOVIXX",
+   "url": "https://open.spotify.com/track/1Ci0Wjjmxtw6oa1Zvz9QR1",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02f58a1e769badeaac331e84c2",
+   "explicit": false,
+   "duration_ms": 147760
+  },
+  {
+   "n": 14,
+   "name": "Evergreen (feat. Caamp)",
+   "artists": "Richy Mitch & The Coal Miners, Caamp",
+   "url": "https://open.spotify.com/track/0BzTjRJQjOxMZpCAGnPXhp",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02001db2275f98a6b6d069af7c",
+   "explicit": false,
+   "duration_ms": 177512
+  },
+  {
+   "n": 15,
+   "name": "Oaklandish",
+   "artists": "Too $hort, Guapdad 4000, Rayven Justice",
+   "url": "https://open.spotify.com/track/5nYRlF5XVaw2xh3mT4XNR3",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e024ca2b208d530f1a4da459291",
+   "explicit": true,
+   "duration_ms": 166019
+  },
+  {
+   "n": 16,
+   "name": "Michael Scott",
+   "artists": "Starkks",
+   "url": "https://open.spotify.com/track/53W30I0Dv7IOdG9Cc0slXC",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0243916c52cc47fa4dfc9526ae",
+   "explicit": false,
+   "duration_ms": 104456
+  },
+  {
+   "n": 17,
+   "name": "Closer To The Edge",
+   "artists": "Thirty Seconds To Mars",
+   "url": "https://open.spotify.com/track/1V82d4T5gadqzboNVWKcMj",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02dc71afe98ba69bee55dddf4e",
+   "explicit": false,
+   "duration_ms": 273466
+  },
+  {
+   "n": 18,
+   "name": "Glamorous Lifestyle",
+   "artists": "The Jacka, Andre Nickatina",
+   "url": "https://open.spotify.com/track/2RWZyBQqHM5ioTMudnGfjG",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e026f0cc03a0fdfbf7ff5a2adda",
+   "explicit": true,
+   "duration_ms": 237120
+  },
+  {
+   "n": 19,
+   "name": "Go the Distance",
+   "artists": "We The Kings, Disney",
+   "url": "https://open.spotify.com/track/6jyKO0f6AAXUPiZn2ts95e",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e028954214d0d056922ab65dbd1",
+   "explicit": false,
+   "duration_ms": 188827
+  },
+  {
+   "n": 20,
+   "name": "Bad Guy",
+   "artists": "Eminem",
+   "url": "https://open.spotify.com/track/3IaAYtmN8T0YIYVqnxNnVz",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02c6338d684995af10c2bf0533",
+   "explicit": true,
+   "duration_ms": 434077
+  },
+  {
+   "n": 21,
+   "name": "Outro",
+   "artists": "M83",
+   "url": "https://open.spotify.com/track/2QVmiA93GVhWNTWQctyY1K",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0290e9adff5f77dd1ff6d24e47",
+   "explicit": false,
+   "duration_ms": 247026
+  },
+  {
+   "n": 22,
+   "name": "Hammer",
+   "artists": "Point North",
+   "url": "https://open.spotify.com/track/5kqr6EkKEafBGKxzjdXOVP",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02797dbb452d3f8357649e14a9",
+   "explicit": true,
+   "duration_ms": 220833
+  },
+  {
+   "n": 23,
+   "name": "Lighter",
+   "artists": "Galantis, David Guetta, 5 Seconds of Summer",
+   "url": "https://open.spotify.com/track/1uXcsl79LVRf13rGxvaqpk",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02e441c5873987443b02c8845c",
+   "explicit": false,
+   "duration_ms": 172268
+  },
+  {
+   "n": 24,
+   "name": "Kick, Push",
+   "artists": "Lupe Fiasco",
+   "url": "https://open.spotify.com/track/6nz35DNIzbtj5ztpDEcW1j",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02605429da30da392395c34c00",
+   "explicit": false,
+   "duration_ms": 254466
+  },
+  {
+   "n": 25,
+   "name": "Lost In Japan - Remix",
+   "artists": "Shawn Mendes, Zedd",
+   "url": "https://open.spotify.com/track/575NJxNUVDqwJGdzBrlLbv",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02983a15dbbda621fd434754a3",
+   "explicit": false,
+   "duration_ms": 201253
+  },
+  {
+   "n": 26,
+   "name": "RHYNO (from GTAVI: The Album)",
+   "artists": "Travis Scott, Grand Theft Auto VI",
+   "url": "https://open.spotify.com/track/2QrLrUqdSg5njDVEqq5QFp",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e021df7da7e2f1430731f1db26c",
+   "explicit": true,
+   "duration_ms": 180000
+  },
+  {
+   "n": 27,
+   "name": "スキャンダルの香り (Scent of Scandal)",
+   "artists": "Retro City Pop",
+   "url": "https://open.spotify.com/track/3ko8LEgbIEv4KC8WBFd3Vg",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02deb61645d3bb3c7f5deb314e",
+   "explicit": false,
+   "duration_ms": 162759
+  },
+  {
+   "n": 28,
+   "name": "Ready Or Not",
+   "artists": "Knox",
+   "url": "https://open.spotify.com/track/1RNOykP6IeLuFGWeUlKnFq",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02e92934786131f6e00fc49597",
+   "explicit": true,
+   "duration_ms": 165619
+  },
+  {
+   "n": 29,
+   "name": "Tokyo (Vampires & Wolves)",
+   "artists": "The Wombats",
+   "url": "https://open.spotify.com/track/0dt2bECwIUEzWppQLeUqG6",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0298f81c7dd61cf4f69cb2fc7a",
+   "explicit": false,
+   "duration_ms": 225526
+  },
+  {
+   "n": 30,
+   "name": "Hate My Guts",
+   "artists": "Knox",
+   "url": "https://open.spotify.com/track/14OzKjfg9NvpnJzPzr5GFE",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e020adf1e4b945076bee60d5868",
+   "explicit": false,
+   "duration_ms": 148877
+  },
+  {
+   "n": 31,
+   "name": "Can't Be Broken",
+   "artists": "Lil Wayne",
+   "url": "https://open.spotify.com/track/5cGpjfgAvidLy6znwkCxkP",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02bb1138165ad4ec2306f4e886",
+   "explicit": true,
+   "duration_ms": 193243
+  },
+  {
+   "n": 32,
+   "name": "Hey Look Ma, I Made It",
+   "artists": "Panic! At The Disco",
+   "url": "https://open.spotify.com/track/22oEJW6r2rMb9z4IntfyEa",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c5148520a59be191eea16989",
+   "explicit": false,
+   "duration_ms": 169666
+  },
+  {
+   "n": 33,
+   "name": "Voicemail",
+   "artists": "Knox",
+   "url": "https://open.spotify.com/track/1PTJOtcCegYxF0TGsYjofG",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0249a98d2c7facc18a50b3a004",
+   "explicit": false,
+   "duration_ms": 161589
+  },
+  {
+   "n": 34,
+   "name": "Been By Now",
+   "artists": "Morgan Wallen",
+   "url": "https://open.spotify.com/track/3xwMjQriBVW0OGEvNKo9c0",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02349f6c0133abbfca063891c1",
+   "explicit": false,
+   "duration_ms": 213805
+  },
+  {
+   "n": 35,
+   "name": "No Idea",
+   "artists": "All Time Low",
+   "url": "https://open.spotify.com/track/7Aoyeqo8DFDN8sXC51jQbH",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02e0e509c527634f4d67755f28",
+   "explicit": false,
+   "duration_ms": 263253
+  },
+  {
+   "n": 36,
+   "name": "Moon And Back",
+   "artists": "Emarosa",
+   "url": "https://open.spotify.com/track/4FY6XDjun71dlfl0TmVQON",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02c9ad93413ba7886bd3405849",
+   "explicit": false,
+   "duration_ms": 163814
+  },
+  {
+   "n": 37,
+   "name": "Look on Up",
+   "artists": "Relient K",
+   "url": "https://open.spotify.com/track/5b5ahPclOXw0uVsJK05SuB",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0283d37f9ca9568d9e25666587",
+   "explicit": false,
+   "duration_ms": 244871
+  },
+  {
+   "n": 38,
+   "name": "Spanish Sahara",
+   "artists": "Foals",
+   "url": "https://open.spotify.com/track/2fWSJxOHKSqXOkhxyo3Gly",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e028dc44850b4fcbf8c93ce2114",
+   "explicit": false,
+   "duration_ms": 409560
+  },
+  {
+   "n": 39,
+   "name": "Dragonstone",
+   "artists": "Ramin Djawadi",
+   "url": "https://open.spotify.com/track/65KG1BEtR85y2cvIaukuaO",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02dc251f2c7c3285cf9c6e0c27",
+   "explicit": false,
+   "duration_ms": 306120
+  },
+  {
+   "n": 40,
+   "name": "Yellow",
+   "artists": "Coldplay",
+   "url": "https://open.spotify.com/track/3AJwUDP919kvQ9QcozQPxg",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e029164bafe9aaa168d93f4816a",
+   "explicit": false,
+   "duration_ms": 266773
+  },
+  {
+   "n": 41,
+   "name": "I'm Just A Kid",
+   "artists": "Simple Plan",
+   "url": "https://open.spotify.com/track/1hIupFeRu3nmMcjbjxPnMc",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02b7531c90a44e901a41242b69",
+   "explicit": false,
+   "duration_ms": 198333
+  },
+  {
+   "n": 42,
+   "name": "The Best Of Me",
+   "artists": "The Starting Line",
+   "url": "https://open.spotify.com/track/73H4DVka1ZRRbWYNNqrKcY",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02e9b45b39e86dadf42dea106e",
+   "explicit": false,
+   "duration_ms": 284400
+  },
+  {
+   "n": 43,
+   "name": "Louder",
+   "artists": "Kygo, Julia Michaels, Chance Peña",
+   "url": "https://open.spotify.com/track/08s07LwInGpJUeA8rUtyMD",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02d8a83eeef1ad61cf199ce22d",
+   "explicit": false,
+   "duration_ms": 180190
+  },
+  {
+   "n": 44,
+   "name": "Mixtape",
+   "artists": "Butch Walker",
+   "url": "https://open.spotify.com/track/7h5Z6sSNDZ6DWe5EdB0gnX",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02ce2bb3f48743e6dfe01b02f3",
+   "explicit": false,
+   "duration_ms": 244786
+  },
+  {
+   "n": 45,
+   "name": "Last Thing You Need (from GTAVI: The Album)",
+   "artists": "Morgan Wallen, Grand Theft Auto VI",
+   "url": "https://open.spotify.com/track/5qGziX9216V8hKJjGg8RtH",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02322b8ded39dc108536090089",
+   "explicit": false,
+   "duration_ms": 196000
+  },
+  {
+   "n": 46,
+   "name": "Excuse The Mess",
+   "artists": "Ella Langley",
+   "url": "https://open.spotify.com/track/5KP3uYT70kYwQYLXUwLlua",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e025af0621852c2181c63954c20",
+   "explicit": false,
+   "duration_ms": 205066
+  },
+  {
+   "n": 47,
+   "name": "You're Beautiful",
+   "artists": "James Blunt",
+   "url": "https://open.spotify.com/track/0vg4WnUWvze6pBOJDTq99k",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02b73fd6a26764401feaf4e369",
+   "explicit": true,
+   "duration_ms": 212960
+  },
+  {
+   "n": 48,
+   "name": "Time",
+   "artists": "Hans Zimmer",
+   "url": "https://open.spotify.com/track/6ZFbXIJkuI1dVNWvzJzown",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0278f1fb27efad7f6433c89aac",
+   "explicit": false,
+   "duration_ms": 275556
+  },
+  {
+   "n": 49,
+   "name": "Bad Habits",
+   "artists": "Ed Sheeran",
+   "url": "https://open.spotify.com/track/3rmo8F54jFF8OgYsqTxm5d",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02dc806722f6802a8ea9953c89",
+   "explicit": false,
+   "duration_ms": 230746
+  },
+  {
+   "n": 50,
+   "name": "Goodbyes (Feat. Young Thug)",
+   "artists": "Post Malone, Young Thug",
+   "url": "https://open.spotify.com/track/6vBdBCoOhKHiYDDOcorfNo",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e023f154c97dfa06ee696bd687c",
+   "explicit": true,
+   "duration_ms": 174960
+  },
+  {
+   "n": 51,
+   "name": "Time & Place - Japanese Version",
+   "artists": "Last Dinosaurs",
+   "url": "https://open.spotify.com/track/2lvD843HVg6mavoVBuO8D7",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e025b7b996945d3a532723462f0",
+   "explicit": false,
+   "duration_ms": 198681
+  },
+  {
+   "n": 52,
+   "name": "Light Ahead",
+   "artists": "Surveyor",
+   "url": "https://open.spotify.com/track/4Y7e1KWJsPXwQjwWjvwK8F",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0295c115f4ab4e5465c11b024e",
+   "explicit": false,
+   "duration_ms": 258187
+  },
+  {
+   "n": 53,
+   "name": "Lost In Japan - Recorded at Spotify Studios NYC",
+   "artists": "Shawn Mendes",
+   "url": "https://open.spotify.com/track/7b1WVMX0FShcPWct8ca7ma",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02fab20f3a3061d6c31f94f9e1",
+   "explicit": false,
+   "duration_ms": 214586
+  },
+  {
+   "n": 54,
+   "name": "LAST TRAIN HOME",
+   "artists": "lostprophets",
+   "url": "https://open.spotify.com/track/4FZs0L15auh1bcAWtY9wbP",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0279283695e83269651b4fa917",
+   "explicit": false,
+   "duration_ms": 275173
+  },
+  {
+   "n": 55,
+   "name": "MR HIM",
+   "artists": "T.I.",
+   "url": "https://open.spotify.com/track/0HfqYUxztFdDvBKoiDQRAC",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e022d3b972c7680515b8ad83130",
+   "explicit": true,
+   "duration_ms": 145292
+  },
+  {
+   "n": 56,
+   "name": "Better Than Me",
+   "artists": "Knox",
+   "url": "https://open.spotify.com/track/0pnZM8ZxMwssPMcHT6H1XG",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02e4c23f6e9f300bdeaa188367",
+   "explicit": false,
+   "duration_ms": 175037
+  },
+  {
+   "n": 57,
+   "name": "Keeper",
+   "artists": "Yellowcard",
+   "url": "https://open.spotify.com/track/3Fg9qVpq9nSMxogABB3yTM",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e022ae45978c06f8ad9b2f55d13",
+   "explicit": false,
+   "duration_ms": 235546
+  },
+  {
+   "n": 58,
+   "name": "The River",
+   "artists": "Good Charlotte",
+   "url": "https://open.spotify.com/track/0d8aJLKZI1r4uOSLZBJaBK",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02160938e45326c10e1fcd6749",
+   "explicit": false,
+   "duration_ms": 195680
+  },
+  {
+   "n": 59,
+   "name": "Sparks",
+   "artists": "Coldplay",
+   "url": "https://open.spotify.com/track/7D0RhFcb3CrfPuTJ0obrod",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e029164bafe9aaa168d93f4816a",
+   "explicit": false,
+   "duration_ms": 227093
+  },
+  {
+   "n": 60,
+   "name": "Broken Man",
+   "artists": "BOYS LIKE GIRLS",
+   "url": "https://open.spotify.com/track/5CFJ24dRRnHcHfOHn8okg8",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e029d5d8ac73325fec119eecfb3",
+   "explicit": false,
+   "duration_ms": 210306
+  },
+  {
+   "n": 61,
+   "name": "Follow Me",
+   "artists": "Transit",
+   "url": "https://open.spotify.com/track/7e4P4n32zERLhTkYFGQ8Hb",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e029621c7d09d4ccb14452ddf63",
+   "explicit": false,
+   "duration_ms": 229093
+  },
+  {
+   "n": 62,
+   "name": "End of Beginning",
+   "artists": "Djo",
+   "url": "https://open.spotify.com/track/3qhlB30KknSejmIvZZLjOD",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02987466cc3363ea26094ca3c4",
+   "explicit": false,
+   "duration_ms": 159245
+  },
+  {
+   "n": 63,
+   "name": "Drag Me Down",
+   "artists": "Loveless",
+   "url": "https://open.spotify.com/track/5O52S9uHzGDD59MV9kHpGx",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02dd0956df9a40ff72925a701b",
+   "explicit": false,
+   "duration_ms": 196961
+  },
+  {
+   "n": 64,
+   "name": "Always Summer",
+   "artists": "Yellowcard",
+   "url": "https://open.spotify.com/track/3yGDoiAluqaZd5rSkD1EF0",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0222ae885aaa50bc1cc5f0500c",
+   "explicit": false,
+   "duration_ms": 189585
+  },
+  {
+   "n": 65,
+   "name": "Wake Me up When September Ends",
+   "artists": "Green Day",
+   "url": "https://open.spotify.com/track/3ZffCQKLFLUvYM59XKLbVm",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0208a1b1e0674086d3f1995e1b",
+   "explicit": false,
+   "duration_ms": 285653
+  },
+  {
+   "n": 66,
+   "name": "Can We Dance",
+   "artists": "The Vamps",
+   "url": "https://open.spotify.com/track/5plDUEEu4r5YEzHL8IhOs1",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02c19c634d3d8355cf64989253",
+   "explicit": false,
+   "duration_ms": 193213
+  },
+  {
+   "n": 67,
+   "name": "Addicted",
+   "artists": "Loveless",
+   "url": "https://open.spotify.com/track/1wME3ehspI78cgK8JVm5cb",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02dd0956df9a40ff72925a701b",
+   "explicit": false,
+   "duration_ms": 175836
+  },
+  {
+   "n": 68,
+   "name": "Black Prada Dress",
+   "artists": "Ellie Goulding",
+   "url": "https://open.spotify.com/track/18nLytFe3KuUp8BOyAAXy8",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e024b79b184f34ac194d35dea12",
+   "explicit": true,
+   "duration_ms": 198971
+  },
+  {
+   "n": 69,
+   "name": "Blank Me",
+   "artists": "Hastings",
+   "url": "https://open.spotify.com/track/03LH899Fyk7Fwt1kZsGdM2",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02a4fae9116e39905eb8c86e69",
+   "explicit": true,
+   "duration_ms": 238554
+  },
+  {
+   "n": 70,
+   "name": "Girl On The Internet",
+   "artists": "Knox",
+   "url": "https://open.spotify.com/track/4sYUUsGf0z6S99Yk7rXWdv",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e028f9ab216644575a8707dee83",
+   "explicit": false,
+   "duration_ms": 155400
+  },
+  {
+   "n": 71,
+   "name": "The Promise",
+   "artists": "When In Rome",
+   "url": "https://open.spotify.com/track/48p5E25cFPanxuwCTmTpuL",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02d12fd00a64529cff635a75f2",
+   "explicit": false,
+   "duration_ms": 220960
+  },
+  {
+   "n": 72,
+   "name": "Golden",
+   "artists": "HUNTR/X, EJAE, AUDREY NUNA, REI AMI, KPop Demon Hunters Cast",
+   "url": "https://open.spotify.com/track/1CPZ5BxNNd0n0nF4Orb9JS",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e024dcb6c5df15cf74596ab25a4",
+   "explicit": false,
+   "duration_ms": 194607
+  },
+  {
+   "n": 73,
+   "name": "I Ain't Comin' Back (feat. Post Malone)",
+   "artists": "Morgan Wallen, Post Malone",
+   "url": "https://open.spotify.com/track/1BDLD4c07q0bmq2VCRsXoE",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0235ea219ce47813b5e2dc3745",
+   "explicit": false,
+   "duration_ms": 175271
+  },
+  {
+   "n": 74,
+   "name": "Love Somebody",
+   "artists": "Maroon 5",
+   "url": "https://open.spotify.com/track/0HnaqUxvHP5LaWdmWwJpiS",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e029d41d73f973cb817462e068a",
+   "explicit": false,
+   "duration_ms": 229813
+  },
+  {
+   "n": 75,
+   "name": "Love In Letting Go",
+   "artists": "Warren Zeiders, Lanie Gardner",
+   "url": "https://open.spotify.com/track/5CXIuI2IL88KY3L9Vd259d",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e025a706794ab6941dbad331377",
+   "explicit": false,
+   "duration_ms": 199575
+  },
+  {
+   "n": 76,
+   "name": "The Heart Wants What It Wants",
+   "artists": "Selena Gomez",
+   "url": "https://open.spotify.com/track/6wJwkMo278iWVlWl1XQ4WA",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02f7dd2cadacebfe2d3c5d96be",
+   "explicit": false,
+   "duration_ms": 227373
+  },
+  {
+   "n": 77,
+   "name": "Leave Out All The Rest",
+   "artists": "Linkin Park",
+   "url": "https://open.spotify.com/track/0sp00HSXkQyqTa6QqM0O8V",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e026e996745f2c7b8036abef213",
+   "explicit": false,
+   "duration_ms": 209306
+  },
+  {
+   "n": 78,
+   "name": "Golden Bird",
+   "artists": "Alan Walker, 刘宇, Chuanzi",
+   "url": "https://open.spotify.com/track/4xN8kkpF1chwOwRYkcFBTm",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02946b76b7791432aeaf4a251d",
+   "explicit": false,
+   "duration_ms": 210113
+  },
+  {
+   "n": 79,
+   "name": "Namaste Bitches",
+   "artists": "Fuzzy Butt Bassel",
+   "url": "https://open.spotify.com/track/5BZrkXJ4k4fhts8cwZFE88",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02ff7b29aa3ca4c5032885180f",
+   "explicit": false,
+   "duration_ms": 147719
+  },
+  {
+   "n": 80,
+   "name": "4 Seasons",
+   "artists": "Ellie Goulding",
+   "url": "https://open.spotify.com/track/2IGJRTV2O1ICf6V0Y2Ku8v",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e028d5d571cedad5867541c1a9f",
+   "explicit": true,
+   "duration_ms": 217069
+  },
+  {
+   "n": 81,
+   "name": "Hanson Ghost",
+   "artists": "Last Dinosaurs",
+   "url": "https://open.spotify.com/track/5aCELTcNE4OSg0bLEhNfLc",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02787d943b3b18081afe07f3ed",
+   "explicit": true,
+   "duration_ms": 208101
+  },
+  {
+   "n": 82,
+   "name": "Call Your Mom (with Lizzy McAlpine)",
+   "artists": "Noah Kahan, Lizzy McAlpine",
+   "url": "https://open.spotify.com/track/3fKpSA5w8iqLe9sNdIDESW",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02f0b007441dc1a09cbbfd77f6",
+   "explicit": false,
+   "duration_ms": 278670
+  },
+  {
+   "n": 83,
+   "name": "Grow Old with Grace",
+   "artists": "The Script",
+   "url": "https://open.spotify.com/track/2e6nSuU0q9e8XWE2qJ059R",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02fb7932642e62f815d8e5ed4d",
+   "explicit": false,
+   "duration_ms": 245066
+  },
+  {
+   "n": 84,
+   "name": "Chapstick",
+   "artists": "Hastings",
+   "url": "https://open.spotify.com/track/7bORQWu4r3RHqdeMMHDOFH",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02a4fae9116e39905eb8c86e69",
+   "explicit": false,
+   "duration_ms": 185000
+  },
+  {
+   "n": 85,
+   "name": "Tokyo Bay (トーキョー・ベイ)",
+   "artists": "Japanese City Pop",
+   "url": "https://open.spotify.com/track/5dz8Qbm3Ekj5s32iWn6DdZ",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02e5e88d0381185f1f082dfe5e",
+   "explicit": false,
+   "duration_ms": 129875
+  },
+  {
+   "n": 86,
+   "name": "Painted Him Perfect",
+   "artists": "Alexandra Kay",
+   "url": "https://open.spotify.com/track/6eAN9q9pNr43bJE7RxVSDG",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e028f107374e2c2bcb74c4d9ffd",
+   "explicit": false,
+   "duration_ms": 190776
+  },
+  {
+   "n": 87,
+   "name": "Love on the Weekend",
+   "artists": "John Mayer",
+   "url": "https://open.spotify.com/track/0oiCeOPwm4zhwfyIpAE37y",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e020e0d1437c1aa269878d5480d",
+   "explicit": false,
+   "duration_ms": 212320
+  },
+  {
+   "n": 88,
+   "name": "Love Song",
+   "artists": "Sara Bareilles",
+   "url": "https://open.spotify.com/track/4E6cwWJWZw2zWf7VFbH7wf",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e027f0eb6a8c3ca507382b57ca8",
+   "explicit": false,
+   "duration_ms": 258483
+  },
+  {
+   "n": 89,
+   "name": "McConaughey",
+   "artists": "ROM COM, Wolf Mahler",
+   "url": "https://open.spotify.com/track/4RAn9vfEE13DdGdC0UjSeK",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0205f5e079faa240b6e505854b",
+   "explicit": false,
+   "duration_ms": 133996
+  },
+  {
+   "n": 90,
+   "name": "Calvary Drive",
+   "artists": "Yellowcard",
+   "url": "https://open.spotify.com/track/4dHi0ke5ncQfI8gUv2eFRP",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0236f9d67bf469d57d9cf5fc64",
+   "explicit": false,
+   "duration_ms": 165063
+  },
+  {
+   "n": 91,
+   "name": "Let Me Down Slow",
+   "artists": "Max Drazen",
+   "url": "https://open.spotify.com/track/3rN4uWkEiRCGPJOzSsgCsS",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e029a686fc100d2a8ae25aec345",
+   "explicit": false,
+   "duration_ms": 178753
+  },
+  {
+   "n": 92,
+   "name": "getting over u",
+   "artists": "Free Arlo",
+   "url": "https://open.spotify.com/track/6zYqUaA53S6GKpFLttD6kq",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e023ac9722bafe6ad4d7441f79a",
+   "explicit": false,
+   "duration_ms": 155852
+  },
+  {
+   "n": 93,
+   "name": "There for You",
+   "artists": "Martin Garrix, Troye Sivan",
+   "url": "https://open.spotify.com/track/6jA8HL9i4QGzsj6fjoxp8Y",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e023e102965fc5b282d76cf1c2c",
+   "explicit": false,
+   "duration_ms": 221904
+  },
+  {
+   "n": 94,
+   "name": "Take Mine",
+   "artists": "Hastings",
+   "url": "https://open.spotify.com/track/4T8gv2sve7epMfhj2o3NIc",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02a4fae9116e39905eb8c86e69",
+   "explicit": true,
+   "duration_ms": 192832
+  },
+  {
+   "n": 95,
+   "name": "Stream",
+   "artists": "Last Dinosaurs",
+   "url": "https://open.spotify.com/track/3WvBluqSNpfzhLjPA4YRpv",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02813c8bfec16e7a388ece0d05",
+   "explicit": false,
+   "duration_ms": 231586
+  },
+  {
+   "n": 96,
+   "name": "Be By You",
+   "artists": "Luke Combs",
+   "url": "https://open.spotify.com/track/7aLndReanHBzpTGE5Am9H8",
+   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0214f1e73e3ff3a0f4a6801fad",
+   "explicit": false,
+   "duration_ms": 197655
+  },
+  {
+   "n": 97,
+   "name": "A Daydream Away",
+   "artists": "All Time Low",
+   "url": "https://open.spotify.com/track/3ShzFbJSRNntv62XqTW50Q",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02e0e509c527634f4d67755f28",
+   "explicit": false,
+   "duration_ms": 251866
+  },
+  {
+   "n": 98,
+   "name": "Here to Mars",
+   "artists": "Coheed and Cambria",
+   "url": "https://open.spotify.com/track/0Ap3aOVU7LItcHIFiRF8lY",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02f0f3a3c894b5bd81807cdabf",
+   "explicit": false,
+   "duration_ms": 241080
+  },
+  {
+   "n": 99,
+   "name": "You And Me And One Spotlight",
+   "artists": "Yellowcard",
+   "url": "https://open.spotify.com/track/3gNumGT7CAxjPd6DoTx1wI",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e022ae45978c06f8ad9b2f55d13",
+   "explicit": false,
+   "duration_ms": 237520
+  },
+  {
+   "n": 100,
+   "name": "Go For Broke",
+   "artists": "Knox",
+   "url": "https://open.spotify.com/track/3pVLl6PaU1IVVGt4aqFxg7",
+   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02f6314ae8ae7299796603c1e2",
+   "explicit": true,
+   "duration_ms": 170181
+  }
+ ]
+}
