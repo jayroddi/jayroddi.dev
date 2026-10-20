@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jaytha.ninja/sitemap.xml
+Sitemap: https://jayroddi.lol/sitemap.xml
