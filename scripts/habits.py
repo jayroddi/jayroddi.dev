@@ -47,7 +47,7 @@ JOURNAL = HABITS / "journal.json"
 JARVIS = HABITS / "journal-jarvis.json"
 SLEEP = HABITS / "sleep.json"
 # v2.72: the grids page moved from / to /habits/ (/ is the snaps page).
-INDEX = HABITS / "index.html"
+INDEX = HABITS.parent / "me" / "index.html"  # v2.77: the grids page is /me/ (/habits/ redirects there)
 TZ = ZoneInfo("America/Chicago")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 RIDE_FROM = "2026-01-01"
@@ -509,7 +509,7 @@ def check_index(cfg: dict) -> None:
     html = INDEX.read_text(encoding="utf-8")
     for tracker in cfg["trackers"]:
         if tracker.get("enabled", True) and f'data-id="{tracker["id"]}"' not in html:
-            raise SystemExit(f"habits: site/habits/index.html has no section for {tracker['id']}")
+            raise SystemExit(f"habits: site/me/index.html has no section for {tracker['id']}")
 
 
 def date_keys(data: dict) -> list[date]:
@@ -639,7 +639,7 @@ def assert_pages(today: date) -> tuple[date, date]:
     html = INDEX.read_text(encoding="utf-8")
     marker = f'data-pages-through="{end.isoformat()}"'
     if marker not in html:
-        raise SystemExit(f"habits: site/habits/index.html is missing {marker}")
+        raise SystemExit(f"habits: site/me/index.html is missing {marker}")
     return grid_start, end
 
 
@@ -675,9 +675,12 @@ def assert_redirects() -> int:
         n += 1
     if n == 0:
         raise SystemExit("habits: no day-page redirects under site/habits")
-    # v2.72: site/habits/index.html is the grids page now, not a redirect.
+    # v2.77: site/me/index.html is the grids page; site/habits/index.html redirects to /me/.
     if 'class="trackers"' not in html or marker in html:
-        raise SystemExit("habits: site/habits/index.html is not the grids page")
+        raise SystemExit("habits: site/me/index.html is not the grids page")
+    stub = (HABITS / "index.html").read_text(encoding="utf-8") if (HABITS / "index.html").is_file() else ""
+    if 'location.replace("/me/"' not in stub:
+        raise SystemExit("habits: site/habits/index.html is not a redirect to /me/")
     return n
 
 
