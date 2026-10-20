@@ -18,7 +18,7 @@ Cycling is not counted again.
 
 Private repos (mideeyah) need HABITS_GITHUB_TOKEN with repo scope. The Actions
 token only sees this public repo. A repo the token cannot see is listed in
-cursor.json under skipped_repos and left out. Counts are never invented.
+cursor.json as a repos_skipped count (names stay in the run log only). Counts are never invented.
 
 cursor-lines.json maps a date to a number (or {"ai_lines": N}). Empty means no
 AI edits. workouts.json is a placeholder and this script does not write it.
@@ -361,8 +361,9 @@ def fetch_repo(repo: str, tok: str, since_iso: str, login: str, cutoff: str) -> 
             "page": page,
         })
         batch, err = api(f"https://api.github.com/repos/{repo}/pulls?{qs}", tok)
-        if err:
-            return [], [], err
+        if err:   # a contents-only token can read commits but not pulls on private repos: keep the commits
+            print(f"habits: pull requests unreadable on a repo, commits still counted: {err[:60]}", file=sys.stderr)
+            return commits, [], None
         if not batch:
             break
         pulls.extend(batch)
@@ -372,6 +373,27 @@ def fetch_repo(repo: str, tok: str, since_iso: str, login: str, cutoff: str) -> 
             break
         page += 1
     return commits, pulls, None
+
+
+def list_repos(cfg: dict, tok: str) -> list[str]:
+    """Every repo the token can see that Jay owns (public and private). Never published: only counts leave this script.
+    trackers.json "repos": "all" (default) or an explicit list; "exclude_forks" defaults to true."""
+    want = cfg.get("repos", "all")
+    if isinstance(want, list):
+        return want
+    out, page = [], 1
+    while page <= 10:
+        qs = urllib.parse.urlencode({"affiliation": "owner,collaborator,organization_member", "per_page": 100, "page": page})
+        batch, err = api(f"https://api.github.com/user/repos?{qs}", tok)
+        if err or not batch:
+            if err:
+                print(f"habits: repo listing failed: {err}", file=sys.stderr)
+            break
+        out += [r["full_name"] for r in batch if not (cfg.get("exclude_forks", True) and r.get("fork"))]
+        if len(batch) < 100:
+            break
+        page += 1
+    return sorted(set(out))
 
 
 def write_cursor(cfg: dict, today: date) -> dict:
@@ -385,8 +407,7 @@ def write_cursor(cfg: dict, today: date) -> dict:
     active = len(data["days"])
     total = sum(day["total"] for day in data["days"].values())
     print(f"habits: wrote {CURSOR.relative_to(ROOT)} ({active} active days, total {total})")
-    for skip in data["skipped_repos"]:
-        print(f"habits: note: {skip['repo']} not included")
+    print(f"habits: repos counted {data['repos_counted']}, skipped {data['repos_skipped']}")
     return data
 
 
@@ -405,14 +426,15 @@ def build_cursor_once(cfg: dict, today: date) -> dict:
             days[day_key] = blank_day()
         return days[day_key]
 
-    for repo in cfg["repos"]:
+    repos = list_repos(cfg, tok)
+    for repo in repos:
         commits, pulls, err = fetch_repo(repo, tok, since_iso, login, grid_start.isoformat())
         if err:
             skipped.append({
                 "repo": repo,
                 "reason": err + " Private repos need a HABITS_GITHUB_TOKEN secret with repo scope.",
             })
-            print(f"habits: skipped {repo}: {err}", file=sys.stderr)
+            print(f"habits: skipped a repo: {err}", file=sys.stderr)   # name stays in the log only
             continue
         for commit in commits:
             if len(commit.get("parents") or []) > 1:
@@ -496,8 +518,8 @@ def build_cursor_once(cfg: dict, today: date) -> dict:
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "through": today.isoformat(),
         "login": login,
-        "repos": list(cfg["repos"]),
-        "skipped_repos": skipped,
+        "repos_counted": len(repos) - len(skipped),   # counts only: no repo names, messages, shas or urls are published
+        "repos_skipped": len(skipped),
         "manual": manual_name,
         "counting": counting_text(),
         "days": cleaned,

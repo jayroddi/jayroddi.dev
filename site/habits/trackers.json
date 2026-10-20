@@ -3,10 +3,7 @@
   "timezone": "America/Chicago",
   "streak": 10,
   "login": "jayroddi",
-  "repos": [
-    "jayroddi/jaytha.ninja",
-    "jayroddi/mideeyah"
-  ],
+  "repos": "all",
   "trackers": [
     {
       "id": "cursor",
@@ -16,11 +13,28 @@
       "data": "/habits/cursor.json",
       "manual": "cursor-lines.json",
       "sources": [
-        {"key": "commits", "label": "commits"},
-        {"key": "prs_opened", "label": "prs opened"},
-        {"key": "prs_merged", "label": "prs merged"},
-        {"key": "ai_lines", "label": "ai line edits", "when": "present"},
-        {"key": "rides", "label": "🚵 ride (thinking time)", "when": "present"}
+        {
+          "key": "commits",
+          "label": "commits"
+        },
+        {
+          "key": "prs_opened",
+          "label": "prs opened"
+        },
+        {
+          "key": "prs_merged",
+          "label": "prs merged"
+        },
+        {
+          "key": "ai_lines",
+          "label": "ai line edits",
+          "when": "present"
+        },
+        {
+          "key": "rides",
+          "label": "🚵 ride (thinking time)",
+          "when": "present"
+        }
       ]
     },
     {
@@ -58,5 +72,6 @@
       "data": "/habits/journal.json",
       "sources": []
     }
-  ]
+  ],
+  "exclude_forks": true
 }
