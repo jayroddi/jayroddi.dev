@@ -46,7 +46,7 @@ body.board .mast .elsewhere{width:100%;margin:0}
    symmetrically into the side padding, up to 4px from the screen edge. wider columns are unchanged. */
 body.board .mast .social{--rw:max(100%,min(352px,100vw - 8px));width:var(--rw);max-width:none;margin:0 calc((100% - var(--rw))/2);justify-content:space-between;align-items:center;gap:0}
 body.board .mast .social li{flex:0 1 44px;width:44px;min-width:0;max-width:44px;height:44px;display:flex;align-items:center;justify-content:center}
-body.board .mast .social a,body.board .mast .social a.who-t{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;height:44px;min-width:0;min-height:44px;padding:0;margin:0;border-radius:10px;-webkit-tap-highlight-color:transparent}
+body.board .mast .social a,body.board .mast .social a.who-t,body.board .mast .social button.who-t{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;height:44px;min-width:0;min-height:44px;padding:0;margin:0;border-radius:10px;-webkit-tap-highlight-color:transparent}
 body.board .mast .social a:focus-visible{outline-offset:-3px}
 body.board .signup{width:min(100%,26rem);margin:18px auto 10px}
 body.board .notify{justify-content:center;--mail-s:calc(11 / 16);--mail-slot:62px;--mail-h:calc(24px + 10px / var(--mail-s))}

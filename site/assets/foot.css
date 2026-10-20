@@ -54,9 +54,10 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--c);outline-offset:2
 :root{--wolf:#A0A4A8;--wolf-light:#E8E8E8;--wolf-ink:#070606}
 @media (prefers-color-scheme:light){:root{--wolf:#6B6F73;--wolf-light:#C9CCCF;--wolf-ink:#070606}}
 .social .who-t .nj{display:block;flex:none;width:calc(24px*var(--k));height:calc(24px*var(--k))}
-.social a.who-t{padding:12px;margin:-12px;border-radius:12px;text-decoration:none;-webkit-tap-highlight-color:transparent}
-.social a.who-t:hover{background:none}
-.social a.who-t:focus-visible{outline:2px solid var(--c);outline-offset:-8px}   /* v1.67 (yuki): a keyboard ring on the ninja link, in the state colour, inside its 44px tap target (clear of the next icon) */
+.social button.who-t{appearance:none;-webkit-appearance:none;background:none;border:0;font:inherit;color:var(--c);cursor:pointer;touch-action:manipulation}   /* v1.99 (jay 2026.10.20): the wolf is the speed button */
+.social a.who-t,.social button.who-t{padding:12px;margin:-12px;border-radius:12px;text-decoration:none;-webkit-tap-highlight-color:transparent}
+.social a.who-t:hover,.social button.who-t:hover{background:none}
+.social a.who-t:focus-visible,.social button.who-t:focus-visible{outline:2px solid var(--c);outline-offset:-8px}   /* v1.67 (yuki): a keyboard ring on the ninja link, in the state colour, inside its 44px tap target (clear of the next icon) */
 .social .who-t,.social .who-t *{transition:color .15s ease,fill .15s ease,stroke .15s ease,stop-color .15s ease}
 .nj{--nj-a-lt:var(--c-lt);--nj-a:var(--c);--nj-a-dk:var(--c-dk);--nj-a-hl:#A6F0F2;--nj-a-tail:#128E93;--nj-a-sash:#9BEBEE;--nj-k-lt:var(--f-lt);--nj-k:var(--f);--nj-k-dk:var(--f-dk);--nj-k-wrap:#5a1604}
 :root[data-mode="fast"] .nj{--nj-a-hl:var(--c-pale);--nj-a-tail:var(--c-dk);--nj-a-sash:var(--c-pale);--nj-k-wrap:#053638}

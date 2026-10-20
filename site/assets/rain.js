@@ -161,7 +161,7 @@ function Rain(cv, o){
     glowTwins();
     // v2.18: the grids page has no speed hint. tapping still changes speed. other pages keep the sentence.
     // v2.72: the grids moved from / to /habits/ (/ is the snaps page now), so the rule follows them.
-    if(/^\/me\/(index\.html)?$/.test(location.pathname)){  // v2.77: /habits/ -> /me/
+    if(true){  // v2.74 (jay 2026.10.20): no page shows the 'tap screen for speed' hint (the wolf is the switch). was: only /me/ hid it
       document.querySelectorAll('.tap-hint').forEach(n=>n.remove());
       hint=null;
       return;
@@ -174,10 +174,11 @@ function Rain(cv, o){
   // v1.82: on a phone the hint sits 6px under the safe area (was 11) so it clears the date. desktop top is unchanged.
   const place=()=>{if(!hint)return;const copy=document.querySelector('.copy');if(!copy)return;const r=copy.getBoundingClientRect();const mobile=innerWidth<760;const lh=parseFloat(getComputedStyle(copy.querySelector('.hello')||copy).lineHeight)||30;hint.style.top=mobile?`calc(env(safe-area-inset-top,0px) + 6px)`:`${Math.max(11,r.top-2*lh)}px`;if(mobile){hint.style.right=`calc(env(safe-area-inset-right,0px) + 14px)`;return;}let right=0;for(const el of copy.querySelectorAll('.hello,.para,.sig,.prompt')){const range=document.createRange();range.selectNodeContents(el);for(const q of range.getClientRects())right=Math.max(right,q.right);}if(!right)right=r.right;hint.style.right=Math.max(14,innerWidth-right-16)+'px';};
   const mode=(fast,ms=250)=>{const next=fast?'fast':'normal';document.documentElement.dataset.mode=next;document.documentElement.classList.toggle('fast',fast);if(hint){setHintMode();hint.classList.toggle('settled',fast||hint.classList.contains('settled'));}if(rain){rain.fast=fast;rain.setSpeed(fast?2:1,ms);rain.setTint(fast?RAIN_ORANGE:T,ms);}if(onMode)onMode(fast);};
-  const boot=()=>{if(booted)return;booted=true;ensure();document.addEventListener('pointerdown',e=>{down=e.isPrimary&&e.button===0&&!e.target.closest('a,button,input,label')?{x:e.clientX,y:e.clientY}:null});document.addEventListener('pointercancel',()=>down=null);document.addEventListener('pointerup',e=>{if(!down||!e.isPrimary||Math.hypot(e.clientX-down.x,e.clientY-down.y)>10||String(getSelection()))return;down=null;if(onTap&&onTap())return;mode(!document.documentElement.classList.contains('fast'));});addEventListener('resize',place);if(window.ResizeObserver){const c=document.querySelector('.copy');c&&new ResizeObserver(place).observe(c)}};
+  const boot=()=>{if(booted)return;booted=true;ensure();/* v2.74 (jay 2026.10.20): no tap-anywhere speed toggle any more. the wolf (first in the social row, foot.js) is the only switch: JayRain.toggle(). */addEventListener('resize',place);if(window.ResizeObserver){const c=document.querySelector('.copy');c&&new ResizeObserver(place).observe(c)}};
   // jay 2026.09.30 v1.25: optional tap hook. if it returns true the page used the tap (the homepage's terminal dump) and the 1x/2x toggle is skipped
   const register=(r,cb,tap)=>{rain=r;onMode=cb||null;onTap=tap||null;boot()};
   const dump=on=>{dumpHint=!!on;setHintMode()};
+  const toggle=()=>{mode(!document.documentElement.classList.contains('fast'));return modeName()};   // v2.74: the wolf's tap
   const markRendered=()=>{rendered=true;hintNext()};   // the page has finished rendering (no gold skip any more). v1.61: the hint re-reads the next colour (was v1.57: .live off, the 3rd word back to --c)
   // jay 2026.09.30 v1.25: back-navigation note. off the homepage (/song-of-the-day/, /quote-of-the-day/), a plain same-tab click on a link home ("← jayroddi.lol") leaves a one-shot sessionStorage note; the homepage reads + clears it and opens fully loaded
   const HOME=/^\/(index\.html)?$/;
@@ -284,6 +285,6 @@ function Rain(cv, o){
   const newDay=cb=>{dayCb=cb||null};
   // v2.03 (jay 2026.10.10): the intro's resting caret goes away. the ninja (first in the social row) takes that pulse. pages call this from the same place they used to park the caret.
   const introDone=()=>{document.querySelectorAll('.cursor').forEach(el=>el.remove());document.documentElement.classList.add('intro-done')};
-  window.JayRain={Rain,register,mode,dump,rendered:markRendered,smooth:sm,returning,seen,burst,gold,goldOff,golden:()=>auLock,day:ctDay,newDay,ref,introDone,floor:RAIN_FLOOR};
+  window.JayRain={Rain,register,mode,toggle,dump,rendered:markRendered,smooth:sm,returning,seen,burst,gold,goldOff,golden:()=>auLock,day:ctDay,newDay,ref,introDone,floor:RAIN_FLOOR};
   if(document.readyState!=='loading')boot();else addEventListener('DOMContentLoaded',boot,{once:true});
 })();
