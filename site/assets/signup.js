@@ -1,4 +1,5 @@
-/* v2.22 (jay 2026.10.20): the footer (email, rocket, konami) is on /, /quotes/ and /me/; the placeholder is "subscribe for updates".
+/* v2.23 (jay 2026.10.20): konami rocket no longer sticks mid-screen on pages without #stage, and finishes off the top of the screen.
+   v2.22 (jay 2026.10.20): the footer (email, rocket, konami) is on /, /quotes/ and /me/; the placeholder is "subscribe for updates".
    v2.21: the email field is 16px inside a wrapper scaled to the stat-label size. the cable follows that visual box.
    the prompt line above the form is gone. the field placeholder is "enter email for liftoff, or cheat code below".
    the thanks line is the same copy, shown at once (the old typewriter lived in the homepage intro). */
@@ -234,7 +235,7 @@ function launchSpace(){
   const src = form.querySelector('.rkb .rk'), b = src && src.getBoundingClientRect();
   let fly = null, dx = 0, dy = 0;
   const climb = () => {
-    const stage = document.getElementById('stage'), rect = stage.getBoundingClientRect(), clone = stage.cloneNode(true);
+    const stage = document.getElementById('stage') || document.querySelector('main.stage') || document.querySelector('main') || document.body, rect = stage.getBoundingClientRect(), clone = stage.cloneNode(true);   // v2.23: / /quotes/ /music/ have no #stage (was a TypeError: rocket stuck mid-screen)
     clone.querySelectorAll('[id]').forEach(n => { n.id = n.id + '-kos'; });
     clone.querySelectorAll('*').forEach(n => { [...n.attributes].forEach(a => { if (a.value && a.value.indexOf('url(#') !== -1) n.setAttribute(a.name, a.value.replace(/url\(#([^)]+)\)/g, (_, id) => 'url(#' + (id.endsWith('-kos') ? id : id + '-kos') + ')')); }); });
     clone.removeAttribute('id'); clone.inert = true; clone.classList.add('kos-page');
@@ -247,7 +248,7 @@ function launchSpace(){
     space.animate([{opacity: 0}, {opacity: 1}], {duration: Math.round(flight * .85), easing: 'ease', fill: 'forwards', delay: 180});
     setTimeout(() => {
       sky.boost(0);
-      if (fly) fly.animate([{transform: 'translate(' + dx + 'px,' + dy + 'px) rotate(-45deg)', opacity: 1}, {transform: 'translate(' + dx + 'px,' + (dy - innerHeight * .22) + 'px) rotate(-45deg)', opacity: 0}], {duration: 640, easing: 'ease-in', fill: 'forwards'}).finished.then(() => { fly.style.visibility = 'hidden'; });
+      if (fly) fly.animate([{transform: 'translate(' + dx + 'px,' + dy + 'px) rotate(-45deg)', opacity: 1}, {transform: 'translate(' + dx + 'px,' + (dy - innerHeight * .46 - b.height * 3) + 'px) rotate(-45deg)', opacity: 1}], {duration: 760, easing: 'cubic-bezier(.5,0,.9,.6)', fill: 'forwards'}).finished.then(() => { fly.style.visibility = 'hidden'; });
       say(); setTimeout(() => fadeOut(640), 4500);
     }, flight + 200);
   };
@@ -261,7 +262,7 @@ function launchSpace(){
     puff.animate([{opacity: 0, transform: 'scale(.3)'}, {opacity: 1, transform: 'scale(.8)', offset: .25}, {opacity: 0, transform: 'scale(1.6)'}], {duration: 650, easing: 'ease-out', fill: 'forwards'});
     dx = innerWidth / 2 - (b.left + b.width / 2); dy = innerHeight * .46 - (b.top + b.height / 2);
     trackGold(fly);
-    fly.animate([{transform: 'translate(0px,0px) rotate(0deg)'}, {transform: 'translate(' + dx + 'px,' + dy + 'px) rotate(-45deg)'}], {duration: 720, easing: 'cubic-bezier(.3,.6,.4,1)', fill: 'forwards'}).finished.then(climb);
+    fly.animate([{transform: 'translate(0px,0px) rotate(0deg)'}, {transform: 'translate(' + dx + 'px,' + dy + 'px) rotate(-45deg)'}], {duration: 720, easing: 'cubic-bezier(.3,.6,.4,1)', fill: 'forwards'}).finished.then(() => { try { climb(); } catch (e) { sky.boost(0); if (fly) fly.style.visibility = 'hidden'; say(); setTimeout(() => fadeOut(640), 4500); } });   // v2.23: never strand the rocket
   } else { JayRain.gold({lock: true}); setTimeout(climb, 160); }
 }
 function showPad(){
