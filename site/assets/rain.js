@@ -179,7 +179,7 @@ function Rain(cv, o){
   const register=(r,cb,tap)=>{rain=r;onMode=cb||null;onTap=tap||null;boot()};
   const dump=on=>{dumpHint=!!on;setHintMode()};
   const markRendered=()=>{rendered=true;hintNext()};   // the page has finished rendering (no gold skip any more). v1.61: the hint re-reads the next colour (was v1.57: .live off, the 3rd word back to --c)
-  // jay 2026.09.30 v1.25: back-navigation note. off the homepage (/song-of-the-day/, /quote-of-the-day/), a plain same-tab click on a link home ("← jaytha.ninja") leaves a one-shot sessionStorage note; the homepage reads + clears it and opens fully loaded
+  // jay 2026.09.30 v1.25: back-navigation note. off the homepage (/song-of-the-day/, /quote-of-the-day/), a plain same-tab click on a link home ("← jayroddi.lol") leaves a one-shot sessionStorage note; the homepage reads + clears it and opens fully loaded
   const HOME=/^\/(index\.html)?$/;
   if(!HOME.test(location.pathname))document.addEventListener('click',e=>{const a=e.target.closest&&e.target.closest('a[href]');if(!a||e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||(a.target&&a.target!=='_self'))return;const u=new URL(a.href,location.href);if(u.origin===location.origin&&HOME.test(u.pathname)){try{sessionStorage.setItem('jtn.back','1')}catch(_){}}},true);
   // jay 2026.10.01 v1.41: the homepage's terminal state for the other typed pages (/song-of-the-day/, /quote-of-the-day/). the homepage keeps its own copy and never calls these.
@@ -189,7 +189,7 @@ function Rain(cv, o){
   // burst(tape, done): the homepage's terminal dump: every remaining typing step plays in one ~1.2s burst (14ms a step at most) while the rain runs at 6x, then the rain eases back to the mode's speed
   const PATH=p=>p.replace(/index\.html$/,'').replace(/([^/])$/,'$1/'), HERE=PATH(location.pathname);
   const ss=(()=>{try{return window.sessionStorage}catch(_){return null}})(), ssGet=k=>{try{return ss&&ss.getItem(k)}catch(_){return null}}, ssSet=(k,v)=>{try{ss&&ss.setItem(k,v)}catch(_){}};
-  // v1.60 (jay 2026.10.03): where a visitor came from. ?ref=x on any page (e.g. the bio link: jaytha.ninja/?ref=x) is kept for this tab (sessionStorage "jtn.ref": lowercase
+  // v1.60 (jay 2026.10.03): where a visitor came from. ?ref=x on any page (e.g. the bio link: jayroddi.lol/?ref=x) is kept for this tab (sessionStorage "jtn.ref": lowercase
   // a-z 0-9 . _ -, up to 40) and leaves the address bar (so a shared link doesn't carry it). the homepage sends it with a signup as its buttondown tag (no ref: "site")
   const refNow=(()=>{try{const u=new URL(location.href);if(!u.searchParams.has('ref'))return;const r=(u.searchParams.get('ref')||'').toLowerCase().replace(/[^a-z0-9._-]/g,'').slice(0,40);u.searchParams.delete('ref');history.replaceState(history.state,'',u.pathname+u.search+u.hash);if(r)ssSet('jtn.ref',r)}catch(_){}})();
   const ref=()=>ssGet('jtn.ref')||'';

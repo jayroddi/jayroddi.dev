@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""scripts/make_cards.py: jaytha.ninja's share cards (1200x630 png, from capri's templates in scripts/cards/, v1.61) and their nightly flip.
+"""scripts/make_cards.py: jayroddi.lol's share cards (1200x630 png, from capri's templates in scripts/cards/, v1.61) and their nightly flip.
 
 the cards show what the pages show: /og/home.png = the intro + "// yyyy.mm.dd", /og/song.png, /og/quote.png, /og/snap.png = the newest entry dated
 that day or earlier (same rule as the pages). every og:image / twitter:image pointing at them carries ?d=<the cards' date> so social apps refetch.
@@ -62,21 +62,21 @@ def cards(repo, day):
     d8 = day.replace('-', '.')
     out = {}
     out['home'] = fill('home', '// ' + d8, '.main{margin-top:68px;font-size:34px;line-height:1.35}.main p{margin-bottom:22px}',
-                       ''.join(f'<p data-fit>{e(a)}<span class="t">{e(b)}</span></p>' for a, b in INTRO), 'jaytha.ninja')
+                       ''.join(f'<p data-fit>{e(a)}<span class="t">{e(b)}</span></p>' for a, b in INTRO), 'jayroddi.lol')
     snaps = json.loads((site/'snap-of-the-day/snaps.json').read_text(encoding='utf-8'))
     sn = newest(snaps, day, lambda r: r.get('src'))
     if sn:
         src = site/sn['src'].split('?')[0].lstrip('/')
         out['snap'] = fill('snap', '// ' + sn['date'].replace('-', '.'),
             '.main{margin-top:40px;display:flex;gap:48px;align-items:center}.txt{flex:1;min-width:0}.lab{font-size:34px;margin-bottom:26px}.cap{font-size:25px;line-height:1.45;color:#c9c3be}.main img{flex:none;width:540px;height:360px;object-fit:cover;border-radius:16px;box-shadow:0 0 40px rgba(26,173,179,.25),0 0 0 1px rgba(26,173,179,.35)}',
-            f'<div class="txt"><p class="t lab">📸 snap of the day</p><p class="cap" data-fit>{e(sn.get("alt", "").lower())}</p></div><img src="{src.as_uri()}">', 'jaytha.ninja/snap-of-the-day')
+            f'<div class="txt"><p class="t lab">📸 snap of the day</p><p class="cap" data-fit>{e(sn.get("alt", "").lower())}</p></div><img src="{src.as_uri()}">', 'jayroddi.lol/snap-of-the-day')
     quotes = json.loads((site/'quote-of-the-day/quotes.json').read_text(encoding='utf-8'))
     q = newest(quotes, day, lambda r: (r.get('text') or r.get('quote')) and r.get('author'))
     if q:   # word for word, lowercased like the page (css text-transform there)
         quote = q.get('text') or q.get('quote')
         out['quote'] = fill('quote', '// ' + q['date'].replace('-', '.'),
             '.main{margin-top:64px}.lab{font-size:28px;margin-bottom:30px}.q{font-size:50px;line-height:1.25;color:#fff}.by{margin-top:26px;font-size:24px}',
-            f'<p class="t lab">💭 today\'s quote</p><p class="q" data-fit>{qbr(quote.lower())}</p><p class="g by" data-fit>{e(q["author"].lower())}</p>', 'jaytha.ninja/quote-of-the-day')
+            f'<p class="t lab">💭 today\'s quote</p><p class="q" data-fit>{qbr(quote.lower())}</p><p class="g by" data-fit>{e(q["author"].lower())}</p>', 'jayroddi.lol/quote-of-the-day')
     songs = json.loads((site/'song-of-the-day/songs.json').read_text(encoding='utf-8'))
     so = newest(songs, day, lambda r: r.get('id') and r.get('track'))
     art = None
@@ -95,7 +95,7 @@ def cards(repo, day):
         out['song'] = fill('song', '// ' + so['date'].replace('-', '.'),
             '.main{margin-top:44px;display:flex;gap:48px;align-items:center}.main img{flex:none;width:330px;height:330px;border-radius:14px;box-shadow:0 0 40px rgba(26,173,179,.25),0 0 0 1px rgba(26,173,179,.35)}.txt{flex:1;min-width:0}.lab{font-size:28px;margin-bottom:24px}.ly{font-size:31px;line-height:1.4;color:#fff}.by{margin-top:22px;font-size:23px}',
             f'<div class="txt"><p class="t lab">🎧 song of the day</p>' + (f'<p class="ly" data-fit>{ly}</p>' if ly else '') +
-            f'<p class="g by" data-fit>{e(track.lower())} // {e(artist.lower())}</p></div><img src="__ART__">', 'jaytha.ninja/song-of-the-day')
+            f'<p class="g by" data-fit>{e(track.lower())} // {e(artist.lower())}</p></div><img src="__ART__">', 'jayroddi.lol/song-of-the-day')
     return out, art
 
 SHOT = r"""
