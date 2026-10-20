@@ -5,6 +5,8 @@ body.snaps .gallery{width:min(1280px,calc(100vw - 32px));margin:0 auto 32px;posi
 /* v2.34: month headings stay at the old header size, which is now the grid-title size. */
 .month h2{margin:22px 0 10px;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;line-height:1.25;color:var(--c);text-shadow:0 0 8px rgba(var(--bg-rgb),.8)}
 .month:first-child h2{margin-top:4px}
+/* TEMPORARY (jay 2026.10.20): the backlog note above the newest month, plain --fg text (white dark, black light), small and quiet. delete with the line in /index.html. */
+.backlog{margin:4px 0 0;text-align:center;font-family:var(--mono);font-size:12px;font-weight:400;line-height:1.35;color:var(--fg);opacity:.8;text-shadow:0 0 8px rgba(var(--bg-rgb),.8)}
 .grid{display:flex;align-items:flex-start;gap:8px}
 .col{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:8px}
 .shot{position:relative;display:block;width:100%;margin:0;padding:0;border:0;background:#111;cursor:zoom-in;-webkit-tap-highlight-color:transparent;aspect-ratio:var(--r,1)}
