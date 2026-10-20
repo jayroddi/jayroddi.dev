@@ -40,7 +40,7 @@ body.board .mast .nav a:focus-visible{outline:2px solid var(--c);outline-offset:
 body.board .mast .nav .sep{font-style:normal;color:var(--fg);pointer-events:none}
 /* v2.69 (jay 2026.10.20): the line under the header on /me/ ("want to know more about me? just ask."), styled like the backlog note on /:
    the byline's font and size, upright, plain --fg, a 44px row pulled up so icons -> line -> first grid title match the header rhythm. */
-body.board .copy > .note-line{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:44px;margin:calc(-1 * var(--habit-gap) - 14px) 0 0;padding:0 8px;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:normal;letter-spacing:normal;line-height:1.25;color:var(--fg)}
+body.board .copy > .note-line{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:44px;margin:calc(-1 * var(--habit-gap) - 1px) 0 0;padding:calc((44px - 1.25em) / 2) 8px;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:normal;letter-spacing:normal;line-height:1.25;color:var(--fg)}
 body.board .mast .elsewhere{width:100%;margin:0}
 /* v2.64: 8 items need 352px for 44px tap targets. when the column is narrower (a 390px phone has 342px), the row widens
    symmetrically into the side padding, up to 4px from the screen edge. wider columns are unchanged. */

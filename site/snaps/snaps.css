@@ -8,7 +8,7 @@ body.snaps .gallery{width:min(1280px,calc(100vw - 32px));margin:0 auto 32px;posi
 /* TEMPORARY (jay 2026.10.20): the backlog note above the newest month. the header line's font and size (mono, 14px / 13px on a phone,
    weight 500), upright, plain --fg (white dark, black light). it is a 44px row like the byline / nav / icon rows, pulled up by the mast's
    --habit-gap, so the gaps icons -> note -> month title match byline -> nav -> icons. delete with the line in /index.html. */
-body.snaps .backlog{box-sizing:border-box;display:flex;align-items:center;justify-content:center;min-height:44px;margin:calc(-1 * var(--habit-gap,16px) - 14px) 0 0;padding:0 8px;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:normal;letter-spacing:normal;line-height:1.25;color:var(--fg);text-shadow:0 0 8px rgba(var(--bg-rgb),.8)}
+body.snaps .backlog{box-sizing:border-box;display:flex;align-items:center;justify-content:center;min-height:44px;margin:calc(-1 * var(--habit-gap,16px) - 1px) 0 0;padding:calc((44px - 1.25em) / 2) 8px;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:normal;letter-spacing:normal;line-height:1.25;color:var(--fg);text-shadow:0 0 8px rgba(var(--bg-rgb),.8)}
 body.snaps .backlog + .gallery .month:first-child h2{margin-top:0}
 @media (max-width:760px){body.snaps .backlog{font-size:13px}}
 .grid{display:flex;align-items:flex-start;gap:8px}
