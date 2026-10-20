@@ -28,13 +28,16 @@ body.board .foot{margin-left:auto;margin-right:auto;text-align:center}
 body.board .mast{--k:.9167;--kx:.8;width:100%;min-height:44px;margin:0 0 var(--habit-gap)}
 /* v2.63: the header line is plain text, italic, the same size as the old nav, in the normal text colour. the share-card replica still uses .line. */
 body.board .mast .line{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:44px;margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:normal;line-height:1.25;color:var(--c)}
-body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;width:100%;min-height:44px;margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:1.25;color:var(--ink)}
-/* v2.67 (jay 2026.10.19): the line is now the current speed colour, --c (teal by default, orange after a speed tap, gold in gold mode), not --f.
-   v2.65: the line is a link (to /quotes/, and home from /quotes) in the opposite speed colour, --f: orange while --c is teal, teal after a
-   speed tap, each in its light / dark theme shade (rain.css). same font and size as the line; a subtle 1px underline in the same colour; a 44px tall tap target; a visible keyboard ring. */
-body.board .mast .pages a.pages-a{display:inline-flex;align-items:center;min-height:44px;padding:0 8px;font:inherit;color:var(--c);text-decoration:underline;text-decoration-color:currentColor;text-decoration-thickness:1px;text-underline-offset:.2em;border-radius:6px;-webkit-tap-highlight-color:transparent}
-body.board .mast .pages a.pages-a:hover{color:var(--c)}
-body.board .mast .pages a.pages-a:focus-visible{outline:2px solid var(--c);outline-offset:-4px}
+body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;width:100%;min-height:44px;margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:1.25;color:var(--fg)}
+/* v2.68 (jay 2026.10.20): the top line is plain text again, "by jay, a millennial living out loud", same font and size, in --fg
+   (white in dark mode, black in light mode). below it the old v2.36 nav is back as snaps // quotes // habits: italic links in the speed
+   colour --c, separators in --fg, 44px tap targets, and the current page gets a subtle 1px underline (.2em offset, currentColor). */
+body.board .mast .nav{box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;width:100%;min-height:44px;margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:1.25;color:var(--c)}
+body.board .mast .nav a{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 12px;font-style:italic;color:var(--c);text-decoration:none;border-radius:6px;-webkit-tap-highlight-color:transparent}
+body.board .mast .nav a:hover{color:var(--c)}
+body.board .mast .nav a[aria-current="page"]{text-decoration:underline;text-decoration-color:currentColor;text-decoration-thickness:1px;text-underline-offset:.2em}
+body.board .mast .nav a:focus-visible{outline:2px solid var(--c);outline-offset:-4px}
+body.board .mast .nav .sep{font-style:normal;color:var(--fg);pointer-events:none}
 body.board .mast .elsewhere{width:100%;margin:0}
 /* v2.64: 8 items need 352px for 44px tap targets. when the column is narrower (a 390px phone has 342px), the row widens
    symmetrically into the side padding, up to 4px from the screen edge. wider columns are unchanged. */
@@ -176,6 +179,7 @@ body.day .home{margin:0 0 22px}
   body.board .mast{--k:.8333;--kx:.7143}
   body.board .mast .line{font-size:13px}
   body.board .mast .pages{font-size:13px}
+  body.board .mast .nav{font-size:13px}
   body.board .copy{min-width:0}
   .kicker,.tracker .kicker{font-size:13px}
   .daysec h2{font-size:17px}
