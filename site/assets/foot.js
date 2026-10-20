@@ -1,4 +1,5 @@
-/* v2.76: the pulsing ninja is capri's wolf (wolf-r3), inline; only the bandana is currentColor = the speed colour --c. same links, size and pulse.
+/* v2.77: the grids page is /me/ (/habits/ redirects); on / the wolf links to /me/.
+   v2.76: the pulsing ninja is capri's wolf (wolf-r3), inline; only the bandana is currentColor = the speed colour --c. same links, size and pulse.
    v2.75: version bump with the new header (byline + snaps // quotes // habits nav, css 2.68).
    v2.74: github is jayroddi (the account rename from jaythaninja).
    v2.73: order after the ninja: github, spotify, threads, instagram, x, linkedin, email.
@@ -29,7 +30,7 @@ const ICONS = {"x": "<svg class=\"ic\" style=\"--s:17.4;--k:var(--kx)\" aria-hid
 const SOCIALS = [{"label": "github", "icon": "github", "href": "https://github.com/jayroddi"}, {"label": "spotify", "icon": "spotify", "href": "https://open.spotify.com/user/1238911903"}, {"label": "threads", "icon": "threads", "href": "https://www.threads.com/@jayroddi"}, {"label": "instagram", "icon": "instagram", "href": "https://www.instagram.com/jayroddi"}, {"label": "𝕏", "icon": "x", "href": "https://x.com/jayroddi"}, {"label": "linkedin", "icon": "linkedin", "href": "https://www.linkedin.com/in/jayroddi"}, {"label": "email", "icon": "email", "href": "mailto:jay@jaytha.ninja"}];
 const esc = t => String(t).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'})[c]);
 const onHome = /^\/(index\.html)?$/.test(location.pathname);
-const njItem = onHome ? `<li class="who"><a class="who-t" href="/habits/" aria-label="habits">${NJ}</a></li>` : `<li class="who"><a class="who-t" href="/" aria-label="home">${NJ}</a></li>`;
+const njItem = onHome ? `<li class="who"><a class="who-t" href="/me/" aria-label="me">${NJ}</a></li>` : `<li class="who"><a class="who-t" href="/" aria-label="home">${NJ}</a></li>`;
 const icon = s => `<li><a href="${esc(s.href)}" aria-label="${esc(s.label)}" title="${esc(s.label)}"${/^https?:/.test(s.href) ? ' target="_blank" rel="noopener"' : ''}>${ICONS[s.icon] || ''}</a></li>`;
 const row = `<nav class="elsewhere" aria-label="elsewhere"><ul class="social">${njItem}${SOCIALS.map(icon).join('')}</ul></nav>`;
 const mast = document.querySelector('.mast');

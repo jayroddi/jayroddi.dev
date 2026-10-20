@@ -161,7 +161,7 @@ function Rain(cv, o){
     glowTwins();
     // v2.18: the grids page has no speed hint. tapping still changes speed. other pages keep the sentence.
     // v2.72: the grids moved from / to /habits/ (/ is the snaps page now), so the rule follows them.
-    if(/^\/habits\/(index\.html)?$/.test(location.pathname)){
+    if(/^\/me\/(index\.html)?$/.test(location.pathname)){  // v2.77: /habits/ -> /me/
       document.querySelectorAll('.tap-hint').forEach(n=>n.remove());
       hint=null;
       return;
