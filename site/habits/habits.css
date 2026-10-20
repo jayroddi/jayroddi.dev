@@ -269,3 +269,6 @@ body.day .home{margin:0 0 22px}
 }
 .hap{position:fixed;left:0;top:0;width:1px;height:1px;margin:0;padding:0;overflow:hidden;opacity:0;border:0;clip:rect(0 0 0 0)}
 .hap input,.hap label{position:absolute;width:1px;height:1px;margin:0;padding:0}
+/* v2.74 (jay 2026.10.20): the wolf's bandana (currentColor) is gold whenever gold is on: the '+30 lives' wolf inherited the overlay's white text colour. */
+.konami .nj,.kos-hold .nj{color:#FFD700}
+:root.gld .nj,.gld .nj,.nj.gld{color:var(--c)}
