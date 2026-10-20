@@ -1,4 +1,4 @@
-/* music.js v0.1 (jay 2026.10.20, MOCKUP): playlist cover grid, one tile per track, tap opens the track in spotify. */
+/* music.js v0.1 (jay 2026.10.20, v0.1): playlist cover grid, one tile per track, tap opens the track in spotify. */
 (() => {
   const ol = document.querySelector('.covers');
   const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
