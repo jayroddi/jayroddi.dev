@@ -50,6 +50,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--c);outline-offset:2
 .ic{width:calc(var(--s)*var(--k)*1px);height:calc(var(--s)*var(--k)*1px);flex:none}
 .social li{position:relative}
 .social .who-t{display:flex;align-items:center;gap:calc(2px*var(--k));font-size:calc(17px*var(--k));line-height:1;color:var(--c);white-space:nowrap;font-weight:400}
+/* v1.98 (jay 2026.10.20): the wolf. grey fur + light muzzle + ink eye/nose; the bandana is currentColor (--c via .who-t). */
+:root{--wolf:#A0A4A8;--wolf-light:#E8E8E8;--wolf-ink:#070606}
+@media (prefers-color-scheme:light){:root{--wolf:#6B6F73;--wolf-light:#C9CCCF;--wolf-ink:#070606}}
 .social .who-t .nj{display:block;flex:none;width:calc(24px*var(--k));height:calc(24px*var(--k))}
 .social a.who-t{padding:12px;margin:-12px;border-radius:12px;text-decoration:none;-webkit-tap-highlight-color:transparent}
 .social a.who-t:hover{background:none}
