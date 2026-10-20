@@ -272,9 +272,7 @@ body.day .home{margin:0 0 22px}
 /* v2.74 (jay 2026.10.20): the wolf's bandana (currentColor) is gold whenever gold is on: the '+30 lives' wolf inherited the overlay's white text colour. */
 .konami .nj,.kos-hold .nj{color:#FFD700}
 :root.gld .nj,.gld .nj,.nj.gld{color:var(--c)}
-/* v2.75 (jay 2026.10.20): header "👋 hi, i'm jay - a random millennial living out loud". one line on phones >= 375 (the line may run wider than the column, to 12px of each edge, and eases to ~12px);
-   below that it wraps as two halves on purpose ("👋 hi, i'm jay -" / "a random millennial living out loud"). */
+/* v2.76 (jay 2026.10.20): header is "just a little dude living out loud" at the normal size (13px phones); the wide-line + nowrap-halves rules below are kept for longer lines.
 body.board .mast .pages{--hw:min(100vw - 24px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);column-gap:.6ch}
 body.board .mast .pages .hl{white-space:nowrap;font-style:inherit;color:inherit}
 @media (max-width:359px){body.board .mast .nav a{padding:0 7px}body.board .mast .nav{font-size:12px}}   /* the 4-item nav stays on one line at 320 */
-@media (max-width:760px){body.board .mast .pages{font-size:clamp(12px,calc((100vw - 24px) / 30.5),13px)}}
