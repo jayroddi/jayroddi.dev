@@ -1,4 +1,5 @@
-/* v2.74: github is jayroddi (the account rename from jaythaninja).
+/* v2.75: version bump with the new header (byline + snaps // quotes // habits nav, css 2.68).
+   v2.74: github is jayroddi (the account rename from jaythaninja).
    v2.73: order after the ninja: github, spotify, threads, instagram, x, linkedin, email.
    v2.72: / is the snaps page and the grids moved to /habits/. on / the ninja links to /habits/; on every other page it links home.
    v2.71: spotify links to jay's profile (user/1238911903), not the playlist.
