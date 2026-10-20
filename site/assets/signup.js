@@ -1,4 +1,5 @@
-/* v2.21: the email field is 16px inside a wrapper scaled to the stat-label size. the cable follows that visual box.
+/* v2.22 (jay 2026.10.20): the footer (email, rocket, konami) is on /, /quotes/ and /me/; the placeholder is "subscribe for updates".
+   v2.21: the email field is 16px inside a wrapper scaled to the stat-label size. the cable follows that visual box.
    the prompt line above the form is gone. the field placeholder is "enter email for liftoff, or cheat code below".
    the thanks line is the same copy, shown at once (the old typewriter lived in the homepage intro). */
 (() => {

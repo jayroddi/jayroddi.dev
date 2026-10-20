@@ -29,8 +29,8 @@ NAMES = ('home', 'snap', 'quote', 'song')
 NEXT = 'og-next'
 INTRO = [('the internet was a place to make ', 'genuine connections with other humans'), ('somewhere along the way, ', 'we messed up'), ('my team and i hope to ', 'run it back')]
 LYRICS = ("don't tell your dreams to everybody around", 'some people smile, but wanna see you down', "keep it quiet, don't make a sound", 'let your success be what shakes the ground')
-CARD_URL = re.compile(r'(https://jaytha\.ninja/og/(?:home|snap|quote|song)\.png)(?:\?d=\d{4}-\d{2}-\d{2})?(?=")')
-LIVE = re.compile(r'https://jaytha\.ninja/og/home\.png\?d=(\d{4}-\d{2}-\d{2})"')
+CARD_URL = re.compile(r'(https://jayroddi\.lol/og/(?:home|snap|quote|song)\.png)(?:\?d=\d{4}-\d{2}-\d{2})?(?=")')
+LIVE = re.compile(r'https://jayroddi\.lol/og/home\.png\?d=(\d{4}-\d{2}-\d{2})"')
 e = lambda s: html.escape(s, quote=False)
 
 def qbr(t):   # word for word; a short multi-sentence quote breaks after each sentence (capri's layout), anything else just wraps
@@ -246,6 +246,33 @@ def render_replica(repo, dests):
         httpd.shutdown()
         shutil.rmtree(tmp, ignore_errors=True)
 
+SIMPLE = 'og-card.png'   # v2.0 (jay 2026.10.20): the one share card every page points at (og:image + twitter:image)
+
+def render_simple(repo, dest=None):
+    """v2.0: the one share card. scripts/cards/card-simple.html (the site's teal rain from rain.js + the byline, white, centered) served
+    next to site/ and screenshotted at 1200x630 after the rain has fallen for a few seconds -> site/og-card.png. needs python playwright
+    (python -m pip install playwright && python -m playwright install chromium)."""
+    import http.server, threading, functools
+    from playwright.sync_api import sync_playwright
+    site = repo/'site'; dest = dest or site/SIMPLE
+    page = (TPL/'card-simple.html').read_bytes()
+    class H(http.server.SimpleHTTPRequestHandler):
+        def do_GET(self):
+            if urllib.parse.urlparse(self.path).path == '/__card.html':
+                self.send_response(200); self.send_header('Content-Type', 'text/html; charset=utf-8'); self.send_header('Content-Length', str(len(page))); self.end_headers(); self.wfile.write(page); return
+            return super().do_GET()
+        def log_message(self, *a): return
+    httpd = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(H, directory=str(site)))
+    threading.Thread(target=httpd.serve_forever, daemon=True).start()
+    try:
+        with sync_playwright() as p:
+            b = p.chromium.launch(); pg = b.new_page(viewport={'width': 1200, 'height': 630}, color_scheme='dark')
+            pg.goto(f'http://127.0.0.1:{httpd.server_address[1]}/__card.html', wait_until='load'); pg.wait_for_timeout(6000)
+            pg.screenshot(path=str(dest)); b.close()
+    finally:
+        httpd.shutdown()
+    print(f'share card -> {dest}')
+
 def ctday(): return datetime.datetime.now(CT).date().isoformat()
 def isday(s): return bool(re.fullmatch(r'\d{4}-\d{2}-\d{2}', s or '')) and bool(datetime.date.fromisoformat(s))
 
@@ -300,11 +327,13 @@ def promote(repo, today):
 
 def main():
     ap = argparse.ArgumentParser(description='share cards: stage at the 11:31pm drop, flip at 12:00am CT')
-    ap.add_argument('cmd', choices=['stage', 'flip', 'now', 'stamp'])
+    ap.add_argument('cmd', choices=['stage', 'flip', 'now', 'stamp', 'simple'])
     ap.add_argument('--repo', default=str(HERE.parent)); ap.add_argument('--date'); ap.add_argument('--today'); ap.add_argument('--generic', action='store_true')
     a = ap.parse_args(); repo = pathlib.Path(a.repo).resolve()
     today = a.today or ctday()
     assert isday(today), today
+    if a.cmd == 'simple':
+        render_simple(repo); return
     if a.cmd == 'flip':
         try: promote(repo, today)
         except Exception as ex: print('flip: skipped, the cards stay as they are:', repr(ex), file=sys.stderr)   # never block the deploy
