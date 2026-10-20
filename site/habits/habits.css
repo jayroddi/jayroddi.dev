@@ -52,6 +52,10 @@ body.board .signup{width:min(100%,26rem);margin:18px auto 10px}
 body.board .notify{justify-content:center;--mail-s:calc(11 / 16);--mail-slot:62px;--mail-h:calc(24px + 10px / var(--mail-s))}
 body.board .notify .mail{flex:0 0 auto;min-width:0;display:block;width:calc((100% - var(--mail-slot)) / var(--mail-s));margin:0 calc((100% - var(--mail-slot)) * (1 - 1 / var(--mail-s))) calc(var(--mail-h) * (var(--mail-s) - 1)) 0;transform:scale(var(--mail-s));transform-origin:0 0}
 body.board .notify .mail input,body.board .notify .mail input::placeholder{font-family:var(--mono);font-size:16px;font-weight:400;letter-spacing:normal}
+/* v2.71 (jay 2026.10.20): the placeholder "email for updates, and/or cheat code below to go full gold-mode" stays on one line at every width.
+   .mail is a size container; the placeholder alone scales with it (2.6cqi of the field, max 16px) and tightens to -0.04em. the typed email stays 16px (no zoom on focus). */
+body.board .notify .mail{container-type:inline-size}
+body.board .notify .mail input::placeholder{font-size:min(16px,2.6cqi);letter-spacing:-.04em}
 body.board .notify .mail input{display:block;width:100%;max-width:none;min-width:0;flex:none;margin:0;transform:none;text-align:center;padding:calc(4px / var(--mail-s)) 0 calc(5px / var(--mail-s));border-bottom-width:calc(1px / var(--mail-s))}
 body.board .pad{justify-content:space-between;align-items:center;gap:0;width:100%;max-width:100%;margin-left:0;margin-right:0;--pad-hit:44px}
 body.board .pad button{flex:0 0 44px;width:44px;height:44px;min-width:44px;min-height:44px}
