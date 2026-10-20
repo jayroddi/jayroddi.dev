@@ -1,4 +1,4 @@
-# Nightly Lightroom sync. Images stay on Adobe. This commits site/snaps only when the album changed.
+# Nightly Lightroom sync + /music playlist (spotify). Images stay on Adobe. This commits site/snaps only when the album changed.
 name: Sync snaps
 
 on:
@@ -25,17 +25,24 @@ jobs:
         run: pip install pillow
       - name: Sync the album
         run: python3 scripts/sync_snaps.py
+      - name: Sync the /music playlist
+        continue-on-error: true   # a spotify outage never blocks the snaps sync
+        env:
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+          SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
+        run: python3 scripts/spotify_playlist.py site/music/playlist.json
       - name: Commit when the album changed
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A site/snaps scripts/snaps_colors.json
+          git add -A site/snaps scripts/snaps_colors.json site/music/playlist.json
           if git diff --cached --quiet; then
-            echo "snaps unchanged"
+            echo "snaps and music unchanged"
             exit 0
           fi
-          git commit -m "Sync Lightroom snaps."
+          git commit -m "Sync Lightroom snaps / music playlist."
           git push
           gh workflow run pages.yml --ref main
