@@ -16,6 +16,7 @@ def ok_img(b):
     try:
         from io import BytesIO; im=Image.open(BytesIO(b)); return im.width>=60 and im.height>=80
     except Exception: return False
+OVR={k:v for k,v in json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'books_cover_overrides.json'))).items() if not k.startswith('_')}
 def one(r):
     isbn=(r['ISBN13'] or '').strip('="') or (r['ISBN'] or '').strip('="'); t,a=r['Title'],r['Author']
     src=None; img=None; olkey=None
@@ -44,6 +45,7 @@ def one(r):
                 b=get(u.replace('http://','https://').replace('&edge=curl',''),True)
                 if ok_img(b): img,src=b,'google-books'; break
     cover=None
+    if r['Book Id'] in OVR and os.path.exists(os.path.join(COV,r['Book Id']+'.jpg')): img=None; cover='/books/covers/'+r['Book Id']+'.jpg'; src='manual: '+OVR[r['Book Id']]
     if img:
         from io import BytesIO
         im=Image.open(BytesIO(img)).convert('RGB'); im.thumbnail((400,600)); fn=f"{r['Book Id']}.jpg"; im.save(os.path.join(COV,fn),quality=82,optimize=True,progressive=True); cover='/books/covers/'+fn
