@@ -7,8 +7,8 @@
   "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da8428d5589687a7e40944263179"
  },
  "source": "spotify web api (user refresh token)",
- "count": 333,
- "albums": 277,
+ "count": 334,
+ "albums": 278,
  "skipped": 0,
  "tracks": [
   {
@@ -3673,7 +3673,18 @@
    "url": "https://open.spotify.com/track/7djKCq4UwTfaEzEE8wHdBI",
    "explicit": false,
    "duration_ms": 197893
+  },
+  {
+   "n": 334,
+   "name": "One in a Million（百万分の一）",
+   "artists": "Japanese City Pop",
+   "album_id": "1RR9EPBNrLMqCa4O9KsVT5",
+   "album": "Shibuya Special（渋谷スペシャル）",
+   "cover": "https://i.scdn.co/image/ab67616d00001e021ce047694d55fe9cf56c03f1",
+   "url": "https://open.spotify.com/track/2gn9kw1sK7iP7MRrNX6U0V",
+   "explicit": false,
+   "duration_ms": 117975
   }
  ],
- "fetched": "2026-10-20T17:21:14Z"
+ "fetched": "2026-10-21T09:35:52Z"
 }
