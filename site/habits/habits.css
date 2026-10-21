@@ -279,7 +279,8 @@ body.board .mast .pages .hl{white-space:nowrap;font-style:inherit;color:inherit}
    --ts: 14px desktop, 13px phones, 11.5px under 360px (320 phones). the nav's link padding follows it. */
 :root{--ts:14px;--nav-pad:12px}
 @media (max-width:760px){:root{--ts:13px;--nav-pad:9px}}
-@media (max-width:359px){:root{--ts:11px;--nav-pad:3px}}   /* v2.78: 11px + 3px pad so the 5-item nav fits at 320 */
+@media (max-width:389px){:root{--ts:12px;--nav-pad:6px}}   /* v2.79: the "give up the fight, give up control and live" header stays on one line from 358 to 389px */
+@media (max-width:357px){:root{--ts:10px;--nav-pad:3px}}   /* v2.79: 10px + 3px pad so the header and the 5-item nav fit at 320 */
 :root body.board .mast .pages,:root body.board .mast .nav,:root body.board .copy > .note-line,:root body.snaps .backlog{font-size:var(--ts)}
 :root body.board .mast .nav a{padding:0 var(--nav-pad)}
 :root body.board .mast .nav{--hw:min(100vw - 16px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);flex-wrap:nowrap}
