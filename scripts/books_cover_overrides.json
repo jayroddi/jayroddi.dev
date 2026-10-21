@@ -1,2 +1,8 @@
-{"_note": "Book Id -> hand-picked cover already saved in site/books/covers/<id>.jpg. books_import.py keeps these files and never re-fetches them.",
- "26200918": "jay (Anything You Want, white cover, 2026-10-21)"}
+{
+ "_note": "Book Id -> hand-picked cover already saved in site/books/covers/<id>.jpg. books_import.py keeps these files and never re-fetches them.",
+ "26200918": "jay (Anything You Want, white cover, 2026-10-21)",
+ "13530973": "publisher cover (amazon, same ISBN), replaced a faded library scan, 2026-10-21",
+ "6708": "publisher cover (amazon, same ISBN), replaced a faded library scan, 2026-10-21",
+ "12951631": "publisher cover (amazon, same ISBN), replaced a faded library scan, 2026-10-21",
+ "4671": "publisher cover (amazon, same ISBN), replaced a faded library scan, 2026-10-21"
+}
