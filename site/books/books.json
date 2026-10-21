@@ -195,7 +195,7 @@
    "year": "2012",
    "read_count": 1,
    "cover": "/books/covers/13530973.jpg",
-   "cover_source": "openlibrary-isbn",
+   "cover_source": "manual: publisher cover (amazon, same ISBN), replaced a faded library scan, 2026-10-21",
    "url": "https://openlibrary.org/works/OL16726829W"
   },
   {
@@ -279,7 +279,7 @@
    "year": "1997",
    "read_count": 1,
    "cover": "/books/covers/6708.jpg",
-   "cover_source": "openlibrary-search",
+   "cover_source": "manual: publisher cover (amazon, same ISBN), replaced a faded library scan, 2026-10-21",
    "url": "https://openlibrary.org/works/OL5727686W"
   },
   {
@@ -391,7 +391,7 @@
    "year": "2012",
    "read_count": 1,
    "cover": "/books/covers/12951631.jpg",
-   "cover_source": "openlibrary-isbn",
+   "cover_source": "manual: publisher cover (amazon, same ISBN), replaced a faded library scan, 2026-10-21",
    "url": "https://openlibrary.org/works/OL16215950W"
   },
   {
@@ -559,7 +559,7 @@
    "year": "1925",
    "read_count": 1,
    "cover": "/books/covers/4671.jpg",
-   "cover_source": "openlibrary-isbn",
+   "cover_source": "manual: publisher cover (amazon, same ISBN), replaced a faded library scan, 2026-10-21",
    "url": "https://openlibrary.org/works/OL468431W"
   },
   {
