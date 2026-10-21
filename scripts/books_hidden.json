@@ -1,0 +1,6 @@
+{
+  "_note": "Books never shown on /books. Entries are sha256('jayroddi.lol/books:' + Goodreads Book Id), so the public repo doesn't reveal which books. Add one: python3 -c \"import hashlib;print(hashlib.sha256(b'jayroddi.lol/books:ID').hexdigest())\"",
+  "sha256": [
+    "bfdfd6845c68c92f09de3187d2d18d246adebb60b2d41de0b0ef95b5e551afde"
+  ]
+}
