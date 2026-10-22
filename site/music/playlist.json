@@ -4,7 +4,7 @@
   "name": "🫯",
   "owner": "jayroddi",
   "url": "https://open.spotify.com/playlist/2gnGKUyfcjB5aecShkH33N",
-  "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da8428d5589687a7e40944263179"
+  "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84ce5b316b1e9a30e1e9b46262"
  },
  "source": "spotify web api (user refresh token)",
  "count": 335,
@@ -24,72 +24,17 @@
   },
   {
    "n": 2,
-   "name": "Messy",
-   "artists": "Lola Young",
-   "album_id": "2QWd1BsO7J0zLwxhsKl3zh",
-   "album": "Messy",
-   "cover": "https://i.scdn.co/image/ab67616d00001e02a0cb974834e04f46b63b99a8",
-   "url": "https://open.spotify.com/track/3SKH53SPQbEnZR4cJPVaz2",
-   "explicit": true,
-   "duration_ms": 284068
+   "name": "Don't tell your dreams (Afrobeat)",
+   "artists": "LOVIXX",
+   "album_id": "78fonjg6heuumf5iRQKP8Y",
+   "album": "Don't tell your dreams (Afrobeat)",
+   "cover": "https://i.scdn.co/image/ab67616d00001e02f58a1e769badeaac331e84c2",
+   "url": "https://open.spotify.com/track/1Ci0Wjjmxtw6oa1Zvz9QR1",
+   "explicit": false,
+   "duration_ms": 147760
   },
   {
    "n": 3,
-   "name": "Shivers",
-   "artists": "Ed Sheeran",
-   "album_id": "32iAEBstCjauDhyKpGjTuq",
-   "album": "=",
-   "cover": "https://i.scdn.co/image/ab67616d00001e02dc806722f6802a8ea9953c89",
-   "url": "https://open.spotify.com/track/50nfwKoDiSYg8zOCREWAm5",
-   "explicit": false,
-   "duration_ms": 207853
-  },
-  {
-   "n": 4,
-   "name": "U.F.O",
-   "artists": "haruno, A.G.O",
-   "album_id": "0QCyj1UlVJQ91sFNqHx9nc",
-   "album": "The Lover",
-   "cover": "https://i.scdn.co/image/ab67616d00001e02b53721f4808d2a1129598f1f",
-   "url": "https://open.spotify.com/track/19EJa9xsAVtkpsTnynNQpN",
-   "explicit": false,
-   "duration_ms": 230346
-  },
-  {
-   "n": 5,
-   "name": "Somewhere Only We Know",
-   "artists": "Keane",
-   "album_id": "0qsT8HLvlWaSWIq8Rc95BI",
-   "album": "Hopes And Fears",
-   "cover": "https://i.scdn.co/image/ab67616d00001e02045d0a38105fbe7bde43c490",
-   "url": "https://open.spotify.com/track/0ll8uFnc0nANY35E0Lfxvg",
-   "explicit": false,
-   "duration_ms": 236160
-  },
-  {
-   "n": 6,
-   "name": "Beauty And A Beat",
-   "artists": "Justin Bieber, Nicki Minaj",
-   "album_id": "70f70xLCpH7wHaVvB2oZT9",
-   "album": "Believe (Deluxe Edition)",
-   "cover": "https://i.scdn.co/image/ab67616d00001e026c20c4638a558132ba95bc39",
-   "url": "https://open.spotify.com/track/190jyVPHYjAqEaOGmMzdyk",
-   "explicit": false,
-   "duration_ms": 227986
-  },
-  {
-   "n": 7,
-   "name": "Devil On My Shoulder",
-   "artists": "Lost Stars",
-   "album_id": "5o8U32TnQPx5AczJqpVYhW",
-   "album": "Devil On My Shoulder",
-   "cover": "https://i.scdn.co/image/ab67616d00001e02cf93c024194f5f2ee3492cef",
-   "url": "https://open.spotify.com/track/7soY9QzpSB9vI1LKwVxDuY",
-   "explicit": false,
-   "duration_ms": 180571
-  },
-  {
-   "n": 8,
    "name": "Today Was Weirdly Nice",
    "artists": "Muse Petal",
    "album_id": "1AexMNwCdTdyF15QNJ7HXq",
@@ -100,7 +45,18 @@
    "duration_ms": 191391
   },
   {
-   "n": 9,
+   "n": 4,
+   "name": "Shivers",
+   "artists": "Ed Sheeran",
+   "album_id": "32iAEBstCjauDhyKpGjTuq",
+   "album": "=",
+   "cover": "https://i.scdn.co/image/ab67616d00001e02dc806722f6802a8ea9953c89",
+   "url": "https://open.spotify.com/track/50nfwKoDiSYg8zOCREWAm5",
+   "explicit": false,
+   "duration_ms": 207853
+  },
+  {
+   "n": 5,
    "name": "Punk Rock Kid",
    "artists": "Love Angeles",
    "album_id": "043d81u9JD2YUeJqQeULRj",
@@ -111,7 +67,62 @@
    "duration_ms": 188215
   },
   {
+   "n": 6,
+   "name": "Messy",
+   "artists": "Lola Young",
+   "album_id": "2QWd1BsO7J0zLwxhsKl3zh",
+   "album": "Messy",
+   "cover": "https://i.scdn.co/image/ab67616d00001e02a0cb974834e04f46b63b99a8",
+   "url": "https://open.spotify.com/track/3SKH53SPQbEnZR4cJPVaz2",
+   "explicit": true,
+   "duration_ms": 284068
+  },
+  {
+   "n": 7,
+   "name": "U.F.O",
+   "artists": "haruno, A.G.O",
+   "album_id": "0QCyj1UlVJQ91sFNqHx9nc",
+   "album": "The Lover",
+   "cover": "https://i.scdn.co/image/ab67616d00001e02b53721f4808d2a1129598f1f",
+   "url": "https://open.spotify.com/track/19EJa9xsAVtkpsTnynNQpN",
+   "explicit": false,
+   "duration_ms": 230346
+  },
+  {
+   "n": 8,
+   "name": "Somewhere Only We Know",
+   "artists": "Keane",
+   "album_id": "0qsT8HLvlWaSWIq8Rc95BI",
+   "album": "Hopes And Fears",
+   "cover": "https://i.scdn.co/image/ab67616d00001e02045d0a38105fbe7bde43c490",
+   "url": "https://open.spotify.com/track/0ll8uFnc0nANY35E0Lfxvg",
+   "explicit": false,
+   "duration_ms": 236160
+  },
+  {
+   "n": 9,
+   "name": "Beauty And A Beat",
+   "artists": "Justin Bieber, Nicki Minaj",
+   "album_id": "70f70xLCpH7wHaVvB2oZT9",
+   "album": "Believe (Deluxe Edition)",
+   "cover": "https://i.scdn.co/image/ab67616d00001e026c20c4638a558132ba95bc39",
+   "url": "https://open.spotify.com/track/190jyVPHYjAqEaOGmMzdyk",
+   "explicit": false,
+   "duration_ms": 227986
+  },
+  {
    "n": 10,
+   "name": "Devil On My Shoulder",
+   "artists": "Lost Stars",
+   "album_id": "5o8U32TnQPx5AczJqpVYhW",
+   "album": "Devil On My Shoulder",
+   "cover": "https://i.scdn.co/image/ab67616d00001e02cf93c024194f5f2ee3492cef",
+   "url": "https://open.spotify.com/track/7soY9QzpSB9vI1LKwVxDuY",
+   "explicit": false,
+   "duration_ms": 180571
+  },
+  {
+   "n": 11,
    "name": "私の好きなこと",
    "artists": "ちるうた散歩",
    "album_id": "4y7t9EG48qG7E1bQ3xeQ8p",
@@ -122,7 +133,7 @@
    "duration_ms": 177039
   },
   {
-   "n": 11,
+   "n": 12,
    "name": "Welcome to My Life",
    "artists": "Simple Plan",
    "album_id": "7l3v1MPa9GlbxbVJmaVrVd",
@@ -133,7 +144,7 @@
    "duration_ms": 206773
   },
   {
-   "n": 12,
+   "n": 13,
    "name": "Thnks fr th Mmrs",
    "artists": "Fall Out Boy",
    "album_id": "0hHopYqXhuvYSHtVyrcb1g",
@@ -144,7 +155,7 @@
    "duration_ms": 203506
   },
   {
-   "n": 13,
+   "n": 14,
    "name": "Everlong - Acoustic Version",
    "artists": "Foo Fighters",
    "album_id": "1zCNrbPpz5OLSr6mSpPdKm",
@@ -153,17 +164,6 @@
    "url": "https://open.spotify.com/track/3QmesrvdbPjwf7i40nht1D",
    "explicit": false,
    "duration_ms": 250906
-  },
-  {
-   "n": 14,
-   "name": "Don't tell your dreams (Afrobeat)",
-   "artists": "LOVIXX",
-   "album_id": "78fonjg6heuumf5iRQKP8Y",
-   "album": "Don't tell your dreams (Afrobeat)",
-   "cover": "https://i.scdn.co/image/ab67616d00001e02f58a1e769badeaac331e84c2",
-   "url": "https://open.spotify.com/track/1Ci0Wjjmxtw6oa1Zvz9QR1",
-   "explicit": false,
-   "duration_ms": 147760
   },
   {
    "n": 15,
@@ -3697,5 +3697,5 @@
    "duration_ms": 117975
   }
  ],
- "fetched": "2026-10-21T20:44:14Z"
+ "fetched": "2026-10-22T08:06:14Z"
 }
