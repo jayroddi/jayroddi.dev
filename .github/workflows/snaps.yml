@@ -3,8 +3,10 @@ name: Sync snaps
 
 on:
   schedule:
-    # 11:41pm America/Chicago. 04:41 UTC is 11:41pm CDT; 05:41 UTC is 11:41pm CST.
-    - cron: '41 4,5 * * *'
+    # Midnight America/Chicago, once. 05:00 UTC is midnight CDT; 06:00 UTC is midnight CST.
+    # Both fire every night. The first step continues only when the Chicago hour is 00.
+    - cron: '0 5 * * *'
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 permissions:
@@ -19,13 +21,33 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
+      - name: Only at midnight Chicago
+        id: midnight
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            echo "manual run"
+            exit 0
+          fi
+          hour=$(TZ=America/Chicago date +%H)
+          if [ "$hour" != "00" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "America/Chicago hour is ${hour}, not 00; skipping"
+            exit 0
+          fi
+          echo "run=true" >> "$GITHUB_OUTPUT"
+          echo "America/Chicago hour is 00; running"
       - name: Checkout
+        if: steps.midnight.outputs.run == 'true'
         uses: actions/checkout@v4
       - name: Pillow
+        if: steps.midnight.outputs.run == 'true'
         run: pip install pillow
       - name: Sync the album
+        if: steps.midnight.outputs.run == 'true'
         run: python3 scripts/sync_snaps.py
       - name: Sync the /music playlist
+        if: steps.midnight.outputs.run == 'true'
         continue-on-error: true   # a spotify outage never blocks the snaps sync
         env:
           SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
@@ -33,6 +55,7 @@ jobs:
           SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
         run: python3 scripts/spotify_playlist.py site/music/playlist.json
       - name: Commit when the album changed
+        if: steps.midnight.outputs.run == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
