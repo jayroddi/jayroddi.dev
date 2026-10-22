@@ -1,14 +1,33 @@
-/* books.js v0.1 : goodreads cover grid, newest read first, tap opens open library (jay 2026.10.20, v0.1): playlist cover grid, one tile per track, tap opens the track in spotify. */
+/* books.js v0.2: cover grid grouped by read year, newest year first, newest read first inside a year.
+   a book with no read date lands in a final "no date" group. tap still shows the title and opens open library. */
 (() => {
-  const ol = document.querySelector('.covers');
+  const root = document.querySelector('.years');
   const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const tile = t => {
+    const ti = t.title.replace(/\s*\(.*?\)\s*$/, '').split(':')[0].toLowerCase();
+    const au = t.author.replace(/\s+/g, ' ').toLowerCase();
+    return `<li><a href="${esc(t.url)}" target="_blank" rel="noopener" aria-label="${esc(t.title)} by ${esc(t.author)}">${t.cover ? `<img src="${esc(t.cover)}" alt="" loading="lazy" decoding="async" width="200" height="300">` : `<span class="nocover"><b>${esc(ti)}</b>${esc(au)}</span>`}<span class="cap">${esc(ti)} // ${esc(au)}</span></a></li>`;
+  };
+  const group = (label, items) => `<section class="year"><h2>${esc(label)}</h2><ol class="covers">${items.map(tile).join('')}</ol></section>`;
   fetch('/books/books.json?v=0.1').then(r => r.json()).then(d => {
-    ol.innerHTML = d.books.slice().sort((a, b) => (!a.read - !b.read) || (b.read || '').localeCompare(a.read || '') || (b.added || '').localeCompare(a.added || '')).map(t => { const ti = t.title.replace(/\s*\(.*?\)\s*$/, '').split(':')[0].toLowerCase(), au = t.author.replace(/\s+/g, ' ').toLowerCase(); return `<li><a href="${esc(t.url)}" target="_blank" rel="noopener" aria-label="${esc(t.title)} by ${esc(t.author)}">${t.cover ? `<img src="${esc(t.cover)}" alt="" loading="lazy" decoding="async" width="200" height="300">` : `<span class="nocover"><b>${esc(ti)}</b>${esc(au)}</span>`}<span class="cap">${esc(ti)} // ${esc(au)}</span></a></li>`; }).join('');
+    const books = d.books.slice().sort((a, b) => (!a.read - !b.read) || (b.read || '').localeCompare(a.read || '') || (b.added || '').localeCompare(a.added || ''));
+    const years = new Map();
+    const undated = [];
+    books.forEach(t => {
+      const year = /^\d{4}/.test(t.read || '') ? t.read.slice(0, 4) : '';
+      if (!year) undated.push(t);
+      else {
+        if (!years.has(year)) years.set(year, []);
+        years.get(year).push(t);
+      }
+    });
+    const labels = [...years.keys()].sort((a, b) => b.localeCompare(a));
+    root.innerHTML = labels.map(year => group(year, years.get(year))).join('') + (undated.length ? group('no date', undated) : '');
     let lp;   // long-press shows the caption (touch)
-    ol.addEventListener('touchstart', e => { const a = e.target.closest('a'); if (!a) return; lp = setTimeout(() => { ol.querySelectorAll('a.show').forEach(x => x.classList.remove('show')); a.classList.add('show'); a.dataset.lp = 1; }, 420); }, {passive: true});
-    ['touchend', 'touchmove', 'touchcancel'].forEach(t => ol.addEventListener(t, () => clearTimeout(lp), {passive: true}));
-    ol.addEventListener('click', e => { const a = e.target.closest('a'); if (a && a.dataset.lp) { e.preventDefault(); delete a.dataset.lp; } });
-    ol.addEventListener('contextmenu', e => { if (e.target.closest('a')) e.preventDefault(); });
+    root.addEventListener('touchstart', e => { const a = e.target.closest('a'); if (!a) return; lp = setTimeout(() => { root.querySelectorAll('a.show').forEach(x => x.classList.remove('show')); a.classList.add('show'); a.dataset.lp = 1; }, 420); }, {passive: true});
+    ['touchend', 'touchmove', 'touchcancel'].forEach(t => root.addEventListener(t, () => clearTimeout(lp), {passive: true}));
+    root.addEventListener('click', e => { const a = e.target.closest('a'); if (a && a.dataset.lp) { e.preventDefault(); delete a.dataset.lp; } });
+    root.addEventListener('contextmenu', e => { if (e.target.closest('a')) e.preventDefault(); });
   }).catch(() => {});
 
   const canvas = document.getElementById('rain');
