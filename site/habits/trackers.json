@@ -46,12 +46,12 @@
       "sources": []
     },
     {
-      "id": "faith",
-      "label": "faith",
+      "id": "steps",
+      "label": "steps",
       "enabled": true,
-      "unit": "day",
-      "kind": "faith",
-      "data": "/habits/faith.json",
+      "unit": "step",
+      "kind": "steps",
+      "data": "/habits/steps.json",
       "sources": []
     },
     {
@@ -64,12 +64,12 @@
       "sources": []
     },
     {
-      "id": "steps",
-      "label": "steps",
+      "id": "faith",
+      "label": "faith",
       "enabled": true,
-      "unit": "step",
-      "kind": "steps",
-      "data": "/habits/steps.json",
+      "unit": "day",
+      "kind": "faith",
+      "data": "/habits/faith.json",
       "sources": []
     },
     {
