@@ -46,6 +46,8 @@ WORKOUTS = HABITS / "workouts.json"
 JOURNAL = HABITS / "journal.json"
 JARVIS = HABITS / "journal-jarvis.json"
 SLEEP = HABITS / "sleep.json"
+STEPS = HABITS / "steps.json"
+STEPS_CUTS = [2500, 5000, 7500, 10000]
 # v2.72: the grids page moved from / to /habits/ (/ is the snaps page).
 INDEX = HABITS.parent / "me" / "index.html"  # v2.77: the grids page is /me/ (/habits/ redirects there)
 TZ = ZoneInfo("America/Chicago")
@@ -951,6 +953,28 @@ def check_sleep() -> None:
             raise SystemExit(f"habits: {key} asleep_min {mins} is not a minute count")
 
 
+def check_steps() -> None:
+    data = load_json(STEPS)
+    days = data.get("days") or {}
+    if not isinstance(days, dict):
+        raise SystemExit("habits: steps.json days must be an object")
+    edges = (data.get("intensity") or {}).get("edges")
+    if edges != STEPS_CUTS:
+        raise SystemExit(f"habits: steps.json edges {edges} != {STEPS_CUTS}")
+    if data.get("start") != "2025-10-05" or data.get("through") != "2026-10-22":
+        raise SystemExit("habits: steps.json window must be 2025-10-05 through 2026-10-22")
+    for key, day in days.items():
+        if not DATE_RE.fullmatch(key) or key < "2025-10-05" or key > "2026-10-22":
+            raise SystemExit(f"habits: bad steps date {key}")
+        if not isinstance(day, dict) or set(day) != {"steps"}:
+            raise SystemExit(f"habits: {key} steps day must be steps only")
+        steps = day["steps"]
+        if isinstance(steps, bool) or not isinstance(steps, int) or steps <= 0:
+            raise SystemExit(f"habits: {key} steps {steps!r} is not a positive count")
+    if len(days) != 377:
+        raise SystemExit(f"habits: steps.json has {len(days)} days, expected 377")
+
+
 def check_exercise(workouts: dict) -> None:
     ex = workouts.get("exercise")
     metric = (workouts.get("intensity") or {}).get("metric")
@@ -1084,6 +1108,7 @@ def check() -> None:
         if key.startswith("2025-") or key[5:7] in {"04", "05"} and key.startswith("2026-"):
             raise SystemExit(f"habits: {key} falls in a real empty stretch and should not be in the file")
     check_sleep()
+    check_steps()
     check_jarvis()
     n = assert_redirects()
     pages = f"{n} day urls redirect to /"

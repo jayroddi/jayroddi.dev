@@ -125,6 +125,24 @@
           <div class="stat"><span class="sl">current streak</span><b class="sv" data-k="current">0d</b></div>
         </div>
       </section>
+      <section class="tracker" data-id="steps" data-kind="steps" data-unit="step" data-src="/habits/steps.json" aria-label="steps">
+        <h2 class="kicker"><span class="kt">steps</span></h2>
+        <div class="fit">
+          <div class="graph">
+            <div class="months"></div>
+            <div class="dow" aria-hidden="true"><span></span><span>mon</span><span></span><span>wed</span><span></span><span>fri</span><span></span></div>
+            <div class="weeks"></div>
+          </div>
+          <p class="legend"><span>less</span><span class="swatches" aria-hidden="true"><i data-lv="0"></i><i data-lv="1"></i><i data-lv="2"></i><i data-lv="3"></i><i data-lv="4"></i><i data-lv="5"></i></span><span>more</span></p>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="sl">year</span><b class="sv" data-k="total">0</b></div>
+          <div class="stat"><span class="sl">most active month</span><b class="sv" data-k="month">—</b></div>
+          <div class="stat"><span class="sl">most active day</span><b class="sv" data-k="day">—</b></div>
+          <div class="stat"><span class="sl">longest streak</span><b class="sv" data-k="longest">0d</b></div>
+          <div class="stat"><span class="sl">current streak</span><b class="sv" data-k="current">0d</b></div>
+        </div>
+      </section>
       <!-- (jay 2026.10.19): journal grid hidden for now. to bring it back, move this section out of the comment and set
            "enabled": true for journal in /habits/trackers.json. journal.json, journal-jarvis.json and the nightly counts are untouched.
       <section class="tracker" data-id="journal" data-kind="journal" data-unit="note" data-src="/habits/journal.json" aria-label="journal">
@@ -173,7 +191,7 @@
     </div>
     <div class="hap" aria-hidden="true"><input type="checkbox" switch id="hap-sw" tabindex="-1" aria-hidden="true" autocomplete="off"><label for="hap-sw" tabindex="-1" aria-hidden="true"></label></div>
 </footer>
-<script src="/habits/habits.js?v=2.57"></script>
+<script src="/habits/habits.js?v=2.58"></script>
 <script src="/assets/signup.js?v=2.23" defer></script>
 </body>
 </html>

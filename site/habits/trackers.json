@@ -64,6 +64,15 @@
       "sources": []
     },
     {
+      "id": "steps",
+      "label": "steps",
+      "enabled": true,
+      "unit": "step",
+      "kind": "steps",
+      "data": "/habits/steps.json",
+      "sources": []
+    },
+    {
       "id": "journal",
       "label": "journal",
       "enabled": false,

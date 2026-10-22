@@ -134,6 +134,8 @@ function build(section, model){
    the steps are 1–2, 3–8, 9–14, 15–24, 25+, which puts them at 48, 9, 16, 15, 13.
    a 45 minute ride is 5 (step 2), a two hour ride 12 (step 3). */
 const CODE_CUTS = [2, 8, 14, 24];
+/* steps: fixed cuts, not the window's percentiles. 1 is 1–2,500, 2 to 5,000, 3 to 7,500, 4 to 10,000, 5 is more. */
+const STEPS_CUTS = [2500, 5000, 7500, 10000];
 /* five colour steps. the cuts are the 20/40/60/80th of the nonzero days.
    a tied cut would skip a step, so it moves up to the next value the data actually has. */
 function thresholds(values){
@@ -319,6 +321,17 @@ function daysOf(section, data){
     });
     return days;
   }
+  if (kind === 'steps'){
+    const days = {};
+    const raw = (data && data.days) || {};
+    Object.keys(raw).forEach(iso => {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(iso)) return;
+      const steps = Number((raw[iso] || {}).steps);
+      if (!Number.isFinite(steps) || steps <= 0) return;
+      days[iso] = {total: steps, steps};
+    });
+    return days;
+  }
   return (data && data.days) || {};
 }
 function faithDays(section, data){
@@ -374,7 +387,10 @@ function apply(section, days, meta){
   };
   const amountOf = iso => ex ? (Number(ex[iso]) || 0) : measure(days[iso]);
   let scale = CODE_CUTS;
-  if (ex){
+  if (kind === 'steps'){
+    const edges = meta && meta.intensity && meta.intensity.edges;
+    scale = Array.isArray(edges) && edges.length === 4 ? edges : STEPS_CUTS;
+  } else if (ex){
     const edges = meta.intensity && meta.intensity.edges;
     scale = Array.isArray(edges) && edges.length === 4 ? edges : [14, 29, 59, 89];
   } else if (section.dataset.id !== 'cursor'){
@@ -397,11 +413,19 @@ function apply(section, days, meta){
       labelCell(cell, recorded ? sleepLine(iso, score, day.asleep) : shortDate(iso) + ': no record');
       return;
     }
+    if (kind === 'steps'){
+      const recorded = !!(day && day.steps > 0);
+      const steps = recorded ? day.steps : 0;
+      final.set(cell, {lv: level(steps, scale), n: steps});
+      labelCell(cell, recorded ? shortDate(iso) + ': ' + commas(steps) + ' steps' : shortDate(iso) + ': no record');
+      return;
+    }
     const minutes = metric === 'minutes' ? amount : null;
     final.set(cell, {lv: level(amount, scale), n, minutes});
     labelCell(cell, kind === 'journal' ? noteLine(n, iso, day) : sentence(n, iso, unit, ex ? null : minutes, ex ? amount : null));
   });
   if (kind === 'sleep') fillSleepStats(section, computeSleepStats(days, start, today));
+  else if (kind === 'steps') fillStats(section, computeStats(days, start, today));
   else if (ex) fillStats(section, computeExerciseStats(days, ex, start, today));
   else fillStats(section, computeStats(days, start, today, metric));
 }
