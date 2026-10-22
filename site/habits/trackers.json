@@ -39,7 +39,7 @@
     },
     {
       "id": "workouts",
-      "label": "fitness",
+      "label": "workouts",
       "enabled": true,
       "unit": "workout",
       "data": "/habits/workouts.json",
