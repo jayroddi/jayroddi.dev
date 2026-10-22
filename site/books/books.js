@@ -1,5 +1,6 @@
-/* books.js v0.2: cover grid grouped by read year, newest year first, newest read first inside a year.
-   a book with no read date lands in a final "no date" group. tap still shows the title and opens open library. */
+/* books.js v0.3: cover grid grouped by read year, newest year first, newest read first inside a year.
+   a read of YYYY-MM (no day) sorts after every full date in that month. a book with no read date lands in a final "no date" group.
+   tap still shows the title and opens open library. */
 (() => {
   const root = document.querySelector('.years');
   const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -9,7 +10,7 @@
     return `<li><a href="${esc(t.url)}" target="_blank" rel="noopener" aria-label="${esc(t.title)} by ${esc(t.author)}">${t.cover ? `<img src="${esc(t.cover)}" alt="" loading="lazy" decoding="async" width="200" height="300">` : `<span class="nocover"><b>${esc(ti)}</b>${esc(au)}</span>`}<span class="cap">${esc(ti)} // ${esc(au)}</span></a></li>`;
   };
   const group = (label, items) => `<section class="year"><h2>${esc(label)}</h2><ol class="covers">${items.map(tile).join('')}</ol></section>`;
-  fetch('/books/books.json?v=0.1').then(r => r.json()).then(d => {
+  fetch('/books/books.json?v=0.2').then(r => r.json()).then(d => {
     const books = d.books.slice().sort((a, b) => (!a.read - !b.read) || (b.read || '').localeCompare(a.read || '') || (b.added || '').localeCompare(a.added || ''));
     const years = new Map();
     const undated = [];

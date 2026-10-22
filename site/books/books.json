@@ -1,7 +1,21 @@
 {
  "source": "goodreads export",
- "count": 52,
+ "count": 53,
  "books": [
+  {
+   "id": "249838085",
+   "title": "Skinny Dipping at Low Tide: A Saga of Squeezed Shorts, Shattered Dreams, and Embarrassing Riches",
+   "author": "M.F. Hamlin",
+   "isbn": "9798318569067",
+   "read": "2026-08",
+   "added": "2026-08",
+   "pages": null,
+   "year": "2026",
+   "read_count": 1,
+   "cover": "/books/covers/249838085.jpg",
+   "cover_source": "manual: publisher cover (Simon & Schuster high-res, ISBN 9798895650752)",
+   "url": "https://www.simonandschuster.com/books/Skinny-Dipping-at-Low-Tide/M-F-Hamlin/9798895650752"
+  },
   {
    "id": "43306206",
    "title": "The Courage to Be Disliked: How to Free Yourself, Change Your Life and Achieve Real Happiness",
@@ -731,5 +745,5 @@
    "url": "https://openlibrary.org/works/OL24153708W"
   }
  ],
- "sort": "read desc; books with \"read\": null (undated) come after every dated book, newest added first"
+ "sort": "read desc; a read of YYYY-MM (no day) sorts after every YYYY-MM-DD in that month; books with \"read\": null (undated) come after every dated book, newest added first"
 }
