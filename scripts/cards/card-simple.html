@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<!-- v2.0 (jay 2026.10.20): the one share card for every page. the site's own teal rain (rain.css + rain.js) on black, the byline centered in the header font, white. 1200x630. -->
+<!-- v3.2 (jay 2026.10.23): the one share card for every page. the site's own teal rain (rain.css + rain.js) on black, the header line centered, white, 34px so the longer line stays inside 1200x630. -->
 <meta name="viewport" content="width=1200, initial-scale=1">
 <meta name="color-scheme" content="dark">
 <link rel="stylesheet" href="/habits/habits.css">
@@ -10,13 +10,13 @@
 <style>
 html,body{margin:0;width:1200px;height:630px;overflow:hidden;background:#000}
 .card{position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center}
-.card p{margin:0;font-family:var(--mono);font-size:44px;font-weight:500;font-style:italic;letter-spacing:normal;color:#fff;text-shadow:0 0 18px rgba(0,0,0,.95),0 0 6px rgba(0,0,0,.9)}
+.card p{margin:0;max-width:1120px;font-family:var(--mono);font-size:34px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:1.25;color:#fff;text-align:center;white-space:nowrap;text-shadow:0 0 18px rgba(0,0,0,.95),0 0 6px rgba(0,0,0,.9)}
 </style>
 </head>
 <body class="board">
 <canvas id="rain" aria-hidden="true"></canvas>
 <div class="scan" aria-hidden="true"></div>
-<div class="card"><p>mi deh yah</p></div>
+<div class="card"><p>100% human-generated content for others living out loud</p></div>
 <script src="/assets/rain.js"></script>
 <script>
 // the same rain the snaps page builds (snaps.js), full height, glyphs behind the line fade like they do behind page content
