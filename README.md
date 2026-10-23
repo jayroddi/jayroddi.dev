@@ -4,7 +4,7 @@ Personal site. The repository is still named `jaytha.ninja`. The live site is [h
 
 `site/CNAME` is `jayroddi.lol`. Pushes to `main` deploy `site/` to GitHub Pages (`.github/workflows/pages.yml`).
 
-The header on every public page is `100% human // living out loud`. Under it the nav is `snaps // music // books // quotes // me`.
+The header on every public page is `100% human // living out loud`. Under it the nav is `snaps // music // books // quotes // quickies // me`.
 
 | page | what it is |
 |---|---|
@@ -12,6 +12,7 @@ The header on every public page is `100% human // living out loud`. Under it the
 | `/music/` | album-cover grid for the Spotify playlist. |
 | `/books/` | covers grouped by the year they were read. |
 | `/quotes/` | daily quotes, newest first. |
+| `/quickies/` | short thoughts, newest first. |
 | `/me/` | habit grids: code, workouts, steps, sleep, faith. `/habits/` redirects here. The files stay in `site/habits/`. |
 
 Each of those pages ends in the same footer: a Buttondown email field and the konami row.
@@ -48,6 +49,16 @@ The grid asks for the 640 rendition and offers the 1280 in `srcset`. The lightbo
 
 A new quote is a commit that puts that day's object at the top. There is no Actions workflow for it. The page picks it up on the next deploy.
 
+## quickies
+
+`/quickies/` reads `site/quickies/quickies.json`. Newest first. The note under the nav is `quick thoughts`. An empty list shows `first one drops tonight`.
+
+```json
+{"ts": "2026-10-23T22:05:00-05:00", "text": "the thought"}
+```
+
+`ts` is an ISO timestamp. The page turns it into America/Chicago, `2026.10.23 // 10:05pm` (lowercase am/pm, no leading zero on the hour), and puts that line where a quote would show its date and author. The words use the quote type, so they display lowercase. A new thought is a commit. There is no Actions workflow for it.
+
 ## me
 
 `/me/` (`site/me/index.html`) is the habits page. The note under the nav is `we fall to the level of our habits`. The grids, in order:
@@ -80,6 +91,6 @@ The quote of the day is the commit described above, not a step in `snaps.yml`.
 
 ## signup
 
-The footer on `/`, `/music/`, `/books/`, `/quotes/`, and `/me/` posts to Buttondown (`embed-subscribe/jayroddi`). The field placeholder is `stay updated w/email, or cheat code if you are a real nerd`. `/confirmed/` is the confirmation page.
+The footer on `/`, `/music/`, `/books/`, `/quotes/`, `/quickies/`, and `/me/` posts to Buttondown (`embed-subscribe/jayroddi`). The field placeholder is `stay updated w/email, or cheat code if you are a real nerd`. `/confirmed/` is the confirmation page.
 
 The konami row under the field is unchanged: up, up, down, down, left, right, left, right, b, a, then start. On a keyboard the same arrows, then b, a, then Enter, when focus is outside the email field.
