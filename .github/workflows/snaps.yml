@@ -4,7 +4,8 @@ name: Sync snaps
 on:
   schedule:
     # Midnight America/Chicago, once. 05:00 UTC is midnight CDT; 06:00 UTC is midnight CST.
-    # Both fire every night. The first step continues only when the Chicago hour is 00.
+    # Both fire every night. The first step keeps the slot that matches the current offset
+    # (CDT runs 0 5, CST runs 0 6), even if GitHub delivers the run hours late.
     - cron: '0 5 * * *'
     - cron: '0 6 * * *'
   workflow_dispatch:
@@ -21,7 +22,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Only at midnight Chicago
+      - name: Only the midnight Chicago slot
         id: midnight
         run: |
           if [ "${{ github.event_name }}" != "schedule" ]; then
@@ -29,14 +30,18 @@ jobs:
             echo "manual run"
             exit 0
           fi
-          hour=$(TZ=America/Chicago date +%H)
-          if [ "$hour" != "00" ]; then
-            echo "run=false" >> "$GITHUB_OUTPUT"
-            echo "America/Chicago hour is ${hour}, not 00; skipping"
+          # The cron that queued this run, not the clock. A delivery hours late still
+          # carries that cron. CDT (UTC-5) midnight is the 05:00 UTC slot; CST (UTC-6)
+          # midnight is the 06:00 UTC slot. The other slot skips, including across DST.
+          slot="${{ github.event.schedule }}"
+          zone=$(TZ=America/Chicago date +%Z)
+          if { [ "$zone" = "CDT" ] && [ "$slot" = "0 5 * * *" ]; } || { [ "$zone" = "CST" ] && [ "$slot" = "0 6 * * *" ]; }; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            echo "Chicago is ${zone}; cron '${slot}' is midnight; running"
             exit 0
           fi
-          echo "run=true" >> "$GITHUB_OUTPUT"
-          echo "America/Chicago hour is 00; running"
+          echo "run=false" >> "$GITHUB_OUTPUT"
+          echo "Chicago is ${zone}; cron '${slot}' is not midnight; skipping"
       - name: Checkout
         if: steps.midnight.outputs.run == 'true'
         uses: actions/checkout@v4
