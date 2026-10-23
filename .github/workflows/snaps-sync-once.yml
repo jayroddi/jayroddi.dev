@@ -1,0 +1,38 @@
+# Temporary Lightroom sync only. workflow_dispatch of snaps.yml is blocked for
+# this token (HTTP 403). Spotify is not run. Removed before merge; snaps.yml
+# stays the nightly path. Does not dispatch Pages. That deploy runs when the
+# data lands on main.
+name: Sync snaps once
+
+on:
+  push:
+    branches: [cursor/snaps-latest-3c07]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: snaps-latest-once
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Pillow
+        run: pip install pillow
+      - name: Sync the album
+        run: python3 scripts/sync_snaps.py
+      - name: Commit when the album changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A site/snaps scripts/snaps_colors.json
+          if git diff --cached --quiet; then
+            echo "snaps unchanged"
+            exit 0
+          fi
+          git commit -m "Sync Lightroom snaps."
+          git push
