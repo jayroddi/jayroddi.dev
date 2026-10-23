@@ -294,5 +294,5 @@ body.day .home{margin:0 0 22px}
 :root body.board .mast .nav .nav-l,:root body.board .mast .nav .nav-r{display:inline-flex;align-items:center;flex:0 0 auto;white-space:nowrap}
 :root body.board .mast .nav .nav-r{margin-top:.6em}
 :root body.board .mast .nav a{padding:0 var(--nav-pad)}
-/* v2.84 (jay 2026.10.23): quickies keep the double spaces in the text (pre-line would collapse them) and still wrap on a phone. */
-body.board.quickies .quotes .q{white-space:pre-wrap;overflow-wrap:break-word}
+/* v2.86 (jay 2026.10.23): quickies keep the double spaces Jay typed. line-height, the date gap, and the entry gap stay on the shared quote rules. */
+body.board.quickies .quotes .q{white-space:pre-wrap}
