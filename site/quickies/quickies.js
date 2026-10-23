@@ -1,7 +1,6 @@
 /* quickies: short thoughts on /quickies. the file is /quickies/quickies.json
    (newest first; {ts, text}). ts is an ISO timestamp. the line above the words is
    America/Chicago, like 2026.10.23 // 10:05pm, in the same spot as a quote's date.
-   a blank .by keeps the same gap under the words that a quote's author line does.
    an empty list is one muted line. */
 (() => {
   const host = document.querySelector('.copy') || document.querySelector('main');
@@ -56,11 +55,7 @@
         const q = document.createElement('blockquote');
         q.className = 'q';
         q.textContent = e.text;
-        const by = document.createElement('p');
-        by.className = 'by';
-        by.setAttribute('aria-hidden', 'true');
-        by.textContent = '\u00a0';
-        li.append(d, q, by);
+        li.append(d, q);
         frag.appendChild(li);
       });
     }
