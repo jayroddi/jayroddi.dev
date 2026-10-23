@@ -272,15 +272,14 @@ body.day .home{margin:0 0 22px}
 /* v2.74 (jay 2026.10.20): the wolf's bandana (currentColor) is gold whenever gold is on: the '+30 lives' wolf inherited the overlay's white text colour. */
 .konami .nj,.kos-hold .nj{color:#FFD700}
 :root.gld .nj,.gld .nj,.nj.gld{color:var(--c)}
-/* v2.82 (jay 2026.10.23): nav is snaps // music // books // quotes // quickies // me.
-   --ts stays 14px from 348px up. under that the six links do not fit at 14px, so 320–347px is 12px.
-   nav padding steps down with the width (12 / 6 / 2 / 1 / 0) so the row stays one line. the header and subheaders share --ts. */
+/* v2.83 (jay 2026.10.23): quickies note is "mad respect to those who click this first" (328px at 14px).
+   --ts stays 14px from 360px up. 320–359px is 12px so that line and the six-link nav both stay one line.
+   nav padding steps down with the width (12 / 6 / 2 / 1). the header and subheaders share --ts. */
 :root{--ts:14px;--nav-pad:12px}
 @media (max-width:491px){:root{--nav-pad:6px}}
 @media (max-width:419px){:root{--nav-pad:2px}}
 @media (max-width:371px){:root{--nav-pad:1px}}
-@media (max-width:359px){:root{--nav-pad:0px}}
-@media (max-width:347px){:root{--ts:12px;--nav-pad:1px}}
+@media (max-width:359px){:root{--ts:12px;--nav-pad:1px}}
 :root body.board .mast .pages,:root body.board .mast .nav,:root body.board .copy > .note-line,:root body.snaps .backlog{font-size:var(--ts)}
 :root body.board .mast .nav a{padding:0 var(--nav-pad)}
 :root body.board .mast .pages,:root body.board .mast .nav{--hw:min(100vw - 16px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);flex-wrap:nowrap}
