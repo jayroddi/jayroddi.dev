@@ -57,7 +57,7 @@ A new quote is a commit that puts that day's object at the top. There is no Acti
 {"ts": "2026-10-23T22:05:00-05:00", "text": "the thought"}
 ```
 
-`ts` is an ISO timestamp. The page turns it into America/Chicago, `2026.10.23 // 10:05pm` (lowercase am/pm, no leading zero on the hour), and puts that line where a quote would show its date and author. The words use the quote type, so they display lowercase. A new thought is a commit. There is no Actions workflow for it.
+`ts` is an ISO timestamp. The page turns it into America/Chicago, `2026.10.23 // 10:05pm` (lowercase am/pm, no leading zero on the hour), and puts that line where a quote shows its date, above the text. The words use the quote type, so they display lowercase. A new thought is a commit. There is no Actions workflow for it.
 
 ## me
 
