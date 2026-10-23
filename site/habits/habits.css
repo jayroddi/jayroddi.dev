@@ -285,3 +285,5 @@ body.day .home{margin:0 0 22px}
 :root body.board .mast .pages,:root body.board .mast .nav{--hw:min(100vw - 16px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);flex-wrap:nowrap}
 :root body.board .mast .pages{white-space:nowrap}
 :root body.board .copy > .note-line,:root body.snaps .backlog{--hw:min(100vw - 24px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);white-space:nowrap}
+/* v2.84 (jay 2026.10.23): quickies keep the double spaces in the text (pre-line would collapse them) and still wrap on a phone. */
+body.board.quickies .quotes .q{white-space:pre-wrap;overflow-wrap:break-word}
