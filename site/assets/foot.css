@@ -53,7 +53,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--c);outline-offset:2
 /* v1.98 (jay 2026.10.20): the wolf. grey fur + light muzzle + ink eye/nose; the bandana is currentColor (--c via .who-t). */
 :root{--wolf:#A0A4A8;--wolf-light:#E8E8E8;--wolf-ink:#070606}
 @media (prefers-color-scheme:light){:root{--wolf:#6B6F73;--wolf-light:#C9CCCF;--wolf-ink:#070606}}
-.social .who-t .nj{display:block;flex:none;width:calc(24px*var(--k));height:calc(24px*var(--k))}
+.social .who-t .nj{display:block;flex:none;width:var(--mast-mark,calc(24px*var(--k)));height:var(--mast-mark,calc(24px*var(--k)))}
 .social button.who-t{appearance:none;-webkit-appearance:none;background:none;border:0;font:inherit;color:var(--c);cursor:pointer;touch-action:manipulation}   /* v1.99 (jay 2026.10.20): the wolf is the speed button */
 .social a.who-t,.social button.who-t{padding:12px;margin:-12px;border-radius:12px;text-decoration:none;-webkit-tap-highlight-color:transparent}
 .social a.who-t:hover,.social button.who-t:hover{background:none}

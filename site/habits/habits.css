@@ -25,28 +25,28 @@ body.board .trackers,body.board .tracker,body.board .fit,body.board .graph{width
 body.board .kicker,body.board .legend,body.board .stat,body.board .status{text-align:center}
 body.board .legend{justify-content:center}
 body.board .foot{margin-left:auto;margin-right:auto;text-align:center}
-body.board .mast{--k:.9167;--kx:.8;width:100%;min-height:44px;margin:0 0 var(--habit-gap)}
+body.board .mast{--k:.9167;--kx:.8;--mast-mark:calc(24px * var(--k));width:100%;min-height:44px;margin:0 0 var(--habit-gap)}
 /* v2.63: the header line is plain text, italic, the same size as the old nav, in the normal text colour. the share-card replica still uses .line. */
-body.board .mast .line{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:44px;margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:normal;line-height:1.25;color:var(--c)}
-body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;width:100%;min-height:44px;margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:1.25;color:var(--fg)}
+body.board .mast .line{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c)}
+body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:var(--fg)}
 /* v2.68 (jay 2026.10.20): the top line is plain text again, "by jay, a millennial living out loud", same font and size, in --fg
    (white in dark mode, black in light mode). below it the old v2.36 nav is back as snaps // quotes // habits: italic links in the speed
    colour --c, separators in --fg, 44px tap targets, and the current page gets a subtle 1px underline (.2em offset, currentColor). */
-body.board .mast .nav{box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;width:100%;min-height:44px;margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:1.25;color:var(--c)}
-body.board .mast .nav a{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 12px;font-style:italic;color:var(--c);text-decoration:none;border-radius:6px;-webkit-tap-highlight-color:transparent}
+body.board .mast .nav{box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c)}
+body.board .mast .nav a{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;min-height:var(--mast-row);padding:0 12px;font-style:italic;color:var(--c);text-decoration:none;border-radius:6px;-webkit-tap-highlight-color:transparent}
 body.board .mast .nav a:hover{color:var(--c)}
 body.board .mast .nav a[aria-current="page"]{text-decoration:underline;text-decoration-color:currentColor;text-decoration-thickness:1px;text-underline-offset:.2em}
 body.board .mast .nav a:focus-visible{outline:2px solid var(--c);outline-offset:-4px}
 body.board .mast .nav .sep{font-style:normal;color:var(--fg);pointer-events:none}
 /* v2.69 (jay 2026.10.20): the line under the header on /me/ ("want to know more about me? just ask."), styled like the backlog note on /:
    the byline's font and size, upright, plain --fg, a 44px row pulled up so icons -> line -> first grid title match the header rhythm. */
-body.board .copy > .note-line{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:44px;margin:calc(-1 * var(--habit-gap) - 1px) 0 0;padding:calc((44px - 1.25em) / 2) 8px;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:1.25;color:var(--fg)}
+body.board .copy > .note-line{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:calc(-1 * var(--habit-gap) - 1px) 0 0;padding:calc((var(--mast-row) - var(--mast-lh) * 1em) / 2) 8px;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:var(--fg)}
 body.board .mast .elsewhere{width:100%;margin:0}
 /* v2.64: 8 items need 352px for 44px tap targets. when the column is narrower (a 390px phone has 342px), the row widens
    symmetrically into the side padding, up to 4px from the screen edge. wider columns are unchanged. */
 body.board .mast .social{--rw:max(100%,min(352px,100vw - 8px));width:var(--rw);max-width:none;margin:0 calc((100% - var(--rw))/2);justify-content:space-between;align-items:center;gap:0}
-body.board .mast .social li{flex:0 1 44px;width:44px;min-width:0;max-width:44px;height:44px;display:flex;align-items:center;justify-content:center}
-body.board .mast .social a,body.board .mast .social a.who-t,body.board .mast .social button.who-t{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;height:44px;min-width:0;min-height:44px;padding:0;margin:0;border-radius:10px;-webkit-tap-highlight-color:transparent}
+body.board .mast .social li{flex:0 1 var(--mast-row);width:var(--mast-row);min-width:0;max-width:var(--mast-row);height:var(--mast-row);display:flex;align-items:center;justify-content:center}
+body.board .mast .social a,body.board .mast .social a.who-t,body.board .mast .social button.who-t{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;height:var(--mast-row);min-width:0;min-height:var(--mast-row);padding:0;margin:0;border-radius:10px;-webkit-tap-highlight-color:transparent}
 body.board .mast .social a:focus-visible{outline-offset:-3px}
 body.board .signup{width:min(100%,26rem);margin:18px auto 10px}
 body.board .notify{justify-content:center;--mail-s:calc(11 / 16);--mail-slot:62px;--mail-h:calc(24px + 10px / var(--mail-s))}
@@ -272,15 +272,11 @@ body.day .home{margin:0 0 22px}
 /* v2.74 (jay 2026.10.20): the wolf's bandana (currentColor) is gold whenever gold is on: the '+30 lives' wolf inherited the overlay's white text colour. */
 .konami .nj,.kos-hold .nj{color:#FFD700}
 :root.gld .nj,.gld .nj,.nj.gld{color:var(--c)}
-/* v2.85 (jay 2026.10.23): nav is two groups. left snaps // music // books, right quotes // quickies // me,
-   0.6em lower, open space between them. both are inset 12px from the row.
-   the row is the content column once that column can hold the groups, and the viewport below 492px
-   so a phone inset is from the screen. nav stays 14px from 348px up; 320–347px is 12px so the gap
-   and the inset both survive. header and subheaders still share --ts (12px through 359px).
-   v2.87: the stagger is extra room, not a bite out of the row under the nav. padding-bottom matches
-   the 0.6em, so the lower group keeps the old clearance above the social row and the subheader.
-   the header-to-left-group gap stays the single-line row. */
-:root{--ts:14px;--nav-pad:12px;--nav-fs:14px;--nav-inset:12px}
+/* v2.88 (jay 2026.10.23): the split nav is two lines. left snaps // music // books, right quotes // quickies // me
+   on the next line, each inset the same way. --mast-row is the header stack's row and --mast-gap is the
+   space between the bottom of one line and the top of the next. the social mark is --mast-mark, so the
+   padding under the nav keeps that same gap above it. */
+:root{--ts:14px;--nav-pad:12px;--nav-fs:14px;--nav-inset:12px;--mast-lh:1.25;--mast-line:calc(var(--mast-lh) * var(--nav-fs));--mast-gap:calc(44px - var(--mast-line));--mast-row:calc(var(--mast-line) + var(--mast-gap))}
 @media (max-width:539px){:root{--nav-pad:8px}}
 @media (max-width:443px){:root{--nav-pad:6px}}
 @media (max-width:419px){:root{--nav-pad:4px}}
@@ -292,10 +288,11 @@ body.day .home{margin:0 0 22px}
 :root body.board .mast .pages,:root body.board .copy > .note-line,:root body.snaps .backlog{font-size:var(--ts)}
 :root body.board .mast .pages{--hw:min(100vw - 16px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);flex-wrap:nowrap;white-space:nowrap}
 :root body.board .copy > .note-line,:root body.snaps .backlog{--hw:min(100vw - 24px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);white-space:nowrap}
-:root body.board .mast .nav{box-sizing:border-box;display:flex;flex-wrap:nowrap;justify-content:space-between;align-items:flex-start;width:100%;max-width:none;margin-left:0;margin-right:0;padding:0 var(--nav-inset) .6em;font-size:var(--nav-fs)}
+:root body.board .mast .nav{box-sizing:border-box;display:flex;flex-direction:column;flex-wrap:nowrap;justify-content:flex-start;align-items:stretch;width:100%;max-width:none;margin-left:0;margin-right:0;padding:0 var(--nav-inset) calc((var(--mast-mark) - var(--mast-line)) / 2);row-gap:0;font-size:var(--nav-fs);line-height:var(--mast-lh)}
 @media (max-width:491px){:root body.board .mast .nav{width:100vw;margin-left:calc((100% - 100vw) / 2);margin-right:calc((100% - 100vw) / 2)}}
-:root body.board .mast .nav .nav-l,:root body.board .mast .nav .nav-r{display:inline-flex;align-items:center;flex:0 0 auto;white-space:nowrap}
-:root body.board .mast .nav .nav-r{margin-top:.6em}
-:root body.board .mast .nav a{padding:0 var(--nav-pad)}
+:root body.board .mast .nav .nav-l,:root body.board .mast .nav .nav-r{display:flex;align-items:center;flex:0 0 auto;width:100%;min-height:var(--mast-row);white-space:nowrap}
+:root body.board .mast .nav .nav-l{justify-content:flex-start}
+:root body.board .mast .nav .nav-r{justify-content:flex-end}
+:root body.board .mast .nav a{padding:0 var(--nav-pad);min-height:var(--mast-row)}
 /* v2.87: quickies keep the double spaces Jay typed, and long words wrap the way they did before the blank author row. */
 body.board.quickies .quotes .q{white-space:pre-wrap;overflow-wrap:break-word}
