@@ -51,7 +51,7 @@ A new quote is a commit that puts that day's object at the top. There is no Acti
 
 ## quickies
 
-`/quickies/` reads `site/quickies/quickies.json`. Newest first. The note under the nav is `quick thoughts`. An empty list shows `first one drops tonight`.
+`/quickies/` reads `site/quickies/quickies.json`. Newest first. The note under the nav is `mad respect to those who click this first`. An empty list shows `first one drops tonight`.
 
 ```json
 {"ts": "2026-10-23T22:05:00-05:00", "text": "the thought"}
