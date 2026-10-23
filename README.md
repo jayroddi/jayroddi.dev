@@ -70,7 +70,7 @@ Old `/habits/YYYY-MM-DD/` addresses redirect to `/`.
 
 ## nightly sync
 
-`.github/workflows/snaps.yml` runs at midnight America/Chicago. The crons are `0 5 * * *` and `0 6 * * *` (midnight CDT and midnight CST). The first step continues only when `TZ=America/Chicago date +%H` is `00`, so the pair fires once. A manual dispatch always runs.
+`.github/workflows/snaps.yml` runs at midnight America/Chicago. The crons are `0 5 * * *` and `0 6 * * *` (midnight CDT and midnight CST). The first step runs the `0 5` cron while Chicago is on CDT and the `0 6` cron while Chicago is on CST, from the cron that queued the run rather than the clock, so a late delivery still syncs once and the other slot does not. A manual dispatch always runs.
 
 That job syncs the Lightroom album, then the Spotify playlist. A Spotify failure does not block the photo sync. It commits `site/snaps/`, `scripts/snaps_colors.json`, and `site/music/playlist.json` only when something changed, then starts the Pages deploy.
 
