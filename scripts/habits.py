@@ -623,7 +623,7 @@ REDIRECT_STUB = """<!doctype html>
 <meta property="og:url" content="https://jayroddi.lol/">
 <meta property="og:title" content="let your success be what shakes the ground">
 <meta property="og:description" content="a year of habits // sleep, fitness, code, and journal">
-<meta property="og:image" content="https://jayroddi.lol/og-card.png?v=3.2">
+<meta property="og:image" content="https://jayroddi.lol/og-card.png?v=3.3">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/png">
@@ -633,7 +633,7 @@ REDIRECT_STUB = """<!doctype html>
 <meta name="twitter:url" content="https://jayroddi.lol/">
 <meta name="twitter:title" content="let your success be what shakes the ground">
 <meta name="twitter:description" content="a year of habits // sleep, fitness, code, and journal">
-<meta name="twitter:image" content="https://jayroddi.lol/og-card.png?v=3.2">
+<meta name="twitter:image" content="https://jayroddi.lol/og-card.png?v=3.3">
 <meta name="twitter:image:alt" content="by jay, a millennial living out loud">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"jayroddi.lol","url":"https://jayroddi.lol/"}</script>
 <style>html,body{margin:0;background:#000;color:#f6efe9}body{font:16px/1.5 "JetBrains Mono",ui-monospace,monospace;padding:24px}a{color:#FF4D1A;text-decoration:none}</style>
