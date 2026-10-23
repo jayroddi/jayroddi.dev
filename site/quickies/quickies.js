@@ -1,6 +1,7 @@
 /* quickies: short thoughts on /quickies. the file is /quickies/quickies.json
-   (newest first; {ts, text}). ts is an ISO timestamp. the line under the words is
-   America/Chicago, like 2026.10.23 // 10:05pm. an empty list is one muted line. */
+   (newest first; {ts, text}). ts is an ISO timestamp. the line above the words is
+   America/Chicago, like 2026.10.23 // 10:05pm, in the same spot as a quote's date.
+   an empty list is one muted line. */
 (() => {
   const host = document.querySelector('.copy') || document.querySelector('main');
   if (!host) return;
@@ -45,16 +46,16 @@
     } else {
       list.forEach(e => {
         const li = document.createElement('li');
-        const q = document.createElement('blockquote');
-        q.className = 'q';
-        q.textContent = e.text;
-        const by = document.createElement('p');
-        by.className = 'by';
+        const d = document.createElement('p');
+        d.className = 'd';
         const time = document.createElement('time');
         time.dateTime = e.ts;
         time.textContent = e.line;
-        by.appendChild(time);
-        li.append(q, by);
+        d.appendChild(time);
+        const q = document.createElement('blockquote');
+        q.className = 'q';
+        q.textContent = e.text;
+        li.append(d, q);
         frag.appendChild(li);
       });
     }
