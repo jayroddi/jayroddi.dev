@@ -272,18 +272,27 @@ body.day .home{margin:0 0 22px}
 /* v2.74 (jay 2026.10.20): the wolf's bandana (currentColor) is gold whenever gold is on: the '+30 lives' wolf inherited the overlay's white text colour. */
 .konami .nj,.kos-hold .nj{color:#FFD700}
 :root.gld .nj,.gld .nj,.nj.gld{color:var(--c)}
-/* v2.83 (jay 2026.10.23): quickies note is "mad respect to those who click this first" (328px at 14px).
-   --ts stays 14px from 360px up. 320–359px is 12px so that line and the six-link nav both stay one line.
-   nav padding steps down with the width (12 / 6 / 2 / 1). the header and subheaders share --ts. */
-:root{--ts:14px;--nav-pad:12px}
-@media (max-width:491px){:root{--nav-pad:6px}}
-@media (max-width:419px){:root{--nav-pad:2px}}
-@media (max-width:371px){:root{--nav-pad:1px}}
-@media (max-width:359px){:root{--ts:12px;--nav-pad:1px}}
-:root body.board .mast .pages,:root body.board .mast .nav,:root body.board .copy > .note-line,:root body.snaps .backlog{font-size:var(--ts)}
-:root body.board .mast .nav a{padding:0 var(--nav-pad)}
-:root body.board .mast .pages,:root body.board .mast .nav{--hw:min(100vw - 16px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);flex-wrap:nowrap}
-:root body.board .mast .pages{white-space:nowrap}
+/* v2.85 (jay 2026.10.23): nav is two groups. left snaps // music // books, right quotes // quickies // me,
+   0.6em lower, open space between them. both are inset 12px from the row.
+   the row is the content column once that column can hold the groups, and the viewport below 492px
+   so a phone inset is from the screen. nav stays 14px from 348px up; 320–347px is 12px so the gap
+   and the inset both survive. header and subheaders still share --ts (12px through 359px). */
+:root{--ts:14px;--nav-pad:12px;--nav-fs:14px;--nav-inset:12px}
+@media (max-width:539px){:root{--nav-pad:8px}}
+@media (max-width:443px){:root{--nav-pad:6px}}
+@media (max-width:419px){:root{--nav-pad:4px}}
+@media (max-width:395px){:root{--nav-pad:2px}}
+@media (max-width:371px){:root{--nav-pad:0px}}
+@media (max-width:359px){:root{--ts:12px}}
+@media (max-width:347px){:root{--nav-fs:12px;--nav-pad:2px}}
+@media (max-width:332px){:root{--nav-pad:0px}}
+:root body.board .mast .pages,:root body.board .copy > .note-line,:root body.snaps .backlog{font-size:var(--ts)}
+:root body.board .mast .pages{--hw:min(100vw - 16px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);flex-wrap:nowrap;white-space:nowrap}
 :root body.board .copy > .note-line,:root body.snaps .backlog{--hw:min(100vw - 24px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);white-space:nowrap}
+:root body.board .mast .nav{box-sizing:border-box;display:flex;flex-wrap:nowrap;justify-content:space-between;align-items:flex-start;width:100%;max-width:none;margin-left:0;margin-right:0;padding:0 var(--nav-inset);font-size:var(--nav-fs)}
+@media (max-width:491px){:root body.board .mast .nav{width:100vw;margin-left:calc((100% - 100vw) / 2);margin-right:calc((100% - 100vw) / 2)}}
+:root body.board .mast .nav .nav-l,:root body.board .mast .nav .nav-r{display:inline-flex;align-items:center;flex:0 0 auto;white-space:nowrap}
+:root body.board .mast .nav .nav-r{margin-top:.6em}
+:root body.board .mast .nav a{padding:0 var(--nav-pad)}
 /* v2.84 (jay 2026.10.23): quickies keep the double spaces in the text (pre-line would collapse them) and still wrap on a phone. */
 body.board.quickies .quotes .q{white-space:pre-wrap;overflow-wrap:break-word}
