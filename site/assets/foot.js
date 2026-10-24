@@ -1,4 +1,5 @@
-/* v2.78: order after the wolf: threads, instagram, x, github, spotify, linkedin, email.
+/* v2.80: under the header the row is two lines, wolf through x on the left, github through email on the right.
+   v2.78: order after the wolf: threads, instagram, x, github, spotify, linkedin, email.
    v2.79 (jay 2026.10.20): email is hi@jayroddi.lol (icloud).
    v2.78: the wolf is a <button aria-label="switch speed"> that calls JayRain.toggle(); no link.
    v2.77: the grids page is /me/ (/habits/ redirects); on / the wolf links to /me/.
@@ -36,9 +37,13 @@ const onHome = /^\/(index\.html)?$/.test(location.pathname);
 // v2.78 (jay 2026.10.20): the wolf is a button, the only speed switch (teal <-> orange). it no longer navigates; the nav does that.
 const njItem = `<li class="who"><button type="button" class="who-t" aria-label="switch speed">${NJ}</button></li>`;
 const icon = s => `<li><a href="${esc(s.href)}" aria-label="${esc(s.label)}" title="${esc(s.label)}"${/^https?:/.test(s.href) ? ' target="_blank" rel="noopener"' : ''}>${ICONS[s.icon] || ''}</a></li>`;
-const row = `<nav class="elsewhere" aria-label="elsewhere"><ul class="social">${njItem}${SOCIALS.map(icon).join('')}</ul></nav>`;
 const mast = document.querySelector('.mast');
-if (mast) mast.insertAdjacentHTML('beforeend', row);
+const pageNav = mast && mast.querySelector(':scope > .nav');
+const row = pageNav
+  ? `<nav class="elsewhere" aria-label="elsewhere"><ul class="social soc-l">${njItem}${SOCIALS.slice(0, 3).map(icon).join('')}</ul><ul class="social soc-r">${SOCIALS.slice(3).map(icon).join('')}</ul></nav>`
+  : `<nav class="elsewhere" aria-label="elsewhere"><ul class="social">${njItem}${SOCIALS.map(icon).join('')}</ul></nav>`;
+if (pageNav) pageNav.insertAdjacentHTML('beforebegin', row);
+else if (mast) mast.insertAdjacentHTML('beforeend', row);
 else {
   const pad = foot.querySelector('.pad');
   if (pad) pad.insertAdjacentHTML('beforebegin', row);
