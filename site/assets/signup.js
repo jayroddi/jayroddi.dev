@@ -1,4 +1,5 @@
-/* v2.23 (jay 2026.10.20): konami rocket no longer sticks mid-screen on pages without #stage, and finishes off the top of the screen.
+/* v2.24: a valid email goldens both icon lines (the row is split under the header).
+   v2.23 (jay 2026.10.20): konami rocket no longer sticks mid-screen on pages without #stage, and finishes off the top of the screen.
    v2.22 (jay 2026.10.20): the footer (email, rocket, konami) is on /, /quotes/ and /me/; the placeholder is "subscribe for updates".
    v2.21: the email field is 16px inside a wrapper scaled to the stat-label size. the cable follows that visual box.
    the prompt line above the form is gone. the field placeholder is "enter email for liftoff, or cheat code below".
@@ -595,7 +596,8 @@ form.addEventListener('submit', async e => {
   if (state.fail && state.fail.abort) state.fail.abort(); glowStop(); failClear();
   const btn = form.querySelector('button'); btn.disabled = true;
   form.classList.add('ign');
-  ul.classList.add('gld');
+  const iconRows = document.querySelectorAll('.mast .social');
+  (iconRows.length ? iconRows : [ul]).forEach(node => node.classList.add('gld'));
   const settled = kbSettle();
   /* v1.67 (jay 2026.10.03): free ref tracking (buttondown metadata, no paid tags): tag=site always stays, a ?ref= ADDS a second tag (was: replaced site),
      metadata__ref = the ref (else "site"), metadata__page = the path. no email or other PII */
