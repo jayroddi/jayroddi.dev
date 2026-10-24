@@ -1,9 +1,7 @@
 /* quickies: short thoughts on /quickies. the file is /quickies/quickies.json
    (newest first; {ts, text}). ts is an ISO timestamp. the line above the words is
    America/Chicago, like 2026.10.23 // 10:05pm, in the same spot as a quote's date.
-   an optional img is "/quickies/img/<file>.jpg" or an array of those paths.
-   an optional alt is the description; without it the alt text is empty.
-   order is the stamp, then the photo(s), then the text. an empty list is one muted line. */
+   an empty list is one muted line. */
 (() => {
   const host = document.querySelector('.copy') || document.querySelector('main');
   if (!host) return;
@@ -26,19 +24,6 @@
     const ap = g('dayPeriod').replace(/\./g, '').replace(/\s+/g, '').toLowerCase();
     if (!g('year') || hour === 'NaN' || !minute || (ap !== 'am' && ap !== 'pm')) return '';
     return g('year') + '.' + g('month') + '.' + g('day') + ' // ' + hour + ':' + minute + ap;
-  }
-
-  const PHOTO = /^\/quickies\/img\/[A-Za-z0-9][A-Za-z0-9._-]*\.(?:jpe?g|png|webp|gif|avif)$/i;
-
-  function photoSources(img) {
-    const list = Array.isArray(img) ? img : (typeof img === 'string' && img.trim() ? [img] : []);
-    const srcs = [];
-    list.forEach(item => {
-      if (typeof item !== 'string') return;
-      const src = item.trim();
-      if (PHOTO.test(src)) srcs.push(src);
-    });
-    return srcs;
   }
 
   function paint(list) {
@@ -70,23 +55,7 @@
         const q = document.createElement('blockquote');
         q.className = 'q';
         q.textContent = e.text;
-        const srcs = photoSources(e.img);
-        if (!srcs.length) {
-          li.append(d, q);
-        } else {
-          const pics = document.createElement('div');
-          pics.className = 'pics';
-          const alt = typeof e.alt === 'string' ? e.alt : '';
-          srcs.forEach(src => {
-            const img = document.createElement('img');
-            img.src = src;
-            img.alt = alt;
-            img.loading = 'lazy';
-            img.decoding = 'async';
-            pics.appendChild(img);
-          });
-          li.append(d, pics, q);
-        }
+        li.append(d, q);
         frag.appendChild(li);
       });
     }
@@ -96,7 +65,7 @@
   fetch('/quickies/quickies.json', {cache: 'no-cache'}).then(r => r.ok ? r.json() : Promise.reject()).then(rows => {
     if (!Array.isArray(rows)) return;
     const list = rows.filter(e => e && typeof e.text === 'string' && e.text.trim() && e.ts)
-      .map(e => ({ts: String(e.ts), text: e.text.trim(), line: stamp(e.ts), t: Date.parse(e.ts), img: e.img, alt: e.alt}))
+      .map(e => ({ts: String(e.ts), text: e.text.trim(), line: stamp(e.ts), t: Date.parse(e.ts)}))
       .filter(e => e.line && !Number.isNaN(e.t))
       .sort((a, b) => b.t - a.t || 0);
     paint(list);

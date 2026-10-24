@@ -57,14 +57,7 @@ A new quote is a commit that puts that day's object at the top. There is no Acti
 {"ts": "2026-10-23T22:05:00-05:00", "text": "the thought"}
 ```
 
-A photo is optional. `img` is one path, or an array of paths. Files live in `site/quickies/img/`. `alt` is optional and applies to every photo in that entry; leave it off and the alt text is empty.
-
-```json
-{"ts": "2026-10-23T22:05:00-05:00", "text": "the thought", "img": "/quickies/img/name.jpg", "alt": "what the photo shows"}
-{"ts": "2026-10-23T22:05:00-05:00", "text": "the thought", "img": ["/quickies/img/one.jpg", "/quickies/img/two.jpg"], "alt": "what the photos show"}
-```
-
-`ts` is an ISO timestamp. The page turns it into America/Chicago, `2026.10.23 // 10:05pm` (lowercase am/pm, no leading zero on the hour), and puts that line where a quote shows its date. Photos, when present, sit under that line and above the text. The words use the quote type, so they display lowercase. An entry without `img` is unchanged. A new thought is a commit. There is no Actions workflow for it.
+`ts` is an ISO timestamp. The page turns it into America/Chicago, `2026.10.23 // 10:05pm` (lowercase am/pm, no leading zero on the hour), and puts that line where a quote shows its date. The words use the quote type, so they display lowercase. A new thought is a commit. There is no Actions workflow for it.
 
 ## me
 
