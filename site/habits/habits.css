@@ -296,3 +296,7 @@ body.day .home{margin:0 0 22px}
 :root body.board .mast .nav a{padding:0 var(--nav-pad);min-height:var(--mast-row)}
 /* v2.87: quickies keep the double spaces Jay typed, and long words wrap the way they did before the blank author row. */
 body.board.quickies .quotes .q{white-space:pre-wrap;overflow-wrap:break-word}
+/* v2.90: an optional quickie photo sits between the stamp and the text, inside the text column.
+   the frame matches a snaps photo: the whole picture, on #111, with a small radius. */
+body.board.quickies .quotes .pics{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;margin:4px 0 0}
+body.board.quickies .quotes .pics img{display:block;max-width:100%;max-height:min(70vh,640px);width:auto;height:auto;object-fit:contain;background:#111;border-radius:4px}
