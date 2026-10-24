@@ -1,4 +1,5 @@
-/* v2.80: under the header the row is two lines, wolf through x on the left, github through email on the right.
+/* v2.81: the nav lines come first, then the two icon lines (wolf through x, then github through email).
+   v2.80: under the header the row is two lines, wolf through x on the left, github through email on the right.
    v2.78: order after the wolf: threads, instagram, x, github, spotify, linkedin, email.
    v2.79 (jay 2026.10.20): email is hi@jayroddi.lol (icloud).
    v2.78: the wolf is a <button aria-label="switch speed"> that calls JayRain.toggle(); no link.
@@ -42,7 +43,7 @@ const pageNav = mast && mast.querySelector(':scope > .nav');
 const row = pageNav
   ? `<nav class="elsewhere" aria-label="elsewhere"><ul class="social soc-l">${njItem}${SOCIALS.slice(0, 3).map(icon).join('')}</ul><ul class="social soc-r">${SOCIALS.slice(3).map(icon).join('')}</ul></nav>`
   : `<nav class="elsewhere" aria-label="elsewhere"><ul class="social">${njItem}${SOCIALS.map(icon).join('')}</ul></nav>`;
-if (pageNav) pageNav.insertAdjacentHTML('beforebegin', row);
+if (pageNav) pageNav.insertAdjacentHTML('afterend', row);
 else if (mast) mast.insertAdjacentHTML('beforeend', row);
 else {
   const pad = foot.querySelector('.pad');
