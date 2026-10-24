@@ -1,4 +1,5 @@
-/* v2.81: the nav lines come first, then the two icon lines (wolf through x, then github through email).
+/* v2.82: left icon line is wolf, github, spotify, email. right icon line is x, instagram, threads, linkedin.
+   v2.81: the nav lines come first, then the two icon lines (wolf through x, then github through email).
    v2.80: under the header the row is two lines, wolf through x on the left, github through email on the right.
    v2.78: order after the wolf: threads, instagram, x, github, spotify, linkedin, email.
    v2.79 (jay 2026.10.20): email is hi@jayroddi.lol (icloud).
@@ -38,10 +39,13 @@ const onHome = /^\/(index\.html)?$/.test(location.pathname);
 // v2.78 (jay 2026.10.20): the wolf is a button, the only speed switch (teal <-> orange). it no longer navigates; the nav does that.
 const njItem = `<li class="who"><button type="button" class="who-t" aria-label="switch speed">${NJ}</button></li>`;
 const icon = s => `<li><a href="${esc(s.href)}" aria-label="${esc(s.label)}" title="${esc(s.label)}"${/^https?:/.test(s.href) ? ' target="_blank" rel="noopener"' : ''}>${ICONS[s.icon] || ''}</a></li>`;
+const pick = (...keys) => keys.map(k => SOCIALS.find(s => s.icon === k));
+const leftIcons = pick('github', 'spotify', 'email');
+const rightIcons = pick('x', 'instagram', 'threads', 'linkedin');
 const mast = document.querySelector('.mast');
 const pageNav = mast && mast.querySelector(':scope > .nav');
 const row = pageNav
-  ? `<nav class="elsewhere" aria-label="elsewhere"><ul class="social soc-l">${njItem}${SOCIALS.slice(0, 3).map(icon).join('')}</ul><ul class="social soc-r">${SOCIALS.slice(3).map(icon).join('')}</ul></nav>`
+  ? `<nav class="elsewhere" aria-label="elsewhere"><ul class="social soc-l">${njItem}${leftIcons.map(icon).join('')}</ul><ul class="social soc-r">${rightIcons.map(icon).join('')}</ul></nav>`
   : `<nav class="elsewhere" aria-label="elsewhere"><ul class="social">${njItem}${SOCIALS.map(icon).join('')}</ul></nav>`;
 if (pageNav) pageNav.insertAdjacentHTML('afterend', row);
 else if (mast) mast.insertAdjacentHTML('beforeend', row);
