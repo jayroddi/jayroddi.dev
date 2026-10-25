@@ -4,7 +4,9 @@
    newest to oldest left to right and the first row shares one top edge.
    grid images are the 640 rendition, with the 1280 in srcset. the first photo
    is eager; the rest are lazy. the lightbox shows that thumbnail at once,
-   then the 2048 in the same box. left is newer, right is older. */
+   then the 2048 in the same box. left is newer, right is older.
+   each tile stamps its capture time in the bottom-right, America/Chicago,
+   like 2026.10.25 // 7:33am. a photo with no time shows the date only. */
 (() => {
 const NAMES = ['january','february','march','april','may','june','july','august','september','october','november','december'];
 const FIRST = 1;
@@ -45,6 +47,41 @@ function monthName(key) {
   return (NAMES[(+month || 1) - 1] || month) + ' ' + year;
 }
 
+/* same America/Chicago stamp as /quickies: 2026.10.25 // 7:33am */
+function stamp(ts) {
+  const d = new Date(ts);
+  if (Number.isNaN(d.getTime())) return '';
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Chicago',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  }).formatToParts(d);
+  const g = t => (parts.find(p => p.type === t) || {}).value || '';
+  const hour = String(Number(g('hour')));
+  const minute = g('minute').padStart(2, '0');
+  const ap = g('dayPeriod').replace(/\./g, '').replace(/\s+/g, '').toLowerCase();
+  if (!g('year') || hour === 'NaN' || !minute || (ap !== 'am' && ap !== 'pm')) return '';
+  return g('year') + '.' + g('month') + '.' + g('day') + ' // ' + hour + ':' + minute + ap;
+}
+
+function dotted(day) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(day || '');
+  return m ? m[1] + '.' + m[2] + '.' + m[3] : '';
+}
+
+function caption(photo) {
+  const raw = photo && typeof photo.a === 'string' ? photo.a : '';
+  if (raw.includes('T')) {
+    const line = stamp(raw);
+    if (line) return line;
+  }
+  return dotted(photo && photo.d);
+}
+
 function render(meta, photos) {
   const section = document.createElement('section');
   section.className = 'month';
@@ -64,7 +101,15 @@ function render(meta, photos) {
     button.dataset.seq = String(seqAt);
     button.style.background = '#' + (photo.c || '111');
     button.style.setProperty('--r', photo.w + ' / ' + photo.h);
-    button.setAttribute('aria-label', photo.d || 'photo');
+    const line = caption(photo);
+    button.setAttribute('aria-label', line || photo.d || 'photo');
+    if (line) {
+      const cap = document.createElement('time');
+      cap.className = 'stamp';
+      cap.dateTime = (photo.a && String(photo.a).includes('T')) ? photo.a : (photo.d || '');
+      cap.textContent = line;
+      button.appendChild(cap);
+    }
     const thumb = url(photo, photo.t);
     const resource = long => Math.max(1, Math.round(photo.w * long / (Math.max(photo.w, photo.h) || 1)));
     button.dataset.src = thumb;
