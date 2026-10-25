@@ -60,8 +60,8 @@ html.au-snap,html.au-snap *,html.au-snap *::before,html.au-snap *::after{transit
    v2.55: every page, snaps included, is 25% behind content. a phone applies that floor to the whole screen. */
 #rain{position:fixed;left:0;top:0;width:100%;height:100vh;height:100lvh;z-index:1;pointer-events:none}
 @keyframes nj-pulse{0%,100%{transform:scale(1);filter:drop-shadow(0 0 2px rgba(var(--c-rgb),.45))}50%{transform:scale(1.08);filter:drop-shadow(0 0 12px rgba(var(--c-rgb),.95))}}
-/* v2.56: the header title pulses. the wolf row is gone. */
-@media (prefers-reduced-motion:reduce){body.board .mast .pages .pages-t{animation:none;transform:none;filter:drop-shadow(0 0 8px rgba(var(--c-rgb),.75))}}
+/* v2.57: the header title glows in place. the letters do not scale. */
+@media (prefers-reduced-motion:reduce){body.board .mast .pages .pages-t{animation:none;text-shadow:0 0 8px rgba(var(--c-rgb),.75)}}
 
 .tap-hint{position:fixed;z-index:31;top:11px;right:14px;display:flex;align-items:center;color:var(--c);font-size:13px;font-weight:500;line-height:1;white-space:nowrap;opacity:0;transform:translateY(-4px);pointer-events:none;text-shadow:0 0 8px var(--bg);transition:color .25s ease,opacity .7s ease,transform .7s ease}
 .tap-hint.ready,.tap-hint.settled{opacity:.92;transform:none}
