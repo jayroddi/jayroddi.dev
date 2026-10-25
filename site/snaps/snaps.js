@@ -6,7 +6,8 @@
    is eager; the rest are lazy. the lightbox shows that thumbnail at once,
    then the 2048 in the same box. left is newer, right is older.
    each tile stamps its capture time in the bottom-right, America/Chicago,
-   like 2026.10.25 // 7:33am. a photo with no time shows the date only. */
+   like 2026.10.25 // 7:33am. the lightbox repeats that line under the photo.
+   a photo with no time shows the date only. */
 (() => {
 const NAMES = ['january','february','march','april','may','june','july','august','september','october','november','december'];
 const FIRST = 1;
@@ -17,6 +18,7 @@ const SIZES = '(min-width: 900px) 200px, 30vw';
 const gallery = document.getElementById('gallery');
 const light = document.getElementById('light');
 const frame = light.querySelector('.frame');
+const capEl = light.querySelector('.cap');
 const lo = light.querySelector('.lo');
 const hi = light.querySelector('.hi');
 const nameEl = document.getElementById('light-name');
@@ -215,8 +217,12 @@ function go(i) {
     hi.src = full;
     if (hi.complete && hi.naturalWidth) hi.classList.add('on');
   }
+  const line = caption(photo);
+  capEl.textContent = line;
+  if (line) capEl.dateTime = (photo.a && String(photo.a).includes('T')) ? photo.a : (photo.d || '');
+  else capEl.removeAttribute('datetime');
   const of = total();
-  nameEl.textContent = (photo.d || 'photo') + ', ' + (cursor + 1) + ' of ' + of;
+  nameEl.textContent = (line || photo.d || 'photo') + ', ' + (cursor + 1) + ' of ' + of;
   const atStart = cursor === 0;
   const atEnd = cursor >= sequence.length - 1 && at >= index.months.length;
   prevBtn.classList.toggle('off', atStart);
