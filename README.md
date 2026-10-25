@@ -4,7 +4,7 @@ Personal site. The repository is still named `jaytha.ninja`. The live site is [h
 
 `site/CNAME` is `jayroddi.lol`. Pushes to `main` deploy `site/` to GitHub Pages (`.github/workflows/pages.yml`).
 
-The header on every public page is `forgot about jay`. Under it the nav is `snaps // music // books // quotes // quickies // me`.
+The header on every public page is `the truth will set you free`. Under it the nav is `snaps // music // books // quotes // quickies // me`.
 
 | page | what it is |
 |---|---|
@@ -27,7 +27,7 @@ The grid asks for the 640 rendition and offers the 1280 in `srcset`. The lightbo
 
 ## music
 
-`/music/` reads `site/music/playlist.json`. One tile per track. A tap opens that track on Spotify. The note under the nav is `every day i'm shuffling`.
+`/music/` reads `site/music/playlist.json`. One tile per track. A tap opens that track on Spotify. The note under the nav is `forgot about jay`.
 
 `python3 scripts/spotify_playlist.py site/music/playlist.json` refreshes that file from the Spotify Web API. It needs `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, and `SPOTIFY_REFRESH_TOKEN`. Without the refresh token it exits 0 and leaves the file alone. It writes only when the tracks change (`fetched` is not enough).
 

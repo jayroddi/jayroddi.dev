@@ -1,4 +1,5 @@
-/* v2.24: a valid email goldens both icon lines (the row is split under the header).
+/* v2.25: the social row is gone. a valid email goldens the title. the form no longer needs an icon list.
+   v2.24: a valid email goldens both icon lines (the row is split under the header).
    v2.23 (jay 2026.10.20): konami rocket no longer sticks mid-screen on pages without #stage, and finishes off the top of the screen.
    v2.22 (jay 2026.10.20): the footer (email, rocket, konami) is on /, /quotes/ and /me/; the placeholder is "subscribe for updates".
    v2.21: the email field is 16px inside a wrapper scaled to the stat-label size. the cable follows that visual box.
@@ -9,7 +10,7 @@ const form = document.querySelector('form.notify');
 const emailIn = form && form.querySelector('input[type=email]');
 const statusEl = document.querySelector('.signup .status');
 const ul = document.querySelector('.mast .social') || document.querySelector('footer.foot .social');
-if (!form || !emailIn || !statusEl || !ul || !window.JayRain) return;
+if (!form || !emailIn || !statusEl || !window.JayRain) return;
 const state = window.__intro || (window.__intro = {});
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const mk = (tag, cls) => { const e = document.createElement(tag); if (cls) e.className = cls; return e; };
@@ -59,9 +60,10 @@ const anchorCursor = () => {
   curLi.style.left = left.toFixed(2) + 'px';
 };
 const fitRow = () => {
+  if (!ul) { syncPad(); return; }
   ul.style.marginLeft = ''; ul.style.setProperty('--igap', '0px');
   anchorCursor(); syncPad(); };
-fitRow(); addEventListener('resize', fitRow); if (window.ResizeObserver){ const ro = new ResizeObserver(fitRow); ro.observe(form); const wt = ul.querySelector('svg.nj'); if (wt) ro.observe(wt); } if (document.fonts) document.fonts.ready.then(fitRow);
+fitRow(); addEventListener('resize', fitRow); if (window.ResizeObserver){ const ro = new ResizeObserver(fitRow); ro.observe(form); if (ul) { const wt = ul.querySelector('svg.nj'); if (wt) ro.observe(wt); } } if (document.fonts) document.fonts.ready.then(fitRow);
 /* v1.72 (jay 2026.10.05): konami. buttons need up up down down left right left right b a start.
    keyboard is the same arrows then b a, and Enter is start. a alone does not launch.
    Enter is ignored while an input has focus. any other key on the start step is a miss.
@@ -210,7 +212,7 @@ function trackGold(el){
   return JayRain.gold({lock: true, track: () => { if (!el || !el.isConnected || el.style.visibility === 'hidden') return -Infinity; const b = el.getBoundingClientRect(); return (b.top + b.bottom)/2; }});
 }
 function launchSpace(){
-  const nj = ul.querySelector('svg.nj'), root = mk('div', 'konami rk-sky');
+  const nj = ul && ul.querySelector('svg.nj'), root = mk('div', 'konami rk-sky');
   const space = mk('div', 'kos-space'), stars = document.createElement('canvas'), mask = mk('div', 'kos-mask'), hold = mk('div', 'kos-hold'), lives = mk('p', 'kos-lives');
   stars.className = 'kos-stars'; lives.setAttribute('aria-live', 'polite');
   const ninja = nj ? cloneSvg(nj, '-k') : mk('span');
@@ -596,8 +598,8 @@ form.addEventListener('submit', async e => {
   if (state.fail && state.fail.abort) state.fail.abort(); glowStop(); failClear();
   const btn = form.querySelector('button'); btn.disabled = true;
   form.classList.add('ign');
-  const iconRows = document.querySelectorAll('.mast .social');
-  (iconRows.length ? iconRows : [ul]).forEach(node => node.classList.add('gld'));
+  const title = document.querySelector('.mast .pages');
+  if (title) title.classList.add('gld');
   const settled = kbSettle();
   /* v1.67 (jay 2026.10.03): free ref tracking (buttondown metadata, no paid tags): tag=site always stays, a ?ref= ADDS a second tag (was: replaced site),
      metadata__ref = the ref (else "site"), metadata__page = the path. no email or other PII */
