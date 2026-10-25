@@ -1,7 +1,21 @@
 {
  "source": "goodreads export",
- "count": 53,
+ "count": 54,
  "books": [
+  {
+   "id": "2195464",
+   "title": "What I Talk About When I Talk About Running",
+   "author": "Haruki Murakami",
+   "isbn": "9780307269195",
+   "read": "2026-10-25",
+   "added": "2026-10-25",
+   "pages": 179,
+   "year": "2008",
+   "read_count": 1,
+   "cover": "/books/covers/2195464.jpg",
+   "cover_source": "openlibrary-isbn",
+   "url": "https://openlibrary.org/works/OL2625422W"
+  },
   {
    "id": "249838085",
    "title": "Skinny Dipping at Low Tide: A Saga of Squeezed Shorts, Shattered Dreams, and Embarrassing Riches",
