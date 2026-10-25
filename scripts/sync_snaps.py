@@ -14,8 +14,10 @@ follows that, then writes:
   site/snaps/m/YYYY-MM.json      that month, newest first
 
 Images stay on Adobe. A photo keeps its id, revision, capture date,
-oriented width and height, the 640 / 1280 / 2048 rendition ids, and a
-dominant color sampled from the 640 JPEG. No GPS, filename, or other EXIF.
+capture time, oriented width and height, the 640 / 1280 / 2048 rendition
+ids, and a dominant color sampled from the 640 JPEG. No GPS, filename, or
+other EXIF. The time is the capture clock tagged America/Chicago, so the
+page can stamp it.
 The color cache is scripts/snaps_colors.json so a later run does not
 download a rendition that has not changed.
 """
@@ -150,6 +152,16 @@ def naive(dt: datetime) -> datetime:
     return dt.astimezone(CHICAGO).replace(tzinfo=None)
 
 
+def iso_at(dt: datetime) -> str:
+    """Capture clock as an ISO instant in America/Chicago.
+
+    when() already returns that wall clock (naive). Tagging it does not
+    shift the hour, including a Lightroom captureDate with no zone.
+    """
+    local = naive(dt).replace(microsecond=0)
+    return local.replace(tzinfo=CHICAGO).isoformat(timespec="seconds")
+
+
 def color_of(blob: bytes) -> str:
     with Image.open(BytesIO(blob)) as im:
         rgb = im.convert("RGB").resize((1, 1), Image.Resampling.BOX)
@@ -265,7 +277,15 @@ def main() -> None:
         items = sorted(grouped[month], key=lambda row: (naive(row["_at"]), row["i"]), reverse=True)
         out = []
         for row in items:
-            item = {"i": row["i"], "v": row["v"], "d": row["d"], "w": row["w"], "h": row["h"], "t": row["t"]}
+            item = {
+                "i": row["i"],
+                "v": row["v"],
+                "d": row["d"],
+                "a": iso_at(row["_at"]),
+                "w": row["w"],
+                "h": row["h"],
+                "t": row["t"],
+            }
             if "s" in row:
                 item["s"] = row["s"]
             if "l" in row:
