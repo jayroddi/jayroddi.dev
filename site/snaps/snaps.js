@@ -47,7 +47,7 @@ function monthName(key) {
   return (NAMES[(+month || 1) - 1] || month) + ' ' + year;
 }
 
-/* same America/Chicago stamp as /quickies: 2026.10.25 // 7:33am */
+/* America/Chicago stamp: 2026.10.25 // 7:33am */
 function stamp(ts) {
   const d = new Date(ts);
   if (Number.isNaN(d.getTime())) return '';

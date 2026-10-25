@@ -4,7 +4,7 @@ Personal site. The repository is still named `jaytha.ninja`. The live site is [h
 
 `site/CNAME` is `jayroddi.lol`. Pushes to `main` deploy `site/` to GitHub Pages (`.github/workflows/pages.yml`).
 
-The header on every public page is `the truth will set you free`. Under it the nav is `snaps // music // books // quotes // quickies // me`.
+The header on every public page is `the truth will set you free`. Under it the nav is one centered line: `snaps // music // books // quotes // me`.
 
 | page | what it is |
 |---|---|
@@ -12,7 +12,6 @@ The header on every public page is `the truth will set you free`. Under it the n
 | `/music/` | album-cover grid for the Spotify playlist. |
 | `/books/` | covers grouped by the year they were read. |
 | `/quotes/` | daily quotes, newest first. |
-| `/quickies/` | short thoughts, newest first. |
 | `/me/` | habit grids: code, workouts, steps, sleep, faith. `/habits/` redirects here. The files stay in `site/habits/`. |
 
 Each of those pages ends in the same footer: a Buttondown email field and the konami row.
@@ -21,7 +20,7 @@ Each of those pages ends in the same footer: a Buttondown email field and the ko
 
 `python3 scripts/sync_snaps.py` reads the public Lightroom album and writes `site/snaps/`. Images stay on Adobe. Nothing with a location is stored.
 
-`site/snaps/snaps.json` is the index (`base`, `key`, and `months`, newest first). Each month is `site/snaps/m/YYYY-MM.json`, newest first. A photo is `{i, v, d, a, w, h, t, s, l, c}`: asset id, revision, Chicago date, capture time, oriented width and height, the 640 / 1280 / 2048 rendition ids, and a dominant color from the 640 JPEG. `a` is that capture clock tagged America/Chicago (`2026-10-25T07:33:00-05:00`). Each tile stamps it in the bottom-right as `2026.10.25 // 7:33am`. A photo with no time shows the date only. `scripts/snaps_colors.json` remembers those colors so the next run does not download an unchanged rendition.
+`site/snaps/snaps.json` is the index (`base`, `key`, and `months`, newest first). Each month is `site/snaps/m/YYYY-MM.json`, newest first. A photo is `{i, v, d, a, w, h, t, s, l, c}`: asset id, revision, Chicago date, capture time, oriented width and height, the 640 / 1280 / 2048 rendition ids, and a dominant color from the 640 JPEG. `a` is that capture clock tagged America/Chicago (`2026-10-25T07:33:00-05:00`). Each tile stamps it in the bottom-right as `2026.10.25 // 7:33am`, italic mono, faint enough to read only if you look. A photo with no time shows the date only. `scripts/snaps_colors.json` remembers those colors so the next run does not download an unchanged rendition.
 
 The grid asks for the 640 rendition and offers the 1280 in `srcset`. The lightbox uses the 2048. Months are three columns, or six from 900px. The page draws the newest month, then more as you scroll.
 
@@ -48,16 +47,6 @@ The grid asks for the 640 rendition and offers the 1280 in `srcset`. The lightbo
 `date` is America/Chicago. A date still in the future stays hidden. `text` keeps its original casing. The note under the nav is `15 years and counting`. `/quote-of-the-day/` redirects to `/`.
 
 A new quote is a commit that puts that day's object at the top. There is no Actions workflow for it. The page picks it up on the next deploy.
-
-## quickies
-
-`/quickies/` reads `site/quickies/quickies.json`. Newest first. The note under the nav is `mad respect if you clicked this first`. An empty list shows `first one drops tonight`.
-
-```json
-{"ts": "2026-10-23T22:05:00-05:00", "text": "the thought"}
-```
-
-`ts` is an ISO timestamp. The page turns it into America/Chicago, `2026.10.23 // 10:05pm` (lowercase am/pm, no leading zero on the hour), and puts that line where a quote shows its date. The words use the quote type, so they display lowercase. A new thought is a commit. There is no Actions workflow for it.
 
 ## me
 
@@ -91,6 +80,6 @@ The quote of the day is the commit described above, not a step in `snaps.yml`.
 
 ## signup
 
-The footer on `/`, `/music/`, `/books/`, `/quotes/`, `/quickies/`, and `/me/` posts to Buttondown (`embed-subscribe/jayroddi`). The field placeholder is `stay updated w/email, or cheat code if you are a real nerd`. `/confirmed/` is the confirmation page.
+The footer on `/`, `/music/`, `/books/`, `/quotes/`, and `/me/` posts to Buttondown (`embed-subscribe/jayroddi`). The field placeholder is `stay updated w/email, or cheat code if you are a real nerd`. `/confirmed/` is the confirmation page.
 
 The konami row under the field is unchanged: up, up, down, down, left, right, left, right, b, a, then start. On a keyboard the same arrows, then b, a, then Enter, when focus is outside the email field.
