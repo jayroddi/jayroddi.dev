@@ -839,7 +839,7 @@
    "year": "1991",
    "read_count": 1,
    "cover": "/books/covers/OL2715465W.jpg",
-   "cover_source": "openlibrary-isbn",
+   "cover_source": "manual: public closest 2026-10-26",
    "url": "https://openlibrary.org/works/OL2715465W"
   },
   {
@@ -895,7 +895,7 @@
    "year": "2006",
    "read_count": 1,
    "cover": "/books/covers/OL3353439W.jpg",
-   "cover_source": "openlibrary-search",
+   "cover_source": "manual: public closest 2026-10-26",
    "url": "https://openlibrary.org/works/OL3353439W"
   },
   {
@@ -1287,7 +1287,7 @@
    "year": "1946",
    "read_count": 1,
    "cover": "/books/covers/OL1268413W.jpg",
-   "cover_source": "openlibrary-search",
+   "cover_source": "manual: public closest 2026-10-26",
    "url": "https://openlibrary.org/works/OL1268413W"
   },
   {
@@ -1315,7 +1315,7 @@
    "year": "1936",
    "read_count": 1,
    "cover": "/books/covers/OL1063267W.jpg",
-   "cover_source": "openlibrary-search",
+   "cover_source": "manual: public closest 2026-10-26",
    "url": "https://openlibrary.org/works/OL1063267W"
   },
   {
@@ -1441,7 +1441,7 @@
    "year": "2009",
    "read_count": 1,
    "cover": "/books/covers/OL7951428W.jpg",
-   "cover_source": "openlibrary-search",
+   "cover_source": "manual: public closest 2026-10-26",
    "url": "https://openlibrary.org/works/OL7951428W"
   },
   {
@@ -1469,7 +1469,7 @@
    "year": "2010",
    "read_count": 1,
    "cover": "/books/covers/OL16118274W.jpg",
-   "cover_source": "openlibrary-search",
+   "cover_source": "manual: public closest 2026-10-26",
    "url": "https://openlibrary.org/works/OL16118274W"
   }
  ],
