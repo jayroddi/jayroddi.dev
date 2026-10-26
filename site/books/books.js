@@ -1,5 +1,7 @@
-/* books.js v0.3: cover grid grouped by read year, newest year first, newest read first inside a year.
-   a read of YYYY-MM (no day) sorts after every full date in that month. a book with no read date lands in a final "no date" group.
+/* books.js v0.5: cover grid grouped by read year, newest year first, newest read first inside a year.
+   a read of YYYY-MM (no day) sorts after every full date in that month. a read of YYYY-YYYY (no day)
+   is one year-group, placed by its end year, so 2015-2020 stays a single heading.
+   a book with no read date lands in a final "no date" group.
    tap still shows the title and opens open library. */
 (() => {
   const root = document.querySelector('.years');
@@ -10,19 +12,21 @@
     return `<li><a href="${esc(t.url)}" target="_blank" rel="noopener" aria-label="${esc(t.title)} by ${esc(t.author)}">${t.cover ? `<img src="${esc(t.cover)}" alt="" loading="lazy" decoding="async" width="200" height="300">` : `<span class="nocover"><b>${esc(ti)}</b>${esc(au)}</span>`}<span class="cap">${esc(ti)} // ${esc(au)}</span></a></li>`;
   };
   const group = (label, items) => `<section class="year"><h2>${esc(label)}</h2><ol class="covers">${items.map(tile).join('')}</ol></section>`;
-  fetch('/books/books.json?v=0.3').then(r => r.json()).then(d => {
+  const labelOf = read => /^\d{4}-\d{4}$/.test(read || '') ? read : (/^\d{4}/.test(read || '') ? read.slice(0, 4) : '');
+  const labelRank = label => { const range = /^(\d{4})-(\d{4})$/.exec(label); return range ? Number(range[2]) + .5 : (/^\d{4}$/.test(label) ? Number(label) : -1); };
+  fetch('/books/books.json?v=0.4').then(r => r.json()).then(d => {
     const books = d.books.slice().sort((a, b) => (!a.read - !b.read) || (b.read || '').localeCompare(a.read || '') || (b.added || '').localeCompare(a.added || ''));
     const years = new Map();
     const undated = [];
     books.forEach(t => {
-      const year = /^\d{4}/.test(t.read || '') ? t.read.slice(0, 4) : '';
+      const year = labelOf(t.read);
       if (!year) undated.push(t);
       else {
         if (!years.has(year)) years.set(year, []);
         years.get(year).push(t);
       }
     });
-    const labels = [...years.keys()].sort((a, b) => b.localeCompare(a));
+    const labels = [...years.keys()].sort((a, b) => labelRank(b) - labelRank(a) || b.localeCompare(a));
     root.innerHTML = labels.map(year => group(year, years.get(year))).join('') + (undated.length ? group('no date', undated) : '');
     let lp;   // long-press shows the caption (touch)
     root.addEventListener('touchstart', e => { const a = e.target.closest('a'); if (!a) return; lp = setTimeout(() => { root.querySelectorAll('a.show').forEach(x => x.classList.remove('show')); a.classList.add('show'); a.dataset.lp = 1; }, 420); }, {passive: true});
