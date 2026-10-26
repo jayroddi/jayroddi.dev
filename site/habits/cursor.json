@@ -773,6 +773,22 @@
       "prs_merged": 0,
       "rides": 13,
       "workouts": 1
+    },
+    "2026-10-24": {
+      "total": 2,
+      "commits": 0,
+      "prs_opened": 0,
+      "prs_merged": 0,
+      "rides": 1,
+      "workouts": 1
+    },
+    "2026-10-25": {
+      "total": 14,
+      "commits": 0,
+      "prs_opened": 0,
+      "prs_merged": 0,
+      "rides": 13,
+      "workouts": 1
     }
   }
 }
