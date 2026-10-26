@@ -4,7 +4,7 @@ Personal site. The repository is still named `jaytha.ninja`. The live site is [h
 
 `site/CNAME` is `jayroddi.lol`. Pushes to `main` deploy `site/` to GitHub Pages (`.github/workflows/pages.yml`).
 
-The header on every public page is `the truth will set you free`. Under it the nav is one centered line: `snaps // music // books // quotes // me`.
+The header on every public page is `inspire from anywhere`. Under it the nav is one centered line: `snaps // music // books // quotes // me`.
 
 | page | what it is |
 |---|---|
