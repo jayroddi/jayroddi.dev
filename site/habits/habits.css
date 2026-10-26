@@ -28,11 +28,10 @@ body.board .foot{margin-left:auto;margin-right:auto;text-align:center}
 body.board .mast{--k:.9167;--kx:.8;--mast-mark:calc(24px * var(--k));width:100%;min-height:44px;margin:0 0 var(--habit-gap)}
 /* v2.63: the header line is plain text, italic, the same size as the old nav, in the normal text colour. the share-card replica still uses .line. */
 body.board .mast .line{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c)}
-body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;padding:0;border:0;background:none;appearance:none;-webkit-appearance:none;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c);cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;padding:0;border:0;background:none;appearance:none;-webkit-appearance:none;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c);text-shadow:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 body.board .mast .pages:focus-visible{outline:2px solid var(--c);outline-offset:-4px}
-@keyframes title-glow{0%,100%{text-shadow:0 0 2px rgba(var(--c-rgb),.45)}50%{text-shadow:0 0 14px rgba(var(--c-rgb),.95),0 0 4px rgba(var(--c-rgb),.7)}}
-body.board .mast .pages .pages-t{display:inline-block;color:inherit;font-style:italic;animation:title-glow 1.05s ease-in-out infinite}
-@media (prefers-reduced-motion:reduce){body.board .mast .pages .pages-t{animation:none;text-shadow:0 0 8px rgba(var(--c-rgb),.75)}}
+/* v2.99: the header title stays italic and still switches the speed colour. the title-glow pulse is gone, so it sits like a nav link. */
+body.board .mast .pages .pages-t{display:inline-block;color:inherit;font-style:italic}
 /* v2.68 (jay 2026.10.20): the top line is plain text again, "by jay, a millennial living out loud", same font and size, in --fg
    (white in dark mode, black in light mode). below it the old v2.36 nav is back as snaps // quotes // habits: italic links in the speed
    colour --c, separators in --fg, 44px tap targets, and the current page gets a subtle 1px underline (.2em offset, currentColor). */
