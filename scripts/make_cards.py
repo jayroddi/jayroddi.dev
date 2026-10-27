@@ -193,7 +193,10 @@ def render_replica(repo, dests):
     """1200x630 screenshot of the live homepage stack (header, social row, lyrics, email, konami) into dests."""
     import http.server, threading
     site = repo/'site'
-    original = (site/'me'/'index.html').read_text(encoding='utf-8')   # v2.72: the grids page (footer, konami) moved to /habits/, v2.77: now /me/
+    original = (site/'index.html').read_text(encoding='utf-8')
+    if '<footer class="foot"' not in original:
+        print('replica: homepage has no footer; share replica skipped')
+        return
     i = original.index('<footer class="foot"')
     j = original.index('</footer>') + len('</footer>')
     lyrics = '\n'.join(f'      <p>{e(line)}</p>' for line in LYRICS)
