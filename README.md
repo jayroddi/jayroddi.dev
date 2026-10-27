@@ -8,9 +8,11 @@ The public site is one page. Near-black ground. A soft teal (`#1AADB3`) mist sit
 
 In order:
 
-1. `discipline is destiny`. Italic, teal (`#1AADB3`). It does not pulse, glow, or change colour. It is not a control.
+1. `discipline is destiny`. Teal (`#1AADB3`). It does not pulse, glow, or change colour. It is not a control.
 2. One James Clear line in orange (`#FF4D1A`), then his name in a quieter teal.
 3. The habit grids: code, workouts, steps, sleep, faith. Those labels are orange. The cells stay teal.
+
+Every visible word on the page is italic: the title, the quote, the name, the grid labels, the month and weekday captions, the less/more legend, and the stats.
 
 There is no nav, email field, konami row, or social row.
 

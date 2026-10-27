@@ -282,8 +282,8 @@ body.day .home{margin:0 0 22px}
 
 /* v3.01: the quote body is brand orange. the name under it is a quieter teal so it does not compete. grid labels match the quote. cells stay on --c (teal). */
 body.board .clear{width:min(100%,40em);margin:12px auto 40px;padding:0;border:0;text-align:center}
-body.board .clear .clear-q{margin:0;font-family:var(--mono);font-size:16px;font-weight:400;font-style:normal;line-height:1.65;color:#FF4D1A}
-body.board .clear .clear-by{margin:10px 0 0;font-family:var(--mono);font-size:13px;font-weight:400;font-style:normal;line-height:1.4;color:rgba(26,173,179,.72)}
+body.board .clear .clear-q{margin:0;font-family:var(--mono);font-size:16px;font-weight:400;font-style:italic;line-height:1.65;color:#FF4D1A}
+body.board .clear .clear-by{margin:10px 0 0;font-family:var(--mono);font-size:13px;font-weight:400;font-style:italic;line-height:1.4;color:rgba(26,173,179,.72)}
 html.quiet .kicker,html.quiet .tracker .kicker{color:#FF4D1A}
 @media (max-width:760px){
   body.board .clear{margin:8px auto 32px}
@@ -328,3 +328,5 @@ html.quiet,html.quiet[data-mode="fast"]{
   --c:#1AADB3;--c-rgb:26,173,179;--c-lt:#5FD6DA;--c-dk:#0E7C81;--c-pale:#C9F3F4;--c-hot:#d2f6f7;--c-wh:#E6FBFB;--c-lt-rgb:127,218,221;--c-lt2:#74CED2;
   --c-l1-rgb:107,203,207;--c-l2-rgb:118,208,211;--c-l3-rgb:129,212,215;--c-l4-rgb:74,191,196;--c-l5-rgb:226,245,246;
 }
+/* v3.02: the quiet homepage is italic all the way down. the universal reset above sets upright type; this puts it back for every word on this page, including labels, captions, and the hover tip. */
+html.quiet,html.quiet *{font-style:italic}
