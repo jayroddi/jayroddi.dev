@@ -1,4 +1,4 @@
-/* books.js v0.6: cover grid grouped by read year, newest year first, newest read first inside a year.
+/* books.js v0.7: cover grid grouped by read year, newest year first, newest read first inside a year.
    a read of YYYY-MM (no day) sorts after every full date in that month. a read of YYYY-YYYY (no day)
    is one year-group, placed by its end year, so 2015-2020 stays a single heading.
    a book with no read date lands in a final "no date" group.
