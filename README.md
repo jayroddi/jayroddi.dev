@@ -4,23 +4,23 @@ Personal site. The repository is still named `jaytha.ninja`. The live site is [h
 
 `site/CNAME` is `jayroddi.lol`. Pushes to `main` deploy `site/` to GitHub Pages (`.github/workflows/pages.yml`).
 
-The public site is one page. Near-black ground. A soft teal (`#1AADB3`) mist sits in one corner and a soft orange (`#FF4D1A`) mist in the opposite corner. They drift slowly. `prefers-reduced-motion` leaves that mist still. There is no matrix rain.
+The homepage is quiet. The ground is plain and follows the system: black when the system is dark, white when it is light (`prefers-color-scheme`, the same variables as before the quiet strip). There is no mist, no gradient, and no matrix rain on `/`.
 
 In order:
 
-1. `discipline is destiny`. Teal (`#1AADB3`). It does not pulse, glow, or change colour. It is not a control.
-2. One James Clear line in orange (`#FF4D1A`), then his name in a quieter teal.
-3. The habit grids: code, workouts, steps, sleep, faith. Those labels are orange. The cells stay teal.
+1. `discipline is destiny`. Teal (`--c`: `#1AADB3` in the dark theme, `#127F84` in the light theme). It does not pulse, glow, or change colour. It is not a control.
+2. One James Clear line in that same teal, then his name in the quieter ink (`--ink-2`), which flips with the theme.
+3. The habit grids: code, workouts, steps, sleep, faith. The labels and the filled cells use the same teal. Stats labels and values that are not teal flip with the theme.
 
-Every visible word on the page is italic: the title, the quote, the name, the grid labels, the month and weekday captions, the less/more legend, and the stats.
+Every visible word on the homepage is italic: the title, the quote, the name, the grid labels, the month and weekday captions, the less/more legend, and the stats.
 
-There is no nav, email field, konami row, or social row.
+There is no nav, email field, konami row, or social row on `/`.
 
-`/me/` forwards to `/`. `/habits/` still forwards to `/me/`, which forwards home. `/snaps/`, `/music/`, `/books/`, `/quotes/`, and `/confirmed/` forward home. The photo, playlist, book, and quote files stay in the repo. The nightly sync still updates snaps and the playlist. None of that is linked, and none of it is the homepage.
+`/snaps/`, `/music/`, `/books/`, `/quotes/`, `/me/`, and `/confirmed/` open by URL. Each one starts with the same header as the homepage: the teal italic title, then the James Clear line and his name. Under that is that page’s own content. There is no nav, no second title line, no email field, no konami row, and no social row. The ground is plain (no mist) and follows the system the same way `/` does. `/habits/` still forwards to `/me/`. The homepage does not link to those pages. The nightly sync still updates snaps and the playlist.
 
 ## snaps
 
-`/snaps/` forwards home. The album is not on the homepage. `python3 scripts/sync_snaps.py` still reads the public Lightroom album and writes `site/snaps/`. Images stay on Adobe. Nothing with a location is stored.
+`/snaps/` is the photo grid (it was the homepage until the quiet strip). `python3 scripts/sync_snaps.py` reads the public Lightroom album and writes `site/snaps/`. Images stay on Adobe. Nothing with a location is stored.
 
 `site/snaps/snaps.json` is the index (`base`, `key`, and `months`, newest first). Each month is `site/snaps/m/YYYY-MM.json`, newest first. A photo is `{i, v, d, a, w, h, t, s, l, c}`: asset id, revision, Chicago date, capture time, oriented width and height, the 640 / 1280 / 2048 rendition ids, and a dominant color from the 640 JPEG. `a` is that capture clock tagged America/Chicago (`2026-10-25T07:33:00-05:00`). Each tile stamps it in the bottom-right as `2026.10.25 // 7:33am`, italic mono, readable without covering the photo. The lightbox repeats that line, centered under the photo. A photo with no time shows the date only. `scripts/snaps_colors.json` remembers those colors so the next run does not download an unchanged rendition.
 
@@ -28,31 +28,31 @@ The old grid asked for the 640 rendition and offered the 1280 in `srcset`. The l
 
 ## music
 
-`/music/` forwards home. `site/music/playlist.json` is still the playlist file.
+`/music/` is the playlist page. `site/music/playlist.json` is the playlist file.
 
 `python3 scripts/spotify_playlist.py site/music/playlist.json` refreshes that file from the Spotify Web API. It needs `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, and `SPOTIFY_REFRESH_TOKEN`. Without the refresh token it exits 0 and leaves the file alone. It writes only when the tracks change (`fetched` is not enough).
 
 ## books
 
-`/books/` forwards home. `site/books/books.json` and `site/books/covers/` stay in the repo. `site/books/books.js` still groups covers by read year, newest year first, newest read first inside a year, if that page is ever served again. A read of `YYYY-MM` (no day) sorts after every full date in that month. A book with no read date would land in a final `no date` group.
+`/books/` is the shelf. `site/books/books.json` and `site/books/covers/` stay in the repo. `site/books/books.js` groups covers by read year, newest year first, newest read first inside a year. A read of `YYYY-MM` (no day) sorts after every full date in that month. A book with no read date would land in a final `no date` group.
 
 `python3 scripts/books_import.py site/books/books.json [goodreads.csv]` rebuilds the file and `site/books/covers/` from a Goodreads export. Ids listed in `scripts/books_hidden.json` are dropped. Covers in `scripts/books_cover_overrides.json` replace the Open Library fetch.
 
 ## quotes
 
-`/quotes/` forwards home. `site/quote-of-the-day/quotes.json` stays in the repo, newest first. One object per day, and only these fields:
+`/quotes/` is the quote list. `site/quote-of-the-day/quotes.json` stays in the repo, newest first. One object per day, and only these fields:
 
 ```json
 {"date": "YYYY-MM-DD", "text": "the quote", "author": "Name"}
 ```
 
-`date` is America/Chicago. `/quotes/` and `/quote-of-the-day/` both forward home. The homepage quote is the James Clear line in `site/index.html`. It does not rotate.
+`date` is America/Chicago. `/quotes/` reads that file. `/quote-of-the-day/` still forwards home. The homepage quote is the James Clear line in `site/index.html`. It does not rotate.
 
 A new object in `quotes.json` is still just a commit. Nothing on the homepage reads that file.
 
 ## habits
 
-The grids are on `/` (`site/index.html`). `/me/` forwards there. The grids, in order:
+The grids are on `/` (`site/index.html`) and again on `/me/` (`site/me/index.html`), which is the full page from before the quiet strip. `/habits/` forwards to `/me/`. The grids, in order:
 
 | grid | file | what a cell is |
 |---|---|---|
@@ -62,7 +62,7 @@ The grids are on `/` (`site/index.html`). `/me/` forwards there. The grids, in o
 | sleep | `site/habits/sleep.json` | the 0–100 score (duration 50, bedtime consistency 30, interruptions 20) and minutes asleep. Colour steps are the 20th / 40th / 60th / 80th of the nonzero nights on screen. A streak is nights scoring 70 or more. A past night with no record stays empty. |
 | faith | `site/habits/faith.json` | from `start` through the day before `full`, the span splits into four levels. From `full` through today (America/Chicago) each day is a full cell, unless the date is in `no`. The browser fills a new day, so the grid moves forward without a commit. |
 
-The journal grid is hidden. Its section is commented out on `/`, and `journal` is `"enabled": false` in `site/habits/trackers.json`. `journal.json` and `journal-jarvis.json` stay in the repo.
+The journal grid is hidden. Its section is commented out on `/` and on `/me/`, and `journal` is `"enabled": false` in `site/habits/trackers.json`. `journal.json` and `journal-jarvis.json` stay in the repo.
 
 `python3 scripts/habits.py all` rebuilds `cursor.json` from GitHub. Dates are author dates in America/Chicago. Merge commits are skipped. A pull request counts on the day it was opened and again on the day it merged. AI line edits come from `site/habits/cursor-lines.json` and are not fetched. The Pages workflow runs this before upload and still deploys if the fetch fails. A private repo needs `HABITS_GITHUB_TOKEN`. `python3 scripts/habits.py check` checks the schema and does not use the network.
 
@@ -82,4 +82,4 @@ The quote file is the commit described above, not a step in `snaps.yml`, and the
 
 ## what the homepage leaves off
 
-No Buttondown field, no konami row, no social icons, no matrix rain, and no teal/orange toggle. `/confirmed/` forwards home. The homepage does not load `rain.js` and has no `#rain` canvas.
+No Buttondown field, no konami row, no social icons, no matrix rain, and no teal/orange toggle on `/`. `/confirmed/` is the signup page again. The homepage does not load `rain.js` and has no `#rain` canvas. The restored pages still do: rain, glows, the title speed switch, the email field, and the konami row, as they were just before the quiet strip.
