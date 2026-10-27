@@ -10,7 +10,7 @@
 <meta name="color-scheme" content="dark light">
 <script>document.documentElement.classList.add('js')</script>
 <title>books</title>
-<link rel="stylesheet" href="/habits/habits.css?v=3.04">
+<link rel="stylesheet" href="/habits/habits.css?v=3.05">
 <link rel="stylesheet" href="/assets/rain.css?v=2.61">
 <link rel="stylesheet" href="/books/books.css?v=0.2">
 <link rel="icon" href="/favicon.ico?v=3" sizes="any">
@@ -41,7 +41,23 @@
 <body class="board">
 <main class="stage">
   <div class="copy">
-    <header class="mast"><h1 class="pages"><span class="pages-t">discipline is destiny</span></h1></header>
+    <header class="mast"><h1 class="pages"><span class="pages-t">discipline is destiny</span></h1>
+      <div class="site-menu">
+        <button type="button" class="menu-btn" aria-label="menu" aria-expanded="false" aria-controls="site-nav">
+          <svg viewBox="0 0 18 14" aria-hidden="true" focusable="false"><path d="M1 1.5h16M1 7h16M1 12.5h16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <nav id="site-nav" class="menu-panel" aria-label="pages" hidden>
+          <ul>
+            <li><a href="/">home</a></li>
+            <li><a href="/snaps">snaps</a></li>
+            <li><a href="/music">music</a></li>
+            <li><a href="/books">books</a></li>
+            <li><a href="/quotes">quotes</a></li>
+            <li><a href="/me">me</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
     <blockquote class="clear">
       <p class="clear-q">You just need to have the courage to eliminate everything that doesn't directly feed what you really want.</p>
       <p class="clear-by">— James Clear</p>
@@ -50,5 +66,6 @@
   </div>
 </main>
 <script src="/books/books.js?v=0.7" defer></script>
+<script src="/assets/menu.js?v=1" defer></script>
 </body>
 </html>
