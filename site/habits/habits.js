@@ -544,7 +544,7 @@ function sweepAll(){
 const T = [26, 173, 179], PALE_TEAL = [121, 205, 207], HEAD = [255, 255, 255], PALE_ORANGE = [255, 150, 121];
 const mob = () => document.documentElement.clientWidth < 760;
 const rainCanvas = document.getElementById('rain');
-const rain = rainCanvas ? JayRain.Rain(rainCanvas, {
+const rain = (rainCanvas && window.JayRain) ? JayRain.Rain(rainCanvas, {
   fs: 16, fsMobile: 13, mono: '"JetBrains Mono", monospace', seed: 5, head: HEAD, headMix: .6,
   tint: T, paleTint: PALE_TEAL, paleOrange: PALE_ORANGE,
   palette: (x, w, r) => r < .84 ? T : PALE_TEAL,
@@ -556,11 +556,13 @@ const fastNow = () => document.documentElement.dataset.mode === 'fast';
 let wantNow = false;
 function finish(){
   if (state.done) return;
-  JayRain.introDone();
+  if (window.JayRain && JayRain.introDone) JayRain.introDone();
   state.done = true;
-  JayRain.dump && JayRain.dump(false);
-  JayRain.rendered && JayRain.rendered();
-  JayRain.seen && JayRain.seen();
+  if (window.JayRain) {
+    JayRain.dump && JayRain.dump(false);
+    JayRain.rendered && JayRain.rendered();
+    JayRain.seen && JayRain.seen();
+  }
 }
 function complete(){
   skipped = true;
@@ -648,7 +650,7 @@ async function main(){
     rain.build();
     requestAnimationFrame(rain.frame);
   }
-  if (reduced || JayRain.returning(VER) || wantNow){ complete(); return; }
+  if (reduced || (window.JayRain && JayRain.returning && JayRain.returning(VER)) || wantNow){ complete(); return; }
   ready = true;
   if (rain && fastNow()) JayRain.dump(true);
   await sweepAll();

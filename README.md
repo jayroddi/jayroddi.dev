@@ -8,9 +8,9 @@ The public site is one page. Near-black ground. A soft teal (`#1AADB3`) mist sit
 
 In order:
 
-1. `discipline is destiny`. Italic, in the speed colour. A tap swaps teal and orange. It does not pulse or glow.
-2. One James Clear line, then his name.
-3. The habit grids: code, workouts, steps, sleep, faith.
+1. `discipline is destiny`. Italic, teal (`#1AADB3`). It does not pulse, glow, or change colour. It is not a control.
+2. One James Clear line in orange (`#FF4D1A`), then his name in a quieter teal.
+3. The habit grids: code, workouts, steps, sleep, faith. Those labels are orange. The cells stay teal.
 
 There is no nav, email field, konami row, or social row.
 
@@ -80,4 +80,4 @@ The quote file is the commit described above, not a step in `snaps.yml`, and the
 
 ## what the homepage leaves off
 
-No Buttondown field, no konami row, no social icons, no matrix rain. `/confirmed/` forwards home. The title tap still calls `JayRain.toggle()` in `site/assets/rain.js`, which only swaps the speed colour. The homepage has no `#rain` canvas, so the matrix rain does not start.
+No Buttondown field, no konami row, no social icons, no matrix rain, and no teal/orange toggle. `/confirmed/` forwards home. The homepage does not load `rain.js` and has no `#rain` canvas.

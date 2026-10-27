@@ -28,9 +28,8 @@ body.board .foot{margin-left:auto;margin-right:auto;text-align:center}
 body.board .mast{--k:.9167;--kx:.8;--mast-mark:calc(24px * var(--k));width:100%;min-height:44px;margin:0 0 var(--habit-gap)}
 /* v2.63: the header line is plain text, italic, the same size as the old nav, in the normal text colour. the share-card replica still uses .line. */
 body.board .mast .line{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c)}
-body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;padding:0;border:0;background:none;appearance:none;-webkit-appearance:none;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c);text-shadow:none;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-body.board .mast .pages:focus-visible{outline:2px solid var(--c);outline-offset:-4px}
-/* v3.00: the header title stays italic and still switches the speed colour. no pulse, no glow. */
+body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;padding:0;border:0;background:none;appearance:none;-webkit-appearance:none;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:#1AADB3;text-shadow:none;cursor:default;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+/* v3.01: the title is text. it stays teal. no pulse, no glow, no colour toggle. */
 body.board .mast .pages .pages-t{display:inline-block;color:inherit;font-style:italic;animation:none;text-shadow:none}
 /* v2.68 (jay 2026.10.20): the top line is plain text again, "by jay, a millennial living out loud", same font and size, in --fg
    (white in dark mode, black in light mode). below it the old v2.36 nav is back as snaps // quotes // habits: italic links in the speed
@@ -268,7 +267,7 @@ body.day .home{margin:0 0 22px}
 /* v2.74 (jay 2026.10.20): the wolf's bandana (currentColor) is gold whenever gold is on: the '+30 lives' wolf inherited the overlay's white text colour. */
 .konami .nj,.kos-hold .nj{color:#FFD700}
 :root.gld .nj,.gld .nj,.nj.gld{color:var(--c)}
-/* v3.00: the title is the speed switch and does not pulse. --ts is 14px, 12px under 360px. */
+/* v3.01: the title is teal text and does not pulse. --ts is 14px, 12px under 360px. */
 :root{--ts:14px;--nav-pad:12px;--mast-lh:1.25;--mast-line:calc(var(--mast-lh) * var(--ts));--mast-gap:calc(44px - var(--mast-line));--mast-row:calc(var(--mast-line) + var(--mast-gap))}
 @media (max-width:491px){:root{--nav-pad:6px}}
 @media (max-width:419px){:root{--nav-pad:2px}}
@@ -281,10 +280,11 @@ body.day .home{margin:0 0 22px}
 :root body.board .mast .nav{flex-direction:row;justify-content:center;align-items:center;white-space:nowrap}
 :root body.board .copy > .note-line,:root body.snaps .backlog{--hw:min(100vw - 24px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);white-space:nowrap}
 
-/* v3.00: one quiet quote between the title and the grids. original casing, no glow. */
+/* v3.01: the quote body is brand orange. the name under it is a quieter teal so it does not compete. grid labels match the quote. cells stay on --c (teal). */
 body.board .clear{width:min(100%,40em);margin:12px auto 40px;padding:0;border:0;text-align:center}
-body.board .clear .clear-q{margin:0;font-family:var(--mono);font-size:16px;font-weight:400;font-style:normal;line-height:1.65;color:var(--ink-2)}
-body.board .clear .clear-by{margin:10px 0 0;font-family:var(--mono);font-size:13px;font-weight:400;font-style:normal;line-height:1.4;color:var(--ink-3)}
+body.board .clear .clear-q{margin:0;font-family:var(--mono);font-size:16px;font-weight:400;font-style:normal;line-height:1.65;color:#FF4D1A}
+body.board .clear .clear-by{margin:10px 0 0;font-family:var(--mono);font-size:13px;font-weight:400;font-style:normal;line-height:1.4;color:rgba(26,173,179,.72)}
+html.quiet .kicker,html.quiet .tracker .kicker{color:#FF4D1A}
 @media (max-width:760px){
   body.board .clear{margin:8px auto 32px}
   body.board .clear .clear-q{font-size:15px;line-height:1.6}
@@ -322,9 +322,9 @@ html.quiet,html.quiet body{background:#000}
     --c-l1-rgb:107,203,207;--c-l2-rgb:118,208,211;--c-l3-rgb:129,212,215;--c-l4-rgb:74,191,196;--c-l5-rgb:226,245,246;
     --f:#FF4D1A;--f-rgb:255,77,26;--f-lt:#FF8A5E;--f-dk:#B8300A;--f-pale:#FFD7C9;--f-wh:#FFE6DC;--f-lt2:#FF9A6E;--f-l4-rgb:255,120,70;--f-l5-rgb:255,236,224;
   }
-  html.quiet[data-mode="fast"]{
-    --c:#FF4D1A;--c-rgb:255,77,26;--c-lt:#FF8A5E;--c-dk:#B8300A;--c-pale:#FFC2A8;--c-hot:#ffd9cc;--c-wh:#FFE6DC;--c-lt-rgb:255,158,127;--c-lt2:#FF9A6E;
-    --c-l1-rgb:255,150,100;--c-l2-rgb:255,160,110;--c-l3-rgb:255,170,120;--c-l4-rgb:255,120,70;--c-l5-rgb:255,236,224;
-    --f:#1AADB3;--f-rgb:26,173,179;--f-lt:#5FD6DA;--f-dk:#0E7C81;--f-pale:#C9F3F4;--f-wh:#DDF3F4;--f-lt2:#74CED2;--f-l4-rgb:74,191,196;--f-l5-rgb:226,245,246;
-  }
+}
+/* v3.01: the quiet page does not invert. a fast-mode attribute, if one is ever set, still leaves the cells teal. */
+html.quiet,html.quiet[data-mode="fast"]{
+  --c:#1AADB3;--c-rgb:26,173,179;--c-lt:#5FD6DA;--c-dk:#0E7C81;--c-pale:#C9F3F4;--c-hot:#d2f6f7;--c-wh:#E6FBFB;--c-lt-rgb:127,218,221;--c-lt2:#74CED2;
+  --c-l1-rgb:107,203,207;--c-l2-rgb:118,208,211;--c-l3-rgb:129,212,215;--c-l4-rgb:74,191,196;--c-l5-rgb:226,245,246;
 }
