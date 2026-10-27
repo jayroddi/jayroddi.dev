@@ -1,7 +1,21 @@
 {
  "source": "goodreads export",
- "count": 105,
+ "count": 106,
  "books": [
+  {
+   "id": "244445079",
+   "title": "Unsayable: A Life in Writing",
+   "author": "Michael Cunningham",
+   "isbn": "9798217198337",
+   "read": "2026-10-26",
+   "added": "2026-10-26",
+   "pages": 304,
+   "year": "2026",
+   "read_count": 1,
+   "cover": "/books/covers/244445079.webp",
+   "cover_source": "manual: jay (Unsayable, off-white cover, 2026-10-27)",
+   "url": "https://openlibrary.org/works/OL45985789W"
+  },
   {
    "id": "2195464",
    "title": "What I Talk About When I Talk About Running",

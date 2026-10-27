@@ -1,5 +1,5 @@
 {
- "_note": "Book Id -> hand-picked cover already saved in site/books/covers/<id>.jpg. books_import.py keeps these files and never re-fetches them.",
+ "_note": "Book Id -> hand-picked cover already saved in site/books/covers/<id>.webp or .jpg. books_import.py keeps these files and never re-fetches them.",
  "26200918": "jay (Anything You Want, white cover, 2026-10-21)",
  "13530973": "publisher cover (amazon, same ISBN), replaced a faded library scan, 2026-10-21",
  "6708": "publisher cover (amazon, same ISBN), replaced a faded library scan, 2026-10-21",
@@ -7,6 +7,7 @@
  "4671": "publisher cover (amazon, same ISBN), replaced a faded library scan, 2026-10-21",
  "10353369": "publisher cover (amazon, same ISBN 9780553807912), replaced a faded scan, 2026-10-21",
  "249838085": "publisher cover (Simon & Schuster high-res, ISBN 9798895650752). Open Library has no cover; the audiobook art is square and would crop, 2026-10-22",
+ "244445079": "jay (Unsayable, off-white cover, 2026-10-27)",
  "OL2715465W": "public closest 2026-10-26",
  "OL3353439W": "public closest 2026-10-26",
  "OL1268413W": "public closest 2026-10-26",

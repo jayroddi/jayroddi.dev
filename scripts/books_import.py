@@ -45,7 +45,8 @@ def one(r):
                 b=get(u.replace('http://','https://').replace('&edge=curl',''),True)
                 if ok_img(b): img,src=b,'google-books'; break
     cover=None
-    if r['Book Id'] in OVR and os.path.exists(os.path.join(COV,r['Book Id']+'.jpg')): img=None; cover='/books/covers/'+r['Book Id']+'.jpg'; src='manual: '+OVR[r['Book Id']]
+    oext=next((e for e in ('.webp','.jpg') if os.path.exists(os.path.join(COV,r['Book Id']+e))), None)
+    if r['Book Id'] in OVR and oext: img=None; cover='/books/covers/'+r['Book Id']+oext; src='manual: '+OVR[r['Book Id']]
     if img:
         from io import BytesIO
         im=Image.open(BytesIO(img)).convert('RGB'); im.thumbnail((400,600)); fn=f"{r['Book Id']}.jpg"; im.save(os.path.join(COV,fn),quality=82,optimize=True,progressive=True); cover='/books/covers/'+fn
