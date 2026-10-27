@@ -434,9 +434,11 @@ const note = text => {
   })
   .catch(() => note('photos are unavailable'));
 
+const canvas = document.getElementById('rain');
+if (canvas && window.JayRain){
 const T = [26, 173, 179], PALE_TEAL = [121, 205, 207], HEAD = [255, 255, 255], PALE_ORANGE = [255, 150, 121];
 const mob = () => document.documentElement.clientWidth < 760;
-const rain = JayRain.Rain(document.getElementById('rain'), {
+const rain = JayRain.Rain(canvas, {
   fs: 16, fsMobile: 13, mono: '"JetBrains Mono", monospace', seed: 5, head: HEAD, headMix: .6,
   tint: T, paleTint: PALE_TEAL, paleOrange: PALE_ORANGE,
   palette: (x, w, r) => r < .84 ? T : PALE_TEAL,
@@ -449,6 +451,7 @@ document.fonts.ready.then(() => {
   rain.build();
   requestAnimationFrame(rain.frame);
 });
+}
 function place(grid, shots) {
   const n = columnCount();
   const columns = Array.from({length: n}, () => {

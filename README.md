@@ -16,7 +16,7 @@ Every visible word on the homepage is italic: the title, the quote, the name, th
 
 There is no nav, email field, konami row, or social row on `/`.
 
-`/snaps/`, `/music/`, `/books/`, `/quotes/`, `/me/`, and `/confirmed/` are the pages from just before the quiet strip. Their nav points snaps at `/snaps/`. `/habits/` still forwards to `/me/`. The homepage does not link to those pages. The nightly sync still updates snaps and the playlist.
+`/snaps/`, `/music/`, `/books/`, `/quotes/`, `/me/`, and `/confirmed/` open by URL. Each one starts with the same header as the homepage: the teal italic title, then the James Clear line and his name. Under that is that page’s own content. There is no nav, no second title line, no email field, no konami row, and no social row. The ground is plain (no mist) and follows the system the same way `/` does. `/habits/` still forwards to `/me/`. The homepage does not link to those pages. The nightly sync still updates snaps and the playlist.
 
 ## snaps
 

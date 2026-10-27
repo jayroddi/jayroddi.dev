@@ -31,9 +31,11 @@ body.board .mast .line{box-sizing:border-box;display:flex;align-items:center;jus
 body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;padding:0;border:0;background:none;appearance:none;-webkit-appearance:none;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c);cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 body.board .mast .pages:focus-visible{outline:2px solid var(--c);outline-offset:-4px}
 @keyframes title-glow{0%,100%{text-shadow:0 0 2px rgba(var(--c-rgb),.45)}50%{text-shadow:0 0 14px rgba(var(--c-rgb),.95),0 0 4px rgba(var(--c-rgb),.7)}}
-body.board .mast .pages .pages-t{display:inline-block;color:inherit;font-style:italic;animation:title-glow 1.05s ease-in-out infinite}
-@media (prefers-reduced-motion:reduce){body.board .mast .pages .pages-t{animation:none;text-shadow:0 0 8px rgba(var(--c-rgb),.75)}}
-/* v3.03: the quiet homepage title is teal text. it does not pulse, glow, or switch to orange. */
+body.board .mast button.pages .pages-t{display:inline-block;color:inherit;font-style:italic;animation:title-glow 1.05s ease-in-out infinite}
+body.board .mast h1.pages .pages-t{display:inline-block;color:inherit;font-style:italic}
+@media (prefers-reduced-motion:reduce){body.board .mast button.pages .pages-t{animation:none;text-shadow:0 0 8px rgba(var(--c-rgb),.75)}}
+/* v3.04: the shared title is an h1. it is teal and italic, and it does not pulse, glow, or act as a control. */
+body.board .mast h1.pages{color:var(--c);text-shadow:none;cursor:default}
 html.quiet body.board .mast .pages{color:var(--c);text-shadow:none;cursor:default}
 html.quiet body.board .mast .pages .pages-t{animation:none;text-shadow:none}
 /* v2.68 (jay 2026.10.20): the top line is plain text again, "by jay, a millennial living out loud", same font and size, in --fg
@@ -272,7 +274,7 @@ body.day .home{margin:0 0 22px}
 /* v2.74 (jay 2026.10.20): the wolf's bandana (currentColor) is gold whenever gold is on: the '+30 lives' wolf inherited the overlay's white text colour. */
 .konami .nj,.kos-hold .nj{color:#FFD700}
 :root.gld .nj,.gld .nj,.nj.gld{color:var(--c)}
-/* v3.03: --ts is 14px, 12px under 360px. subpages keep the pulsing speed-switch title. the quiet homepage does not. */
+/* v3.04: --ts is 14px, 12px under 360px. the shared title is an h1 and does not pulse. */
 :root{--ts:14px;--nav-pad:12px;--mast-lh:1.25;--mast-line:calc(var(--mast-lh) * var(--ts));--mast-gap:calc(44px - var(--mast-line));--mast-row:calc(var(--mast-line) + var(--mast-gap))}
 @media (max-width:491px){:root{--nav-pad:6px}}
 @media (max-width:419px){:root{--nav-pad:2px}}
