@@ -14,7 +14,7 @@
   const group = (label, items) => `<section class="year"><h2>${esc(label)}</h2><ol class="covers">${items.map(tile).join('')}</ol></section>`;
   const labelOf = read => /^\d{4}-\d{4}$/.test(read || '') ? read : (/^\d{4}/.test(read || '') ? read.slice(0, 4) : '');
   const labelRank = label => { const range = /^(\d{4})-(\d{4})$/.exec(label); return range ? Number(range[2]) + .5 : (/^\d{4}$/.test(label) ? Number(label) : -1); };
-  fetch('/books/books.json?v=0.6').then(r => r.json()).then(d => {
+  fetch('/books/books.json?v=0.7').then(r => r.json()).then(d => {
     const books = d.books.slice().sort((a, b) => (!a.read - !b.read) || (b.read || '').localeCompare(a.read || '') || (b.added || '').localeCompare(a.added || ''));
     const years = new Map();
     const undated = [];
