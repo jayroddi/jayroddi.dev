@@ -162,7 +162,8 @@ body.day .home{margin:0 0 22px}
 .items li{margin-top:10px;font-size:14px;line-height:1.45;font-weight:400}
 .items a{color:var(--c)}
 .meta{display:block;margin-top:2px;color:var(--ink-3);font-size:12px;line-height:1.4}
-.quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;color:var(--ink-2)}
+/* day notes only. html.quiet is the homepage hook, and this used to match it: 8px of margin-top and a 15px root size, so the shared header sat lower on / than on every other page. */
+body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;color:var(--ink-2)}
 .wo{margin-top:18px;padding-top:12px;border-top:1px solid rgba(var(--ink-rgb),.18)}
 .wo-type{font-size:16px;line-height:1.4;font-weight:500;color:var(--fg)}
 .wo-when{margin-top:2px;font-size:14px;line-height:1.4;font-weight:400;color:var(--ink-3)}

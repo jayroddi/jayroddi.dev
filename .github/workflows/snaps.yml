@@ -1,11 +1,22 @@
-# Nightly Lightroom sync + /music playlist (spotify). Images stay on Adobe. This commits site/snaps only when the album changed.
+# Lightroom sync + /music playlist (spotify), four times a day on the Chicago clock. Images stay on Adobe. This commits site/snaps only when the album changed.
 name: Sync snaps
 
 on:
   schedule:
-    # Midnight America/Chicago, once. 05:00 UTC is midnight CDT; 06:00 UTC is midnight CST.
-    # Both fire every night. The first step keeps the slot that matches the current offset
-    # (CDT runs 0 5, CST runs 0 6), even if GitHub delivers the run hours late.
+    # America/Chicago wall clock, every day: 6:00am, noon, 6:00pm, midnight.
+    # Actions cron is UTC only. Each local hour is listed twice, CDT (UTC-5) and CST (UTC-6).
+    # Both fire. The gate keeps the cron that matches the current Chicago offset for that hour,
+    # even if GitHub delivers the run hours late. A manual dispatch always runs.
+    # 6:00am  — CDT 11:00 UTC, CST 12:00 UTC
+    - cron: '0 11 * * *'
+    - cron: '0 12 * * *'
+    # 12:00pm — CDT 17:00 UTC, CST 18:00 UTC
+    - cron: '0 17 * * *'
+    - cron: '0 18 * * *'
+    # 6:00pm  — CDT 23:00 UTC, CST 00:00 UTC
+    - cron: '0 23 * * *'
+    - cron: '0 0 * * *'
+    # 12:00am — CDT 05:00 UTC, CST 06:00 UTC
     - cron: '0 5 * * *'
     - cron: '0 6 * * *'
   workflow_dispatch:
@@ -22,8 +33,8 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Only the midnight Chicago slot
-        id: midnight
+      - name: Only the four Chicago slots
+        id: chicago
         run: |
           if [ "${{ github.event_name }}" != "schedule" ]; then
             echo "run=true" >> "$GITHUB_OUTPUT"
@@ -31,28 +42,39 @@ jobs:
             exit 0
           fi
           # The cron that queued this run, not the clock. A delivery hours late still
-          # carries that cron. CDT (UTC-5) midnight is the 05:00 UTC slot; CST (UTC-6)
-          # midnight is the 06:00 UTC slot. The other slot skips, including across DST.
+          # carries that cron. CDT is UTC-5 and CST is UTC-6. Each local hour has one
+          # cron per offset; the other offset skips, including across DST.
+          #   6:00am  CDT 0 11 * * *   CST 0 12 * * *
+          #   12:00pm CDT 0 17 * * *   CST 0 18 * * *
+          #   6:00pm  CDT 0 23 * * *   CST 0 0 * * *
+          #   12:00am CDT 0 5 * * *    CST 0 6 * * *
           slot="${{ github.event.schedule }}"
           zone=$(TZ=America/Chicago date +%Z)
-          if { [ "$zone" = "CDT" ] && [ "$slot" = "0 5 * * *" ]; } || { [ "$zone" = "CST" ] && [ "$slot" = "0 6 * * *" ]; }; then
-            echo "run=true" >> "$GITHUB_OUTPUT"
-            echo "Chicago is ${zone}; cron '${slot}' is midnight; running"
-            exit 0
-          fi
+          case "$zone:$slot" in
+            "CDT:0 11 * * *"|"CDT:0 17 * * *"|"CDT:0 23 * * *"|"CDT:0 5 * * *")
+              echo "run=true" >> "$GITHUB_OUTPUT"
+              echo "Chicago is ${zone}; cron '${slot}' is a Chicago slot; running"
+              exit 0
+              ;;
+            "CST:0 12 * * *"|"CST:0 18 * * *"|"CST:0 0 * * *"|"CST:0 6 * * *")
+              echo "run=true" >> "$GITHUB_OUTPUT"
+              echo "Chicago is ${zone}; cron '${slot}' is a Chicago slot; running"
+              exit 0
+              ;;
+          esac
           echo "run=false" >> "$GITHUB_OUTPUT"
-          echo "Chicago is ${zone}; cron '${slot}' is not midnight; skipping"
+          echo "Chicago is ${zone}; cron '${slot}' is not the current Chicago offset; skipping"
       - name: Checkout
-        if: steps.midnight.outputs.run == 'true'
+        if: steps.chicago.outputs.run == 'true'
         uses: actions/checkout@v4
       - name: Pillow
-        if: steps.midnight.outputs.run == 'true'
+        if: steps.chicago.outputs.run == 'true'
         run: pip install pillow
       - name: Sync the album
-        if: steps.midnight.outputs.run == 'true'
+        if: steps.chicago.outputs.run == 'true'
         run: python3 scripts/sync_snaps.py
       - name: Sync the /music playlist
-        if: steps.midnight.outputs.run == 'true'
+        if: steps.chicago.outputs.run == 'true'
         continue-on-error: true   # a spotify outage never blocks the snaps sync
         env:
           SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
@@ -60,7 +82,7 @@ jobs:
           SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
         run: python3 scripts/spotify_playlist.py site/music/playlist.json
       - name: Commit when the album changed
-        if: steps.midnight.outputs.run == 'true'
+        if: steps.chicago.outputs.run == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
