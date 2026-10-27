@@ -5,6 +5,7 @@
   python3 scripts/habits.py fetch    # cursor.json only
   python3 scripts/habits.py pages    # refresh ride counts and keep the redirects
   python3 scripts/habits.py check    # schema only, no network
+  python3 scripts/habits.py workouts <merged.json> [activity_export.json]
   python3 scripts/habits.py exercise <health_export_all.json>   # fitness colours from Apple exercise minutes
 
 Dates are America/Chicago. A day total is commits + pull requests opened + pull
@@ -21,7 +22,12 @@ token only sees this public repo. A repo the token cannot see is listed in
 cursor.json as a repos_skipped count (names stay in the run log only). Counts are never invented.
 
 cursor-lines.json maps a date to a number (or {"ai_lines": N}). Empty means no
-AI edits. workouts.json is a placeholder and this script does not write it.
+AI edits. `workouts` rebuilds site/habits/workouts.json from a merged Health and
+Strava export. When that file, or the optional companion export, includes
+activity_summary, it also rebuilds the exercise map from Apple exercise minutes
+through the new `through` date. A day with 0 minutes is left out, same as
+`exercise`. Without summaries the previous exercise map is kept, and the run
+says to pass a companion export or run `exercise`.
 """
 
 from __future__ import annotations
@@ -803,12 +809,12 @@ EXERCISE_LEGEND = ("A cell is the day's Apple exercise minutes (activity summary
                    "No record or 0 is empty.")
 
 
-def exercise_from_export(src: Path, through: str) -> dict[str, int]:
-    """{date: minutes} from activity summaries, EXERCISE_FROM..through, zero days left out."""
-    raw = load_json(src)
-    rows = raw.get("activity_summary") if isinstance(raw, dict) else raw
+def exercise_minutes(rows, through: str) -> dict[str, int]:
+    """{date: minutes} from activity summary rows, EXERCISE_FROM..through, zero days left out."""
     out = {}
     for row in rows or []:
+        if not isinstance(row, dict):
+            continue
         key = str(row.get("dateComponents") or "")
         if not DATE_RE.fullmatch(key) or key < EXERCISE_FROM or key > through:
             continue
@@ -821,22 +827,74 @@ def exercise_from_export(src: Path, through: str) -> dict[str, int]:
     return dict(sorted(out.items()))
 
 
+def exercise_rows(raw: object) -> list | None:
+    """Activity summary rows when the loaded JSON actually carries them."""
+    if isinstance(raw, dict):
+        rows = raw.get("activity_summary")
+    elif isinstance(raw, list):
+        rows = raw
+    else:
+        return None
+    if isinstance(rows, list) and rows:
+        return rows
+    return None
+
+
+def exercise_from_export(src: Path, through: str) -> dict[str, int]:
+    """{date: minutes} from an export file, EXERCISE_FROM..through, zero days left out."""
+    return exercise_minutes(exercise_rows(load_json(src)), through)
+
+
+def exercise_intensity() -> dict:
+    return {"metric": "exercise_min", "edges": EXERCISE_CUTS, "legend": EXERCISE_LEGEND}
+
+
+def apply_exercise(data: dict, rows: list | None, old: dict) -> None:
+    """Refresh the exercise map from activity summaries, or keep the current one.
+
+    A day with 0 minutes is omitted. Callers that pass workouts only, with no
+    activity_summary and no companion export, keep the map already on disk.
+    """
+    through = data.get("through") or chicago_today().isoformat()
+    if rows:
+        fresh = exercise_minutes(rows, through)
+        if fresh:
+            data["exercise"] = fresh
+            data["intensity"] = exercise_intensity()
+            print(
+                f"habits: refreshed exercise minutes on {len(fresh)} days "
+                f"through {through} (last {max(fresh)})"
+            )
+            return
+        print("habits: activity summaries had no exercise minutes in range; kept the previous exercise map")
+    else:
+        print(
+            "habits: no activity summaries in the export; exercise map kept. "
+            "pass a companion export or run: habits.py exercise <health_export_all.json>"
+        )
+    if isinstance(old.get("exercise"), dict):
+        data["intensity"] = old.get("intensity") or data["intensity"]
+        data["exercise"] = old["exercise"]
+
+
 def write_exercise(src: Path) -> None:
     data = load_json(WORKOUTS)
     data["exercise"] = exercise_from_export(src, data.get("through") or chicago_today().isoformat())
-    data["intensity"] = {"metric": "exercise_min", "edges": EXERCISE_CUTS, "legend": EXERCISE_LEGEND}
+    data["intensity"] = exercise_intensity()
     dump_json(WORKOUTS, data)
     print(f"habits: fitness colours from exercise minutes on {len(data['exercise'])} days")
 
 
-def write_workouts(src: Path) -> dict:
+def write_workouts(src: Path, activity: Path | None = None) -> dict:
     """Build the public workouts.json from a merged Health + Strava export.
 
-    The exercise map and its intensity (write_exercise) are kept from the current file.
+    When `src` includes activity_summary, or `activity` is a companion export
+    that does, the exercise map is rebuilt from those Apple exercise minutes
+    through the new `through` date. Zero-minute days stay omitted. Without
+    summaries, the exercise map and its intensity stay as they are on disk.
 
-    Intensity is the day's active minutes (duration_min summed), not the workout
-    count. Edges are fixed: under 45, 45–89, 90–149, 150+. Records with
-    exclude:true are dropped. Several workouts on one date add up.
+    Day totals are active minutes (duration_min summed), not the workout count.
+    Records with exclude:true are dropped. Several workouts on one date add up.
     """
     raw = load_json(src)
     grouped: dict[str, list] = {}
@@ -889,9 +947,13 @@ def write_workouts(src: Path) -> dict:
         "days": days,
     }
     old = load_json(WORKOUTS) if WORKOUTS.exists() else {}
-    if isinstance(old.get("exercise"), dict):
-        data["intensity"] = old.get("intensity") or data["intensity"]
-        data["exercise"] = old["exercise"]
+    if activity is not None:
+        if not activity.is_file():
+            raise SystemExit(f"habits: activity export not found: {activity}")
+        rows = exercise_rows(load_json(activity))
+    else:
+        rows = exercise_rows(raw)
+    apply_exercise(data, rows, old)
     dump_json(WORKOUTS, data)
     refresh_rides()
     longest = run = 0
@@ -1128,7 +1190,9 @@ def check() -> None:
 def main(argv: list[str]) -> None:
     cmd = argv[1] if len(argv) > 1 else "all"
     if cmd not in {"all", "fetch", "pages", "check", "workouts", "exercise"}:
-        raise SystemExit("usage: habits.py [all|fetch|pages|check|workouts <merged.json>|exercise <export.json>]")
+        raise SystemExit(
+            "usage: habits.py [all|fetch|pages|check|workouts <merged.json> [activity_export.json]|exercise <export.json>]"
+        )
     if cmd == "exercise":
         if len(argv) < 3:
             raise SystemExit("usage: habits.py exercise <health_export_all.json>")
@@ -1137,8 +1201,9 @@ def main(argv: list[str]) -> None:
         return
     if cmd == "workouts":
         if len(argv) < 3:
-            raise SystemExit("usage: habits.py workouts <merged.json>")
-        write_workouts(Path(argv[2]))
+            raise SystemExit("usage: habits.py workouts <merged.json> [activity_export.json]")
+        companion = Path(argv[3]) if len(argv) > 3 else None
+        write_workouts(Path(argv[2]), companion)
         check()
         return
     cfg = load_json(TRACKERS)
