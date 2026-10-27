@@ -543,14 +543,15 @@ function sweepAll(){
 
 const T = [26, 173, 179], PALE_TEAL = [121, 205, 207], HEAD = [255, 255, 255], PALE_ORANGE = [255, 150, 121];
 const mob = () => document.documentElement.clientWidth < 760;
-const rain = JayRain.Rain(document.getElementById('rain'), {
+const rainCanvas = document.getElementById('rain');
+const rain = rainCanvas ? JayRain.Rain(rainCanvas, {
   fs: 16, fsMobile: 13, mono: '"JetBrains Mono", monospace', seed: 5, head: HEAD, headMix: .6,
   tint: T, paleTint: PALE_TEAL, paleOrange: PALE_ORANGE,
   palette: (x, w, r) => r < .84 ? T : PALE_TEAL,
   bands: (w, H) => [{y0: 0, y1: H, perCol: mob() ? 1.6 : 2.1, lenMin: 8, lenMax: 30, alpha: .56, stepMin: 60, stepMax: 170, colDensity: () => 1}],
   alphaAt: (x, y, R) => 1 - .45 * JayRain.smooth(R.H * .55, R.H, y),
   partSel: '.copy, .gallery, .foot', partPad: 50, partFloor: .25
-});
+}) : null;
 const fastNow = () => document.documentElement.dataset.mode === 'fast';
 let wantNow = false;
 function finish(){
@@ -569,7 +570,7 @@ function complete(){
   finish();
 }
 window.__pageRain = rain;
-JayRain.register(rain, fast => {
+if (rain) JayRain.register(rain, fast => {
   pace = fast ? 4 : 2; state.pace = pace;
   if (ready && !state.done && !reduced) JayRain.dump(fast);
 }, () => {
@@ -643,15 +644,17 @@ const dataReady = loadAll();
 
 async function main(){
   await dataReady;
-  rain.build();
-  requestAnimationFrame(rain.frame);
+  if (rain) {
+    rain.build();
+    requestAnimationFrame(rain.frame);
+  }
   if (reduced || JayRain.returning(VER) || wantNow){ complete(); return; }
   ready = true;
-  if (fastNow()) JayRain.dump(true);
+  if (rain && fastNow()) JayRain.dump(true);
   await sweepAll();
 }
 main();
 let lastW = innerWidth, rt;
 // v2.28: a height-only resize (iOS Safari's toolbar) must not rebuild the rain. width and orientation still do.
-addEventListener('resize', () => { if (innerWidth === lastW) return; lastW = innerWidth; clearTimeout(rt); rt = setTimeout(rain.build, 150); });
+addEventListener('resize', () => { if (!rain || innerWidth === lastW) return; lastW = innerWidth; clearTimeout(rt); rt = setTimeout(rain.build, 150); });
 })();
