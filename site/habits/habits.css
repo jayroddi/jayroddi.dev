@@ -28,9 +28,14 @@ body.board .foot{margin-left:auto;margin-right:auto;text-align:center}
 body.board .mast{--k:.9167;--kx:.8;--mast-mark:calc(24px * var(--k));width:100%;min-height:44px;margin:0 0 var(--habit-gap)}
 /* v2.63: the header line is plain text, italic, the same size as the old nav, in the normal text colour. the share-card replica still uses .line. */
 body.board .mast .line{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c)}
-body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;padding:0;border:0;background:none;appearance:none;-webkit-appearance:none;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:#1AADB3;text-shadow:none;cursor:default;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-/* v3.01: the title is text. it stays teal. no pulse, no glow, no colour toggle. */
-body.board .mast .pages .pages-t{display:inline-block;color:inherit;font-style:italic;animation:none;text-shadow:none}
+body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;padding:0;border:0;background:none;appearance:none;-webkit-appearance:none;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c);cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+body.board .mast .pages:focus-visible{outline:2px solid var(--c);outline-offset:-4px}
+@keyframes title-glow{0%,100%{text-shadow:0 0 2px rgba(var(--c-rgb),.45)}50%{text-shadow:0 0 14px rgba(var(--c-rgb),.95),0 0 4px rgba(var(--c-rgb),.7)}}
+body.board .mast .pages .pages-t{display:inline-block;color:inherit;font-style:italic;animation:title-glow 1.05s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){body.board .mast .pages .pages-t{animation:none;text-shadow:0 0 8px rgba(var(--c-rgb),.75)}}
+/* v3.03: the quiet homepage title is teal text. it does not pulse, glow, or switch to orange. */
+html.quiet body.board .mast .pages{color:var(--c);text-shadow:none;cursor:default}
+html.quiet body.board .mast .pages .pages-t{animation:none;text-shadow:none}
 /* v2.68 (jay 2026.10.20): the top line is plain text again, "by jay, a millennial living out loud", same font and size, in --fg
    (white in dark mode, black in light mode). below it the old v2.36 nav is back as snaps // quotes // habits: italic links in the speed
    colour --c, separators in --fg, 44px tap targets, and the current page gets a subtle 1px underline (.2em offset, currentColor). */
@@ -267,7 +272,7 @@ body.day .home{margin:0 0 22px}
 /* v2.74 (jay 2026.10.20): the wolf's bandana (currentColor) is gold whenever gold is on: the '+30 lives' wolf inherited the overlay's white text colour. */
 .konami .nj,.kos-hold .nj{color:#FFD700}
 :root.gld .nj,.gld .nj,.nj.gld{color:var(--c)}
-/* v3.01: the title is teal text and does not pulse. --ts is 14px, 12px under 360px. */
+/* v3.03: --ts is 14px, 12px under 360px. subpages keep the pulsing speed-switch title. the quiet homepage does not. */
 :root{--ts:14px;--nav-pad:12px;--mast-lh:1.25;--mast-line:calc(var(--mast-lh) * var(--ts));--mast-gap:calc(44px - var(--mast-line));--mast-row:calc(var(--mast-line) + var(--mast-gap))}
 @media (max-width:491px){:root{--nav-pad:6px}}
 @media (max-width:419px){:root{--nav-pad:2px}}
@@ -280,53 +285,22 @@ body.day .home{margin:0 0 22px}
 :root body.board .mast .nav{flex-direction:row;justify-content:center;align-items:center;white-space:nowrap}
 :root body.board .copy > .note-line,:root body.snaps .backlog{--hw:min(100vw - 24px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);white-space:nowrap}
 
-/* v3.01: the quote body is brand orange. the name under it is a quieter teal so it does not compete. grid labels match the quote. cells stay on --c (teal). */
+/* v3.03: the quote and the grid titles use the state colour (--c: #1AADB3 in the dark theme, the deeper teal in light). the name under the quote is the quieter ink, so it follows light and dark and is not an accent. cells stay on --c. */
 body.board .clear{width:min(100%,40em);margin:12px auto 40px;padding:0;border:0;text-align:center}
-body.board .clear .clear-q{margin:0;font-family:var(--mono);font-size:16px;font-weight:400;font-style:italic;line-height:1.65;color:#FF4D1A}
-body.board .clear .clear-by{margin:10px 0 0;font-family:var(--mono);font-size:13px;font-weight:400;font-style:italic;line-height:1.4;color:rgba(26,173,179,.72)}
-html.quiet .kicker,html.quiet .tracker .kicker{color:#FF4D1A}
+body.board .clear .clear-q{margin:0;font-family:var(--mono);font-size:16px;font-weight:400;font-style:italic;line-height:1.65;color:var(--c)}
+body.board .clear .clear-by{margin:10px 0 0;font-family:var(--mono);font-size:13px;font-weight:400;font-style:italic;line-height:1.4;color:var(--ink-2)}
 @media (max-width:760px){
   body.board .clear{margin:8px auto 32px}
   body.board .clear .clear-q{font-size:15px;line-height:1.6}
   body.board .clear .clear-by{font-size:12px}
 }
-
-/* v3.00: near-black ground. teal and orange sit in opposite corners and drift slowly.
-   the cores hang off the viewport so the column stays dark and the grids stay readable.
-   reduced motion leaves the same mist, still. */
-html.quiet,html.quiet body{background:#000}
-.mist{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
-.mist-teal,.mist-warm{position:absolute;border-radius:50%;filter:blur(36px);will-change:transform}
-.mist-teal{
-  width:92vw;height:92vw;top:-46vw;right:-46vw;
-  background:radial-gradient(circle,rgba(26,173,179,.72) 0%,rgba(26,173,179,.28) 34%,rgba(26,173,179,0) 56%);
-  animation:mist-teal 48s ease-in-out infinite alternate;
-}
-.mist-warm{
-  width:86vw;height:86vw;bottom:-43vw;left:-43vw;
-  background:radial-gradient(circle,rgba(255,77,26,.64) 0%,rgba(255,77,26,.22) 36%,rgba(255,77,26,0) 58%);
-  animation:mist-warm 62s ease-in-out infinite alternate;
-}
-@keyframes mist-teal{from{transform:translate3d(0,0,0)}to{transform:translate3d(-7vw,6vw,0)}}
-@keyframes mist-warm{from{transform:translate3d(0,0,0)}to{transform:translate3d(6vw,-5vw,0)}}
-@media (prefers-reduced-motion:reduce){
-  .mist-teal,.mist-warm{animation:none;will-change:auto}
-}
-
-/* the mist page stays near-black even when the system is light, so the type stays the dark-theme teal and orange. */
-@media (prefers-color-scheme:light){
-  html.quiet{
-    --bg:#000;--bg-rgb:0,0,0;--fg:#fff;--fg-rgb:255,255,255;--gk:1;
-    --ink:#f6efe9;--ink-rgb:246,239,233;--ink-2:rgba(246,239,233,.78);--ink-3:rgba(246,239,233,.55);--white:#fff;
-    --c:#1AADB3;--c-rgb:26,173,179;--c-lt:#5FD6DA;--c-dk:#0E7C81;--c-pale:#C9F3F4;--c-hot:#d2f6f7;--c-wh:#E6FBFB;--c-lt-rgb:127,218,221;--c-lt2:#74CED2;
-    --c-l1-rgb:107,203,207;--c-l2-rgb:118,208,211;--c-l3-rgb:129,212,215;--c-l4-rgb:74,191,196;--c-l5-rgb:226,245,246;
-    --f:#FF4D1A;--f-rgb:255,77,26;--f-lt:#FF8A5E;--f-dk:#B8300A;--f-pale:#FFD7C9;--f-wh:#FFE6DC;--f-lt2:#FF9A6E;--f-l4-rgb:255,120,70;--f-l5-rgb:255,236,224;
-  }
-}
-/* v3.01: the quiet page does not invert. a fast-mode attribute, if one is ever set, still leaves the cells teal. */
-html.quiet,html.quiet[data-mode="fast"]{
+/* v3.03: the quiet homepage does not invert. a fast-mode attribute, if one is ever set, still leaves the accents teal. light mode uses the same deeper teal as the rest of the site. */
+html.quiet[data-mode="fast"]{
   --c:#1AADB3;--c-rgb:26,173,179;--c-lt:#5FD6DA;--c-dk:#0E7C81;--c-pale:#C9F3F4;--c-hot:#d2f6f7;--c-wh:#E6FBFB;--c-lt-rgb:127,218,221;--c-lt2:#74CED2;
   --c-l1-rgb:107,203,207;--c-l2-rgb:118,208,211;--c-l3-rgb:129,212,215;--c-l4-rgb:74,191,196;--c-l5-rgb:226,245,246;
+}
+@media (prefers-color-scheme:light){
+  html.quiet[data-mode="fast"]{--c:#127F84;--c-rgb:18,127,132;--c-hot:#0B6569;--c-wh:#0B6569}
 }
 /* v3.02: the quiet homepage is italic all the way down. the universal reset above sets upright type; this puts it back for every word on this page, including labels, captions, and the hover tip. */
 html.quiet,html.quiet *{font-style:italic}

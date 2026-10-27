@@ -48,8 +48,9 @@ JARVIS = HABITS / "journal-jarvis.json"
 SLEEP = HABITS / "sleep.json"
 STEPS = HABITS / "steps.json"
 STEPS_CUTS = [2500, 5000, 7500, 10000]
-# the grids live on / (site/index.html). /me/ forwards home. /habits/ still forwards to /me/.
+# the quiet grids live on / (site/index.html). /me/ is the full grids page again. /habits/ still forwards to /me/.
 INDEX = HABITS.parent / "index.html"
+ME = HABITS.parent / "me" / "index.html"
 TZ = ZoneInfo("America/Chicago")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 RIDE_FROM = "2026-01-01"
@@ -530,10 +531,12 @@ def build_cursor_once(cfg: dict, today: date) -> dict:
 
 
 def check_index(cfg: dict) -> None:
-    html = INDEX.read_text(encoding="utf-8")
-    for tracker in cfg["trackers"]:
-        if tracker.get("enabled", True) and f'data-id="{tracker["id"]}"' not in html:
-            raise SystemExit(f"habits: site/index.html has no section for {tracker['id']}")
+    for page in (INDEX, ME):
+        html = page.read_text(encoding="utf-8")
+        rel = page.relative_to(HABITS.parent)
+        for tracker in cfg["trackers"]:
+            if tracker.get("enabled", True) and f'data-id="{tracker["id"]}"' not in html:
+                raise SystemExit(f"habits: site/{rel} has no section for {tracker['id']}")
 
 
 def date_keys(data: dict) -> list[date]:
@@ -699,12 +702,12 @@ def assert_redirects() -> int:
         n += 1
     if n == 0:
         raise SystemExit("habits: no day-page redirects under site/habits")
-    # grids live on /. /me/ forwards home. /habits/ still forwards to /me/, which forwards home.
+    # grids live on / (quiet) and on /me/ (the page from before the strip). /habits/ still forwards to /me/.
     if 'class="trackers"' not in html or marker in html:
         raise SystemExit("habits: site/index.html is not the grids page")
-    me = (HABITS.parent / "me" / "index.html").read_text(encoding="utf-8")
-    if marker not in me or refresh not in me:
-        raise SystemExit("habits: site/me/index.html is not a redirect to /")
+    me = ME.read_text(encoding="utf-8")
+    if 'class="trackers"' not in me or marker in me or refresh in me:
+        raise SystemExit("habits: site/me/index.html is not the grids page")
     stub = (HABITS / "index.html").read_text(encoding="utf-8") if (HABITS / "index.html").is_file() else ""
     if 'location.replace("/me/"' not in stub:
         raise SystemExit("habits: site/habits/index.html is not a redirect to /me/")
