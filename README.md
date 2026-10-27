@@ -14,9 +14,9 @@ In order:
 
 Every visible word on the homepage is italic: the title, the quote, the name, the grid labels, the month and weekday captions, the less/more legend, and the stats.
 
-There is no nav, email field, konami row, or social row on `/`.
+A menu button sits on the title line, at the right edge of the content column, on `/` and on every page that shares this header, on a wide screen and on a phone. It is three short lines in `#FF4D1A`, the only orange on these pages. A tap opens a small panel, not a full-screen menu: daily, snaps, music, books, quotes. Daily is the homepage. The current page is underlined. `/me/` is not in the menu; the address still works. Escape and a click outside close it. There is no center nav, email field, konami row, or social row.
 
-`/snaps/`, `/music/`, `/books/`, `/quotes/`, `/me/`, and `/confirmed/` open by URL. Each one starts with the same header as the homepage: the teal italic title, then the James Clear line and his name. Under that is that page’s own content. There is no nav, no second title line, no email field, no konami row, and no social row. The ground is plain (no mist) and follows the system the same way `/` does. `/habits/` still forwards to `/me/`. The homepage does not link to those pages. The nightly sync still updates snaps and the playlist.
+`/snaps/`, `/music/`, `/books/`, and `/quotes/` open from that menu. `/me/` and `/confirmed/` still open by URL. Each one starts with the same header as the homepage: the teal italic title, then the James Clear line and his name. Under that is that page’s own content. There is no second title line, no email field, no konami row, and no social row. The ground is plain (no mist) and follows the system the same way `/` does. `/habits/` still forwards to `/me/`. The nightly sync still updates snaps and the playlist.
 
 ## snaps
 

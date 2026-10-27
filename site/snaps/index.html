@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://www.google-analytics.com">
 <script>document.documentElement.classList.add('js');window.__snaps=fetch('/snaps/snaps.json',{cache:'no-cache'}).then(function(r){if(!r.ok)throw new Error();return r.json();});</script>
 <title>snaps</title>
-<link rel="stylesheet" href="/habits/habits.css?v=3.04">
+<link rel="stylesheet" href="/habits/habits.css?v=3.06">
 <link rel="stylesheet" href="/assets/rain.css?v=2.61">
 <link rel="stylesheet" href="/snaps/snaps.css?v=2.41">
 <link rel="icon" href="/favicon.ico?v=3" sizes="any">
@@ -46,7 +46,22 @@
 <body class="board snaps">
 <main class="stage">
   <div class="copy">
-    <header class="mast"><h1 class="pages"><span class="pages-t">discipline is destiny</span></h1></header>
+    <header class="mast"><h1 class="pages"><span class="pages-t">discipline is destiny</span></h1>
+      <div class="site-menu">
+        <button type="button" class="menu-btn" aria-label="menu" aria-expanded="false" aria-controls="site-nav">
+          <svg viewBox="0 0 18 14" aria-hidden="true" focusable="false"><path d="M1 1.5h16M1 7h16M1 12.5h16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <nav id="site-nav" class="menu-panel" aria-label="pages" hidden>
+          <ul>
+            <li><a href="/">daily</a></li>
+            <li><a href="/snaps">snaps</a></li>
+            <li><a href="/music">music</a></li>
+            <li><a href="/books">books</a></li>
+            <li><a href="/quotes">quotes</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
     <blockquote class="clear">
       <p class="clear-q">You just need to have the courage to eliminate everything that doesn't directly feed what you really want.</p>
       <p class="clear-by">— James Clear</p>
@@ -63,5 +78,6 @@
   <button type="button" class="x" aria-label="close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg></button>
 </dialog>
 <script src="/snaps/snaps.js?v=2.58" defer></script>
+<script src="/assets/menu.js?v=1" defer></script>
 </body>
 </html>

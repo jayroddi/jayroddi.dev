@@ -25,7 +25,7 @@ body.board .trackers,body.board .tracker,body.board .fit,body.board .graph{width
 body.board .kicker,body.board .legend,body.board .stat,body.board .status{text-align:center}
 body.board .legend{justify-content:center}
 body.board .foot{margin-left:auto;margin-right:auto;text-align:center}
-body.board .mast{--k:.9167;--kx:.8;--mast-mark:calc(24px * var(--k));width:100%;min-height:44px;margin:0 0 var(--habit-gap)}
+body.board .mast{--k:.9167;--kx:.8;--mast-mark:calc(24px * var(--k));position:relative;width:100%;min-height:44px;margin:0 0 var(--habit-gap)}
 /* v2.63: the header line is plain text, italic, the same size as the old nav, in the normal text colour. the share-card replica still uses .line. */
 body.board .mast .line{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c)}
 body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;padding:0;border:0;background:none;appearance:none;-webkit-appearance:none;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c);cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
@@ -306,3 +306,17 @@ html.quiet[data-mode="fast"]{
 }
 /* v3.02: the quiet homepage is italic all the way down. the universal reset above sets upright type; this puts it back for every word on this page, including labels, captions, and the hover tip. */
 html.quiet,html.quiet *{font-style:italic}
+/* v3.06: the menu sits on the title line, in the content column. the icon's vertical center matches the title, and its right edge is the column's right edge (the same --col as the grids). the three lines stay #FF4D1A. the panel is a short list, not a full-screen menu. */
+body.board .site-menu{position:absolute;z-index:5;top:0;right:0;height:var(--mast-row);display:flex;align-items:center;justify-content:flex-end}
+body.board .menu-btn{box-sizing:border-box;display:flex;align-items:center;justify-content:flex-end;width:44px;height:var(--mast-row);margin:0;padding:0;border:0;border-radius:6px;background:transparent;color:#FF4D1A;cursor:pointer;touch-action:manipulation;appearance:none;-webkit-appearance:none;-webkit-tap-highlight-color:transparent}
+body.board .menu-btn svg{display:block;width:18px;height:14px;color:#FF4D1A}
+body.board .menu-btn:focus{outline:0}
+body.board .menu-btn:focus-visible{outline:2px solid #FF4D1A;outline-offset:2px}
+body.board .menu-panel{position:absolute;top:calc(100% + 6px);right:0;z-index:1;min-width:9.5rem;margin:0;padding:6px 0;border:1px solid rgba(var(--c-rgb),.4);border-radius:8px;background:var(--bg,#000);box-shadow:0 12px 32px rgba(0,0,0,.28);text-align:left;text-shadow:none}
+body.board .menu-panel[hidden]{display:none}
+body.board .menu-panel ul{list-style:none;margin:0;padding:0}
+body.board .menu-panel a{display:flex;align-items:center;min-height:40px;padding:0 18px;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;line-height:1.25;letter-spacing:normal;color:var(--c);text-decoration:none;text-shadow:none;-webkit-tap-highlight-color:transparent}
+body.board .menu-panel a:hover{color:var(--c);background:rgba(var(--c-rgb),.08)}
+body.board .menu-panel a[aria-current="page"]{text-decoration:underline;text-decoration-color:currentColor;text-decoration-thickness:1px;text-underline-offset:.2em}
+body.board .menu-panel a:focus{outline:0}
+body.board .menu-panel a:focus-visible{outline:2px solid var(--c);outline-offset:-4px}
