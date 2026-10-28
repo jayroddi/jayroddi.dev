@@ -8,15 +8,14 @@ The homepage is quiet. The ground is plain and follows the system: black when th
 
 In order:
 
-1. `you can see everythi`. Teal (`--c`: `#1AADB3` in the dark theme, `#127F84` in the light theme). It does not pulse, glow, or change colour. It is not a control.
-2. One James Clear line in that same teal, then his name in the quieter ink (`--ink-2`), which flips with the theme.
-3. The habit grids: code, workouts, steps, sleep, faith. The labels and the filled cells use the same teal. Stats labels and values that are not teal flip with the theme.
+1. `you can see everythi`. The title is teal (`--c`: `#1AADB3` in the dark theme, `#127F84` in the light theme). It does not pulse, glow, or change colour. It is not a control. There is no name under it. It stays on one line.
+2. The habit grids: code, workouts, steps, sleep, faith. The labels and the filled cells use the same teal. Stats labels and values that are not teal flip with the theme.
 
-Every visible word on the homepage is italic: the title, the quote, the name, the grid labels, the month and weekday captions, the less/more legend, and the stats.
+Every visible word on the homepage is italic: the title, the grid labels, the month and weekday captions, the less/more legend, and the stats.
 
-A menu button sits on the title line, at the right edge of the content column, on `/` and on every page that shares this header, on a wide screen and on a phone. It is three short lines in `#FF4D1A`, the only orange on these pages. A tap opens a small panel, not a full-screen menu: daily, snaps, music, books, quotes. Daily is the homepage. The current page is underlined. `/me/` is not in the menu; the address still works. Escape and a click outside close it. There is no center nav, email field, konami row, or social row.
+A menu button is vertically centered on the title block, at the right edge of the content column, on `/` and on every page that shares this header, on a wide screen and on a phone. The title is one line, and the icon centers on that line. It is three short lines in `#FF4D1A`, the only orange on these pages. A tap opens a small panel, not a full-screen menu: daily, snaps, music, books, quotes. Daily is the homepage. The current page is underlined. `/me/` is not in the menu; the address still works. Escape and a click outside close it. There is no center nav, email field, konami row, or social row.
 
-`/snaps/`, `/music/`, `/books/`, and `/quotes/` open from that menu. `/me/` and `/confirmed/` still open by URL. Each one starts with the same header as the homepage: the teal italic title, then the James Clear line and his name. Under that is that page’s own content. There is no second title line, no email field, no konami row, and no social row. The ground is plain (no mist) and follows the system the same way `/` does. `/habits/` still forwards to `/me/`. The nightly sync still updates snaps and the playlist.
+`/snaps/`, `/music/`, `/books/`, and `/quotes/` open from that menu. `/me/` and `/confirmed/` still open by URL. Each one starts with the same header as the homepage: the teal italic title. Under that is that page’s own content. There is no second title line, no email field, no konami row, and no social row. The ground is plain (no mist) and follows the system the same way `/` does. `/habits/` still forwards to `/me/`. The nightly sync still updates snaps and the playlist.
 
 ## snaps
 
@@ -46,7 +45,7 @@ The old grid asked for the 640 rendition and offered the 1280 in `srcset`. The l
 {"date": "YYYY-MM-DD", "text": "the quote", "author": "Name"}
 ```
 
-`date` is America/Chicago. `/quotes/` reads that file. `/quote-of-the-day/` still forwards home. The homepage quote is the James Clear line in `site/index.html`. It does not rotate.
+`date` is America/Chicago. `/quotes/` reads that file. `/quote-of-the-day/` still forwards home. The homepage header is the title in `site/index.html`. It does not rotate.
 
 A new object in `quotes.json` is still just a commit. Nothing on the homepage reads that file.
 
