@@ -25,7 +25,7 @@ body.board .trackers,body.board .tracker,body.board .fit,body.board .graph{width
 body.board .kicker,body.board .legend,body.board .stat,body.board .status{text-align:center}
 body.board .legend{justify-content:center}
 body.board .foot{margin-left:auto;margin-right:auto;text-align:center}
-body.board .mast{--k:.9167;--kx:.8;--mast-mark:calc(24px * var(--k));position:relative;width:100%;min-height:44px;margin:0 0 var(--habit-gap)}
+body.board .mast{--k:.9167;--kx:.8;--mast-mark:calc(24px * var(--k));position:relative;width:100%;min-height:0;margin:0 0 var(--habit-gap)}
 /* v2.63: the header line is plain text, italic, the same size as the old nav, in the normal text colour. the share-card replica still uses .line. */
 body.board .mast .line{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c)}
 body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;padding:0;border:0;background:none;appearance:none;-webkit-appearance:none;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c);cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
@@ -285,8 +285,8 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
 :root body.board .mast .nav a{padding:0 var(--nav-pad)}
 :root body.board .mast .pages,:root body.board .mast .nav{--hw:min(100vw - 16px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);flex-wrap:nowrap}
 :root body.board .mast .pages{white-space:nowrap}
-/* v3.08: the shared title is a full sentence, so the h1 wraps inside the column and stays clear of the menu. the name under it is the quieter ink. */
-:root body.board .mast h1.pages{display:block;white-space:normal;height:auto;--hw:min(100%,720px);width:var(--hw);max-width:none;margin-left:auto;margin-right:auto;padding:calc((var(--mast-row) - var(--mast-line)) / 2) 52px 0;line-height:var(--mast-lh);text-wrap:balance}
+/* v3.10: the shared title is the sentence only. top padding keeps a one-line title centered in the old 44px row; there is no padding under the last line, so the title block is exactly that text. */
+:root body.board .mast h1.pages{display:block;white-space:normal;height:auto;min-height:0;--hw:min(100%,720px);width:var(--hw);max-width:none;margin-left:auto;margin-right:auto;padding:calc((var(--mast-row) - var(--mast-line)) / 2) 52px 0;line-height:var(--mast-lh);text-wrap:balance}
 /* v3.09: phones only. 14px wraps this sentence onto three lines below 430px. 10.5px keeps two lines from 360px up, and 10px covers the narrower 359px step. 430px and wider stay on the 14px title. */
 @media (max-width:429px){
   :root body.board .mast h1.pages{font-size:10.5px}
@@ -294,13 +294,8 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
 @media (max-width:359px){
   :root body.board .mast h1.pages{font-size:10px}
 }
-body.board .mast .pages-by{margin:10px 0 0;padding:0 52px;font-family:var(--mono);font-size:13px;font-weight:400;font-style:italic;line-height:1.4;color:var(--ink-2);text-align:center}
 :root body.board .mast .nav{flex-direction:row;justify-content:center;align-items:center;white-space:nowrap}
 :root body.board .copy > .note-line,:root body.snaps .backlog{--hw:min(100vw - 24px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);white-space:nowrap}
-
-@media (max-width:760px){
-  body.board .mast .pages-by{font-size:12px}
-}
 /* v3.03: the quiet homepage does not invert. a fast-mode attribute, if one is ever set, still leaves the accents teal. light mode uses the same deeper teal as the rest of the site. */
 html.quiet[data-mode="fast"]{
   --c:#1AADB3;--c-rgb:26,173,179;--c-lt:#5FD6DA;--c-dk:#0E7C81;--c-pale:#C9F3F4;--c-hot:#d2f6f7;--c-wh:#E6FBFB;--c-lt-rgb:127,218,221;--c-lt2:#74CED2;
@@ -311,8 +306,8 @@ html.quiet[data-mode="fast"]{
 }
 /* v3.02: the quiet homepage is italic all the way down. the universal reset above sets upright type; this puts it back for every word on this page, including labels, captions, and the hover tip. */
 html.quiet,html.quiet *{font-style:italic}
-/* v3.06: the menu sits on the title line, in the content column. the icon's vertical center matches the title, and its right edge is the column's right edge (the same --col as the grids). the three lines stay #FF4D1A. the panel is a short list, not a full-screen menu. */
-body.board .site-menu{position:absolute;z-index:5;top:0;right:0;height:var(--mast-row);display:flex;align-items:center;justify-content:flex-end}
+/* v3.10: the menu covers the title's text box (under the h1's top padding, down through the last line) and centers the icon on that whole block. one line on a wide screen, both lines when the sentence wraps. the right edge stays the column's right edge. the three lines stay #FF4D1A. */
+body.board .site-menu{position:absolute;z-index:5;top:calc((var(--mast-row) - var(--mast-line)) / 2);right:0;bottom:0;height:auto;display:flex;align-items:center;justify-content:flex-end}
 body.board .menu-btn{box-sizing:border-box;display:flex;align-items:center;justify-content:flex-end;width:44px;height:var(--mast-row);margin:0;padding:0;border:0;border-radius:6px;background:transparent;color:#FF4D1A;cursor:pointer;touch-action:manipulation;appearance:none;-webkit-appearance:none;-webkit-tap-highlight-color:transparent}
 body.board .menu-btn svg{display:block;width:18px;height:14px;color:#FF4D1A}
 body.board .menu-btn:focus{outline:0}
