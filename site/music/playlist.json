@@ -4,7 +4,7 @@
   "name": "forgot about jay",
   "owner": "jayroddi",
   "url": "https://open.spotify.com/playlist/2gnGKUyfcjB5aecShkH33N",
-  "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84ce5b316b1e9a30e1e9b46262"
+  "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84ce5b316b1e9a30e1e9b46262"
  },
  "source": "spotify web api (user refresh token)",
  "count": 359,
@@ -3961,5 +3961,5 @@
    "duration_ms": 346013
   }
  ],
- "fetched": "2026-10-26T21:11:00Z"
+ "fetched": "2026-10-28T15:22:34Z"
 }
