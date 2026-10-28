@@ -287,13 +287,7 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
 :root body.board .mast .pages{white-space:nowrap}
 /* v3.10: the shared title is the sentence only. top padding keeps a one-line title centered in the old 44px row; there is no padding under the last line, so the title block is exactly that text. */
 :root body.board .mast h1.pages{display:block;white-space:normal;height:auto;min-height:0;--hw:min(100%,720px);width:var(--hw);max-width:none;margin-left:auto;margin-right:auto;padding:calc((var(--mast-row) - var(--mast-line)) / 2) 52px 0;line-height:var(--mast-lh);text-wrap:balance}
-/* v3.09: phones only. 14px wraps this sentence onto three lines below 430px. 10.5px keeps two lines from 360px up, and 10px covers the narrower 359px step. 430px and wider stay on the 14px title. */
-@media (max-width:429px){
-  :root body.board .mast h1.pages{font-size:10.5px}
-}
-@media (max-width:359px){
-  :root body.board .mast h1.pages{font-size:10px}
-}
+/* v3.11: the title is one short line, so it keeps the shared 14px size (12px under 360px) instead of the smaller size the long sentence needed. */
 :root body.board .mast .nav{flex-direction:row;justify-content:center;align-items:center;white-space:nowrap}
 :root body.board .copy > .note-line,:root body.snaps .backlog{--hw:min(100vw - 24px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);white-space:nowrap}
 /* v3.03: the quiet homepage does not invert. a fast-mode attribute, if one is ever set, still leaves the accents teal. light mode uses the same deeper teal as the rest of the site. */
