@@ -285,20 +285,21 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
 :root body.board .mast .nav a{padding:0 var(--nav-pad)}
 :root body.board .mast .pages,:root body.board .mast .nav{--hw:min(100vw - 16px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);flex-wrap:nowrap}
 :root body.board .mast .pages{white-space:nowrap}
-/* v3.08: the shared title is a full sentence, so the h1 wraps inside the column and stays clear of the menu. the name under it is the same quieter line as the quote's name. */
+/* v3.08: the shared title is a full sentence, so the h1 wraps inside the column and stays clear of the menu. the name under it is the quieter ink. */
 :root body.board .mast h1.pages{display:block;white-space:normal;height:auto;--hw:min(100%,720px);width:var(--hw);max-width:none;margin-left:auto;margin-right:auto;padding:calc((var(--mast-row) - var(--mast-line)) / 2) 52px 0;line-height:var(--mast-lh);text-wrap:balance}
+/* v3.09: phones only. 14px wraps this sentence onto three lines below 430px. 10.5px keeps two lines from 360px up, and 10px covers the narrower 359px step. 430px and wider stay on the 14px title. */
+@media (max-width:429px){
+  :root body.board .mast h1.pages{font-size:10.5px}
+}
+@media (max-width:359px){
+  :root body.board .mast h1.pages{font-size:10px}
+}
 body.board .mast .pages-by{margin:10px 0 0;padding:0 52px;font-family:var(--mono);font-size:13px;font-weight:400;font-style:italic;line-height:1.4;color:var(--ink-2);text-align:center}
 :root body.board .mast .nav{flex-direction:row;justify-content:center;align-items:center;white-space:nowrap}
 :root body.board .copy > .note-line,:root body.snaps .backlog{--hw:min(100vw - 24px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);white-space:nowrap}
 
-/* v3.03: the quote and the grid titles use the state colour (--c: #1AADB3 in the dark theme, the deeper teal in light). the name under the quote is the quieter ink, so it follows light and dark and is not an accent. cells stay on --c. */
-body.board .clear{width:min(100%,40em);margin:12px auto 40px;padding:0;border:0;text-align:center}
-body.board .clear .clear-q{margin:0;font-family:var(--mono);font-size:16px;font-weight:400;font-style:italic;line-height:1.65;color:var(--c)}
-body.board .clear .clear-by{margin:10px 0 0;font-family:var(--mono);font-size:13px;font-weight:400;font-style:italic;line-height:1.4;color:var(--ink-2)}
 @media (max-width:760px){
-  body.board .clear{margin:8px auto 32px}
-  body.board .clear .clear-q{font-size:15px;line-height:1.6}
-  body.board .clear .clear-by,body.board .mast .pages-by{font-size:12px}
+  body.board .mast .pages-by{font-size:12px}
 }
 /* v3.03: the quiet homepage does not invert. a fast-mode attribute, if one is ever set, still leaves the accents teal. light mode uses the same deeper teal as the rest of the site. */
 html.quiet[data-mode="fast"]{
