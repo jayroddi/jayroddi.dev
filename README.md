@@ -8,7 +8,7 @@ The homepage is quiet. The ground is plain and follows the system: black when th
 
 In order:
 
-1. `discipline is destiny`. Teal (`--c`: `#1AADB3` in the dark theme, `#127F84` in the light theme). It does not pulse, glow, or change colour. It is not a control.
+1. `you can see everythi`. Teal (`--c`: `#1AADB3` in the dark theme, `#127F84` in the light theme). It does not pulse, glow, or change colour. It is not a control.
 2. One James Clear line in that same teal, then his name in the quieter ink (`--ink-2`), which flips with the theme.
 3. The habit grids: code, workouts, steps, sleep, faith. The labels and the filled cells use the same teal. Stats labels and values that are not teal flip with the theme.
 
