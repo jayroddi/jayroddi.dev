@@ -62,6 +62,7 @@ function sleepLine(iso, score, mins){
   return shortDate(iso) + ': score ' + score + ' · ' + h + 'h ' + String(m).padStart(2, '0') + 'm';
 }
 function labelCell(cell, text){
+  if (text && cell.classList.contains('today')) text += ' · today';
   if (!text){
     cell.removeAttribute('aria-label');
     cell.removeAttribute('role');
@@ -120,10 +121,12 @@ function build(section, model){
     }
     months.appendChild(lab);
     col.forEach(iso => {
+      /* today is the America/Chicago date from chicagoToday(), via gridFor. */
       const future = iso > model.today;
-      const el = mk('span', 'cell' + (future ? ' future' : ''));
+      const el = mk('span', 'cell' + (future ? ' future' : '') + (iso === model.today ? ' today' : ''));
       el.dataset.date = iso;
       el.dataset.lv = '0';
+      if (iso === model.today) el.setAttribute('aria-current', 'date');
       box.appendChild(el);
     });
   });
