@@ -9,7 +9,7 @@ The homepage is quiet. The ground is plain and follows the system: black when th
 In order:
 
 1. `🚀man`. The title is brand orange `#FF4D1A`, italic, the same treatment in both themes. It does not pulse, glow, or change colour. It is a link to `/daily`, which forwards to `/` (the habit grids). There is no underline and no name under it. The space under the title matches the space under the teal subtitle (`--habit-gap`, 16px).
-2. `we fall to the level of our habits`. That is the daily subheader, brand teal `#1AADB3`, italic, under the title and above the grids. It is a step under the title: 13px where the title is 14px, and 11px under 360px where the title is 12px. It stays on one line. `/me/` uses the same line. The other page subheaders use that same size.
+2. `we fall to the level of our habits`. That is the daily subheader, brand teal `#1AADB3`, italic, under the title and above the grids. It is a step under the title: 13px where the title is 14px, and 11px under 360px where the title is 12px. That computed size is the same on every page. It does not scale with the length of the line. It stays on one line. `/me/` uses the same line. The other page subheaders use that same size.
 3. The habit grids: code, workouts, steps, sleep, faith. The labels and the filled cells use the same teal. Stats labels and values that are not teal flip with the theme.
 
 Every visible word on the homepage is italic: the title, the subheader, the grid labels, the month and weekday captions, the less/more legend, and the stats.
