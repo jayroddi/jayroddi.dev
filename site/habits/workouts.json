@@ -2,8 +2,8 @@
   "id": "workouts",
   "label": "workouts",
   "timezone": "America/Chicago",
-  "generated": "2026-10-28T09:39:19.672821-05:00",
-  "through": "2026-10-28",
+  "generated": "2026-10-29T09:29:23.590456-05:00",
+  "through": "2026-10-29",
   "source": "Apple Health and Strava. exclude:true records are omitted. Empty months are real gaps.",
   "intensity": {
     "metric": "exercise_min",
@@ -613,6 +613,14 @@
       "ride_min": [
         188.1
       ]
+    },
+    "2026-10-28": {
+      "total": 2,
+      "minutes": 161,
+      "rides": 1,
+      "ride_min": [
+        88.2
+      ]
     }
   },
   "exercise": {
@@ -862,6 +870,7 @@
     "2026-10-25": 165,
     "2026-10-26": 319,
     "2026-10-27": 89,
-    "2026-10-28": 2
+    "2026-10-28": 101,
+    "2026-10-29": 1
   }
 }
