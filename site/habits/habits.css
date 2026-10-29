@@ -34,10 +34,14 @@ body.board .mast .pages:focus-visible{outline:2px solid var(--c);outline-offset:
 body.board .mast button.pages .pages-t{display:inline-block;color:inherit;font-style:italic;animation:title-glow 1.05s ease-in-out infinite}
 body.board .mast h1.pages .pages-t{display:inline;color:inherit;font-style:italic;white-space:normal}
 @media (prefers-reduced-motion:reduce){body.board .mast button.pages .pages-t{animation:none;text-shadow:0 0 8px rgba(var(--c-rgb),.75)}}
-/* v3.04: the shared title is an h1. it is teal and italic, and it does not pulse, glow, or act as a control. */
-body.board .mast h1.pages{color:var(--c);text-shadow:none;cursor:default}
-html.quiet body.board .mast .pages{color:var(--c);text-shadow:none;cursor:default}
+/* v3.13: the shared title is an h1, 🚀man, brand orange #FF4D1A (the same orange as the menu icon). italic, and it does not pulse, glow, or act as a control. both themes keep this orange; it does not follow the light-theme orange shift. */
+body.board .mast h1.pages{color:#FF4D1A;text-shadow:none;cursor:default}
+html.quiet body.board .mast .pages{text-shadow:none;cursor:default}
+html.quiet body.board .mast h1.pages{color:#FF4D1A}
 html.quiet body.board .mast .pages .pages-t{animation:none;text-shadow:none}
+/* v3.13: the page subheader sits under the shared title, before that page's content. brand teal #1AADB3, italic, the title's size. it can wrap. the negative top margin eats the mast's bottom gap so the line sits with the title; the bottom gap is the step before the content. */
+body.board .copy > .subhead{box-sizing:border-box;width:100%;margin:calc(-1 * var(--habit-gap) + 6px) 0 var(--habit-gap);padding:0;text-align:center;font-family:var(--mono);font-size:var(--ts);font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:#1AADB3;text-wrap:balance}
+body.board .subhead + .covers{margin-top:0}
 /* v2.68 (jay 2026.10.20): the top line is plain text again, "by jay, a millennial living out loud", same font and size, in --fg
    (white in dark mode, black in light mode). below it the old v2.36 nav is back as snaps // quotes // habits: italic links in the speed
    colour --c, separators in --fg, 44px tap targets, and the current page gets a subtle 1px underline (.2em offset, currentColor). */
@@ -313,7 +317,7 @@ body.board .menu-btn:focus-visible{outline:2px solid #FF4D1A;outline-offset:2px}
 body.board .menu-panel{position:absolute;top:calc(100% + 6px);right:0;z-index:1;min-width:9.5rem;margin:0;padding:6px 0;border:1px solid rgba(var(--c-rgb),.4);border-radius:8px;background:var(--bg,#000);box-shadow:0 12px 32px rgba(0,0,0,.28);text-align:left;text-shadow:none}
 body.board .menu-panel[hidden]{display:none}
 body.board .menu-panel ul{list-style:none;margin:0;padding:0}
-body.board .menu-panel a{display:flex;align-items:center;min-height:40px;padding:0 18px;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;line-height:1.25;letter-spacing:normal;color:var(--c);text-decoration:none;text-shadow:none;-webkit-tap-highlight-color:transparent}
+body.board .menu-panel a{display:flex;align-items:center;min-height:40px;padding:0 18px;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;line-height:1.25;letter-spacing:normal;color:var(--c);text-decoration:none;text-shadow:none;white-space:nowrap;-webkit-tap-highlight-color:transparent}
 body.board .menu-panel a:hover{color:var(--c);background:rgba(var(--c-rgb),.08)}
 body.board .menu-panel a[aria-current="page"]{text-decoration:underline;text-decoration-color:currentColor;text-decoration-thickness:1px;text-underline-offset:.2em}
 body.board .menu-panel a:focus{outline:0}

@@ -8,14 +8,15 @@ The homepage is quiet. The ground is plain and follows the system: black when th
 
 In order:
 
-1. `you can see everythi`. The title is teal (`--c`: `#1AADB3` in the dark theme, `#127F84` in the light theme). It does not pulse, glow, or change colour. It is not a control. There is no name under it. It stays on one line.
-2. The habit grids: code, workouts, steps, sleep, faith. The labels and the filled cells use the same teal. Stats labels and values that are not teal flip with the theme.
+1. `🚀man`. The title is brand orange `#FF4D1A`, italic, the same treatment in both themes. It does not pulse, glow, or change colour. It is not a control. There is no name under it.
+2. `we fall to the level of our daily habits`. That is the daily subheader, brand teal `#1AADB3`, italic, under the title and above the grids. `/me/` uses the same line.
+3. The habit grids: code, workouts, steps, sleep, faith. The labels and the filled cells use the same teal. Stats labels and values that are not teal flip with the theme.
 
-Every visible word on the homepage is italic: the title, the grid labels, the month and weekday captions, the less/more legend, and the stats.
+Every visible word on the homepage is italic: the title, the subheader, the grid labels, the month and weekday captions, the less/more legend, and the stats.
 
-A menu button is vertically centered on the title block, at the right edge of the content column, on `/` and on every page that shares this header, on a wide screen and on a phone. The title is one line, and the icon centers on that line. It is three short lines in `#FF4D1A`, the only orange on these pages. A tap opens a small panel, not a full-screen menu: daily, snaps, music, books, quotes. Daily is the homepage. The current page is underlined. `/me/` is not in the menu; the address still works. Escape and a click outside close it. There is no center nav, email field, konami row, or social row.
+A menu button is vertically centered on the title block, at the right edge of the content column, on `/` and on every page that shares this header, on a wide screen and on a phone. The title is one line, and the icon centers on that line. It is three short lines in `#FF4D1A`. A tap opens a small panel, not a full-screen menu: daily, snaps, music, books, quotes, then `@jayroddi on social` (https://x.com/jayroddi). Daily is the homepage. The current page is underlined. `/me/` is not in the menu; the address still works. Escape and a click outside close it. There is no center nav, email field, konami row, or social row.
 
-`/snaps/`, `/music/`, `/books/`, and `/quotes/` open from that menu. `/me/` and `/confirmed/` still open by URL. Each one starts with the same header as the homepage: the teal italic title. Under that is that page’s own content. There is no second title line, no email field, no konami row, and no social row. The ground is plain (no mist) and follows the system the same way `/` does. `/habits/` still forwards to `/me/`. The nightly sync still updates snaps and the playlist.
+`/snaps/`, `/music/`, `/books/`, and `/quotes/` open from that menu. `/me/` and `/confirmed/` still open by URL. Each one starts with the same header as the homepage: the orange italic title `🚀man`, then the hamburger. Under that is that page’s teal italic subheader, then that page’s own content. `/` and `/me/` say `we fall to the level of our daily habits`. `/snaps/` says `you can see everythi`. `/music/` says `forgot about jay`. `/books/` says `we read to know we're not alone`. `/quotes/` says `the journey is the reward // steve jobs`. There is no author line under the title, no email field, no konami row, and no social row. The ground is plain (no mist) and follows the system the same way `/` does. `/habits/` still forwards to `/me/`. The nightly sync still updates snaps and the playlist.
 
 ## snaps
 

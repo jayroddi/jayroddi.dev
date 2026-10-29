@@ -252,7 +252,7 @@ def render_replica(repo, dests):
 SIMPLE = 'og-card.png'   # v2.0 (jay 2026.10.20): the one share card every page points at (og:image + twitter:image)
 
 def render_simple(repo, dest=None):
-    """v2.0: the one share card. scripts/cards/card-simple.html (the site's teal rain from rain.js + the byline, white, centered) served
+    """v4.0: the one share card. scripts/cards/card-simple.html (the site's teal rain from rain.js + 🚀man, brand orange, centered) served
     next to site/ and screenshotted at 1200x630 after the rain has fallen for a few seconds -> site/og-card.png. needs python playwright
     (python -m pip install playwright && python -m playwright install chromium)."""
     import http.server, threading, functools
