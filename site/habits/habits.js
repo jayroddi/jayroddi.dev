@@ -290,7 +290,7 @@ function fillSleepStats(section, s){
   stashStats(section, {
     total: String(s.avg),
     month: s.bestMo ? monthLabel(s.bestMo) : '—',
-    day: s.bestDay ? s.bestScore + ' · ' + shortDate(s.bestDay) : '—',
+    day: s.bestDay ? s.bestDay.replace(/-/g, '.') : '—',
     longest: s.longest + 'd',
     current: s.current + 'd'
   });
