@@ -42,7 +42,9 @@ html.quiet body.board .mast .pages{text-shadow:none;cursor:default}
 html.quiet body.board .mast h1.pages{color:#FF4D1A}
 html.quiet body.board .mast .pages .pages-t{animation:none;text-shadow:none}
 /* v3.14: the gap under the title matches the gap under the subtitle. the mast already has margin-bottom: --habit-gap (16px). the subtitle used to pull up over that with margin-top: calc(-1 * var(--habit-gap) + 6px), which left 6px between the title block and the subtitle while the subtitle kept 16px before the content. margin-top is 0 now, so both gaps are --habit-gap. */
-body.board .copy > .subhead{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0;text-align:center;font-family:var(--mono);font-size:var(--ts);font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:#1AADB3;text-wrap:balance}
+/* v3.15: the teal subheader is one step under the orange title and stays on one line. the title stays --ts (14px, 12px under 360px). the subheader is 13px, and 11px under 360px. 20.4 is the width, in px, of the longest line ("we fall to the level of our habits", 34 glyphs at 0.6em) at a 1px size. 56px is the 48px column inset plus 8px of slack, so a very narrow phone scales the line down instead of wrapping or clipping. */
+body.board .copy > .subhead{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0;text-align:center;font-family:var(--mono);font-size:min(13px, calc((100vw - 56px) / 20.4));font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:#1AADB3;white-space:nowrap}
+@media (max-width:359px){body.board .copy > .subhead{font-size:min(11px, calc((100vw - 56px) / 20.4))}}
 body.board .subhead + .covers{margin-top:0}
 /* v2.68 (jay 2026.10.20): the top line is plain text again, "by jay, a millennial living out loud", same font and size, in --fg
    (white in dark mode, black in light mode). below it the old v2.36 nav is back as snaps // quotes // habits: italic links in the speed
