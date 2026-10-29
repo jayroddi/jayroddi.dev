@@ -28,7 +28,7 @@ The old grid asked for the 640 rendition and offered the 1280 in `srcset`. The l
 
 ## music
 
-`/music/` is the playlist page. `site/music/playlist.json` is the playlist file.
+`/music/` is the playlist page. `site/music/playlist.json` is the playlist file. The playlist is `forgot about jay`, id `2gnGKUyfcjB5aecShkH33N`, https://open.spotify.com/playlist/2gnGKUyfcjB5aecShkH33N. A tile opens that playlist with the track named: `https://open.spotify.com/playlist/2gnGKUyfcjB5aecShkH33N?highlight=spotify:track:{id}`. The file still stores the bare track url. `https://open.spotify.com/track/{id}?context=spotify:playlist:…` is the other context form, and the web player still shows the track page for it, so the tiles do not use it.
 
 `python3 scripts/spotify_playlist.py site/music/playlist.json` refreshes that file from the Spotify Web API. It needs `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, and `SPOTIFY_REFRESH_TOKEN`. Without the refresh token it exits 0 and leaves the file alone. It writes only when the tracks change (`fetched` is not enough).
 
