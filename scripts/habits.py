@@ -87,11 +87,15 @@ def ct_day(iso: str) -> str:
 
 
 def window(today: date) -> tuple[date, date, date]:
-    """Return (stats start, grid sunday, grid saturday)."""
+    """Return (stats start, grid monday, grid sunday).
+
+    The 365-day stats window stays today-364 through today. Columns pad back to
+    Monday and forward to Sunday. Day keys in the JSON are not moved.
+    """
     start = today - timedelta(days=364)
-    back = (start.weekday() + 1) % 7  # days since Sunday
+    back = start.weekday()  # Monday is 0
     grid_start = start - timedelta(days=back)
-    forward = (6 - ((today.weekday() + 1) % 7)) % 7
+    forward = (6 - today.weekday()) % 7
     grid_end = today + timedelta(days=forward)
     return start, grid_start, grid_end
 

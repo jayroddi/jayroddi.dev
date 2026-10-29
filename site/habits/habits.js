@@ -22,7 +22,9 @@ function fmt(ms){
   return dt.getUTCFullYear() + '-' + String(dt.getUTCMonth() + 1).padStart(2, '0') + '-' + String(dt.getUTCDate()).padStart(2, '0');
 }
 const addDays = (iso, n) => fmt(parse(iso) + n * 86400000);
+/* getUTCDay is 0 Sunday … 6 Saturday. A column runs Monday through Sunday. */
 const weekday = iso => new Date(parse(iso)).getUTCDay();
+const sinceMonday = iso => (weekday(iso) + 6) % 7;
 function chicagoToday(){
   return new Intl.DateTimeFormat('en-CA', {timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit'}).format(new Date());
 }
@@ -79,8 +81,8 @@ function monthLabel(ym){
 
 function gridFor(today){
   const start = addDays(today, -364);
-  const gridStart = addDays(start, -weekday(start));
-  const gridEnd = addDays(today, (6 - weekday(today) + 7) % 7);
+  const gridStart = addDays(start, -sinceMonday(start));
+  const gridEnd = addDays(today, (6 - sinceMonday(today) + 7) % 7);
   const weeks = [];
   for (let iso = gridStart; iso <= gridEnd;){
     const col = [];
