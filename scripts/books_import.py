@@ -3,7 +3,7 @@ Books whose hashed id is in scripts/books_hidden.json are dropped before anythin
 import csv,json,re,os,sys,urllib.request,urllib.parse,collections,concurrent.futures as cf
 from PIL import Image
 SRC=sys.argv[2] if len(sys.argv)>2 else '/workspace/mideeyah-imports/goodreads.csv'; OUT=sys.argv[1]; COV=os.path.join(os.path.dirname(OUT),'covers'); os.makedirs(COV,exist_ok=True)
-UA={'User-Agent':'jayroddi.lol books (hi@jayroddi.lol)'}
+UA={'User-Agent':'jayroddi.dev books (hi@jayroddi.lol)'}
 def get(u,raw=False):
     try:
         r=urllib.request.urlopen(urllib.request.Request(u,headers=UA),timeout=25); b=r.read()

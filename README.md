@@ -1,8 +1,8 @@
-# jayroddi.lol
+# jayroddi.dev
 
-Personal site. The repository is still named `jaytha.ninja`. The live site is [https://jayroddi.lol](https://jayroddi.lol). `jaytha.ninja` forwards through [jayroddi/jaytha-ninja-redirect](https://github.com/jayroddi/jaytha-ninja-redirect), which sends every path, query, and hash to jayroddi.lol.
+Personal site. The repository is still named `jaytha.ninja`. The live site is [https://jayroddi.dev](https://jayroddi.dev). `jaytha.ninja` forwards through [jayroddi/jaytha-ninja-redirect](https://github.com/jayroddi/jaytha-ninja-redirect), which sends every path, query, and hash to jayroddi.dev.
 
-`site/CNAME` is `jayroddi.lol`. Pushes to `main` deploy `site/` to GitHub Pages (`.github/workflows/pages.yml`).
+`site/CNAME` is `jayroddi.dev`. Pushes to `main` deploy `site/` to GitHub Pages (`.github/workflows/pages.yml`).
 
 The homepage is the snaps photo grid. The ground is plain and follows the system: black when the system is dark, white when it is light (`prefers-color-scheme`). There is no mist, no gradient, and no matrix rain on `/`.
 
