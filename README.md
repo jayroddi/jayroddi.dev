@@ -8,7 +8,7 @@ The homepage is the snaps photo grid. The ground is plain and follows the system
 
 In order:
 
-1. `✌️🤟🤙 // jayroddi.dev // 🇺🇸🇯🇵🇳🇿`. Only `jayroddi.dev` is teal `#1AADB3`. Each `//` is the system foreground (`--fg`: white in dark, black in light). The emoji keep their own colour. The title is italic. It does not pulse or glow. It is a link to `/daily`, the quote feed. There is no underline. The space under the title matches the space under the teal subtitle (`--habit-gap`, 16px). On a narrow screen the line wraps between those pieces, and `jayroddi.dev` stays on one line.
+1. `✌️🤟🤙 // jayroddi.dev // 🇺🇸🇯🇵🇳🇿`. Only `jayroddi.dev` is teal `#1AADB3`. Each `//` is the system foreground (`--fg`: white in dark, black in light). The emoji keep their own colour. The title is italic. It does not pulse or glow. It is a link to `/`, the snaps homepage. There is no underline. The space under the title matches the space under the teal subtitle (`--habit-gap`, 16px). On a narrow screen the line wraps between those pieces, and `jayroddi.dev` stays on one line.
 2. A teal page subheader, one emoji and no words, brand teal `#1AADB3`, italic, 11px at every width (also 11px under 360px). `/` is `📷`. `/daily/` is `🗓️`. `/music/` is `🎧`. `/books/` is `📚`. `/quotes/` is `💬`. `/habits/` is `🗓️`.
 3. On `/`, the photo grid. The habit grids (code, workouts, steps, sleep, faith) live on `/habits/`.
 
