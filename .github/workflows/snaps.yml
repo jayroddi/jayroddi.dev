@@ -1,4 +1,7 @@
-# Lightroom sync + /music playlist (spotify), four times a day on the Chicago clock. Images stay on Adobe. This commits site/snaps only when the album changed.
+# Lightroom sync + /music playlist (spotify), four times a day on the Chicago clock.
+# Frost JPEGs are baked into site/snaps/f/ on the same run. The Pages deploy is what
+# stops serving sharp Adobe URLs, at 2026-11-01 00:00 America/Chicago.
+# This commits site/snaps only when the album or the frost files changed.
 name: Sync snaps
 
 on:
@@ -67,9 +70,19 @@ jobs:
       - name: Checkout
         if: steps.chicago.outputs.run == 'true'
         uses: actions/checkout@v4
+      - name: Frost cache
+        if: steps.chicago.outputs.run == 'true'
+        uses: actions/cache@v4
+        with:
+          path: |
+            frost-cache
+            scripts/snaps_frost.json
+          key: snaps-frost-${{ hashFiles('site/snaps/m/*.json', 'scripts/frost.py') }}
+          restore-keys: |
+            snaps-frost-
       - name: Pillow
         if: steps.chicago.outputs.run == 'true'
-        run: pip install pillow
+        run: pip install pillow numpy
       - name: Sync the album
         if: steps.chicago.outputs.run == 'true'
         run: python3 scripts/sync_snaps.py
