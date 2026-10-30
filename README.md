@@ -4,23 +4,21 @@ Personal site. The repository is still named `jaytha.ninja`. The live site is [h
 
 `site/CNAME` is `jayroddi.lol`. Pushes to `main` deploy `site/` to GitHub Pages (`.github/workflows/pages.yml`).
 
-The homepage is quiet. The ground is plain and follows the system: black when the system is dark, white when it is light (`prefers-color-scheme`, the same variables as before the quiet strip). There is no mist, no gradient, and no matrix rain on `/`.
+The homepage is the snaps photo grid. The ground is plain and follows the system: black when the system is dark, white when it is light (`prefers-color-scheme`). There is no mist, no gradient, and no matrix rain on `/`.
 
 In order:
 
-1. `🚀man`. The title is brand orange `#FF4D1A`, italic, the same treatment in both themes. It does not pulse, glow, or change colour. It is a link to `/daily`, which forwards to `/` (the habit grids). There is no underline and no name under it. The space under the title matches the space under the teal subtitle (`--habit-gap`, 16px).
-2. `we fall to the level of our habits`. That is the daily subheader, brand teal `#1AADB3`, italic, under the title and above the grids. It is a step under the title: 13px where the title is 14px, and 11px under 360px where the title is 12px. That computed size is the same on every page. It does not scale with the length of the line. It stays on one line. `/me/` uses the same line. The other page subheaders use that same size.
-3. The habit grids: code, workouts, steps, sleep, faith. The labels and the filled cells use the same teal. Stats labels and values that are not teal flip with the theme.
+1. `✌️🤟🤙`. The title is brand orange `#FF4D1A`, italic, the same treatment in both themes. It does not pulse, glow, or change colour. It is a link to `/daily`, which forwards to `/habits/` (the habit grids). There is no underline and no name under it. The space under the title matches the space under the teal subtitle (`--habit-gap`, 16px).
+2. A teal page subheader, one emoji and no words, brand teal `#1AADB3`, italic, 11px at every width (also 11px under 360px). `/` is `📷`. `/music/` is `🎧`. `/books/` is `📚`. `/quotes/` is `💬`. `/habits/` is `📊`.
+3. On `/`, the photo grid. The habit grids (code, workouts, steps, sleep, faith) live on `/habits/`.
 
-Every visible word on the homepage is italic: the title, the subheader, the grid labels, the month and weekday captions, the less/more legend, and the stats.
+A menu button is vertically centered on the title block, at the right edge of the content column, on `/` and on every page that shares this header, on a wide screen and on a phone. The title is one line, and the icon centers on that line. It is three short lines in `#FF4D1A`. A tap opens a small panel, not a full-screen menu: daily, snaps, music, books, quotes, habits, then `@jayroddi`. Page links stay teal. `@jayroddi` follows the system (white in dark, black in light) and links to https://x.com/jayroddi. It is not orange. Orange `#FF4D1A` stays on the hamburger and the title. Snaps points at `/`. Habits is the last page link, immediately before `@jayroddi`. The current page is underlined. Escape and a click outside close it. There is no center nav, email field, konami row, or social icon row.
 
-A menu button is vertically centered on the title block, at the right edge of the content column, on `/` and on every page that shares this header, on a wide screen and on a phone. The title is one line, and the icon centers on that line. It is three short lines in `#FF4D1A`. A tap opens a small panel, not a full-screen menu: daily, snaps, music, books, quotes, then the text links 𝕏 (U+1D54F), instagram, threads, github, spotify, linkedin, and email. The page links stay teal. The social links are brand orange `#FF4D1A`. External social links open in a new tab. Email is `mailto:hi@jayroddi.lol` in the same tab. Daily is the homepage. The current page is underlined. `/me/` is not in the menu; the address still works. Escape and a click outside close it. There is no center nav, email field, konami row, or social icon row.
-
-`/snaps/`, `/music/`, `/books/`, and `/quotes/` open from that menu. `/me/` and `/confirmed/` still open by URL. Each one starts with the same header as the homepage: the orange italic title `🚀man`, then the hamburger. Under that is that page’s teal italic subheader, then that page’s own content. `/` and `/me/` say `we fall to the level of our habits`. `/snaps/` says `you can see everythi`. `/music/` says `forgot about jay`. `/books/` says `we read to know we are not alone`. `/quotes/` says `the journey is the reward`. There is no author line under the title, no email field, no konami row, and no social row. The ground is plain (no mist) and follows the system the same way `/` does. `/habits/` still forwards to `/me/`. `/daily/` forwards to `/`. The nightly sync still updates snaps and the playlist.
+`/music/`, `/books/`, `/quotes/`, and `/habits/` open from that menu. `/snaps/` forwards to `/`. `/me/` and `/daily/` forward to `/habits/`. `/confirmed/` still opens by URL. Each page starts with the same header: the orange italic title `✌️🤟🤙`, then the hamburger, then that page’s emoji subheader. The nightly sync still updates snaps and the playlist.
 
 ## snaps
 
-`/snaps/` is the photo grid (it was the homepage until the quiet strip). `python3 scripts/sync_snaps.py` reads the public Lightroom album and writes `site/snaps/`. Images stay on Adobe. Nothing with a location is stored.
+`/` is the photo grid (`site/index.html`). `/snaps/` forwards there. `python3 scripts/sync_snaps.py` reads the public Lightroom album and writes `site/snaps/`. Images stay on Adobe. Nothing with a location is stored.
 
 `site/snaps/snaps.json` is the index (`base`, `key`, and `months`, newest first). Each month is `site/snaps/m/YYYY-MM.json`, newest first. A photo is `{i, v, d, a, w, h, t, s, l, c}`: asset id, revision, Chicago date, capture time, oriented width and height, the 640 / 1280 / 2048 rendition ids, and a dominant color from the 640 JPEG. `a` is that capture clock tagged America/Chicago (`2026-10-25T07:33:00-05:00`). Each tile stamps it in the bottom-right as `2026.10.25 // 7:33am`, italic mono, readable without covering the photo. The lightbox repeats that line, centered under the photo. A photo with no time shows the date only. `scripts/snaps_colors.json` remembers those colors so the next run does not download an unchanged rendition.
 
@@ -34,7 +32,7 @@ The old grid asked for the 640 rendition and offered the 1280 in `srcset`. The l
 
 ## books
 
-`/books/` is the shelf. `site/books/books.json` and `site/books/covers/` stay in the repo. `site/books/books.js` groups covers by read year, newest year first, newest read first inside a year. A read of `YYYY-MM` (no day) sorts after every full date in that month. A book with no read date would land in a final `no date` group.
+`/books/` is the shelf. `site/books/books.json` and `site/books/covers/` stay in the repo. `site/books/books.js` groups covers by read year, newest year first, newest read first inside a year. A read of `YYYY-MM` (no day) sorts after every full date in that month. A book with no read date would land in a final `no date` group. A book with `"glow": "gold"` gets the pulsing gold border (`glow-gold`, a top recommendation). `"glow": "teal"` gets the pulsing teal border (`glow-teal`, a favorite).
 
 `python3 scripts/books_import.py site/books/books.json [goodreads.csv]` rebuilds the file and `site/books/covers/` from a Goodreads export. Ids listed in `scripts/books_hidden.json` are dropped. Covers in `scripts/books_cover_overrides.json` replace the Open Library fetch.
 
@@ -52,7 +50,7 @@ A new object in `quotes.json` is still just a commit. Nothing on the homepage re
 
 ## habits
 
-The grids are on `/` (`site/index.html`) and again on `/me/` (`site/me/index.html`), which is the full page from before the quiet strip. `/habits/` forwards to `/me/`. The grids, in order:
+The grids are on `/habits/` (`site/habits/index.html`). `/me/` and `/daily/` forward there. `/` is snaps. The grids, in order:
 
 | grid | file | what a cell is |
 |---|---|---|
@@ -62,7 +60,7 @@ The grids are on `/` (`site/index.html`) and again on `/me/` (`site/me/index.htm
 | sleep | `site/habits/sleep.json` | the 0–100 score (duration 50, bedtime consistency 30, interruptions 20) and minutes asleep. Colour steps are the 20th / 40th / 60th / 80th of the nonzero nights on screen. A streak is nights scoring 70 or more. A past night with no record stays empty. |
 | faith | `site/habits/faith.json` | from `start` through the day before `full`, the span splits into four levels. From `full` through today (America/Chicago) each day is a full cell, unless the date is in `no`. The browser fills a new day, so the grid moves forward without a commit. |
 
-The journal grid is hidden. Its section is commented out on `/` and on `/me/`, and `journal` is `"enabled": false` in `site/habits/trackers.json`. `journal.json` and `journal-jarvis.json` stay in the repo.
+The journal grid is hidden. Its section is commented out on `/habits/`, and `journal` is `"enabled": false` in `site/habits/trackers.json`. `journal.json` and `journal-jarvis.json` stay in the repo.
 
 `python3 scripts/habits.py all` rebuilds `cursor.json` from GitHub. Dates are author dates in America/Chicago. Merge commits are skipped. A pull request counts on the day it was opened and again on the day it merged. AI line edits come from `site/habits/cursor-lines.json` and are not fetched. The Pages workflow runs this before upload and still deploys if the fetch fails. A private repo needs `HABITS_GITHUB_TOKEN`. `python3 scripts/habits.py check` checks the schema and does not use the network.
 
@@ -82,4 +80,4 @@ The quote file is the commit described above, not a step in `snaps.yml`, and the
 
 ## what the homepage leaves off
 
-No Buttondown field, no konami row, no social icons, no matrix rain, and no teal/orange toggle on `/`. `/confirmed/` is the signup page again. The homepage does not load `rain.js` and has no `#rain` canvas. The restored pages still do: rain, glows, the title speed switch, the email field, and the konami row, as they were just before the quiet strip.
+No Buttondown field, no konami row, no social icons, no matrix rain, and no teal/orange toggle on `/`. `/confirmed/` is the signup page again. The homepage does not load `rain.js` and has no `#rain` canvas.

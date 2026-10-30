@@ -1,14 +1,182 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="quiet">
 <head>
 <meta charset="utf-8">
-<title>me</title>
-<!-- v2.77 (jay 2026.10.20): the grids page moved from /habits/ to /me/. location.replace keeps ?query and #hash. -->
-<script>location.replace("/me/" + location.search + location.hash)</script>
-<meta http-equiv="refresh" content="0; url=/me/">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex">
-<link rel="canonical" href="https://jayroddi.lol/me/">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8DYYL3KYM"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());(function(){var l=location.href;try{var u=new URL(l),d=[];u.searchParams.forEach(function(v,k){if(/mail/i.test(k)||v.indexOf('@')>=0)d.push(k);});d.forEach(function(k){u.searchParams.delete(k);});l=u.href;}catch(e){}gtag('config','G-G8DYYL3KYM',{page_location:l});})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
+<meta name="color-scheme" content="dark light">
+<script>document.documentElement.classList.add('js')</script>
+<title>habits</title>
+<link rel="stylesheet" href="/habits/habits.css?v=3.17">
+<link rel="stylesheet" href="/assets/rain.css?v=2.61">
+<link rel="icon" href="/favicon.ico?v=3" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=3">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=3">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">
+<link rel="manifest" href="/site.webmanifest?v=3">
+<link rel="canonical" href="https://jayroddi.lol/habits/">
+<meta name="description" content="a year of habits // code, fitness, faith, and sleep // the squares fill in">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="jayroddi.lol">
+<meta property="og:url" content="https://jayroddi.lol/habits/">
+<meta property="og:title" content="habits">
+<meta property="og:description" content="a year of habits // code, fitness, faith, and sleep // the squares fill in">
+<meta property="og:image" content="https://jayroddi.lol/og-card.png?v=4.0">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="🚀man">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@jayroddi">
+<meta name="twitter:url" content="https://jayroddi.lol/habits/">
+<meta name="twitter:title" content="habits">
+<meta name="twitter:description" content="a year of habits // code, fitness, faith, and sleep // the squares fill in">
+<meta name="twitter:image" content="https://jayroddi.lol/og-card.png?v=4.0">
+<meta name="twitter:image:alt" content="🚀man">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"habits","url":"https://jayroddi.lol/habits/","isPartOf":{"@type":"WebSite","name":"jayroddi.lol","url":"https://jayroddi.lol/"}}</script>
 </head>
-<body><p><a href="/me/">me</a></p></body>
+<body class="board">
+<main class="stage">
+  <div class="copy">
+    <header class="mast"><h1 class="pages"><a class="pages-t" href="/daily">✌️🤟🤙</a></h1>
+      <div class="site-menu">
+        <button type="button" class="menu-btn" aria-label="menu" aria-expanded="false" aria-controls="site-nav">
+          <svg viewBox="0 0 18 14" aria-hidden="true" focusable="false"><path d="M1 1.5h16M1 7h16M1 12.5h16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <nav id="site-nav" class="menu-panel" aria-label="pages" hidden>
+          <ul>
+            <li><a href="/daily">daily</a></li>
+            <li><a href="/">snaps</a></li>
+            <li><a href="/music">music</a></li>
+            <li><a href="/books">books</a></li>
+            <li><a href="/quotes">quotes</a></li>
+            <li><a href="/habits">habits</a></li>
+            <li><a class="soc" href="https://x.com/jayroddi" target="_blank" rel="noopener noreferrer">@jayroddi</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <p class="subhead">📊</p>
+    <div class="trackers">
+      <section class="tracker" data-id="cursor" data-unit="contribution" data-src="/habits/cursor.json" aria-label="code">
+        <h2 class="kicker"><span class="kt">code</span></h2>
+        <div class="fit">
+          <div class="graph">
+            <div class="months"></div>
+            <div class="dow" aria-hidden="true"><span>mon</span><span></span><span>wed</span><span></span><span>fri</span><span></span><span></span></div>
+            <div class="weeks"></div>
+          </div>
+          <p class="legend"><span>less</span><span class="swatches" aria-hidden="true"><i data-lv="0"></i><i data-lv="1"></i><i data-lv="2"></i><i data-lv="3"></i><i data-lv="4"></i><i data-lv="5"></i></span><span>more</span></p>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="sl">year</span><b class="sv" data-k="total">0</b></div>
+          <div class="stat"><span class="sl">most active month</span><b class="sv" data-k="month">—</b></div>
+          <div class="stat"><span class="sl">most active day</span><b class="sv" data-k="day">—</b></div>
+          <div class="stat"><span class="sl">longest streak</span><b class="sv" data-k="longest">0d</b></div>
+          <div class="stat"><span class="sl">current streak</span><b class="sv" data-k="current">0d</b></div>
+        </div>
+      </section>
+      <section class="tracker" data-id="workouts" data-unit="workout" data-metric="minutes" data-src="/habits/workouts.json" aria-label="workouts">
+        <h2 class="kicker"><span class="kt">workouts</span></h2>
+        <div class="fit">
+          <div class="graph">
+            <div class="months"></div>
+            <div class="dow" aria-hidden="true"><span>mon</span><span></span><span>wed</span><span></span><span>fri</span><span></span><span></span></div>
+            <div class="weeks"></div>
+          </div>
+          <p class="legend"><span>less</span><span class="swatches" aria-hidden="true"><i data-lv="0"></i><i data-lv="1"></i><i data-lv="2"></i><i data-lv="3"></i><i data-lv="4"></i><i data-lv="5"></i></span><span>more</span></p>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="sl">year</span><b class="sv" data-k="total">0</b></div>
+          <div class="stat"><span class="sl">most active month</span><b class="sv" data-k="month">—</b></div>
+          <div class="stat"><span class="sl">most active day</span><b class="sv" data-k="day">—</b></div>
+          <div class="stat"><span class="sl">longest streak</span><b class="sv" data-k="longest">0d</b></div>
+          <div class="stat"><span class="sl">current streak</span><b class="sv" data-k="current">0d</b></div>
+        </div>
+      </section>
+      <section class="tracker" data-id="steps" data-kind="steps" data-unit="step" data-src="/habits/steps.json" aria-label="steps">
+        <h2 class="kicker"><span class="kt">steps</span></h2>
+        <div class="fit">
+          <div class="graph">
+            <div class="months"></div>
+            <div class="dow" aria-hidden="true"><span>mon</span><span></span><span>wed</span><span></span><span>fri</span><span></span><span></span></div>
+            <div class="weeks"></div>
+          </div>
+          <p class="legend"><span>less</span><span class="swatches" aria-hidden="true"><i data-lv="0"></i><i data-lv="1"></i><i data-lv="2"></i><i data-lv="3"></i><i data-lv="4"></i><i data-lv="5"></i></span><span>more</span></p>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="sl">year</span><b class="sv" data-k="total">0</b></div>
+          <div class="stat"><span class="sl">most active month</span><b class="sv" data-k="month">—</b></div>
+          <div class="stat"><span class="sl">most active day</span><b class="sv" data-k="day">—</b></div>
+          <div class="stat"><span class="sl">longest streak</span><b class="sv" data-k="longest">0d</b></div>
+          <div class="stat"><span class="sl">current streak</span><b class="sv" data-k="current">0d</b></div>
+        </div>
+      </section>
+      <section class="tracker" data-id="sleep" data-kind="sleep" data-unit="night" data-src="/habits/sleep.json" aria-label="sleep">
+        <h2 class="kicker"><span class="kt">sleep</span></h2>
+        <div class="fit">
+          <div class="graph">
+            <div class="months"></div>
+            <div class="dow" aria-hidden="true"><span>mon</span><span></span><span>wed</span><span></span><span>fri</span><span></span><span></span></div>
+            <div class="weeks"></div>
+          </div>
+          <p class="legend"><span>less</span><span class="swatches" aria-hidden="true"><i data-lv="0"></i><i data-lv="1"></i><i data-lv="2"></i><i data-lv="3"></i><i data-lv="4"></i><i data-lv="5"></i></span><span>more</span></p>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="sl">year avg score</span><b class="sv" data-k="total">0</b></div>
+          <div class="stat"><span class="sl">best month</span><b class="sv" data-k="month">—</b></div>
+          <div class="stat"><span class="sl">best night</span><b class="sv" data-k="day">—</b></div>
+          <div class="stat"><span class="sl">longest streak</span><b class="sv" data-k="longest">0d</b></div>
+          <div class="stat"><span class="sl">current streak</span><b class="sv" data-k="current">0d</b></div>
+        </div>
+      </section>
+      <section class="tracker" data-id="faith" data-kind="faith" data-unit="day" data-src="/habits/faith.json" aria-label="faith">
+        <h2 class="kicker"><span class="kt">faith</span></h2>
+        <div class="fit">
+          <div class="graph">
+            <div class="months"></div>
+            <div class="dow" aria-hidden="true"><span>mon</span><span></span><span>wed</span><span></span><span>fri</span><span></span><span></span></div>
+            <div class="weeks"></div>
+          </div>
+          <p class="legend"><span>less</span><span class="swatches" aria-hidden="true"><i data-lv="0"></i><i data-lv="1"></i><i data-lv="2"></i><i data-lv="3"></i><i data-lv="4"></i><i data-lv="5"></i></span><span>more</span></p>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="sl">year</span><b class="sv" data-k="total">0</b></div>
+          <div class="stat"><span class="sl">most active month</span><b class="sv" data-k="month">—</b></div>
+          <div class="stat"><span class="sl">most active day</span><b class="sv" data-k="day">—</b></div>
+          <div class="stat"><span class="sl">longest streak</span><b class="sv" data-k="longest">0d</b></div>
+          <div class="stat"><span class="sl">current streak</span><b class="sv" data-k="current">0d</b></div>
+        </div>
+      </section>
+      <!-- (jay 2026.10.19): journal grid hidden for now. to bring it back, move this section out of the comment and set
+           "enabled": true for journal in /habits/trackers.json. journal.json, journal-jarvis.json and the nightly counts are untouched.
+      <section class="tracker" data-id="journal" data-kind="journal" data-unit="note" data-src="/habits/journal.json" aria-label="journal">
+        <h2 class="kicker"><span class="kt">journal</span></h2>
+        <div class="fit">
+          <div class="graph">
+            <div class="months"></div>
+            <div class="dow" aria-hidden="true"><span>mon</span><span></span><span>wed</span><span></span><span>fri</span><span></span><span></span></div>
+            <div class="weeks"></div>
+          </div>
+          <p class="legend"><span>less</span><span class="swatches" aria-hidden="true"><i data-lv="0"></i><i data-lv="1"></i><i data-lv="2"></i><i data-lv="3"></i><i data-lv="4"></i><i data-lv="5"></i></span><span>more</span></p>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="sl">year</span><b class="sv" data-k="total">0</b></div>
+          <div class="stat"><span class="sl">most active month</span><b class="sv" data-k="month">—</b></div>
+          <div class="stat"><span class="sl">most active day</span><b class="sv" data-k="day">—</b></div>
+          <div class="stat"><span class="sl">longest streak</span><b class="sv" data-k="longest">0d</b></div>
+          <div class="stat"><span class="sl">current streak</span><b class="sv" data-k="current">0d</b></div>
+        </div>
+      </section>
+      -->
+    </div>
+  </div>
+</main>
+<script src="/habits/habits.js?v=2.63" defer></script>
+<script src="/assets/menu.js?v=1" defer></script>
+</body>
 </html>

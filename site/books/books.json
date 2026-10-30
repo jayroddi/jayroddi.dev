@@ -1,7 +1,22 @@
 {
  "source": "goodreads export",
- "count": 106,
+ "count": 107,
  "books": [
+  {
+   "id": "9781401999278",
+   "title": "You Can’t Please Everyone",
+   "author": "Vex King",
+   "isbn": "9781401999278",
+   "read": "2026-10-30",
+   "added": "2026-10-30",
+   "pages": 336,
+   "year": "2026",
+   "read_count": 1,
+   "cover": "/books/covers/9781401999278.jpg",
+   "cover_source": "manual: publisher cover (Penguin Random House, ISBN 9781401999278)",
+   "url": "https://www.penguinrandomhouse.com/books/827957/you-cant-please-everyone-by-vex-king/",
+   "glow": "gold"
+  },
   {
    "id": "244445079",
    "title": "Unsayable: A Life in Writing",
