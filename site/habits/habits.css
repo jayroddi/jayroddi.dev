@@ -34,12 +34,17 @@ body.board .mast .pages:focus-visible{outline:2px solid var(--c);outline-offset:
 body.board .mast button.pages .pages-t{display:inline-block;color:inherit;font-style:italic;animation:title-glow 1.05s ease-in-out infinite}
 body.board .mast h1.pages .pages-t{display:inline;color:inherit;font-style:italic;white-space:normal}
 @media (prefers-reduced-motion:reduce){body.board .mast button.pages .pages-t{animation:none;text-shadow:0 0 8px rgba(var(--c-rgb),.75)}}
-/* v3.19: the shared title is an h1, ✌️🇺🇸🤟🇯🇵🤘🇳🇿🤙, a link to /daily (the quote feed). teal #1AADB3, the same teal as the hamburger. italic, and it does not pulse or glow. both themes keep this teal; it does not follow the light-theme shift. */
-body.board .mast h1.pages{color:#1AADB3;text-shadow:none;cursor:default}
-body.board .mast h1.pages a{color:#1AADB3;text-decoration:none;cursor:pointer}
-body.board .mast h1.pages a:hover{color:#1AADB3}
+/* v3.20: the shared title is an h1 linking to /daily: ✌️🤟🤙 // jayroddi.dev // 🇺🇸🇯🇵🇳🇿. only jayroddi.dev is teal #1AADB3. the // separators are --fg (white in dark, black in light). the emoji stay their own colour. italic, and it does not pulse or glow. */
+body.board .mast h1.pages{color:var(--fg);text-shadow:none;cursor:default}
+body.board .mast h1.pages a{color:inherit;text-decoration:none;cursor:pointer}
+body.board .mast h1.pages a:hover{color:inherit}
+body.board .mast h1.pages a .chunk{white-space:nowrap}
+body.board .mast h1.pages a .dom{color:#1AADB3}
+body.board .mast h1.pages a .sep{color:var(--fg)}
+body.board .mast h1.pages a:hover .dom{color:#1AADB3}
+body.board .mast h1.pages a:hover .sep{color:var(--fg)}
 html.quiet body.board .mast .pages{text-shadow:none;cursor:default}
-html.quiet body.board .mast h1.pages{color:#1AADB3}
+html.quiet body.board .mast h1.pages{color:var(--fg)}
 html.quiet body.board .mast .pages .pages-t{animation:none;text-shadow:none}
 /* v3.14: the gap under the title matches the gap under the subtitle. the mast already has margin-bottom: --habit-gap (16px). the subtitle used to pull up over that with margin-top: calc(-1 * var(--habit-gap) + 6px), which left 6px between the title block and the subtitle while the subtitle kept 16px before the content. margin-top is 0 now, so both gaps are --habit-gap. */
 /* v3.17: teal page subheads are 11px at every width, including under 360px. that is the smaller size the month and year captions already used, and the size the old 13px / 11px-under-360 step used on a narrow screen. the line is one emoji. */
@@ -324,7 +329,7 @@ body.board .menu-panel[hidden]{display:none}
 body.board .menu-panel ul{list-style:none;margin:0;padding:0}
 body.board .menu-panel a{display:flex;align-items:center;min-height:40px;padding:0 18px;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;line-height:1.25;letter-spacing:normal;color:var(--c);text-decoration:none;text-shadow:none;white-space:nowrap;-webkit-tap-highlight-color:transparent}
 body.board .menu-panel a:hover{color:var(--c);background:rgba(var(--c-rgb),.08)}
-/* v3.19: the one menu social line (@jayroddi) follows the system, white in dark and black in light (--fg). the hamburger and the title are teal #1AADB3. */
+/* v3.20: the one menu social line (@jayroddi) follows the system, white in dark and black in light (--fg). the hamburger is teal #1AADB3. the title's domain is that same teal; its // marks use --fg. */
 body.board .menu-panel a.soc{color:var(--fg)}
 body.board .menu-panel a.soc:hover{color:var(--fg);background:rgba(var(--fg-rgb),.08)}
 body.board .menu-panel a.soc:focus-visible{outline-color:var(--fg)}
