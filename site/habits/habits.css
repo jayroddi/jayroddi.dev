@@ -20,7 +20,7 @@ a:hover{color:var(--c)}
 /* the board scrolls. --habit-gap is the only vertical step: above each title, between a graph and its stats, and between sections. a new habit is another .tracker inside .trackers, and it picks up this step with no other layout change. the column is the shared --col (rain.css). */
 body.board{--habit-gap:16px;--left:max(24px,calc((100vw - 777.6px)/2));--edge:var(--left);--col:min(777.6px,calc(100vw - 48px));height:auto;min-height:100svh;overflow-x:hidden;display:flex;flex-direction:column}
 body.board .stage{position:relative;z-index:2;flex:none;display:flex;align-items:flex-start;justify-content:center;padding:48px 0 var(--habit-gap)}
-body.board .copy{margin-left:auto;margin-right:auto;width:var(--col);max-width:var(--col);display:flex;flex-direction:column;align-items:center;font-size:16px;text-align:center;text-shadow:0 0 8px rgba(var(--bg-rgb),.8)}
+body.board .copy{margin-left:auto;margin-right:auto;width:var(--col);max-width:var(--col);display:flex;flex-direction:column;align-items:center;font-size:14px;text-align:center;text-shadow:0 0 8px rgba(var(--bg-rgb),.8)}
 body.board .trackers,body.board .tracker,body.board .fit,body.board .graph{width:100%}
 body.board .kicker,body.board .legend,body.board .stat,body.board .status{text-align:center}
 body.board .legend{justify-content:center}
@@ -80,9 +80,10 @@ body.board .quotes li + li{margin-top:35.5px}
 body.board .quotes .d,
 body.board .quotes .q,
 body.board .quotes .by{margin:0;font-family:var(--mono);font-weight:500}
+/* v3.24: quote date, words, and name are the hamburger size (14px) at every width. a phone used to drop them to 12 / 14 / 13. */
 body.board .quotes .d{font-size:14px;line-height:1.5;color:rgba(var(--c-rgb),.75);text-align:left}
-body.board .quotes .q{margin-top:4px;font-size:16px;line-height:1.65;color:var(--ink-2);text-align:left;text-transform:lowercase;white-space:pre-line;overflow-wrap:anywhere}
-body.board .quotes .by{margin-top:4px;font-size:15px;line-height:1.5;color:var(--c);text-align:right;text-transform:lowercase}
+body.board .quotes .q{margin-top:4px;font-size:14px;line-height:1.65;color:var(--ink-2);text-align:left;text-transform:lowercase;white-space:pre-line;overflow-wrap:anywhere}
+body.board .quotes .by{margin-top:4px;font-size:14px;line-height:1.5;color:var(--c);text-align:right;text-transform:lowercase}
 .visually-hidden,.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .home{display:inline-block;margin:0 0 8px;font-size:14px;line-height:1.5;color:var(--c);letter-spacing:.02em}
 body.board .home{margin:0 0 var(--habit-gap)}
@@ -100,13 +101,18 @@ body.board .graph{width:100%}
   --weeks:53;
   --gap:3px;
   --lab:28px;
+  --lgap:6px;
   --mh:14px;
   width:100%;
   display:grid;
   grid-template-columns:var(--lab) minmax(0,1fr);
   grid-template-rows:var(--mh) auto;
-  column-gap:6px;
+  column-gap:var(--lgap);
   row-gap:2px;
+}
+/* v3.24: on a desktop the weekday names hang in the left margin, so the squares and month labels share the column's left edge with the header and with /daily. the gutter used to sit inside the column and push that grid 34px right. a phone already drops the names (--lab 0). under 900px the side margin is too small to hold them, so they stay in the column. */
+@media (min-width:900px){
+  body.board .graph{margin-left:calc(-1 * (var(--lab) + var(--lgap)));width:calc(100% + var(--lab) + var(--lgap))}
 }
 .months{grid-column:2;grid-row:1;display:grid;grid-template-columns:repeat(var(--weeks), minmax(0, 1fr));gap:var(--gap);height:var(--mh);overflow:visible}
 .months span{font-size:10px;line-height:1;font-weight:400;color:var(--ink-3);white-space:nowrap;overflow:visible}
@@ -140,7 +146,7 @@ body.board .graph{width:100%}
 @keyframes today-cursor{0%,100%{opacity:1}50%{opacity:.32}}
 @media (prefers-reduced-motion:reduce){.cell.today:not(.sweep){animation:none;opacity:1}}
 
-.legend{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;margin:0;min-height:1.5em;font-size:12px;line-height:1.2;font-weight:400;color:var(--ink-3)}
+.legend{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;margin:0;min-height:1.5em;font-size:14px;line-height:1.2;font-weight:400;color:var(--ink-3)}
 .swatches{display:inline-flex;gap:3px}
 .swatches i{width:10px;height:10px;display:block}
 
@@ -148,7 +154,7 @@ body.board .graph{width:100%}
 .stat .sl{display:block;min-height:2.3em;font-size:11px;line-height:1.15;font-weight:400;color:var(--ink-3)}
 .stat .sv{display:block;min-height:1.25em;font-size:14px;line-height:1.25;font-weight:500;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-.tip{position:fixed;z-index:40;left:0;top:0;max-width:calc(100vw - 16px);padding:6px 8px;background:var(--bg);color:var(--fg);border:1px solid rgba(var(--ink-rgb),.4);border-radius:4px;font-size:12px;line-height:1.35;font-weight:400;pointer-events:none;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.tip{position:fixed;z-index:40;left:0;top:0;max-width:calc(100vw - 16px);padding:6px 8px;background:var(--bg);color:var(--fg);border:1px solid rgba(var(--ink-rgb),.4);border-radius:4px;font-size:14px;line-height:1.35;font-weight:400;pointer-events:none;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.35)}
 .tip[hidden]{display:none}
 
 .scr{color:var(--fg);font-weight:500;text-shadow:0 0 10px rgba(var(--c-lt-rgb),.9)}
@@ -156,7 +162,7 @@ body.board .graph{width:100%}
 .cursor{display:inline-block;width:.58em;height:1.08em;vertical-align:-.2em;margin-left:.08em;margin-right:-.66em;background:var(--c);box-shadow:0 0 14px rgba(var(--c-rgb),.75);animation:blink 1.05s infinite}
 @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
 a:focus-visible{outline:2px solid var(--c);outline-offset:2px}
-.none{font-size:16px;line-height:1.6;color:var(--ink-2)}
+.none{font-size:14px;line-height:1.6;color:var(--ink-2)}
 
 /* day pages scroll. the board scrolls too. */
 body.day .stage{position:relative;z-index:2;min-height:100vh;min-height:100svh;display:flex;align-items:flex-start;padding:clamp(28px,6vh,72px) 0 clamp(48px,8vh,88px)}
@@ -202,17 +208,15 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
   body.board .mast .nav{font-size:13px}
   body.board .copy > .note-line{font-size:13px}
   body.board .copy{min-width:0}
-  .kicker,.tracker .kicker{font-size:13px}
   .daysec h2{font-size:17px}
   body.board .graph{width:100%;--gap:1px;--lab:0px;--mh:13px;grid-template-columns:minmax(0,1fr);column-gap:0}
   body.board .months{grid-column:1}
   body.board .dow{display:none}
   body.board .weeks{grid-column:1}
-  .legend{font-size:11px;gap:3px 8px}
+  .legend{gap:3px 8px}
   .tip{white-space:normal}
   .stats{grid-template-columns:repeat(3, minmax(0, 1fr));gap:6px 8px}
   .stat .sl{font-size:10px}
-  .stat .sv{font-size:13px}
   body.day .copy{min-width:0}
   body.day .home{margin-bottom:16px}
   body.day .stage{padding:22px 0 28px}
@@ -222,9 +226,7 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
   body.board .quotes{margin-top:36px}
   body.board .copy > .quotes{margin-top:0}
   body.board .quotes li + li{margin-top:27.5px}
-  body.board .quotes .d{font-size:12px}
-  body.board .quotes .q{font-size:14px;line-height:1.6}
-  body.board .quotes .by{font-size:13px}
+  body.board .quotes .q{line-height:1.6}
 }
 
 /* v2.17: konami row and the gold flight, from the pre-v2.16 homepage. */
@@ -327,6 +329,7 @@ body.board .menu-btn:focus-visible{outline:2px solid #1AADB3;outline-offset:2px}
 body.board .menu-panel{position:absolute;top:calc(100% + 6px);right:0;z-index:1;min-width:9.5rem;margin:0;padding:6px 0;border:1px solid rgba(var(--c-rgb),.4);border-radius:8px;background:var(--bg,#000);box-shadow:0 12px 32px rgba(0,0,0,.28);text-align:left;text-shadow:none}
 body.board .menu-panel[hidden]{display:none}
 body.board .menu-panel ul{list-style:none;margin:0;padding:0}
+/* v3.24: 14px is the body size. the nav links and @jayroddi use it, and the page text matches them. */
 body.board .menu-panel a{display:flex;align-items:center;min-height:40px;padding:0 18px;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;line-height:1.25;letter-spacing:normal;color:var(--c);text-decoration:none;text-shadow:none;white-space:nowrap;-webkit-tap-highlight-color:transparent}
 body.board .menu-panel a:hover{color:var(--c);background:rgba(var(--c-rgb),.08)}
 /* v3.20: the one menu social line (@jayroddi) follows the system, white in dark and black in light (--fg). the hamburger is teal #1AADB3. the title's domain is that same teal; its // marks use --fg. */
