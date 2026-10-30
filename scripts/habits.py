@@ -55,7 +55,7 @@ SLEEP = HABITS / "sleep.json"
 STEPS = HABITS / "steps.json"
 STEPS_CUTS = [2500, 5000, 7500, 10000]
 # snaps live on / (site/index.html). habit grids live on /habits/ (site/habits/index.html).
-# /me/ and /daily/ forward to /habits/. day pages still forward home (/).
+# /me/ forwards to /habits/. /daily/ is the quote feed. day pages still forward home (/).
 HOME = HABITS.parent / "index.html"
 INDEX = HABITS / "index.html"
 ME = HABITS.parent / "me" / "index.html"

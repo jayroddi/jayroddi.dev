@@ -8,13 +8,13 @@ The homepage is the snaps photo grid. The ground is plain and follows the system
 
 In order:
 
-1. `✌️🤟🤙`. The title is brand orange `#FF4D1A`, italic, the same treatment in both themes. It does not pulse, glow, or change colour. It is a link to `/daily`, which forwards to `/habits/` (the habit grids). There is no underline and no name under it. The space under the title matches the space under the teal subtitle (`--habit-gap`, 16px).
-2. A teal page subheader, one emoji and no words, brand teal `#1AADB3`, italic, 11px at every width (also 11px under 360px). `/` is `📷`. `/music/` is `🎧`. `/books/` is `📚`. `/quotes/` is `💬`. `/habits/` is `📊`.
+1. `✌️🇺🇸🤟🇯🇵🤘🇳🇿🤙`. The title is brand orange `#FF4D1A`, italic, the same treatment in both themes. It does not pulse, glow, or change colour. It is a link to `/daily`, the quote feed. There is no underline and no name under it. The space under the title matches the space under the teal subtitle (`--habit-gap`, 16px).
+2. A teal page subheader, one emoji and no words, brand teal `#1AADB3`, italic, 11px at every width (also 11px under 360px). `/` is `📷`. `/daily/` is `🗓️`. `/music/` is `🎧`. `/books/` is `📚`. `/quotes/` is `💬`. `/habits/` is `🗓️`.
 3. On `/`, the photo grid. The habit grids (code, workouts, steps, sleep, faith) live on `/habits/`.
 
-A menu button is vertically centered on the title block, at the right edge of the content column, on `/` and on every page that shares this header, on a wide screen and on a phone. The title is one line, and the icon centers on that line. It is three short lines in `#FF4D1A`. A tap opens a small panel, not a full-screen menu: daily, snaps, music, books, quotes, habits, then `@jayroddi`. Page links stay teal. `@jayroddi` follows the system (white in dark, black in light) and links to https://x.com/jayroddi. It is not orange. Orange `#FF4D1A` stays on the hamburger and the title. Snaps points at `/`. Habits is the last page link, immediately before `@jayroddi`. The current page is underlined. Escape and a click outside close it. There is no center nav, email field, konami row, or social icon row.
+A menu button is vertically centered on the title block, at the right edge of the content column, on `/` and on every page that shares this header, on a wide screen and on a phone. The title is one line, and the icon centers on that line. It is three short lines in `#FF4D1A`. A tap opens a small panel, not a full-screen menu: snaps, music, books, quotes, habits, then `@jayroddi`. Daily is not in the menu. Page links stay teal. `@jayroddi` follows the system (white in dark, black in light) and links to https://x.com/jayroddi. It is not orange. Orange `#FF4D1A` stays on the hamburger and the title. Snaps points at `/`. Habits is the last page link, immediately before `@jayroddi`. The current page is underlined. Escape and a click outside close it. There is no center nav, email field, konami row, or social icon row.
 
-`/music/`, `/books/`, `/quotes/`, and `/habits/` open from that menu. `/snaps/` forwards to `/`. `/me/` and `/daily/` forward to `/habits/`. `/confirmed/` still opens by URL. Each page starts with the same header: the orange italic title `✌️🤟🤙`, then the hamburger, then that page’s emoji subheader. The nightly sync still updates snaps and the playlist.
+`/music/`, `/books/`, `/quotes/`, and `/habits/` open from that menu. `/snaps/` forwards to `/`. `/me/` forwards to `/habits/`. `/daily/` is the quote feed (the same list as `/quotes/`). `/confirmed/` still opens by URL. Each page starts with the same header: the orange italic title `✌️🇺🇸🤟🇯🇵🤘🇳🇿🤙`, then the hamburger, then that page’s emoji subheader. The nightly sync still updates snaps and the playlist.
 
 ## snaps
 
@@ -44,13 +44,13 @@ The old grid asked for the 640 rendition and offered the 1280 in `srcset`. The l
 {"date": "YYYY-MM-DD", "text": "the quote", "author": "Name"}
 ```
 
-`date` is America/Chicago. `/quotes/` reads that file. `/quote-of-the-day/` still forwards home. The homepage header is the title in `site/index.html`. It does not rotate.
+`date` is America/Chicago. `/quotes/` and `/daily/` read that file. `/quote-of-the-day/` still forwards home. The homepage header is the title in `site/index.html`. It does not rotate.
 
 A new object in `quotes.json` is still just a commit. Nothing on the homepage reads that file.
 
 ## habits
 
-The grids are on `/habits/` (`site/habits/index.html`). `/me/` and `/daily/` forward there. `/` is snaps. The grids, in order:
+The grids are on `/habits/` (`site/habits/index.html`). `/me/` forwards there. `/` is snaps. `/daily/` is the quote feed. The grids, in order:
 
 | grid | file | what a cell is |
 |---|---|---|
