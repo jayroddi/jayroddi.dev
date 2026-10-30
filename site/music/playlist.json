@@ -1,26 +1,26 @@
 {
  "playlist": {
   "id": "2gnGKUyfcjB5aecShkH33N",
-  "name": "the taste of ink",
+  "name": "somewhere i belong",
   "owner": "jayroddi",
   "url": "https://open.spotify.com/playlist/2gnGKUyfcjB5aecShkH33N",
-  "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84ce5b316b1e9a30e1e9b46262"
+  "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84ce5b316b1e9a30e1e9b46262"
  },
  "source": "spotify web api (user refresh token)",
- "count": 368,
- "albums": 309,
+ "count": 369,
+ "albums": 310,
  "skipped": 0,
  "tracks": [
   {
    "n": 1,
-   "name": "The Taste of Ink",
-   "artists": "The Used",
-   "album_id": "57d5dFo7oN2yUyGfSKPrRv",
-   "album": "The Used",
-   "cover": "https://i.scdn.co/image/ab67616d00001e02850d8da4ce418aba90f156d0",
-   "url": "https://open.spotify.com/track/5jZ1Z2GFTf2gwmFc3qiUxs",
-   "explicit": true,
-   "duration_ms": 208693
+   "name": "Somewhere I Belong",
+   "artists": "Linkin Park",
+   "album_id": "4Gfnly5CzMJQqkUFfoHaP3",
+   "album": "Meteora",
+   "cover": "https://i.scdn.co/image/ab67616d00001e025f1f51d14e8bea89484ecd1b",
+   "url": "https://open.spotify.com/track/3agtg0x11wPvLIWkYR39nZ",
+   "explicit": false,
+   "duration_ms": 213933
   },
   {
    "n": 2,
@@ -35,6 +35,17 @@
   },
   {
    "n": 3,
+   "name": "The Taste of Ink",
+   "artists": "The Used",
+   "album_id": "57d5dFo7oN2yUyGfSKPrRv",
+   "album": "The Used",
+   "cover": "https://i.scdn.co/image/ab67616d00001e02850d8da4ce418aba90f156d0",
+   "url": "https://open.spotify.com/track/5jZ1Z2GFTf2gwmFc3qiUxs",
+   "explicit": true,
+   "duration_ms": 208693
+  },
+  {
+   "n": 4,
    "name": "lifeisgood",
    "artists": "Bilmuri",
    "album_id": "63Tn8e7etpMuOX8h8ZChGI",
@@ -45,7 +56,7 @@
    "duration_ms": 168500
   },
   {
-   "n": 4,
+   "n": 5,
    "name": "Rocket Man (I Think It's Going To Be A Long, Long Time)",
    "artists": "Elton John",
    "album_id": "2ei2X6ghPnw7YRwQtAH075",
@@ -56,7 +67,7 @@
    "duration_ms": 281613
   },
   {
-   "n": 5,
+   "n": 6,
    "name": "Car Radio",
    "artists": "Twenty One Pilots",
    "album_id": "2r2r78NE05YjyHyVbVgqFn",
@@ -67,7 +78,7 @@
    "duration_ms": 267720
   },
   {
-   "n": 6,
+   "n": 7,
    "name": "If You Have To",
    "artists": "Ella Langley",
    "album_id": "6G8k0Ah1l0Nr94WKyU8G7p",
@@ -78,7 +89,7 @@
    "duration_ms": 199493
   },
   {
-   "n": 7,
+   "n": 8,
    "name": "Iris",
    "artists": "The Goo Goo Dolls",
    "album_id": "4UMjBXcRqIgMZ1XumU2x5T",
@@ -89,7 +100,7 @@
    "duration_ms": 289533
   },
   {
-   "n": 8,
+   "n": 9,
    "name": "Fire Fly",
    "artists": "Childish Gambino",
    "album_id": "01MRGgNbfWrE291tQjw9ta",
@@ -100,7 +111,7 @@
    "duration_ms": 203053
   },
   {
-   "n": 9,
+   "n": 10,
    "name": "California - Tchad Blake Mix",
    "artists": "Phantom Planet",
    "album_id": "4SvTjA2cwASS1cWzEIG0WD",
@@ -111,7 +122,7 @@
    "duration_ms": 193933
   },
   {
-   "n": 10,
+   "n": 11,
    "name": "Unbelievable",
    "artists": "Owl City, Hanson",
    "album_id": "6P9CHi6Dx26YWHeE3aTZiz",
@@ -122,7 +133,7 @@
    "duration_ms": 193493
   },
   {
-   "n": 11,
+   "n": 12,
    "name": "Don't tell your dreams (Afrobeat)",
    "artists": "LOVIXX",
    "album_id": "78fonjg6heuumf5iRQKP8Y",
@@ -133,7 +144,7 @@
    "duration_ms": 147760
   },
   {
-   "n": 12,
+   "n": 13,
    "name": "Better Now",
    "artists": "Post Malone",
    "album_id": "6trNtQUgC8cgbWcqoMYkOR",
@@ -144,7 +155,7 @@
    "duration_ms": 231266
   },
   {
-   "n": 13,
+   "n": 14,
    "name": "Destined",
    "artists": "Bohemians",
    "album_id": "1TjwXqJul5RvPg1PQFLlHn",
@@ -155,7 +166,7 @@
    "duration_ms": 338745
   },
   {
-   "n": 14,
+   "n": 15,
    "name": "Tiny Dancer",
    "artists": "Elton John",
    "album_id": "2OZbaW9tgO62ndm375lFZr",
@@ -166,7 +177,7 @@
    "duration_ms": 377093
   },
   {
-   "n": 15,
+   "n": 16,
    "name": "Sunflower - Spider-Man: Into the Spider-Verse",
    "artists": "Post Malone, Swae Lee",
    "album_id": "35s58BRTGAEWztPo9WqCIs",
@@ -177,7 +188,7 @@
    "duration_ms": 158040
   },
   {
-   "n": 16,
+   "n": 17,
    "name": "Heartbeat",
    "artists": "Childish Gambino",
    "album_id": "01MRGgNbfWrE291tQjw9ta",
@@ -186,17 +197,6 @@
    "url": "https://open.spotify.com/track/5AGQSF0ytihJyt96K5vW9d",
    "explicit": true,
    "duration_ms": 269840
-  },
-  {
-   "n": 17,
-   "name": "Somewhere I Belong",
-   "artists": "Linkin Park",
-   "album_id": "4Gfnly5CzMJQqkUFfoHaP3",
-   "album": "Meteora",
-   "cover": "https://i.scdn.co/image/ab67616d00001e025f1f51d14e8bea89484ecd1b",
-   "url": "https://open.spotify.com/track/3agtg0x11wPvLIWkYR39nZ",
-   "explicit": false,
-   "duration_ms": 213933
   },
   {
    "n": 18,
@@ -4058,7 +4058,18 @@
    "url": "https://open.spotify.com/track/6liaHE9iHh23PLVvw7lK8V",
    "explicit": false,
    "duration_ms": 273826
+  },
+  {
+   "n": 369,
+   "name": "Cooped Up / Return Of The Mack",
+   "artists": "Post Malone, Mark Morrison, Sickick",
+   "album_id": "4G0HO7POrjMX9cKLX2KxkF",
+   "album": "Cooped Up / Return Of The Mack",
+   "cover": "https://i.scdn.co/image/ab67616d00001e02ab9f26db4d9b84e4159743b4",
+   "url": "https://open.spotify.com/track/6Ole34qqbgkZ60IyrcVm7e",
+   "explicit": true,
+   "duration_ms": 127253
   }
  ],
- "fetched": "2026-10-30T16:50:45Z"
+ "fetched": "2026-10-30T19:36:46Z"
 }
