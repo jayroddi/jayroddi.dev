@@ -1,4 +1,4 @@
-/* books.css v0.3 (jay 2026.10.30): covers stay the same grid. glow-gold is a top recommendation (pulsing gold border). glow-teal is a favorite (pulsing teal border). each read-year is a .year, newest first.
+/* books.css v0.4 (jay 2026.10.30): covers stay the same grid. glow-gold is an explicit top recommendation (pulsing gold border). glow-orange is a favorite (pulsing brand-orange #FF4D1A border). each read-year is a .year, newest first.
    the heading matches the snaps month caption (snaps.css .month h2): italic mono, 11px / 10px on a phone,
    --c, 22px above and 10px below. those month headings are not sticky, so these are not either.
    the first year sits under the note the way the first month sits under the backlog (margin-top 0). */
@@ -17,15 +17,15 @@ body.board .covers .cap{position:absolute;left:0;right:0;bottom:0;padding:14px 6
 @media (hover:hover){body.board .covers a:hover .cap{opacity:1}}
 body.board .covers a:focus-visible .cap,body.board .covers a.show .cap{opacity:1}
 body.board .covers a:focus-visible{outline:2px solid var(--c);outline-offset:-2px}
-/* gold: top recommendation. teal: favorite. the border pulses on the cover. reduced motion keeps a steady glow. */
+/* gold: explicit top recommendation. orange: favorite. the border pulses on the cover. reduced motion keeps a steady glow. */
 @keyframes book-glow-gold{0%,100%{box-shadow:inset 0 0 0 2px #C9A227,0 0 8px 1px rgba(255,215,0,.55)}50%{box-shadow:inset 0 0 0 2px #FFE566,0 0 18px 4px rgba(255,215,0,.95)}}
-@keyframes book-glow-teal{0%,100%{box-shadow:inset 0 0 0 2px #0E7C81,0 0 8px 1px rgba(26,173,179,.55)}50%{box-shadow:inset 0 0 0 2px #5FD6DA,0 0 18px 4px rgba(26,173,179,.95)}}
-body.board .covers li.glow-gold,body.board .covers li.glow-teal{overflow:visible;z-index:1}
+@keyframes book-glow-orange{0%,100%{box-shadow:inset 0 0 0 2px #B8300A,0 0 8px 1px rgba(255,77,26,.55)}50%{box-shadow:inset 0 0 0 2px #FF8A5E,0 0 18px 4px rgba(255,77,26,.95)}}
+body.board .covers li.glow-gold,body.board .covers li.glow-orange{overflow:visible;z-index:1}
 body.board .covers a.glow-gold{animation:book-glow-gold 1.8s ease-in-out infinite}
-body.board .covers a.glow-teal{animation:book-glow-teal 1.8s ease-in-out infinite}
+body.board .covers a.glow-orange{animation:book-glow-orange 1.8s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){
   body.board .covers a.glow-gold{animation:none;box-shadow:inset 0 0 0 2px #FFD700,0 0 12px 2px rgba(255,215,0,.85)}
-  body.board .covers a.glow-teal{animation:none;box-shadow:inset 0 0 0 2px #1AADB3,0 0 12px 2px rgba(26,173,179,.85)}
+  body.board .covers a.glow-orange{animation:none;box-shadow:inset 0 0 0 2px #FF4D1A,0 0 12px 2px rgba(255,77,26,.85)}
 }
 body.board .covers .nocover{display:flex;flex-direction:column;justify-content:center;gap:6px;height:100%;padding:8px;box-sizing:border-box;font-family:var(--mono);font-size:10px;font-style:italic;line-height:1.25;color:var(--fg);border:1px solid rgba(var(--c-rgb),.45);text-align:center;overflow:hidden}
 body.board .covers .nocover b{font-weight:600;font-style:normal;color:var(--c)}

@@ -34,12 +34,12 @@ body.board .mast .pages:focus-visible{outline:2px solid var(--c);outline-offset:
 body.board .mast button.pages .pages-t{display:inline-block;color:inherit;font-style:italic;animation:title-glow 1.05s ease-in-out infinite}
 body.board .mast h1.pages .pages-t{display:inline;color:inherit;font-style:italic;white-space:normal}
 @media (prefers-reduced-motion:reduce){body.board .mast button.pages .pages-t{animation:none;text-shadow:0 0 8px rgba(var(--c-rgb),.75)}}
-/* v3.18: the shared title is an h1, ✌️🇺🇸🤟🇯🇵🤘🇳🇿🤙, a link to /daily (the quote feed). brand orange #FF4D1A (the same orange as the menu icon). italic, and it does not pulse or glow. both themes keep this orange; it does not follow the light-theme orange shift. */
-body.board .mast h1.pages{color:#FF4D1A;text-shadow:none;cursor:default}
-body.board .mast h1.pages a{color:#FF4D1A;text-decoration:none;cursor:pointer}
-body.board .mast h1.pages a:hover{color:#FF4D1A}
+/* v3.19: the shared title is an h1, ✌️🇺🇸🤟🇯🇵🤘🇳🇿🤙, a link to /daily (the quote feed). teal #1AADB3, the same teal as the hamburger. italic, and it does not pulse or glow. both themes keep this teal; it does not follow the light-theme shift. */
+body.board .mast h1.pages{color:#1AADB3;text-shadow:none;cursor:default}
+body.board .mast h1.pages a{color:#1AADB3;text-decoration:none;cursor:pointer}
+body.board .mast h1.pages a:hover{color:#1AADB3}
 html.quiet body.board .mast .pages{text-shadow:none;cursor:default}
-html.quiet body.board .mast h1.pages{color:#FF4D1A}
+html.quiet body.board .mast h1.pages{color:#1AADB3}
 html.quiet body.board .mast .pages .pages-t{animation:none;text-shadow:none}
 /* v3.14: the gap under the title matches the gap under the subtitle. the mast already has margin-bottom: --habit-gap (16px). the subtitle used to pull up over that with margin-top: calc(-1 * var(--habit-gap) + 6px), which left 6px between the title block and the subtitle while the subtitle kept 16px before the content. margin-top is 0 now, so both gaps are --habit-gap. */
 /* v3.17: teal page subheads are 11px at every width, including under 360px. that is the smaller size the month and year captions already used, and the size the old 13px / 11px-under-360 step used on a narrow screen. the line is one emoji. */
@@ -312,18 +312,19 @@ html.quiet[data-mode="fast"]{
 }
 /* v3.02: the quiet homepage is italic all the way down. the universal reset above sets upright type; this puts it back for every word on this page, including labels, captions, and the hover tip. */
 html.quiet,html.quiet *{font-style:italic}
-/* v3.10: the menu covers the title's text box (under the h1's top padding, down through the last line) and centers the icon on that whole block. one line on a wide screen, both lines when the sentence wraps. the right edge stays the column's right edge. the three lines stay #FF4D1A. */
+/* v3.19: the menu covers the title's text box (under the h1's top padding, down through the last line) and centers the icon on that whole block. one line on a wide screen, both lines when the sentence wraps. the right edge stays the column's right edge. the three lines are teal #1AADB3. */
 body.board .site-menu{position:absolute;z-index:5;top:calc((var(--mast-row) - var(--mast-line)) / 2);right:0;bottom:0;height:auto;display:flex;align-items:center;justify-content:flex-end}
-body.board .menu-btn{box-sizing:border-box;display:flex;align-items:center;justify-content:flex-end;width:44px;height:var(--mast-row);margin:0;padding:0;border:0;border-radius:6px;background:transparent;color:#FF4D1A;cursor:pointer;touch-action:manipulation;appearance:none;-webkit-appearance:none;-webkit-tap-highlight-color:transparent}
-body.board .menu-btn svg{display:block;width:18px;height:14px;color:#FF4D1A}
+body.board .menu-btn{box-sizing:border-box;display:flex;align-items:center;justify-content:flex-end;width:44px;height:var(--mast-row);margin:0;padding:0;border:0;border-radius:6px;background:transparent;color:#1AADB3;cursor:pointer;touch-action:manipulation;appearance:none;-webkit-appearance:none;-webkit-tap-highlight-color:transparent}
+body.board .menu-btn svg{display:block;width:18px;height:14px;color:#1AADB3}
+body.board .menu-btn svg path{stroke:#1AADB3;fill:none}
 body.board .menu-btn:focus{outline:0}
-body.board .menu-btn:focus-visible{outline:2px solid #FF4D1A;outline-offset:2px}
+body.board .menu-btn:focus-visible{outline:2px solid #1AADB3;outline-offset:2px}
 body.board .menu-panel{position:absolute;top:calc(100% + 6px);right:0;z-index:1;min-width:9.5rem;margin:0;padding:6px 0;border:1px solid rgba(var(--c-rgb),.4);border-radius:8px;background:var(--bg,#000);box-shadow:0 12px 32px rgba(0,0,0,.28);text-align:left;text-shadow:none}
 body.board .menu-panel[hidden]{display:none}
 body.board .menu-panel ul{list-style:none;margin:0;padding:0}
 body.board .menu-panel a{display:flex;align-items:center;min-height:40px;padding:0 18px;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;line-height:1.25;letter-spacing:normal;color:var(--c);text-decoration:none;text-shadow:none;white-space:nowrap;-webkit-tap-highlight-color:transparent}
 body.board .menu-panel a:hover{color:var(--c);background:rgba(var(--c-rgb),.08)}
-/* v3.17: the one menu social line (@jayroddi) follows the system, white in dark and black in light (--fg). brand orange #FF4D1A stays on the hamburger, not on this link. */
+/* v3.19: the one menu social line (@jayroddi) follows the system, white in dark and black in light (--fg). the hamburger and the title are teal #1AADB3. */
 body.board .menu-panel a.soc{color:var(--fg)}
 body.board .menu-panel a.soc:hover{color:var(--fg);background:rgba(var(--fg-rgb),.08)}
 body.board .menu-panel a.soc:focus-visible{outline-color:var(--fg)}

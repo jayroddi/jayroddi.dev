@@ -1,5 +1,5 @@
-/* books.js v0.8: cover grid grouped by read year, newest year first, newest read first inside a year.
-   glow "gold" or "teal" adds glow-gold / glow-teal on the cover (see books.css).
+/* books.js v0.9: cover grid grouped by read year, newest year first, newest read first inside a year.
+   glow "gold" adds glow-gold. glow "orange", "teal", or "favorite" adds glow-orange (see books.css).
    a read of YYYY-MM (no day) sorts after every full date in that month. a read of YYYY-YYYY (no day)
    is one year-group, placed by its end year, so 2015-2020 stays a single heading.
    a book with no read date lands in a final "no date" group.
@@ -10,7 +10,8 @@
   const tile = t => {
     const ti = t.title.replace(/\s*\(.*?\)\s*$/, '').split(':')[0].toLowerCase();
     const au = t.author.replace(/\s+/g, ' ').toLowerCase();
-    const glow = t.glow === 'gold' || t.glow === 'teal' ? ` class="glow-${t.glow}"` : '';
+    const glowName = t.glow === 'gold' ? 'gold' : (t.glow === 'orange' || t.glow === 'teal' || t.glow === 'favorite' ? 'orange' : '');
+    const glow = glowName ? ` class="glow-${glowName}"` : '';
     return `<li${glow}><a${glow} href="${esc(t.url)}" target="_blank" rel="noopener" aria-label="${esc(t.title)} by ${esc(t.author)}">${t.cover ? `<img src="${esc(t.cover)}" alt="" loading="lazy" decoding="async" width="200" height="300">` : `<span class="nocover"><b>${esc(ti)}</b>${esc(au)}</span>`}<span class="cap">${esc(ti)} // ${esc(au)}</span></a></li>`;
   };
   const group = (label, items) => `<section class="year"><h2>${esc(label)}</h2><ol class="covers">${items.map(tile).join('')}</ol></section>`;
