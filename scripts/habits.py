@@ -630,29 +630,29 @@ REDIRECT_STUB = """<!doctype html>
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
-<link rel="canonical" href="https://jayroddi.lol/">
+<link rel="canonical" href="https://jayroddi.dev/">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="jayroddi.lol">
-<meta property="og:url" content="https://jayroddi.lol/">
+<meta property="og:site_name" content="jayroddi.dev">
+<meta property="og:url" content="https://jayroddi.dev/">
 <meta property="og:title" content="let your success be what shakes the ground">
 <meta property="og:description" content="a year of habits // sleep, fitness, code, and journal">
-<meta property="og:image" content="https://jayroddi.lol/og-card.png?v=3.3">
+<meta property="og:image" content="https://jayroddi.dev/og-card.png?v=3.3">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:alt" content="by jay, a millennial living out loud">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@jayroddi">
-<meta name="twitter:url" content="https://jayroddi.lol/">
+<meta name="twitter:url" content="https://jayroddi.dev/">
 <meta name="twitter:title" content="let your success be what shakes the ground">
 <meta name="twitter:description" content="a year of habits // sleep, fitness, code, and journal">
-<meta name="twitter:image" content="https://jayroddi.lol/og-card.png?v=3.3">
+<meta name="twitter:image" content="https://jayroddi.dev/og-card.png?v=3.3">
 <meta name="twitter:image:alt" content="by jay, a millennial living out loud">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"jayroddi.lol","url":"https://jayroddi.lol/"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"jayroddi.dev","url":"https://jayroddi.dev/"}</script>
 <style>html,body{margin:0;background:#000;color:#f6efe9}body{font:16px/1.5 "JetBrains Mono",ui-monospace,monospace;padding:24px}a{color:#FF4D1A;text-decoration:none}</style>
 </head>
 <body>
-<p><a href="/">jayroddi.lol</a></p>
+<p><a href="/">jayroddi.dev</a></p>
 </body>
 </html>
 """

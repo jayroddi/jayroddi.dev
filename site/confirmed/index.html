@@ -65,26 +65,26 @@ a:focus-visible{outline:2px solid var(--c);outline-offset:2px}
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=5">
 <link rel="manifest" href="/site.webmanifest?v=5">
 <meta name="robots" content="noindex">
-<link rel="canonical" href="https://jayroddi.lol/">
+<link rel="canonical" href="https://jayroddi.dev/">
 <meta name="description" content="you're in, thanks for confirming">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="jayroddi.lol">
-<meta property="og:url" content="https://jayroddi.lol/">
+<meta property="og:site_name" content="jayroddi.dev">
+<meta property="og:url" content="https://jayroddi.dev/">
 <meta property="og:title" content="let your success be what shakes the ground">
 <meta property="og:description" content="a year of habits // sleep, fitness, code, and journal">
-<meta property="og:image" content="https://jayroddi.lol/og-card.png?v=4.0">
+<meta property="og:image" content="https://jayroddi.dev/og-card.png?v=4.0">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:alt" content="by jay, a millennial living out loud">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@jayroddi">
-<meta name="twitter:url" content="https://jayroddi.lol/">
+<meta name="twitter:url" content="https://jayroddi.dev/">
 <meta name="twitter:title" content="let your success be what shakes the ground">
 <meta name="twitter:description" content="a year of habits // sleep, fitness, code, and journal">
-<meta name="twitter:image" content="https://jayroddi.lol/og-card.png?v=4.0">
+<meta name="twitter:image" content="https://jayroddi.dev/og-card.png?v=4.0">
 <meta name="twitter:image:alt" content="by jay, a millennial living out loud">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"jayroddi.lol","url":"https://jayroddi.lol/"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"jayroddi.dev","url":"https://jayroddi.dev/"}</script>
 <link rel="stylesheet" href="/assets/rain.css?v=2.61"><script src="/assets/rain.js?v=2.74"></script>
 </head>
 <body class="board">
@@ -120,14 +120,14 @@ a:focus-visible{outline:2px solid var(--c);outline-offset:2px}
 </main>
 
 <script>
-const SHARE_URL = "https://jayroddi.lol/?ref=friend";
+const SHARE_URL = "https://jayroddi.dev/?ref=friend";
 const COPY = {
   confirmed: {kicker: "you're in 💛", line: "thanks for confirming, we'll only email when there's something real to share", extra: "no secret handshake required… yet",
-    share: [{text: "know a human who'd get this? send them jayroddi.lol 🥷", href: SHARE_URL}], title: "you're in · jay tha ninja", ver: "confirmed-v161"},
+    share: [{text: "know a human who'd get this? send them jayroddi.dev 🥷", href: SHARE_URL}], title: "you're in · jay tha ninja", ver: "confirmed-v161"},
   check: {kicker: "almost there 💛", line: "check your inbox and tap the link to confirm (peek in spam if it's hiding)", title: "check your inbox · jay tha ninja", ver: "check"}
 };
 const pick = () => /[?&]check\b/.test(location.search) ? COPY.check : COPY.confirmed;
-/* v1.61 (jay 2026.10.03): the share invite (only on the confirmed state). a tap opens the phone's share sheet (web share api) with jayroddi.lol/?ref=friend (signups from it
+/* v1.61 (jay 2026.10.03): the share invite (only on the confirmed state). a tap opens the phone's share sheet (web share api) with jayroddi.dev/?ref=friend (signups from it
    carry the tag "friend"); no share sheet (most desktops) = the link is copied and "copied 🥷" shows in its place for a moment (the link's own text stays laid out, hidden,
    so nothing moves). cancelling the share sheet does nothing. a modified click (new tab etc) still just opens the link. window capture, so rain.js' link-click notes skip it */
 function wireShare(a){
