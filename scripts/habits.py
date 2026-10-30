@@ -54,8 +54,10 @@ JARVIS = HABITS / "journal-jarvis.json"
 SLEEP = HABITS / "sleep.json"
 STEPS = HABITS / "steps.json"
 STEPS_CUTS = [2500, 5000, 7500, 10000]
-# the quiet grids live on / (site/index.html). /me/ is the full grids page again. /habits/ still forwards to /me/.
-INDEX = HABITS.parent / "index.html"
+# snaps live on / (site/index.html). habit grids live on /habits/ (site/habits/index.html).
+# /me/ and /daily/ forward to /habits/. day pages still forward home (/).
+HOME = HABITS.parent / "index.html"
+INDEX = HABITS / "index.html"
 ME = HABITS.parent / "me" / "index.html"
 TZ = ZoneInfo("America/Chicago")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -541,12 +543,10 @@ def build_cursor_once(cfg: dict, today: date) -> dict:
 
 
 def check_index(cfg: dict) -> None:
-    for page in (INDEX, ME):
-        html = page.read_text(encoding="utf-8")
-        rel = page.relative_to(HABITS.parent)
-        for tracker in cfg["trackers"]:
-            if tracker.get("enabled", True) and f'data-id="{tracker["id"]}"' not in html:
-                raise SystemExit(f"habits: site/{rel} has no section for {tracker['id']}")
+    html = INDEX.read_text(encoding="utf-8")
+    for tracker in cfg["trackers"]:
+        if tracker.get("enabled", True) and f'data-id="{tracker["id"]}"' not in html:
+            raise SystemExit(f"habits: site/habits/index.html has no section for {tracker['id']}")
 
 
 def date_keys(data: dict) -> list[date]:
@@ -676,7 +676,7 @@ def assert_pages(today: date) -> tuple[date, date]:
     html = INDEX.read_text(encoding="utf-8")
     marker = f'data-pages-through="{end.isoformat()}"'
     if marker not in html:
-        raise SystemExit(f"habits: site/index.html is missing {marker}")
+        raise SystemExit(f"habits: site/habits/index.html is missing {marker}")
     return grid_start, end
 
 
@@ -712,15 +712,15 @@ def assert_redirects() -> int:
         n += 1
     if n == 0:
         raise SystemExit("habits: no day-page redirects under site/habits")
-    # grids live on / (quiet) and on /me/ (the page from before the strip). /habits/ still forwards to /me/.
-    if 'class="trackers"' not in html or marker in html:
-        raise SystemExit("habits: site/index.html is not the grids page")
+    # grids live on /habits/. / is the snaps page. /me/ forwards to /habits/.
+    if 'class="trackers"' not in html or "location.replace" in html:
+        raise SystemExit("habits: site/habits/index.html is not the grids page")
     me = ME.read_text(encoding="utf-8")
-    if 'class="trackers"' not in me or marker in me or refresh in me:
-        raise SystemExit("habits: site/me/index.html is not the grids page")
-    stub = (HABITS / "index.html").read_text(encoding="utf-8") if (HABITS / "index.html").is_file() else ""
-    if 'location.replace("/me/"' not in stub:
-        raise SystemExit("habits: site/habits/index.html is not a redirect to /me/")
+    if 'location.replace("/habits/"' not in me:
+        raise SystemExit("habits: site/me/index.html is not a redirect to /habits/")
+    home = HOME.read_text(encoding="utf-8")
+    if 'id="gallery"' not in home or 'class="trackers"' in home:
+        raise SystemExit("habits: site/index.html is not the snaps page")
     return n
 
 

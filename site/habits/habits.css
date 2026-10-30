@@ -42,8 +42,8 @@ html.quiet body.board .mast .pages{text-shadow:none;cursor:default}
 html.quiet body.board .mast h1.pages{color:#FF4D1A}
 html.quiet body.board .mast .pages .pages-t{animation:none;text-shadow:none}
 /* v3.14: the gap under the title matches the gap under the subtitle. the mast already has margin-bottom: --habit-gap (16px). the subtitle used to pull up over that with margin-top: calc(-1 * var(--habit-gap) + 6px), which left 6px between the title block and the subtitle while the subtitle kept 16px before the content. margin-top is 0 now, so both gaps are --habit-gap. */
-/* v3.16: the teal subheader is one step under the orange title on every page, and the computed size does not depend on the line. 13px where the title is 14px, and 11px under 360px where the title is 12px. that is the size the shorter lines (snaps, music, books, quotes) already used whenever the old length formula was not scaling them down. the longest line ("we fall to the level of our habits") still fits on one line inside the column at both sizes. */
-body.board .copy > .subhead{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0;text-align:center;font-family:var(--mono);font-size:13px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:#1AADB3;white-space:nowrap}
+/* v3.17: teal page subheads are 11px at every width, including under 360px. that is the smaller size the month and year captions already used, and the size the old 13px / 11px-under-360 step used on a narrow screen. the line is one emoji. */
+body.board .copy > .subhead{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0;text-align:center;font-family:var(--mono);font-size:11px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:#1AADB3;white-space:nowrap}
 @media (max-width:359px){body.board .copy > .subhead{font-size:11px}}
 body.board .subhead + .covers{margin-top:0}
 /* v2.68 (jay 2026.10.20): the top line is plain text again, "by jay, a millennial living out loud", same font and size, in --fg
@@ -323,10 +323,10 @@ body.board .menu-panel[hidden]{display:none}
 body.board .menu-panel ul{list-style:none;margin:0;padding:0}
 body.board .menu-panel a{display:flex;align-items:center;min-height:40px;padding:0 18px;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;line-height:1.25;letter-spacing:normal;color:var(--c);text-decoration:none;text-shadow:none;white-space:nowrap;-webkit-tap-highlight-color:transparent}
 body.board .menu-panel a:hover{color:var(--c);background:rgba(var(--c-rgb),.08)}
-/* v3.14: social links in the menu are brand orange #FF4D1A, so they read apart from the teal on-site links. both themes keep this orange. */
-body.board .menu-panel a.soc{color:#FF4D1A}
-body.board .menu-panel a.soc:hover{color:#FF4D1A;background:rgba(255,77,26,.08)}
-body.board .menu-panel a.soc:focus-visible{outline-color:#FF4D1A}
+/* v3.17: the one menu social line (@jayroddi) follows the system, white in dark and black in light (--fg). brand orange #FF4D1A stays on the hamburger, not on this link. */
+body.board .menu-panel a.soc{color:var(--fg)}
+body.board .menu-panel a.soc:hover{color:var(--fg);background:rgba(var(--fg-rgb),.08)}
+body.board .menu-panel a.soc:focus-visible{outline-color:var(--fg)}
 body.board .menu-panel a[aria-current="page"]{text-decoration:underline;text-decoration-color:currentColor;text-decoration-thickness:1px;text-underline-offset:.2em}
 body.board .menu-panel a:focus{outline:0}
 body.board .menu-panel a:focus-visible{outline:2px solid var(--c);outline-offset:-4px}
