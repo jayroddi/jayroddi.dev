@@ -1,4 +1,9 @@
-/* v2.33: newest month first. one month is drawn, then another when the sentinel
+/* v2.59: when snaps.json says frost, tiles and the lightbox load
+   /snaps/f/{id}.jpg and /snaps/f/{id}-l.jpg. that flag is set by the Pages
+   deploy at 2026-11-01 00:00 America/Chicago, which also strips the sharp
+   Lightroom ids from the uploaded JSON. until then the grid is unchanged.
+   the decoy field under the camera emoji rides the same flag.
+   v2.33: newest month first. one month is drawn, then another when the sentinel
    scrolls into view (a short month keeps going until the screen is full).
    photos go round-robin into 3 columns, or 6 from 900px, so each row reads
    newest to oldest left to right and the first row shares one top edge.
@@ -42,7 +47,26 @@ let eatClick = false;
 let stepping = false;
 let held = [];
 
+/* Empty until workers/snap-guesses is deployed. No write token lives here. */
+const GUESS_URL = '';
+
+function useFrost() {
+  return !!(index && index.frost);
+}
+
+function frostSrc(photo, big) {
+  return '/snaps/f/' + photo.i + (big ? '-l.jpg' : '.jpg');
+}
+
 const url = (photo, id) => index.base + 'assets/' + photo.i + '/revisions/' + photo.v + '/renditions/' + id + '?api_key=' + encodeURIComponent(index.key);
+
+function tileSrc(photo) {
+  return useFrost() ? frostSrc(photo, false) : url(photo, photo.t);
+}
+
+function bigSrc(photo) {
+  return useFrost() ? frostSrc(photo, true) : url(photo, photo.l || photo.s || photo.t);
+}
 
 function monthName(key) {
   const [year, month] = key.split('-');
@@ -112,12 +136,13 @@ function render(meta, photos) {
       cap.textContent = line;
       button.appendChild(cap);
     }
-    const thumb = url(photo, photo.t);
+    const thumb = tileSrc(photo);
     const resource = long => Math.max(1, Math.round(photo.w * long / (Math.max(photo.w, photo.h) || 1)));
     button.dataset.src = thumb;
     button.dataset.w = photo.w;
     button.dataset.h = photo.h;
-    if (photo.s) button.dataset.srcset = thumb + ' ' + resource(640) + 'w, ' + url(photo, photo.s) + ' ' + resource(1280) + 'w';
+    if (useFrost()) button.dataset.srcset = thumb + ' ' + resource(640) + 'w, ' + frostSrc(photo, true) + ' ' + resource(1280) + 'w';
+    else if (photo.s) button.dataset.srcset = thumb + ' ' + resource(640) + 'w, ' + url(photo, photo.s) + ' ' + resource(1280) + 'w';
     button.dataset.eager = already + n < eagerCount ? '1' : '';
     button.addEventListener('click', () => openAt(seqAt));
     if (already + n === 0) mount(button, true);
@@ -179,11 +204,11 @@ function thumbOf(i) {
   const button = gallery.querySelector('.shot[data-seq="' + i + '"]');
   const img = button && button.querySelector('img');
   if (img && img.complete && img.naturalWidth) return img.currentSrc || img.src;
-  return url(photo, photo.t);
+  return tileSrc(photo);
 }
 
 function fullOf(photo) {
-  return url(photo, photo.l || photo.s || photo.t);
+  return bigSrc(photo);
 }
 
 function warm(i) {
@@ -418,9 +443,46 @@ const note = text => {
   gallery.appendChild(el);
 };
 
+function armGuess(on) {
+  const form = document.getElementById('guess');
+  if (!form || !on) return;
+  form.hidden = false;
+  if (form.dataset.armed) return;
+  form.dataset.armed = '1';
+  const input = form.querySelector('input');
+  const note = form.querySelector('.guess-note');
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const guess = (input.value || '').replace(/\s+/g, ' ').trim().slice(0, 200);
+    note.textContent = 'nope';
+    if (!guess) return;
+    const now = Date.now();
+    let bag = {t: now, n: 0, last: 0};
+    try {
+      const saved = JSON.parse(sessionStorage.getItem('snap-guess') || 'null');
+      if (saved && typeof saved.t === 'number' && now - saved.t < 3600000) bag = saved;
+    } catch (e) { /* a blocked sessionStorage just limits this page */ }
+    if ((bag.n || 0) >= 20 || now - (bag.last || 0) < 2500) return;
+    bag.n = (bag.n || 0) + 1;
+    bag.last = now;
+    if (!bag.t) bag.t = now;
+    try { sessionStorage.setItem('snap-guess', JSON.stringify(bag)); } catch (e) {}
+    if (!GUESS_URL) return;
+    fetch(GUESS_URL, {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'omit',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify({guess: guess}),
+      keepalive: true
+    }).catch(() => {});
+  });
+}
+
 (window.__snaps || fetch('/snaps/snaps.json', {cache: 'no-cache'}).then(res => res.json()))
   .then(data => {
     index = data;
+    armGuess(!!(data && data.frost));
     if (!data || !Array.isArray(data.months) || !data.months.length) {
       note('no photos yet');
       return;

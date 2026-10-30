@@ -13,13 +13,19 @@ follows that, then writes:
   site/snaps/snaps.json          index, newest month first
   site/snaps/m/YYYY-MM.json      that month, newest first
 
-Images stay on Adobe. A photo keeps its id, revision, capture date,
-capture time, oriented width and height, the 640 / 1280 / 2048 rendition
-ids, and a dominant color sampled from the 640 JPEG. No GPS, filename, or
-other EXIF. The time is the capture clock tagged America/Chicago, so the
-page can stamp it.
-The color cache is scripts/snaps_colors.json so a later run does not
+A photo keeps its id, revision, capture date, capture time, oriented
+width and height, the 640 / 1280 / 2048 rendition ids, and a dominant
+color sampled from the 640 JPEG. No GPS, filename, or other EXIF. The
+time is the capture clock tagged America/Chicago, so the page can stamp
+it. The color cache is scripts/snaps_colors.json so a later run does not
 download a rendition that has not changed.
+
+The same run frosts the 640 and the larger rendition into frost-cache/
+(mid strength, see frost.py). Those JPEGs are not committed: the grain
+makes a full bake a couple of hundred megabytes, and the Pages deploy
+uploads them only after the frost gate. scripts/snaps_frost.json (also
+uncommitted; the Actions cache keeps both) remembers which rendition id
+each file was baked from.
 """
 
 from __future__ import annotations
@@ -37,6 +43,8 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from PIL import Image
+
+from frost import bake
 
 SPACE = "70e5cd134b2e42feae9e82952152c5e8"
 KEY = "LightroomMobileWeb1"
@@ -305,7 +313,10 @@ def main() -> None:
     }
     (OUT / "snaps.json").write_text(json.dumps(index, separators=(",", ":"), ensure_ascii=True) + "\n", encoding="utf-8")
     CACHE.write_text(json.dumps(cache, separators=(",", ":"), ensure_ascii=True) + "\n", encoding="utf-8")
-    print(f"{len(rows)} photos, {len(grouped)} months, {min(grouped)} .. {max(grouped)}")
+    FROST = ROOT / "frost-cache"
+    FROST_CACHE = ROOT / "scripts" / "snaps_frost.json"
+    missing = bake(rows, FROST, FROST_CACHE, bytes_of, base, KEY)
+    print(f"{len(rows)} photos, {len(grouped)} months, {min(grouped)} .. {max(grouped)}; frost missing {missing}")
 
 
 if __name__ == "__main__":

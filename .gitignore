@@ -1,4 +1,9 @@
 node_modules
+# Mid-frost snaps. Built in Actions (frost-cache/) and uploaded with Pages
+# only after 2026-11-01 00:00 America/Chicago. Not source.
+frost-cache/
+site/snaps/f/
+scripts/snaps_frost.json
 dist
 .DS_Store
 *.local
