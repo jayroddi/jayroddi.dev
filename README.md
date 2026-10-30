@@ -8,13 +8,13 @@ The homepage is the snaps photo grid. The ground is plain and follows the system
 
 In order:
 
-1. `✌️🇺🇸🤟🇯🇵🤘🇳🇿🤙`. The title is brand orange `#FF4D1A`, italic, the same treatment in both themes. It does not pulse, glow, or change colour. It is a link to `/daily`, the quote feed. There is no underline and no name under it. The space under the title matches the space under the teal subtitle (`--habit-gap`, 16px).
+1. `✌️🇺🇸🤟🇯🇵🤘🇳🇿🤙`. The title is teal `#1AADB3`, italic, the same treatment in both themes. It does not pulse, glow, or change colour. It is a link to `/daily`, the quote feed. There is no underline and no name under it. The space under the title matches the space under the teal subtitle (`--habit-gap`, 16px).
 2. A teal page subheader, one emoji and no words, brand teal `#1AADB3`, italic, 11px at every width (also 11px under 360px). `/` is `📷`. `/daily/` is `🗓️`. `/music/` is `🎧`. `/books/` is `📚`. `/quotes/` is `💬`. `/habits/` is `🗓️`.
 3. On `/`, the photo grid. The habit grids (code, workouts, steps, sleep, faith) live on `/habits/`.
 
-A menu button is vertically centered on the title block, at the right edge of the content column, on `/` and on every page that shares this header, on a wide screen and on a phone. The title is one line, and the icon centers on that line. It is three short lines in `#FF4D1A`. A tap opens a small panel, not a full-screen menu: snaps, music, books, quotes, habits, then `@jayroddi`. Daily is not in the menu. Page links stay teal. `@jayroddi` follows the system (white in dark, black in light) and links to https://x.com/jayroddi. It is not orange. Orange `#FF4D1A` stays on the hamburger and the title. Snaps points at `/`. Habits is the last page link, immediately before `@jayroddi`. The current page is underlined. Escape and a click outside close it. There is no center nav, email field, konami row, or social icon row.
+A menu button is vertically centered on the title block, at the right edge of the content column, on `/` and on every page that shares this header, on a wide screen and on a phone. The title is one line, and the icon centers on that line. It is three short lines in teal `#1AADB3`. A tap opens a small panel, not a full-screen menu: snaps, music, books, quotes, habits, then `@jayroddi`. Daily is not in the menu. Page links stay teal. `@jayroddi` follows the system (white in dark, black in light) and links to https://x.com/jayroddi. The title and the hamburger are teal `#1AADB3`. Snaps points at `/`. Habits is the last page link, immediately before `@jayroddi`. The current page is underlined. Escape and a click outside close it. There is no center nav, email field, konami row, or social icon row.
 
-`/music/`, `/books/`, `/quotes/`, and `/habits/` open from that menu. `/snaps/` forwards to `/`. `/me/` forwards to `/habits/`. `/daily/` is the quote feed (the same list as `/quotes/`). `/confirmed/` still opens by URL. Each page starts with the same header: the orange italic title `✌️🇺🇸🤟🇯🇵🤘🇳🇿🤙`, then the hamburger, then that page’s emoji subheader. The nightly sync still updates snaps and the playlist.
+`/music/`, `/books/`, `/quotes/`, and `/habits/` open from that menu. `/snaps/` forwards to `/`. `/me/` forwards to `/habits/`. `/daily/` is the quote feed (the same list as `/quotes/`). `/confirmed/` still opens by URL. Each page starts with the same header: the teal italic title `✌️🇺🇸🤟🇯🇵🤘🇳🇿🤙`, then the hamburger, then that page’s emoji subheader. The nightly sync still updates snaps and the playlist.
 
 ## snaps
 
@@ -32,7 +32,7 @@ The old grid asked for the 640 rendition and offered the 1280 in `srcset`. The l
 
 ## books
 
-`/books/` is the shelf. `site/books/books.json` and `site/books/covers/` stay in the repo. `site/books/books.js` groups covers by read year, newest year first, newest read first inside a year. A read of `YYYY-MM` (no day) sorts after every full date in that month. A book with no read date would land in a final `no date` group. A book with `"glow": "gold"` gets the pulsing gold border (`glow-gold`, a top recommendation). `"glow": "teal"` gets the pulsing teal border (`glow-teal`, a favorite).
+`/books/` is the shelf. `site/books/books.json` and `site/books/covers/` stay in the repo. `site/books/books.js` groups covers by read year, newest year first, newest read first inside a year. A read of `YYYY-MM` (no day) sorts after every full date in that month. A book with no read date would land in a final `no date` group. A book with `"glow": "gold"` gets the pulsing gold border (`glow-gold`, an explicit top recommendation). `"glow": "orange"`, `"teal"`, or `"favorite"` gets the pulsing orange border (`glow-orange`, a favorite).
 
 `python3 scripts/books_import.py site/books/books.json [goodreads.csv]` rebuilds the file and `site/books/covers/` from a Goodreads export. Ids listed in `scripts/books_hidden.json` are dropped. Covers in `scripts/books_cover_overrides.json` replace the Open Library fetch.
 
