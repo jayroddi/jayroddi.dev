@@ -34,7 +34,7 @@ body.board .mast .pages:focus-visible{outline:2px solid var(--c);outline-offset:
 body.board .mast button.pages .pages-t{display:inline-block;color:inherit;font-style:italic;animation:title-glow 1.05s ease-in-out infinite}
 body.board .mast h1.pages .pages-t{display:inline;color:inherit;font-style:italic;white-space:normal}
 @media (prefers-reduced-motion:reduce){body.board .mast button.pages .pages-t{animation:none;text-shadow:0 0 8px rgba(var(--c-rgb),.75)}}
-/* v3.14: the shared title is an h1, 🚀man, a link to /daily (the homepage habit grids). brand orange #FF4D1A (the same orange as the menu icon). italic, and it does not pulse or glow. both themes keep this orange; it does not follow the light-theme orange shift. */
+/* v3.18: the shared title is an h1, ✌️🇺🇸🤟🇯🇵🤘🇳🇿🤙, a link to /daily (the quote feed). brand orange #FF4D1A (the same orange as the menu icon). italic, and it does not pulse or glow. both themes keep this orange; it does not follow the light-theme orange shift. */
 body.board .mast h1.pages{color:#FF4D1A;text-shadow:none;cursor:default}
 body.board .mast h1.pages a{color:#FF4D1A;text-decoration:none;cursor:pointer}
 body.board .mast h1.pages a:hover{color:#FF4D1A}
