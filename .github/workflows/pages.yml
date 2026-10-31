@@ -7,7 +7,7 @@ on:
   schedule:
     # v1.61: redeploy around 12:00am CT so the share cards staged by the 11:31pm drop (og-next/) flip with the entries.
     # cron is UTC: 05:xx = midnight CDT, 06:xx = midnight CST; the extra offset is a no-op redeploy (and a retry if github runs one late).
-    # :00 starts the snaps frost gate at 2026-11-01 00:00 America/Chicago. :02 and :32 retry if that run is late.
+    # :02 and :32 retry the midnight Chicago deploy if that run is late.
     - cron: '0,2,32 5,6 * * *'
   workflow_dispatch:
 
@@ -41,15 +41,14 @@ jobs:
             snaps-frost-
       - name: Pillow and numpy
         run: pip install pillow numpy
-      - name: Snaps frost gate
-        # --bake fills frost-cache/ (outside site/, so a pre-gate deploy does not upload it).
-        # --apply is a no-op until 2026-11-01 00:00 America/Chicago. after that it copies
-        # the frost JPEGs into the artifact and drops sharp Lightroom URLs.
+      - name: Snaps frost
+        # --bake fills frost-cache/ (outside site/, so it is not committed).
+        # --apply copies ready frost JPEGs into the artifact and keeps sharp Lightroom ids.
         run: |
           python3 scripts/publish_snaps.py --bake
           python3 scripts/publish_snaps.py --apply
       - name: Habits (refresh cursor counts)
-        # rebuilds site/habits/cursor.json from GitHub. day pages stay redirects to / unless HABITS_DAY_PAGES=1.
+        # rebuilds site/habits/cursor.json from GitHub. day pages stay redirects to /habits/ unless HABITS_DAY_PAGES=1.
         # HABITS_GITHUB_TOKEN (repo scope) is optional; without it private repos are skipped and the public repo still counts.
         # a failed fetch keeps the committed cursor.json. this step never blocks the deploy.
         env:

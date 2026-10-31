@@ -1,5 +1,5 @@
-/* Decoy-password log for jayroddi.dev.
-   POST {guess} from the snaps page. The worker adds the time, the user agent,
+/* Unused guess log for jayroddi.dev. The snaps page no longer posts here.
+   POST {guess} still stores a row if something calls the worker. The worker adds the time, the user agent,
    and Cloudflare's country / region / city. It stores that in KV. The page
    never receives a token. GET with the READ_TOKEN secret (Authorization:
    Bearer, or ?token=) renders the log. A wrong or missing token is a 404.

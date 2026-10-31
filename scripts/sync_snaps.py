@@ -22,10 +22,10 @@ download a rendition that has not changed.
 
 The same run frosts the 640 and the larger rendition into frost-cache/
 (mid strength, see frost.py). Those JPEGs are not committed: the grain
-makes a full bake a couple of hundred megabytes, and the Pages deploy
-uploads them only after the frost gate. scripts/snaps_frost.json (also
-uncommitted; the Actions cache keeps both) remembers which rendition id
-each file was baked from.
+makes a full bake a couple of hundred megabytes. The Pages deploy copies
+ready files into site/snaps/f/ and leaves the sharp rendition ids in the
+JSON. scripts/snaps_frost.json (also uncommitted; the Actions cache keeps
+both) remembers which rendition id each file was baked from.
 """
 
 from __future__ import annotations

@@ -4,27 +4,25 @@ Personal site. The repository is still named `jaytha.ninja`. The live site is [h
 
 `site/CNAME` is `jayroddi.dev`. Pushes to `main` deploy `site/` to GitHub Pages (`.github/workflows/pages.yml`).
 
-The homepage is the habit grids. The ground is plain and follows the system: black when the system is dark, white when it is light (`prefers-color-scheme`). Dark is the default when that query matches dark. There is no mist and no gradient.
+The homepage is the photo grid. The ground follows the system: black when the system is dark, white when it is light (`prefers-color-scheme`). There is no mist and no gradient.
 
 In order:
 
-1. The header is one row at 12px, the same size as the homepage quote. Grid titles, the less/more line, and the stat values are 12px too. Month labels stay 10px and the stat captions stay 11px. `✌️🤟🤙` is on the left. `life finds a way` is centered on the row, plain teal (`#1AADB3` in dark, `#127F84` on white). Accents stay that teal. The title is not a control. The quote words and the body text stay the system foreground (`--fg`: white in dark, black in light). `🇺🇸🇯🇵🇳🇿` is on the right. There is no `//` and no menu. The emoji keep their own colour. The title does not pulse or glow. There is no underline. The space under the row matches the space under the subtitle (`--habit-gap`, 16px).
-2. On `/` and `/habits/`, the subtitle is today’s quote from `site/quote-of-the-day/quotes.json` (America/Chicago, future dates hidden). The words are `--fg` (white in dark, black in light), 12px italic mono, centered, lowercase. The author is the next line, teal (`#1AADB3` in dark, `#127F84` on white), with a hyphen tight to the name (`-derek sivers`). The other pages keep a teal emoji subheader, one glyph and no words, italic, 11px at every width (also 11px under 360px). `/snaps/` is `📷`. `/daily/` is `🗓️`. `/music/` is `🎧`. `/books/` is `📚`. `/quotes/` is `💬`.
-3. On `/` and `/habits/`, the habit grids (code, workouts, steps, sleep, faith). The photo grid lives on `/snaps/`.
+1. The header is one row at 12px. `✌️🤟🤙` is on the left. `life finds a way` is centered. `🇺🇸🇯🇵🇳🇿` is on the right. Under that, the nav is `snaps · music · books · quotes · habits`. `/daily/` is not in the nav. The accent stays teal (`#1AADB3` in dark, `#127F84` on white) until the day’s final puzzle is solved in this browser. Then the site is gold until midnight America/Chicago (`#FFD700` in dark, `#A67C00` on white). The title is not a control, and there is no orange step. Body text stays `--fg` (white in dark, black in light). The emoji keep their own colour. The title does not pulse or glow.
+2. On `/` and `/snaps/`, the subtitle is `📷`, then the final puzzle. On `/habits/`, the subtitle is today’s quote from `site/quote-of-the-day/quotes.json` (America/Chicago, future dates hidden). The other pages keep a single emoji subheader. `/daily/` is `🗓️`. `/music/` is `🎧`. `/books/` is `📚`. `/quotes/` is `💬`.
+3. The habit grids (code, workouts, steps, sleep, faith) live on `/habits/`. `/` and `/snaps/` are the photo grid.
 
-There is no in-site menu. `/music/`, `/books/`, `/quotes/`, `/habits/`, `/snaps/`, and `/daily/` stay live when you open the URL. `/me/` forwards to `/habits/`. `/daily/` is the quote feed (the same list as `/quotes/`). `/confirmed/` still opens by URL. Each of those pages starts with the same header: `✌️🤟🤙` on the left, `life finds a way` in the center, `🇺🇸🇯🇵🇳🇿` on the right, then that page’s subtitle. The nightly sync still updates snaps and the playlist.
+`/music/`, `/books/`, `/quotes/`, `/habits/`, `/snaps/`, and `/daily/` stay live when you open the URL. `/me/` and old `/habits/YYYY-MM-DD/` addresses forward to `/habits/`. `/daily/` is the quote feed (the same list as `/quotes/`). `/confirmed/` still opens by URL. Each page starts with the same header: `✌️🤟🤙` on the left, `life finds a way` in the center, `🇺🇸🇯🇵🇳🇿` on the right, then that page’s subtitle. The nightly sync still updates snaps and the playlist.
 
 ## snaps
 
-`/snaps/` is the photo grid (`site/snaps/index.html`). `python3 scripts/sync_snaps.py` reads the public Lightroom album and writes `site/snaps/`. Nothing with a location is stored.
+`/` and `/snaps/` are the photo grid. `python3 scripts/sync_snaps.py` reads the public Lightroom album and writes `site/snaps/`. Nothing with a location is stored.
 
-Until 2026-11-01 00:00 America/Chicago the grid and the lightbox load Adobe renditions. `site/snaps/snaps.json` in the repo is the index (`base`, `key`, and `months`, newest first). Each month is `site/snaps/m/YYYY-MM.json`, newest first. A photo is `{i, v, d, a, w, h, t, s, l, c}`: asset id, revision, Chicago date, capture time, oriented width and height, the 640 / 1280 / 2048 rendition ids, and a dominant color from the 640 JPEG. `a` is that capture clock tagged America/Chicago (`2026-10-25T07:33:00-05:00`). Each tile stamps it in the bottom-right as `2026.10.25 // 7:33am`, italic mono, readable without covering the photo. The lightbox repeats that line, centered under the photo. A photo with no time shows the date only. `scripts/snaps_colors.json` remembers those colors so the next run does not download an unchanged rendition.
+`site/snaps/snaps.json` is the index (`base`, `key`, and `months`, newest first). Each month is `site/snaps/m/YYYY-MM.json`, newest first. A photo is `{i, v, d, a, w, h, t, s, l, c}`: asset id, revision, Chicago date, capture time, oriented width and height, the 640 / 1280 / 2048 rendition ids, and a dominant color from the 640 JPEG. `a` is that capture clock tagged America/Chicago (`2026-10-25T07:33:00-05:00`). Each tile stamps it in the bottom-right as `2026.10.25 // 7:33am`, italic mono, readable without covering the photo. The lightbox repeats that line, centered under the photo. A photo with no time shows the date only. `scripts/snaps_colors.json` remembers those colors so the next run does not download an unchanged rendition.
 
-The grid asks for the 640 rendition and offers the 1280 in `srcset`. The lightbox uses the 2048.
+While the day’s puzzle is unsolved, the newest month loads the baked frost JPEG and older months load the sharp rendition under a lighter CSS blur, so age reads clearer. A missing frost file falls back to the sharp URL with a heavy blur. Solving the puzzle loads the sharp URL for every photo until midnight America/Chicago. The sharp ids stay in the JSON. `python3 scripts/publish_snaps.py --bake` fills `frost-cache/`. `--apply` copies ready JPEGs into `site/snaps/f/` for that deploy and does not strip `base`, `key`, `v`, `t`, `s`, or `l`. The grain does not compress, so a full bake is about 270MB. Those files stay out of git (`frost-cache/`, `site/snaps/f/`, and `scripts/snaps_frost.json` are gitignored). The recipe is a two-pass Gaussian blur at 0.06 of the long edge, saturation 0.75, brightness 1.08, a 0.28 white haze, and mono grain with sigma 12.
 
-From 2026-11-01 00:00 America/Chicago the Pages deploy serves only mid-frost JPEGs: `site/snaps/f/{asset}.jpg` from the 640, and `site/snaps/f/{asset}-l.jpg` from the 1280 (otherwise the 2048, otherwise the 640). The recipe is a two-pass Gaussian blur at 0.06 of the long edge, saturation 0.75, brightness 1.08, a 0.28 white haze, and mono grain with sigma 12. The grain does not compress, so a full bake is about 270MB. Those files stay out of git (`frost-cache/` and `scripts/snaps_frost.json` are gitignored and kept in the Actions cache). The sync bakes into that cache, and so does `python3 scripts/publish_snaps.py --bake`. `--apply` is a no-op until the gate. After the gate it copies the cache into the Pages artifact, sets `"frost": true`, drops `base`, `key`, `v`, `t`, `s`, and `l` from the uploaded JSON, and removes the Adobe preconnect from `site/snaps/index.html`. The public site then has no sharp rendition URL. The repo copy keeps the ids, because the next sync has to download new photos. If a frost file is missing, that deploy leaves the sharp URLs in place instead of shipping a broken grid. The Pages cron starts at the top of the midnight hour (`0,2,32 5,6 * * *`, Chicago CDT and CST) so the flip starts at 00:00. It finishes when that deploy goes live. A deploy before then warms the cache and still ships the sharp grid.
-
-The decoy field under the 📷 emoji uses the same flag. It is a password input. The placeholder is `if you know me well enough, you'd know the password`. No guess unlocks anything. A submit says `nope`. The page POSTs `{guess}` to `GUESS_URL` in `site/snaps/snaps.js`, which is empty until the worker is deployed, and it never has a write token. Repeats inside 2.5 seconds are not sent, and the page stops sending after 20 in an hour. The worker (`workers/snap-guesses/`) stores the guess, the time, the user agent, and Cloudflare's country, region, and city in KV, and it drops an address after 20 in an hour or 80 in a day. Jay reads `https://<worker>/?token=<READ_TOKEN>` (or `?format=json`), or the `GUESSES` namespace in the Cloudflare dashboard. Share that URL with xavier; the token is the read credential. Deploy steps are in `workers/snap-guesses/wrangler.toml`. The free KV plan is about 1,000 writes a day, and each stored guess is two of them.
+The board under the 📷 emoji is the daily final puzzle. `R S T L N E` start filled. A single letter reveals every copy of that letter. The whole phrase solves the day. The bank is `site/snaps/puzzles.json`. Index 0 is `epoch` (America/Chicago). Each next Chicago day uses the next object. After the last one, the list wraps. Append objects. Do not reorder or insert earlier ones, or past days shift. `phrase` is ASCII XOR `0xA5`, then base64, so the answer is not sitting in the file as plain text. Add one with `python3 scripts/puzzle_bank.py "PHRASE" "Category"`. To retest a solve, remove `jtn.snaps.unlock` from localStorage and reload. The decoy password field is gone. `workers/snap-guesses/` is unused by the page.
 
 ## music
 
@@ -48,11 +46,11 @@ The decoy field under the 📷 emoji uses the same flag. It is a password input.
 
 `date` is America/Chicago. `/quotes/` and `/daily/` read that file and paint the whole list (future dates stay hidden). `/` and `/habits/` read the same file and show only today’s entry. `/quote-of-the-day/` still forwards home.
 
-A new object in `quotes.json` is still just a commit. The homepage quote and the lists pick it up from that file.
+A new object in `quotes.json` is still just a commit. `/habits/` and the lists pick it up from that file.
 
 ## habits
 
-The grids are the homepage (`site/index.html`) and `/habits/` (`site/habits/index.html`). `/me/` forwards to `/habits/`. `/snaps/` is the photo grid. `/daily/` is the quote feed. The grids, in order:
+The grids live on `/habits/` (`site/habits/index.html`). `/` is the photo grid. `/me/` forwards to `/habits/`. `/daily/` is the quote feed and is not in the nav. The grids, in order:
 
 | grid | file | what a cell is |
 |---|---|---|
@@ -62,13 +60,13 @@ The grids are the homepage (`site/index.html`) and `/habits/` (`site/habits/inde
 | sleep | `site/habits/sleep.json` | the 0–100 score (duration 50, bedtime consistency 30, interruptions 20) and minutes asleep. Colour steps are the 20th / 40th / 60th / 80th of the nonzero nights on screen. A streak is nights scoring 70 or more. A past night with no record stays empty. |
 | faith | `site/habits/faith.json` | from `start` through the day before `full`, the span splits into four levels. From `full` through today (America/Chicago) each day is a full cell, unless the date is in `no`. The browser fills a new day, so the grid moves forward without a commit. |
 
-The journal grid is hidden. Its section is commented out on `/` and `/habits/`, and `journal` is `"enabled": false` in `site/habits/trackers.json`. `journal.json` and `journal-jarvis.json` stay in the repo.
+The journal grid is hidden. Its section is commented out on `/habits/`, and `journal` is `"enabled": false` in `site/habits/trackers.json`. `journal.json` and `journal-jarvis.json` stay in the repo.
 
 `python3 scripts/habits.py all` rebuilds `cursor.json` from GitHub. Dates are author dates in America/Chicago. Merge commits are skipped. A pull request counts on the day it was opened and again on the day it merged. AI line edits come from `site/habits/cursor-lines.json` and are not fetched. The Pages workflow runs this before upload and still deploys if the fetch fails. A private repo needs `HABITS_GITHUB_TOKEN`. `python3 scripts/habits.py check` checks the schema and does not use the network.
 
 Workouts, steps, and sleep are committed JSON. This repo does not fetch Apple Health or Strava on a schedule.
 
-Old `/habits/YYYY-MM-DD/` addresses redirect to `/`.
+Old `/habits/YYYY-MM-DD/` addresses redirect to `/habits/`.
 
 ## nightly sync
 
@@ -76,9 +74,9 @@ Old `/habits/YYYY-MM-DD/` addresses redirect to `/`.
 
 That job syncs the Lightroom album and bakes any new mid-frost JPEGs into the Actions cache (`frost-cache/`, not committed), then the Spotify playlist. A Spotify failure does not block the photo sync. It commits `site/snaps/` and `scripts/snaps_colors.json` and `site/music/playlist.json` only when something changed, then starts the Pages deploy. The frost JPEGs ride that deploy's cache, not the commit.
 
-`.github/workflows/pages.yml` deploys on every push to `main`, on manual dispatch, and on `0,2,32 5,6 * * *` (midnight Chicago, plus two retries, both CDT and CST). Before upload it runs `python3 scripts/publish_snaps.py --apply` (a no-op until the frost gate), refreshes `cursor.json`, and runs `python3 scripts/make_cards.py flip`, which copies a staged `og-next/` into `site/og/` once that date has started in Chicago. The habits refresh and the card flip can fail without blocking the deploy. The frost gate does not: a crash there keeps the previous deploy up. A missing frost file does not. That case exits 0 and leaves the sharp URLs for that deploy.
+`.github/workflows/pages.yml` deploys on every push to `main`, on manual dispatch, and on `0,2,32 5,6 * * *` (midnight Chicago, plus two retries, both CDT and CST). Before upload it bakes frost into the cache and copies ready JPEGs into the artifact. Sharp Lightroom ids stay in the uploaded JSON. A missing frost file does not block the deploy. It refreshes `cursor.json`, and runs `python3 scripts/make_cards.py flip`, which copies a staged `og-next/` into `site/og/` once that date has started in Chicago. The habits refresh and the card flip can fail without blocking the deploy.
 
-The quote file is the commit described above, not a step in `snaps.yml`. The homepage shows today’s entry from that file.
+The quote file is the commit described above, not a step in `snaps.yml`. `/habits/` shows today’s entry from that file.
 
 ## what the homepage leaves off
 
