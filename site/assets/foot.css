@@ -14,7 +14,8 @@
 .spamcan{--spam-body:#1AADB3;--spam-body-edge:#0B5B5E;--spam-rim:#F2B632;--spam-rim-edge:#6E4A06;--spam-ink:#021213}
 .spamcan.is-orange,:root[data-mode="fast"] .spamcan{--spam-body:#FF4D1A;--spam-body-edge:#8A2208;--spam-ink:#2A0A02}
 .spamcan.is-gold,:root[data-mode] .gld .spamcan,:root[data-mode] .spamcan.gld,:root[data-mode].gld .spamcan,:root[data-mode] .cta:has(.notify.gold-ok) .spamcan{--spam-body:#FFD700;--spam-body-edge:#7A5C00;--spam-rim:#FFFBE8;--spam-rim-edge:#7A5C00;--spam-ink:#5A4300}
-@media (prefers-color-scheme:light){
+/* locked dark for now: this query cannot match. the light palette stays in the file. */
+@media (prefers-color-scheme:light) and (prefers-color-scheme:dark){
   .spamcan{--spam-body:#0E7C81;--spam-body-edge:#064346;--spam-ink:#fff}
   .spamcan.is-orange,:root[data-mode="fast"] .spamcan{--spam-ink:#2A0A02}
   .spamcan.is-gold,:root[data-mode] .gld .spamcan,:root[data-mode] .spamcan.gld,:root[data-mode].gld .spamcan,:root[data-mode] .cta:has(.notify.gold-ok) .spamcan{--spam-body:#E0B400;--spam-body-edge:#7A5C00;--spam-ink:#3D2E00}
@@ -52,7 +53,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--c);outline-offset:2
 .social .who-t{display:flex;align-items:center;gap:calc(2px*var(--k));font-size:calc(17px*var(--k));line-height:1;color:var(--c);white-space:nowrap;font-weight:400}
 /* v1.98 (jay 2026.10.20): the wolf. grey fur + light muzzle + ink eye/nose; the bandana is currentColor (--c via .who-t). */
 :root{--wolf:#A0A4A8;--wolf-light:#E8E8E8;--wolf-ink:#070606}
-@media (prefers-color-scheme:light){:root{--wolf:#6B6F73;--wolf-light:#C9CCCF;--wolf-ink:#070606}}
+/* locked dark for now: this query cannot match. the light palette stays in the file. */
+@media (prefers-color-scheme:light) and (prefers-color-scheme:dark){:root{--wolf:#6B6F73;--wolf-light:#C9CCCF;--wolf-ink:#070606}}
 .social .who-t .nj{display:block;flex:none;width:var(--mast-mark,calc(24px*var(--k)));height:var(--mast-mark,calc(24px*var(--k)))}
 .social button.who-t{appearance:none;-webkit-appearance:none;background:none;border:0;font:inherit;color:var(--c);cursor:pointer;touch-action:manipulation}   /* v1.99 (jay 2026.10.20): the wolf is the speed button */
 .social a.who-t,.social button.who-t{padding:12px;margin:-12px;border-radius:12px;text-decoration:none;-webkit-tap-highlight-color:transparent}
@@ -126,7 +128,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--c);outline-offset:2
 .notify.gold-ok,.rk-sky.gold{--c:#FFD700;--c-rgb:255,215,0;--c-lt:#FFE066;--c-dk:#C99A00;--c-pale:#FFF6C2;--c-hot:#FFFBE8;--c-wh:#FFFBE8;--c-lt-rgb:255,230,102;--c-lt2:#FFE766;
   --c-l1-rgb:255,224,102;--c-l2-rgb:255,231,120;--c-l3-rgb:255,236,150;--c-l4-rgb:255,190,0;--c-l5-rgb:255,246,194;
   --f:#FFD700;--f-rgb:255,215,0;--f-lt:#FFE066;--f-dk:#C99A00;--f-pale:#FFF6C2;--f-wh:#FFFBE8;--f-lt2:#FFE766;--f-l4-rgb:255,190,0;--f-l5-rgb:255,246,194}
-@media (prefers-color-scheme:light){.notify.gold-ok,.rk-sky.gold{--c:#A67C00;--c-rgb:166,124,0;--c-hot:#7A5C00;--c-wh:#7A5C00;--f:#A67C00;--f-rgb:166,124,0;--f-lt2:#C99A00;--f-l4-rgb:184,134,11;--c-l2-rgb:201,154,0;--c-l3-rgb:184,134,11}}
+/* locked dark for now: this query cannot match. the light palette stays in the file. */
+@media (prefers-color-scheme:light) and (prefers-color-scheme:dark){.notify.gold-ok,.rk-sky.gold{--c:#A67C00;--c-rgb:166,124,0;--c-hot:#7A5C00;--c-wh:#7A5C00;--f:#A67C00;--f-rgb:166,124,0;--f-lt2:#C99A00;--f-l4-rgb:184,134,11;--c-l2-rgb:201,154,0;--c-l3-rgb:184,134,11}}
 .notify[data-chg="3"] .cbl-w .flow{animation:none;opacity:0;visibility:hidden;transition:none}
 .notify[data-chg="3"] .cbl-f .fill{transition:stroke .3s ease;animation:chg-full 1.8s ease-in-out infinite}
 .notify[data-chg="3"] .cbl-f{transition:none;animation:chg-glow 1.8s ease-in-out infinite}

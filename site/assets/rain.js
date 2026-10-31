@@ -8,8 +8,8 @@
   const sm=(e0,e1,x)=>{const t=clamp((x-e0)/(e1-e0));return t*t*(3-2*t)};
   const DPR=Math.min(window.devicePixelRatio||1,2);
   const T=[26,173,179], RAIN_ORANGE=[255,77,26];
-  // v1.53: light theme (prefers-color-scheme): on white every glyph is the state colour itself (deeper teal #127F84 (v1.60; was #13888D), orange #E85D0C (v1.58; was #D93D11), gold #A67C00), no white heads
-  const LIGHT_Q=matchMedia('(prefers-color-scheme: light)'), L_TEAL=[18,127,132], L_ORANGE=[232,93,12], L_GOLD=[166,124,0];
+  // locked dark for now: OS light must not recolor glyphs. the light palette (L_*) stays unused. heads stay white; bodies stay #1AADB3 / #FF4D1A / #FFD700.
+  const LIGHT_Q={matches:false}, L_TEAL=[18,127,132], L_ORANGE=[232,93,12], L_GOLD=[166,124,0];
   const RAIN_FLOOR=.25, RAIN_CONTENT='.copy, .gallery, .foot', rainMobile=()=>matchMedia('(max-width: 760px)').matches;
   const modeName=()=>document.documentElement.dataset.mode==='fast'?'fast':'normal';
 function Rain(cv, o){
