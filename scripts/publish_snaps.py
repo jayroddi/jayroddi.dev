@@ -78,7 +78,7 @@ def strip_public(root: Path, index: dict, months: list[tuple[Path, list]]) -> No
     write_json(snaps / "snaps.json", {"frost": True, "months": index.get("months") or []})
     for path, rows in months:
         write_json(path, [public_photo(row) for row in rows])
-    html_path = root / "site" / "index.html"
+    html_path = root / "site" / "snaps" / "index.html"
     if html_path.is_file():
         html = html_path.read_text(encoding="utf-8")
         if PRECONNECT in html:

@@ -160,7 +160,7 @@ function Rain(cv, o){
   const ensure=()=>{
     glowTwins();
     // v2.18: the grids page has no speed hint. tapping still changes speed. other pages keep the sentence.
-    // v2.72: the grids moved from / to /habits/ (/ is the snaps page now), so the rule follows them.
+    // v3.26: habit grids are on / and /habits/. snaps are on /snaps/. no page shows the speed hint.
     if(true){  // v2.74 (jay 2026.10.20): no page shows the 'tap screen for speed' hint (the wolf is the switch). was: only /me/ hid it
       document.querySelectorAll('.tap-hint').forEach(n=>n.remove());
       hint=null;

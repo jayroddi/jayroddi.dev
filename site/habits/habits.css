@@ -34,7 +34,7 @@ body.board .mast .pages:focus-visible{outline:2px solid var(--c);outline-offset:
 body.board .mast button.pages .pages-t{display:inline-block;color:inherit;font-style:italic;animation:title-glow 1.05s ease-in-out infinite}
 body.board .mast h1.pages .pages-t{display:inline;color:inherit;font-style:italic;white-space:normal}
 @media (prefers-reduced-motion:reduce){body.board .mast button.pages .pages-t{animation:none;text-shadow:0 0 8px rgba(var(--c-rgb),.75)}}
-/* v3.22: the header row is 11px, the same size as the teal subheads. jayroddi.dev sits on the left and links to /. the emoji and flags sit in the true center of the row. the hamburger stays on the right. only the domain is teal #1AADB3. the // is --fg. the emoji keep their own colour. italic, and it does not pulse or glow. */
+/* v3.26: the header row is 11px, the same size as the teal emoji subheads and the homepage quote. jayroddi.dev sits on the left and links to /. the hands sit in the true center. the flags sit on the right. there is no // and no menu. only the domain is teal #1AADB3. the emoji keep their own colour. italic, and it does not pulse or glow. */
 body.board .mast h1.pages{color:var(--fg);text-shadow:none;cursor:default}
 html.quiet body.board .mast .pages{text-shadow:none;cursor:default}
 html.quiet body.board .mast h1.pages{color:var(--fg)}
@@ -43,6 +43,13 @@ html.quiet body.board .mast .pages .pages-t{animation:none;text-shadow:none}
 /* v3.23: the emoji subhead is 11px at every width, including a narrow Duo screen. text-size-adjust stays 100% so a phone does not boost this one glyph above the other mosaic pages. font-variant-emoji keeps the calendar an emoji, the same presentation as snaps and daily, instead of a text fallback when the document is italic. the line is one emoji. */
 body.board .copy > .subhead{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0;text-align:center;font-family:var(--mono);font-size:11px;font-weight:500;font-style:italic;font-variant-emoji:emoji;letter-spacing:normal;line-height:var(--mast-lh);color:#1AADB3;white-space:nowrap;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media (max-width:359px){body.board .copy > .subhead{font-size:11px;-webkit-text-size-adjust:100%;text-size-adjust:100%}}
+/* v3.25: today's quote on / and /habits/. 11px italic mono, the same size as the title and the centered mark. the words are --fg (white in dark, black in light). the name is the next line, teal #1AADB3. lowercase, same as /quotes. a long line wraps. */
+body.board .copy > .day-quote{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0;text-align:center;font-family:var(--mono);font-size:11px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body.board .copy > .day-quote[hidden]{display:none}
+body.board .copy > .day-quote .qt,body.board .copy > .day-quote .qa{margin:0;font-family:var(--mono);font-size:11px;font-weight:500;font-style:italic;line-height:var(--mast-lh);text-align:center;text-transform:lowercase;overflow-wrap:anywhere}
+body.board .copy > .day-quote .qt{color:var(--fg);white-space:pre-line}
+body.board .copy > .day-quote .qa{margin-top:2px;color:#1AADB3}
+@media (max-width:359px){body.board .copy > .day-quote,body.board .copy > .day-quote .qt,body.board .copy > .day-quote .qa{font-size:11px;-webkit-text-size-adjust:100%;text-size-adjust:100%}}
 body.board .subhead + .covers{margin-top:0}
 /* v2.68 (jay 2026.10.20): the top line is plain text again, "by jay, a millennial living out loud", same font and size, in --fg
    (white in dark mode, black in light mode). below it the old v2.36 nav is back as snaps // quotes // habits: italic links in the speed
@@ -80,7 +87,7 @@ body.board .quotes li + li{margin-top:35.5px}
 body.board .quotes .d,
 body.board .quotes .q,
 body.board .quotes .by{margin:0;font-family:var(--mono);font-weight:500}
-/* v3.24: quote date, words, and name are the hamburger size (14px) at every width. a phone used to drop them to 12 / 14 / 13. */
+/* v3.24: quote date, words, and name are 14px at every width. a phone used to drop them to 12 / 14 / 13. */
 body.board .quotes .d{font-size:14px;line-height:1.5;color:rgba(var(--c-rgb),.75);text-align:left}
 body.board .quotes .q{margin-top:4px;font-size:14px;line-height:1.65;color:var(--ink-2);text-align:left;text-transform:lowercase;white-space:pre-line;overflow-wrap:anywhere}
 body.board .quotes .by{margin-top:4px;font-size:14px;line-height:1.5;color:var(--c);text-align:right;text-transform:lowercase}
@@ -296,16 +303,17 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
 :root body.board .mast .nav,:root body.board .copy > .note-line,:root body.snaps .backlog{font-size:var(--ts)}
 :root body.board .mast .nav a{padding:0 var(--nav-pad)}
 :root body.board .mast .nav{--hw:min(100vw - 16px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);flex-wrap:nowrap}
-/* v3.22: one header row. the domain is the left edge of the column. the emoji cluster is centered on the row itself, not in the gap between the domain and the menu. both are 11px, including under 360px. */
+/* v3.26: one header row, three parts, no menu and no //. the domain is the left edge. the hands are centered on the row. the flags are the right edge. all three are 11px, including under 360px. */
 :root body.board .mast{display:flex;align-items:center;min-height:var(--mast-row)}
 :root body.board .mast h1.pages{position:relative;z-index:2;display:flex;align-items:center;justify-content:flex-start;width:auto;max-width:calc(50% - 28px);height:auto;min-height:var(--mast-row);margin:0;padding:0;white-space:nowrap;text-align:left;text-wrap:nowrap;font-size:11px;line-height:var(--mast-lh)}
 :root body.board .mast h1.pages .brand{color:#1AADB3;font-style:italic;font-weight:500;text-decoration:none}
 :root body.board .mast h1.pages .brand:hover{color:#1AADB3}
-:root body.board .mast .mark{position:absolute;left:50%;top:50%;z-index:1;margin:0;transform:translate(-50%,-50%);font-family:var(--mono);font-size:11px;font-weight:500;font-style:italic;line-height:var(--mast-lh);white-space:nowrap;pointer-events:none}
-/* the emoji and the // are child spans. the universal reset sets those spans upright. quiet used to italicize them on /habits only, which sheared the cluster off the center the other pages use. */
-:root body.board .mast .mark .em,:root body.board .mast .mark .sep{font-style:normal;font-synthesis:none;font-variant-emoji:emoji}
-:root body.board .mast .mark .sep{color:var(--fg)}
-@media (max-width:359px){:root body.board .mast h1.pages,:root body.board .mast .mark{font-size:11px}}
+:root body.board .mast .mark,:root body.board .mast .flags{z-index:1;margin:0;font-family:var(--mono);font-size:11px;font-weight:500;font-style:italic;line-height:var(--mast-lh);white-space:nowrap;pointer-events:none}
+:root body.board .mast .mark{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+:root body.board .mast .flags{position:absolute;right:0;top:50%;transform:translateY(-50%)}
+/* the emoji are child spans. the universal reset sets those spans upright. quiet used to italicize them on /habits only, which sheared the cluster off the center the other pages use. */
+:root body.board .mast .mark .em,:root body.board .mast .flags .em{font-style:normal;font-synthesis:none;font-variant-emoji:emoji}
+@media (max-width:359px){:root body.board .mast h1.pages,:root body.board .mast .mark,:root body.board .mast .flags{font-size:11px}}
 /* v3.11: the title is one short line, so it keeps the shared 14px size (12px under 360px) instead of the smaller size the long sentence needed. */
 :root body.board .mast .nav{flex-direction:row;justify-content:center;align-items:center;white-space:nowrap}
 :root body.board .copy > .note-line,:root body.snaps .backlog{--hw:min(100vw - 24px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);white-space:nowrap}
@@ -319,23 +327,3 @@ html.quiet[data-mode="fast"]{
 }
 /* v3.23: quiet italic is the habit grids and the hover tip, not the document. the old rule (html.quiet and every descendant) set the root to italic. on a phone that resolves the subhead emoji through a different fallback than snaps and daily, and it sheared the header emoji, which stay upright on the other mosaic pages. labels, captions, and the tip stay italic. */
 html.quiet body.board .trackers,html.quiet body.board .trackers *,html.quiet body.board .tip,html.quiet body.board .tip *{font-style:italic}
-/* v3.22: the hamburger stays at the right edge of the column and centers on the single header row. the three lines are teal #1AADB3. */
-body.board .site-menu{position:absolute;z-index:5;top:0;right:0;bottom:0;height:auto;display:flex;align-items:center;justify-content:flex-end}
-body.board .menu-btn{box-sizing:border-box;display:flex;align-items:center;justify-content:flex-end;width:44px;height:var(--mast-row);margin:0;padding:0;border:0;border-radius:6px;background:transparent;color:#1AADB3;cursor:pointer;touch-action:manipulation;appearance:none;-webkit-appearance:none;-webkit-tap-highlight-color:transparent}
-body.board .menu-btn svg{display:block;width:18px;height:14px;color:#1AADB3}
-body.board .menu-btn svg path{stroke:#1AADB3;fill:none}
-body.board .menu-btn:focus{outline:0}
-body.board .menu-btn:focus-visible{outline:2px solid #1AADB3;outline-offset:2px}
-body.board .menu-panel{position:absolute;top:calc(100% + 6px);right:0;z-index:1;min-width:9.5rem;margin:0;padding:6px 0;border:1px solid rgba(var(--c-rgb),.4);border-radius:8px;background:var(--bg,#000);box-shadow:0 12px 32px rgba(0,0,0,.28);text-align:left;text-shadow:none}
-body.board .menu-panel[hidden]{display:none}
-body.board .menu-panel ul{list-style:none;margin:0;padding:0}
-/* v3.24: 14px is the body size. the nav links and @jayroddi use it, and the page text matches them. */
-body.board .menu-panel a{display:flex;align-items:center;min-height:40px;padding:0 18px;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;line-height:1.25;letter-spacing:normal;color:var(--c);text-decoration:none;text-shadow:none;white-space:nowrap;-webkit-tap-highlight-color:transparent}
-body.board .menu-panel a:hover{color:var(--c);background:rgba(var(--c-rgb),.08)}
-/* v3.20: the one menu social line (@jayroddi) follows the system, white in dark and black in light (--fg). the hamburger is teal #1AADB3. the title's domain is that same teal; its // marks use --fg. */
-body.board .menu-panel a.soc{color:var(--fg)}
-body.board .menu-panel a.soc:hover{color:var(--fg);background:rgba(var(--fg-rgb),.08)}
-body.board .menu-panel a.soc:focus-visible{outline-color:var(--fg)}
-body.board .menu-panel a[aria-current="page"]{text-decoration:underline;text-decoration-color:currentColor;text-decoration-thickness:1px;text-underline-offset:.2em}
-body.board .menu-panel a:focus{outline:0}
-body.board .menu-panel a:focus-visible{outline:2px solid var(--c);outline-offset:-4px}

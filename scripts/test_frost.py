@@ -72,7 +72,7 @@ def _album(root: Path, photos: list[dict]) -> None:
         "months": [{"m": "2026-10", "n": len(photos)}],
     }
     (root / "site" / "snaps" / "snaps.json").write_text(json.dumps(index) + "\n", encoding="utf-8")
-    html = root / "site" / "index.html"
+    html = root / "site" / "snaps" / "index.html"
     html.write_text(
         '<link rel="preconnect" href="https://photos.adobe.io">\n'
         '<form class="guess" id="guess" hidden></form>\n',
@@ -139,7 +139,7 @@ def test_publish_holds_then_strips() -> None:
         code = publish_snaps.main(["--root", str(root), "--now", "2026-10-31T23:59:00-05:00", "--apply"])
         assert code == 0
         assert (root / "site" / "snaps" / "snaps.json").read_text(encoding="utf-8") == before
-        assert "photos.adobe.io" in (root / "site" / "index.html").read_text(encoding="utf-8")
+        assert "photos.adobe.io" in (root / "site" / "snaps" / "index.html").read_text(encoding="utf-8")
 
         # No Adobe base in this fixture from here on, so the gate cannot download.
         index_path = root / "site" / "snaps" / "snaps.json"
@@ -173,12 +173,15 @@ def test_publish_holds_then_strips() -> None:
         assert "photos.adobe.io" not in blob
         assert "api_key" not in blob
         assert "Lightroom" not in blob
-        assert publish_snaps.PRECONNECT not in (root / "site" / "index.html").read_text(encoding="utf-8")
-        assert 'id="guess" hidden' in (root / "site" / "index.html").read_text(encoding="utf-8")
+        assert publish_snaps.PRECONNECT not in (root / "site" / "snaps" / "index.html").read_text(encoding="utf-8")
+        assert 'id="guess" hidden' in (root / "site" / "snaps" / "index.html").read_text(encoding="utf-8")
 
 
 def test_page_copy() -> None:
-    html = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
+    html = (ROOT / "site" / "snaps" / "index.html").read_text(encoding="utf-8")
+    home = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
+    assert 'id="guess"' not in home and 'id="gallery"' not in home
+    assert 'class="trackers"' in home
     js = (ROOT / "site" / "snaps" / "snaps.js").read_text(encoding="utf-8")
     assert f'placeholder="{HINT}"' in html
     assert 'id="guess" hidden' in html
