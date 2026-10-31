@@ -44,12 +44,13 @@ html.quiet body.board .mast .pages .pages-t{animation:none;text-shadow:none}
 /* v3.23: the emoji subhead is 11px at every width, including a narrow Duo screen. text-size-adjust stays 100% so a phone does not boost this one glyph above the other mosaic pages. font-variant-emoji keeps the calendar an emoji, the same presentation as snaps and daily, instead of a text fallback when the document is italic. the line is one emoji. */
 body.board .copy > .subhead{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0;text-align:center;font-family:var(--mono);font-size:11px;font-weight:500;font-style:italic;font-variant-emoji:emoji;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c);white-space:nowrap;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media (max-width:359px){body.board .copy > .subhead{font-size:11px;-webkit-text-size-adjust:100%;text-size-adjust:100%}}
-/* v3.28: today's quote on / and /habits/. 12px italic mono, the same size as the title and the hands. the words are --fg (white in dark, black in light). the name is the next line, in the accent, with a hyphen tight to the name. lowercase, same as /quotes. a long line wraps. */
+/* v3.36: today's quote on / and /habits/. 12px italic mono, the same size as the title and the hands. the words are --fg (white in dark, black in light). the name starts on the same line as the last word, in the accent, with a space and a hyphen tight to the name. lowercase, same as /quotes. a long line wraps. a name that does not fit wraps under that word instead of sitting on its own line. */
 body.board .copy > .day-quote{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0;text-align:center;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body.board .copy > .day-quote[hidden]{display:none}
 body.board .copy > .day-quote .qt,body.board .copy > .day-quote .qa{margin:0;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;line-height:var(--mast-lh);text-align:center;text-transform:lowercase;overflow-wrap:anywhere;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body.board .copy > .day-quote .qt{color:var(--fg);white-space:pre-line}
-body.board .copy > .day-quote .qa{margin-top:2px;color:var(--c)}
+body.board .copy > .day-quote .qe{display:inline-block;max-width:100%;white-space:normal;overflow-wrap:anywhere;vertical-align:baseline}
+body.board .copy > .day-quote .qa{display:inline;color:var(--c);white-space:normal;overflow-wrap:normal}
 @media (max-width:359px){body.board .copy > .day-quote,body.board .copy > .day-quote .qt,body.board .copy > .day-quote .qa{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}}
 body.board .subhead + .covers{margin-top:0}
 /* v2.68 (jay 2026.10.20): the top line is plain text again, "by jay, a millennial living out loud", same font and size, in --fg
