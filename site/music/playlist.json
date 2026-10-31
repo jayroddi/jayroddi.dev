@@ -4,7 +4,7 @@
   "name": "somewhere i belong",
   "owner": "jayroddi",
   "url": "https://open.spotify.com/playlist/2gnGKUyfcjB5aecShkH33N",
-  "cover": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84ce5b316b1e9a30e1e9b46262"
+  "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84ce5b316b1e9a30e1e9b46262"
  },
  "source": "spotify web api (user refresh token)",
  "count": 369,
@@ -4071,5 +4071,5 @@
    "duration_ms": 127253
   }
  ],
- "fetched": "2026-10-31T06:19:58Z"
+ "fetched": "2026-10-31T12:45:20Z"
 }
