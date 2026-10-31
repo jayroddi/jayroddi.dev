@@ -229,7 +229,14 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
   body.board .weeks{grid-column:1}
   .legend{gap:3px 8px}
   .tip{white-space:normal}
-  .stats{grid-template-columns:repeat(3, minmax(0, 1fr));gap:6px 8px}
+  /* v3.35: five stats, three across, then longest streak and current streak. those two share the second row and sit centered under the three, the same width and the same gap, so the empty space is equal on both sides. a 3-column grid parked them under the first two and left the right side empty. */
+  .stats{grid-template-columns:repeat(6, minmax(0, 1fr));gap:6px 8px}
+  .stats .stat{min-width:0}
+  .stats .stat:nth-child(1){grid-column:1 / span 2}
+  .stats .stat:nth-child(2){grid-column:3 / span 2}
+  .stats .stat:nth-child(3){grid-column:5 / span 2}
+  .stats .stat:nth-child(4){grid-column:2 / span 2}
+  .stats .stat:nth-child(5){grid-column:4 / span 2}
   body.day .copy{min-width:0}
   body.day .home{margin-bottom:16px}
   body.day .stage{padding:22px 0 28px}
