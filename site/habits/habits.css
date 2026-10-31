@@ -35,7 +35,7 @@ body.board .mast .pages:focus-visible{outline:2px solid var(--c);outline-offset:
 body.board .mast button.pages .pages-t{display:inline-block;color:inherit;font-style:italic;animation:title-glow 1.05s ease-in-out infinite}
 body.board .mast h1.pages .pages-t{display:inline;color:inherit;font-style:italic;white-space:normal}
 @media (prefers-reduced-motion:reduce){body.board .mast button.pages .pages-t{animation:none;text-shadow:0 0 8px rgba(var(--c-rgb),.75)}}
-/* v3.28: the header row is 12px, the same size as the homepage quote. jayroddi.dev sits on the left and cycles the accent. the hands sit in the true center. the flags sit on the right. there is no // and no menu. the emoji keep their own colour. italic, and it does not pulse or glow. */
+/* v3.31: the header row is 12px, the same size as the homepage quote. the hands sit on the left. jayroddi.dev sits in the true center and cycles the accent, shown in the next colour. the flags sit on the right. there is no // and no menu. the emoji keep their own colour. italic, and it does not pulse or glow. */
 body.board .mast h1.pages{color:var(--fg);text-shadow:none;cursor:default}
 html.quiet body.board .mast .pages{text-shadow:none;cursor:default}
 html.quiet body.board .mast h1.pages{color:var(--fg)}
@@ -44,7 +44,7 @@ html.quiet body.board .mast .pages .pages-t{animation:none;text-shadow:none}
 /* v3.23: the emoji subhead is 11px at every width, including a narrow Duo screen. text-size-adjust stays 100% so a phone does not boost this one glyph above the other mosaic pages. font-variant-emoji keeps the calendar an emoji, the same presentation as snaps and daily, instead of a text fallback when the document is italic. the line is one emoji. */
 body.board .copy > .subhead{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0;text-align:center;font-family:var(--mono);font-size:11px;font-weight:500;font-style:italic;font-variant-emoji:emoji;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c);white-space:nowrap;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media (max-width:359px){body.board .copy > .subhead{font-size:11px;-webkit-text-size-adjust:100%;text-size-adjust:100%}}
-/* v3.28: today's quote on / and /habits/. 12px italic mono, the same size as the title and the centered mark. the words are --fg (white in dark, black in light). the name is the next line, in the accent, with a hyphen tight to the name. lowercase, same as /quotes. a long line wraps. */
+/* v3.28: today's quote on / and /habits/. 12px italic mono, the same size as the title and the hands. the words are --fg (white in dark, black in light). the name is the next line, in the accent, with a hyphen tight to the name. lowercase, same as /quotes. a long line wraps. */
 body.board .copy > .day-quote{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0;text-align:center;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body.board .copy > .day-quote[hidden]{display:none}
 body.board .copy > .day-quote .qt,body.board .copy > .day-quote .qa{margin:0;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;line-height:var(--mast-lh);text-align:center;text-transform:lowercase;overflow-wrap:anywhere;-webkit-text-size-adjust:100%;text-size-adjust:100%}
@@ -309,15 +309,15 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
 :root body.board .mast .nav,:root body.board .copy > .note-line,:root body.snaps .backlog{font-size:14px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast .nav a{padding:0 var(--nav-pad)}
 :root body.board .mast .nav{--hw:min(100vw - 16px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);flex-wrap:nowrap}
-/* v3.28: one header row, three parts, no menu and no //. the domain is the left edge. the hands are centered on the row. the flags are the right edge. all three are 12px, including under 360px. */
+/* v3.31: one header row, three parts, no menu and no //. the hands are the left edge. the domain is absolutely centered on the row (the true center, not the gap between the sides) and still cycles the accent, in --c-next. the flags are the right edge. all three are 12px, including under 360px. */
 :root body.board .mast{display:flex;align-items:center;min-height:var(--mast-row)}
-:root body.board .mast h1.pages{position:relative;z-index:2;display:flex;align-items:center;justify-content:flex-start;width:auto;max-width:calc(50% - 28px);height:auto;min-height:var(--mast-row);margin:0;padding:0;white-space:nowrap;text-align:left;text-wrap:nowrap;font-size:12px;line-height:var(--mast-lh);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:root body.board .mast .mark,:root body.board .mast .flags{z-index:1;margin:0;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;line-height:var(--mast-lh);white-space:nowrap;pointer-events:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:root body.board .mast .mark{position:relative;display:flex;align-items:center;justify-content:flex-start;width:auto;max-width:calc(50% - 28px);height:auto;min-height:var(--mast-row);padding:0;text-align:left}
+:root body.board .mast h1.pages{position:absolute;left:50%;top:50%;z-index:2;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;width:auto;max-width:none;height:auto;min-height:0;margin:0;padding:0;white-space:nowrap;text-align:center;text-wrap:nowrap;font-size:12px;line-height:var(--mast-lh);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast h1.pages .brand{margin:0;padding:0;border:0;background:none;appearance:none;-webkit-appearance:none;color:var(--c-next);font:inherit;font-style:italic;font-weight:500;text-decoration:none;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 :root body.board .mast h1.pages .brand:hover{color:var(--c-next)}
 :root body.board .mast h1.pages .brand:focus{outline:0}
 :root body.board .mast h1.pages .brand:focus-visible{outline:2px solid var(--c);outline-offset:2px}
-:root body.board .mast .mark,:root body.board .mast .flags{z-index:1;margin:0;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;line-height:var(--mast-lh);white-space:nowrap;pointer-events:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-:root body.board .mast .mark{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
 :root body.board .mast .flags{position:absolute;right:0;top:50%;transform:translateY(-50%)}
 /* the emoji are child spans. the universal reset sets those spans upright. quiet used to italicize them on /habits only, which sheared the cluster off the center the other pages use. */
 :root body.board .mast .mark .em,:root body.board .mast .flags .em{font-style:normal;font-synthesis:none;font-variant-emoji:emoji}
