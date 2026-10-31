@@ -1,6 +1,6 @@
 node_modules
-# Mid-frost snaps. Built in Actions (frost-cache/) and uploaded with Pages
-# only after 2026-11-01 00:00 America/Chicago. Not source.
+# Mid-frost snaps. Built in Actions (frost-cache/) and copied into the
+# Pages artifact by publish_snaps.py --apply. Sharp ids stay in git. Not source.
 frost-cache/
 site/snaps/f/
 scripts/snaps_frost.json

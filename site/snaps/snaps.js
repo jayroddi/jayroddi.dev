@@ -1,8 +1,9 @@
-/* v2.59: when snaps.json says frost, tiles and the lightbox load
-   /snaps/f/{id}.jpg and /snaps/f/{id}-l.jpg. that flag is set by the Pages
-   deploy at 2026-11-01 00:00 America/Chicago, which also strips the sharp
-   Lightroom ids from the uploaded JSON. until then the grid is unchanged.
-   the decoy field under the camera emoji rides the same flag.
+/* v2.61: until today's final board is solved, the newest month loads the baked
+   frost JPEG (/snaps/f/{id}.jpg and -l.jpg) and older months load the sharp
+   Lightroom rendition under a lighter CSS blur, so age reads clearer. a
+   missing frost file falls back to that sharp URL with a heavy blur. the
+   sharp ids stay in the JSON. a solve (jtn.snaps.unlock, Chicago date) drops
+   the veil until midnight.
    v2.33: newest month first. one month is drawn, then another when the sentinel
    scrolls into view (a short month keeps going until the screen is full).
    photos go round-robin into 3 columns, or 6 from 900px, so each row reads
@@ -47,11 +48,8 @@ let eatClick = false;
 let stepping = false;
 let held = [];
 
-/* Empty until workers/snap-guesses is deployed. No write token lives here. */
-const GUESS_URL = '';
-
-function useFrost() {
-  return !!(index && index.frost);
+function solvedNow() {
+  return !!(window.JayAccent && JayAccent.solved());
 }
 
 function frostSrc(photo, big) {
@@ -60,12 +58,98 @@ function frostSrc(photo, big) {
 
 const url = (photo, id) => index.base + 'assets/' + photo.i + '/revisions/' + photo.v + '/renditions/' + id + '?api_key=' + encodeURIComponent(index.key);
 
-function tileSrc(photo) {
-  return useFrost() ? frostSrc(photo, false) : url(photo, photo.t);
+function monthAge(key) {
+  const newest = index && index.months && index.months[0] && index.months[0].m;
+  if (!key || !newest) return 0;
+  const [y, m] = key.split('-').map(Number);
+  const [ny, nm] = newest.split('-').map(Number);
+  return (ny - y) * 12 + (nm - m);
 }
 
-function bigSrc(photo) {
-  return useFrost() ? frostSrc(photo, true) : url(photo, photo.l || photo.s || photo.t);
+/* Newest month is the baked frost. Each older step is the sharp file with less blur. */
+function veil(month) {
+  if (solvedNow()) return {kind: 'sharp', blur: 0};
+  const age = monthAge(month);
+  if (age <= 0) return {kind: 'frost', blur: 0};
+  if (age === 1) return {kind: 'sharp', blur: 16};
+  if (age === 2) return {kind: 'sharp', blur: 10};
+  if (age <= 5) return {kind: 'sharp', blur: 6};
+  if (age <= 11) return {kind: 'sharp', blur: 3};
+  if (age <= 23) return {kind: 'sharp', blur: 1.5};
+  return {kind: 'sharp', blur: 0.6};
+}
+
+function resourceWidth(photo, long) {
+  return Math.max(1, Math.round(photo.w * long / (Math.max(photo.w, photo.h) || 1)));
+}
+
+function sharpSrc(photo, big) {
+  if (big) return url(photo, photo.l || photo.s || photo.t);
+  return url(photo, photo.t);
+}
+
+function sources(photo) {
+  const step = veil(photo._m);
+  if (step.kind === 'frost') {
+    const thumb = frostSrc(photo, false);
+    const big = frostSrc(photo, true);
+    return {
+      kind: 'frost',
+      blur: step.blur,
+      tile: thumb,
+      big: big,
+      srcset: thumb + ' ' + resourceWidth(photo, 640) + 'w, ' + big + ' ' + resourceWidth(photo, 1280) + 'w'
+    };
+  }
+  const thumb = sharpSrc(photo, false);
+  let srcset = '';
+  if (photo.s) srcset = thumb + ' ' + resourceWidth(photo, 640) + 'w, ' + url(photo, photo.s) + ' ' + resourceWidth(photo, 1280) + 'w';
+  return {kind: 'sharp', blur: step.blur, tile: thumb, big: sharpSrc(photo, true), srcset: srcset};
+}
+
+function veilEl(el, blur) {
+  if (!el) return;
+  if (blur > 0) {
+    el.classList.add('veiled');
+    el.style.setProperty('--frost', blur + 'px');
+  } else {
+    el.classList.remove('veiled');
+    el.style.removeProperty('--frost');
+  }
+}
+
+function paintShot(button, photo) {
+  const src = sources(photo);
+  button.dataset.kind = src.kind;
+  button.dataset.blur = String(src.blur);
+  button.dataset.src = src.tile;
+  button.dataset.big = src.big;
+  if (src.srcset) button.dataset.srcset = src.srcset;
+  else delete button.dataset.srcset;
+  veilEl(button, src.blur);
+  const img = button.querySelector('img');
+  if (!img) return;
+  img.dataset.kind = src.kind;
+  if (src.srcset) img.srcset = src.srcset;
+  else img.removeAttribute('srcset');
+  if (img.getAttribute('src') !== src.tile) img.src = src.tile;
+}
+
+function sharpFallback(button, photo, img) {
+  const thumb = sharpSrc(photo, false);
+  const big = sharpSrc(photo, true);
+  let srcset = '';
+  if (photo.s) srcset = thumb + ' ' + resourceWidth(photo, 640) + 'w, ' + url(photo, photo.s) + ' ' + resourceWidth(photo, 1280) + 'w';
+  button.dataset.kind = 'sharp';
+  button.dataset.blur = '22';
+  button.dataset.src = thumb;
+  button.dataset.big = big;
+  if (srcset) button.dataset.srcset = srcset;
+  else delete button.dataset.srcset;
+  veilEl(button, 22);
+  img.dataset.kind = 'sharp';
+  img.removeAttribute('srcset');
+  img.src = thumb;
 }
 
 function monthName(key) {
@@ -118,6 +202,7 @@ function render(meta, photos) {
   const already = gallery.querySelectorAll('.shot').length;
   const eagerCount = columnCount();
   const shots = photos.map((photo, n) => {
+    photo._m = meta.m;
     const seqAt = sequence.length;
     sequence.push(photo);
     const button = document.createElement('button');
@@ -136,13 +221,9 @@ function render(meta, photos) {
       cap.textContent = line;
       button.appendChild(cap);
     }
-    const thumb = tileSrc(photo);
-    const resource = long => Math.max(1, Math.round(photo.w * long / (Math.max(photo.w, photo.h) || 1)));
-    button.dataset.src = thumb;
     button.dataset.w = photo.w;
     button.dataset.h = photo.h;
-    if (useFrost()) button.dataset.srcset = thumb + ' ' + resource(640) + 'w, ' + frostSrc(photo, true) + ' ' + resource(1280) + 'w';
-    else if (photo.s) button.dataset.srcset = thumb + ' ' + resource(640) + 'w, ' + url(photo, photo.s) + ' ' + resource(1280) + 'w';
+    paintShot(button, photo);
     button.dataset.eager = already + n < eagerCount ? '1' : '';
     button.addEventListener('click', () => openAt(seqAt));
     if (already + n === 0) mount(button, true);
@@ -184,6 +265,12 @@ function mount(button, high) {
   }
   if (button.dataset.srcset) img.srcset = button.dataset.srcset;
   img.src = button.dataset.src;
+  img.addEventListener('error', () => {
+    if (button.dataset.kind !== 'frost' || img.dataset.fell) return;
+    img.dataset.fell = '1';
+    const photo = sequence[+button.dataset.seq];
+    if (photo) sharpFallback(button, photo, img);
+  });
   button.appendChild(img);
 }
 
@@ -204,11 +291,11 @@ function thumbOf(i) {
   const button = gallery.querySelector('.shot[data-seq="' + i + '"]');
   const img = button && button.querySelector('img');
   if (img && img.complete && img.naturalWidth) return img.currentSrc || img.src;
-  return tileSrc(photo);
+  return button.dataset.src || sources(photo).tile;
 }
 
 function fullOf(photo) {
-  return bigSrc(photo);
+  return sources(photo).big;
 }
 
 function warm(i) {
@@ -231,12 +318,27 @@ function go(i) {
   frame.style.setProperty('--w', String(photo.w || 1));
   frame.style.setProperty('--h', String(photo.h || 1));
   frame.style.background = '#' + (photo.c || '111');
+  const src = sources(photo);
+  frame.dataset.kind = src.kind;
+  veilEl(frame, src.blur);
+  delete lo.dataset.fell;
+  delete hi.dataset.fell;
   const thumb = thumbOf(i);
-  const full = fullOf(photo);
+  const full = src.big;
   lo.src = thumb;
   hi.classList.remove('on');
   hi.onload = () => { if (token === mine) hi.classList.add('on'); };
-  hi.onerror = () => { if (token === mine) hi.classList.remove('on'); };
+  hi.onerror = () => {
+    if (token !== mine) return;
+    if (frame.dataset.kind === 'frost' && !hi.dataset.fell) {
+      hi.dataset.fell = '1';
+      frame.dataset.kind = 'sharp';
+      veilEl(frame, 22);
+      hi.src = sharpSrc(photo, true);
+      return;
+    }
+    hi.classList.remove('on');
+  };
   if (full === thumb) hi.removeAttribute('src');
   else {
     hi.src = full;
@@ -443,46 +545,22 @@ const note = text => {
   gallery.appendChild(el);
 };
 
-function armGuess(on) {
-  const form = document.getElementById('guess');
-  if (!form || !on) return;
-  form.hidden = false;
-  if (form.dataset.armed) return;
-  form.dataset.armed = '1';
-  const input = form.querySelector('input');
-  const note = form.querySelector('.guess-note');
-  form.addEventListener('submit', event => {
-    event.preventDefault();
-    const guess = (input.value || '').replace(/\s+/g, ' ').trim().slice(0, 200);
-    note.textContent = 'nope';
-    if (!guess) return;
-    const now = Date.now();
-    let bag = {t: now, n: 0, last: 0};
-    try {
-      const saved = JSON.parse(sessionStorage.getItem('snap-guess') || 'null');
-      if (saved && typeof saved.t === 'number' && now - saved.t < 3600000) bag = saved;
-    } catch (e) { /* a blocked sessionStorage just limits this page */ }
-    if ((bag.n || 0) >= 20 || now - (bag.last || 0) < 2500) return;
-    bag.n = (bag.n || 0) + 1;
-    bag.last = now;
-    if (!bag.t) bag.t = now;
-    try { sessionStorage.setItem('snap-guess', JSON.stringify(bag)); } catch (e) {}
-    if (!GUESS_URL) return;
-    fetch(GUESS_URL, {
-      method: 'POST',
-      mode: 'cors',
-      credentials: 'omit',
-      headers: {'content-type': 'application/json'},
-      body: JSON.stringify({guess: guess}),
-      keepalive: true
-    }).catch(() => {});
+function restyle() {
+  document.querySelectorAll('.shot').forEach(button => {
+    const photo = sequence[+button.dataset.seq];
+    if (!photo) return;
+    const img = button.querySelector('img');
+    if (img) delete img.dataset.fell;
+    paintShot(button, photo);
   });
+  if (light.open) go(cursor);
 }
+
+window.addEventListener('jtn-accent', restyle);
 
 (window.__snaps || fetch('/snaps/snaps.json', {cache: 'no-cache'}).then(res => res.json()))
   .then(data => {
     index = data;
-    armGuess(!!(data && data.frost));
     if (!data || !Array.isArray(data.months) || !data.months.length) {
       note('no photos yet');
       return;

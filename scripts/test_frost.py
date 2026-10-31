@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Checks for the mid frost and the Nov 1 gate. No network."""
+"""Checks for the mid frost and the snaps publish step. No network."""
 
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ import frost
 import publish_snaps
 
 ROOT = Path(__file__).resolve().parents[1]
-HINT = "if you know me well enough, you'd know the password"
+HINT = "letter or the phrase"
 
 
 def rough(data: list, width: int) -> float:
@@ -50,14 +50,10 @@ def test_mid_hides_a_checkerboard() -> None:
     assert frost.frost_mid(im).tobytes() == out.tobytes()
 
 
-def test_gate_instant() -> None:
-    assert publish_snaps.GATE.utcoffset() == timedelta(hours=-5)
-    assert publish_snaps.gate_open(publish_snaps.GATE)
-    before = datetime(2026, 10, 31, 23, 59, 59, tzinfo=publish_snaps.CT)
-    assert not publish_snaps.gate_open(before)
-    assert publish_snaps.gate_open(datetime(2026, 11, 1, 0, 0, 1, tzinfo=publish_snaps.CT))
-    naive = datetime(2026, 10, 31, 12, 0)
-    assert not publish_snaps.gate_open(naive)
+def test_clock_is_chicago() -> None:
+    assert publish_snaps.CT.key == "America/Chicago"
+    stamp = publish_snaps.parse_now("2026-10-31T23:30:00-05:00")
+    assert stamp.astimezone(publish_snaps.CT).hour == 23
 
 
 def _album(root: Path, photos: list[dict]) -> None:
@@ -130,76 +126,65 @@ def test_bake_caches_and_keeps_stripped_files() -> None:
         assert (dest / f"{photo['i']}-l.jpg").is_file()
 
 
-def test_publish_holds_then_strips() -> None:
+def test_publish_keeps_sharp_urls() -> None:
     photo = _photo()
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
         _album(root, [photo])
         before = (root / "site" / "snaps" / "snaps.json").read_text(encoding="utf-8")
-        code = publish_snaps.main(["--root", str(root), "--now", "2026-10-31T23:59:00-05:00", "--apply"])
+        month_before = (root / "site" / "snaps" / "m" / "2026-10.json").read_text(encoding="utf-8")
+        code = publish_snaps.main(["--root", str(root), "--now", "2026-10-31T12:00:00-05:00", "--apply"])
         assert code == 0
         assert (root / "site" / "snaps" / "snaps.json").read_text(encoding="utf-8") == before
+        assert (root / "site" / "snaps" / "m" / "2026-10.json").read_text(encoding="utf-8") == month_before
         assert "photos.adobe.io" in (root / "site" / "snaps" / "index.html").read_text(encoding="utf-8")
-
-        # No Adobe base in this fixture from here on, so the gate cannot download.
-        index_path = root / "site" / "snaps" / "snaps.json"
-        index = json.loads(index_path.read_text(encoding="utf-8"))
-        index.pop("base")
-        index.pop("key")
-        index_path.write_text(json.dumps(index) + "\n", encoding="utf-8")
-        code = publish_snaps.main(["--root", str(root), "--now", "2026-11-01T00:00:00-05:00", "--apply"])
-        assert code == 0
-        held = json.loads(index_path.read_text(encoding="utf-8"))
-        assert "frost" not in held
-
-        code = publish_snaps.main(["--root", str(root), "--now", "2026-11-01T00:00:00-05:00"])
-        assert code == 0
-        assert "frost" not in json.loads(index_path.read_text(encoding="utf-8"))
-        frost_dir = root / "site" / "snaps" / "f"
-        assert not frost_dir.exists(), list(frost_dir.rglob("*")) if frost_dir.exists() else "missing"
 
         cache = root / "frost-cache"
         cache.mkdir()
         for name in frost.filenames(photo):
             (cache / name).write_bytes(b"x" * 900)
-        code = publish_snaps.main(["--root", str(root), "--now", "2026-11-01T00:05:00-05:00", "--apply"])
+        code = publish_snaps.main(["--root", str(root), "--now", "2026-10-31T12:05:00-05:00", "--apply"])
         assert code == 0
-        public = json.loads(index_path.read_text(encoding="utf-8"))
-        assert public["frost"] is True
-        assert "base" not in public and "key" not in public
+        public = json.loads((root / "site" / "snaps" / "snaps.json").read_text(encoding="utf-8"))
+        assert public["base"].startswith("https://photos.adobe.io/")
+        assert public["key"] == "LightroomMobileWeb1"
+        assert "frost" not in public
         month = json.loads((root / "site" / "snaps" / "m" / "2026-10.json").read_text(encoding="utf-8"))
-        assert set(month[0]) == {"i", "d", "a", "w", "h", "c"}
-        blob = json.dumps(public) + json.dumps(month)
-        assert "photos.adobe.io" not in blob
-        assert "api_key" not in blob
-        assert "Lightroom" not in blob
-        assert publish_snaps.PRECONNECT not in (root / "site" / "snaps" / "index.html").read_text(encoding="utf-8")
-        assert 'id="guess" hidden' in (root / "site" / "snaps" / "index.html").read_text(encoding="utf-8")
+        assert month[0]["t"] == photo["t"] and month[0]["l"] == photo["l"] and month[0]["v"] == photo["v"]
+        for name in frost.filenames(photo):
+            staged = root / "site" / "snaps" / "f" / name
+            assert staged.is_file() and staged.stat().st_size == 900
+        assert "photos.adobe.io" in (root / "site" / "snaps" / "index.html").read_text(encoding="utf-8")
 
 
 def test_page_copy() -> None:
     html = (ROOT / "site" / "snaps" / "index.html").read_text(encoding="utf-8")
     home = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
-    assert 'id="guess"' not in home and 'id="gallery"' not in home
-    assert 'class="trackers"' in home
+    habits = (ROOT / "site" / "habits" / "index.html").read_text(encoding="utf-8")
+    assert 'id="gallery"' in home and 'id="final"' in home and 'class="trackers"' not in home
+    assert 'id="gallery"' in html and 'id="final"' in html
+    assert 'class="trackers"' in habits and 'id="gallery"' not in habits
+    assert 'id="guess"' not in home and 'id="guess"' not in html
+    assert f'placeholder="{HINT}"' in html and f'placeholder="{HINT}"' in home
+    assert "Wheel of Fortune" not in html and "Wheel of Fortune" not in home
+    assert 'href="/daily/"' not in home
     js = (ROOT / "site" / "snaps" / "snaps.js").read_text(encoding="utf-8")
-    assert f'placeholder="{HINT}"' in html
-    assert 'id="guess" hidden' in html
-    assert 'const GUESS_URL = \'\';' in js
-    assert "https://" not in js.split("const GUESS_URL", 1)[1].split(";", 1)[0]
-    assert "nope" in js
-    assert publish_snaps.PRECONNECT.strip() in html
+    assert "GUESS_URL" not in js
+    assert "nope" not in js
+    assert '<link rel="preconnect" href="https://photos.adobe.io">' in html
     node = shutil.which("node")
     assert node
     subprocess.run([node, "--check", str(ROOT / "site" / "snaps" / "snaps.js")], check=True)
+    subprocess.run([node, "--check", str(ROOT / "site" / "snaps" / "puzzle.js")], check=True)
+    subprocess.run([node, "--check", str(ROOT / "site" / "assets" / "accent.js")], check=True)
     subprocess.run([node, "--check", str(ROOT / "workers" / "snap-guesses" / "worker.js")], check=True)
 
 
 def main() -> None:
     test_mid_hides_a_checkerboard()
-    test_gate_instant()
+    test_clock_is_chicago()
     test_bake_caches_and_keeps_stripped_files()
-    test_publish_holds_then_strips()
+    test_publish_keeps_sharp_urls()
     test_page_copy()
     print("ok")
 

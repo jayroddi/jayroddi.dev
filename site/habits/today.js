@@ -1,4 +1,4 @@
-/* v2: today's quote under the mast on / and /habits/. the feed is still
+/* v2: today's quote under the mast on /habits/. the feed is still
    /quote-of-the-day/quotes.json. the filter matches quotes.js: a real date,
    text (or quote), an author, and date <= today in America/Chicago, so a
    future entry stays hidden. only the entry dated today is painted. the
