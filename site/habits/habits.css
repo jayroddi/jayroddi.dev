@@ -5,9 +5,10 @@
   --white:#fff;
   --mono:"JetBrains Mono","IBM Plex Mono",ui-monospace,monospace;
 }
-*{box-sizing:border-box;margin:0;padding:0;font-style:normal}
-html{background:var(--bg);touch-action:manipulation}
-body{background:var(--bg);color:var(--ink);font-family:var(--mono);font-weight:500;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;min-height:100vh;min-height:100svh}
+/* v3.29: text-size-adjust stays 100% on every element. iOS Safari inflates copy that leaves it at auto when the phone rotates. the quote and the emoji line already set it; kickers, the mast, stats, month and weekday labels, and the legend did not, so those jumped. pinch zoom still works. heatmap cells are not text, and they still follow the column. */
+*{box-sizing:border-box;margin:0;padding:0;font-style:normal;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html{background:var(--bg);touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--mono);font-weight:500;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;min-height:100vh;min-height:100svh;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 a{color:var(--c);text-decoration:none;transition:color .15s ease}
 a:hover{color:var(--c)}
 ::selection{background:var(--c);color:#021213}
@@ -20,7 +21,7 @@ a:hover{color:var(--c)}
 /* the board scrolls. --habit-gap is the only vertical step: above each title, between a graph and its stats, and between sections. a new habit is another .tracker inside .trackers, and it picks up this step with no other layout change. the column is the shared --col (rain.css). */
 body.board{--habit-gap:16px;--left:max(24px,calc((100vw - 777.6px)/2));--edge:var(--left);--col:min(777.6px,calc(100vw - 48px));height:auto;min-height:100svh;overflow-x:hidden;display:flex;flex-direction:column}
 body.board .stage{position:relative;z-index:2;flex:none;display:flex;align-items:flex-start;justify-content:center;padding:48px 0 var(--habit-gap)}
-body.board .copy{margin-left:auto;margin-right:auto;width:var(--col);max-width:var(--col);display:flex;flex-direction:column;align-items:center;font-size:12px;text-align:center;text-shadow:0 0 8px rgba(var(--bg-rgb),.8)}
+body.board .copy{margin-left:auto;margin-right:auto;width:var(--col);max-width:var(--col);display:flex;flex-direction:column;align-items:center;font-size:12px;text-align:center;text-shadow:0 0 8px rgba(var(--bg-rgb),.8);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body.board .trackers,body.board .tracker,body.board .fit,body.board .graph{width:100%}
 body.board .kicker,body.board .legend,body.board .stat,body.board .status{text-align:center}
 body.board .legend{justify-content:center}
@@ -46,7 +47,7 @@ body.board .copy > .subhead{box-sizing:border-box;width:100%;margin:0 0 var(--ha
 /* v3.28: today's quote on / and /habits/. 12px italic mono, the same size as the title and the centered mark. the words are --fg (white in dark, black in light). the name is the next line, in the accent, with a hyphen tight to the name. lowercase, same as /quotes. a long line wraps. */
 body.board .copy > .day-quote{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0;text-align:center;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body.board .copy > .day-quote[hidden]{display:none}
-body.board .copy > .day-quote .qt,body.board .copy > .day-quote .qa{margin:0;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;line-height:var(--mast-lh);text-align:center;text-transform:lowercase;overflow-wrap:anywhere}
+body.board .copy > .day-quote .qt,body.board .copy > .day-quote .qa{margin:0;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;line-height:var(--mast-lh);text-align:center;text-transform:lowercase;overflow-wrap:anywhere;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body.board .copy > .day-quote .qt{color:var(--fg);white-space:pre-line}
 body.board .copy > .day-quote .qa{margin-top:2px;color:var(--c)}
 @media (max-width:359px){body.board .copy > .day-quote,body.board .copy > .day-quote .qt,body.board .copy > .day-quote .qa{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}}
@@ -87,7 +88,8 @@ body.board .quotes li + li{margin-top:35.5px}
 body.board .quotes .d,
 body.board .quotes .q,
 body.board .quotes .by{margin:0;font-family:var(--mono);font-weight:500}
-/* v3.24: quote date, words, and name are 14px at every width. a phone used to drop them to 12 / 14 / 13. */
+/* v3.24: quote date, words, and name are 14px at every width. a phone used to drop them to 12 / 14 / 13. v3.29: text-size-adjust stays 100% so iOS does not inflate the list. */
+body.board .quotes .d,body.board .quotes .q,body.board .quotes .by{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body.board .quotes .d{font-size:14px;line-height:1.5;color:rgba(var(--c-rgb),.75);text-align:left}
 body.board .quotes .q{margin-top:4px;font-size:14px;line-height:1.65;color:var(--ink-2);text-align:left;text-transform:lowercase;white-space:pre-line;overflow-wrap:anywhere}
 body.board .quotes .by{margin-top:4px;font-size:14px;line-height:1.5;color:var(--c);text-align:right;text-transform:lowercase}
@@ -95,11 +97,12 @@ body.board .quotes .by{margin-top:4px;font-size:14px;line-height:1.5;color:var(-
 .home{display:inline-block;margin:0 0 8px;font-size:14px;line-height:1.5;color:var(--c);letter-spacing:.02em}
 body.board .home{margin:0 0 var(--habit-gap)}
 .home:hover,.home:focus-visible{color:var(--c)}
-/* v3.28: grid titles are 12px, the same size as the board column and the mast. */
-.kicker{font-size:12px;line-height:1.25;color:var(--c)}
+/* v3.29: grid titles are 12px at every width, the same size as the mast and the day quote. text-size-adjust stays 100% on the heading and on .kt, so iOS Safari does not inflate them when the phone rotates. */
+.kicker{font-size:12px;line-height:1.25;color:var(--c);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.kicker .kt{font-size:12px;line-height:1.25;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .trackers{display:flex;flex-direction:column;gap:var(--habit-gap)}
 .tracker{display:flex;flex-direction:column;gap:var(--habit-gap)}
-.tracker .kicker{flex:none;margin:0;font-size:12px;line-height:1.25}
+.tracker .kicker{flex:none;margin:0;font-size:12px;line-height:1.25;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 
 /* the square size comes from the width. aspect-ratio reserves that height before the cells exist, so the legend never drops away while the page types in. the legend lives in .fit, so the habit gap below .fit is the gap between the graph and its stats. */
 .fit{flex:none;height:auto;min-height:0;width:100%;display:flex;flex-direction:column;gap:4px;overflow:visible}
@@ -122,10 +125,10 @@ body.board .graph{width:100%}
   body.board .graph{margin-left:calc(-1 * (var(--lab) + var(--lgap)));width:calc(100% + var(--lab) + var(--lgap))}
 }
 .months{grid-column:2;grid-row:1;display:grid;grid-template-columns:repeat(var(--weeks), minmax(0, 1fr));gap:var(--gap);height:var(--mh);overflow:visible}
-.months span{font-size:10px;line-height:1;font-weight:400;color:var(--ink-3);white-space:nowrap;overflow:visible}
+.months span{font-size:10px;line-height:1;font-weight:400;color:var(--ink-3);white-space:nowrap;overflow:visible;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .months span.edge{grid-column:var(--mc) / -1;justify-self:end;width:max-content}
 .dow{grid-column:1;grid-row:2;display:grid;grid-template-rows:repeat(7, minmax(0, 1fr));gap:var(--gap)}
-.dow span{display:flex;align-items:center;justify-content:flex-end;font-size:10px;line-height:1;font-weight:400;color:var(--ink-3);padding-right:2px}
+.dow span{display:flex;align-items:center;justify-content:flex-end;font-size:10px;line-height:1;font-weight:400;color:var(--ink-3);padding-right:2px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .weeks{
   grid-column:2;grid-row:2;width:100%;min-width:0;
   aspect-ratio:var(--weeks) / 7;
@@ -153,13 +156,13 @@ body.board .graph{width:100%}
 @keyframes today-cursor{0%,100%{opacity:1}50%{opacity:.32}}
 @media (prefers-reduced-motion:reduce){.cell.today:not(.sweep){animation:none;opacity:1}}
 
-.legend{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;margin:0;min-height:1.5em;font-size:12px;line-height:1.2;font-weight:400;color:var(--ink-3)}
+.legend{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;margin:0;min-height:1.5em;font-size:12px;line-height:1.2;font-weight:400;color:var(--ink-3);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .swatches{display:inline-flex;gap:3px}
 .swatches i{width:10px;height:10px;display:block}
 
 .stats{flex:none;width:100%;display:grid;grid-template-columns:repeat(5, minmax(0, 1fr));gap:8px;margin:0;min-height:3.2em}
-.stat .sl{display:block;min-height:2.3em;font-size:11px;line-height:1.15;font-weight:400;color:var(--ink-3)}
-.stat .sv{display:block;min-height:1.25em;font-size:12px;line-height:1.25;font-weight:500;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat .sl{display:block;min-height:2.3em;font-size:11px;line-height:1.15;font-weight:400;color:var(--ink-3);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.stat .sv{display:block;min-height:1.25em;font-size:12px;line-height:1.25;font-weight:500;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 
 .tip{position:fixed;z-index:40;left:0;top:0;max-width:calc(100vw - 16px);padding:6px 8px;background:var(--bg);color:var(--fg);border:1px solid rgba(var(--ink-rgb),.4);border-radius:4px;font-size:14px;line-height:1.35;font-weight:400;pointer-events:none;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.35)}
 .tip[hidden]{display:none}
@@ -176,7 +179,7 @@ body.day .stage{position:relative;z-index:2;min-height:100vh;min-height:100svh;d
 body.day .copy{margin-left:var(--left);width:var(--col);font-size:16px;text-shadow:0 0 8px rgba(var(--bg-rgb),.8)}
 body.day .home{margin:0 0 22px}
 .daysec{margin-top:28px}
-.daysec h2{font-size:21px;line-height:1.4;color:var(--c)}
+.daysec h2{font-size:21px;line-height:1.4;color:var(--c);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .total{margin-top:10px;font-size:16px;line-height:1.5;color:var(--fg);font-weight:500}
 .break{list-style:none;margin-top:10px;max-width:32ch}
 .break li{display:flex;justify-content:space-between;gap:18px;font-size:15px;line-height:1.7;font-weight:400;color:var(--ink-2)}
@@ -207,15 +210,19 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
 @media (prefers-reduced-motion:reduce){.js .late{transition:none}}
 
 @media (max-width:760px){
-  /* the phone graph is the two-graph phone size: the full column, a 1px cell gap, no weekday labels. --habit-gap does not change, and the page scrolls. */
+  /* the phone graph is the two-graph phone size: the full column, a 1px cell gap, no weekday labels. --habit-gap does not change, and the page scrolls. v3.29: this block sizes the squares only. titles, the mast, the quote, stats, month labels, and day headings keep the px size they have above. */
   body.board .stage{padding:32px 0 var(--habit-gap)}
   body.board .mast{--k:.8333;--kx:.7143}
-  body.board .mast .line{font-size:13px}
-  body.board .mast .pages{font-size:13px}
-  body.board .mast .nav{font-size:13px}
-  body.board .copy > .note-line{font-size:13px}
   body.board .copy{min-width:0}
-  .daysec h2{font-size:17px}
+  body.board .kicker,body.board .tracker .kicker,body.board .kicker .kt{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body.board .legend,body.board .stat .sv{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body.board .stat .sl{font-size:11px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body.board .months span,body.board .dow span{font-size:10px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body.board .mast .line,body.board .mast .nav,body.board .copy > .note-line{font-size:14px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  :root body.board .mast h1.pages,:root body.board .mast .mark,:root body.board .mast .flags{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body.board .copy > .day-quote,body.board .copy > .day-quote .qt,body.board .copy > .day-quote .qa{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body.board .quotes .d,body.board .quotes .q,body.board .quotes .by{font-size:14px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  .daysec h2{font-size:21px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body.board .graph{width:100%;--gap:1px;--lab:0px;--mh:13px;grid-template-columns:minmax(0,1fr);column-gap:0}
   body.board .months{grid-column:1}
   body.board .dow{display:none}
@@ -223,7 +230,6 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
   .legend{gap:3px 8px}
   .tip{white-space:normal}
   .stats{grid-template-columns:repeat(3, minmax(0, 1fr));gap:6px 8px}
-  .stat .sl{font-size:10px}
   body.day .copy{min-width:0}
   body.day .home{margin-bottom:16px}
   body.day .stage{padding:22px 0 28px}
@@ -294,29 +300,29 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
 /* v2.74 (jay 2026.10.20): the wolf's bandana (currentColor) is gold whenever gold is on: the '+30 lives' wolf inherited the overlay's white text colour. */
 .konami .nj,.kos-hold .nj{color:#FFD700}
 :root.gld .nj,.gld .nj,.nj.gld{color:var(--c)}
-/* v3.04: --ts is 14px, 12px under 360px. the shared title is an h1 and does not pulse. */
+/* v3.29: --ts stays 14px at every width. it used to drop to 12px under 360px, which resized the nav, the note line, and the snaps backlog. nav padding still tightens. the homepage mast is 12px on its own rules and does not use --ts. */
 :root{--ts:14px;--nav-pad:12px;--mast-lh:1.25;--mast-line:calc(var(--mast-lh) * var(--ts));--mast-gap:calc(44px - var(--mast-line));--mast-row:calc(var(--mast-line) + var(--mast-gap))}
 @media (max-width:491px){:root{--nav-pad:6px}}
 @media (max-width:419px){:root{--nav-pad:2px}}
 @media (max-width:371px){:root{--nav-pad:1px}}
-@media (max-width:359px){:root{--ts:12px;--nav-pad:1px}}
-:root body.board .mast .nav,:root body.board .copy > .note-line,:root body.snaps .backlog{font-size:var(--ts)}
+@media (max-width:359px){:root{--nav-pad:1px}}
+:root body.board .mast .nav,:root body.board .copy > .note-line,:root body.snaps .backlog{font-size:14px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast .nav a{padding:0 var(--nav-pad)}
 :root body.board .mast .nav{--hw:min(100vw - 16px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);flex-wrap:nowrap}
 /* v3.28: one header row, three parts, no menu and no //. the domain is the left edge. the hands are centered on the row. the flags are the right edge. all three are 12px, including under 360px. */
 :root body.board .mast{display:flex;align-items:center;min-height:var(--mast-row)}
-:root body.board .mast h1.pages{position:relative;z-index:2;display:flex;align-items:center;justify-content:flex-start;width:auto;max-width:calc(50% - 28px);height:auto;min-height:var(--mast-row);margin:0;padding:0;white-space:nowrap;text-align:left;text-wrap:nowrap;font-size:12px;line-height:var(--mast-lh)}
+:root body.board .mast h1.pages{position:relative;z-index:2;display:flex;align-items:center;justify-content:flex-start;width:auto;max-width:calc(50% - 28px);height:auto;min-height:var(--mast-row);margin:0;padding:0;white-space:nowrap;text-align:left;text-wrap:nowrap;font-size:12px;line-height:var(--mast-lh);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast h1.pages .brand{margin:0;padding:0;border:0;background:none;appearance:none;-webkit-appearance:none;color:var(--c);font:inherit;font-style:italic;font-weight:500;text-decoration:none;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 :root body.board .mast h1.pages .brand:hover{color:var(--c)}
 :root body.board .mast h1.pages .brand:focus{outline:0}
 :root body.board .mast h1.pages .brand:focus-visible{outline:2px solid var(--c);outline-offset:2px}
-:root body.board .mast .mark,:root body.board .mast .flags{z-index:1;margin:0;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;line-height:var(--mast-lh);white-space:nowrap;pointer-events:none}
+:root body.board .mast .mark,:root body.board .mast .flags{z-index:1;margin:0;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;line-height:var(--mast-lh);white-space:nowrap;pointer-events:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast .mark{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
 :root body.board .mast .flags{position:absolute;right:0;top:50%;transform:translateY(-50%)}
 /* the emoji are child spans. the universal reset sets those spans upright. quiet used to italicize them on /habits only, which sheared the cluster off the center the other pages use. */
 :root body.board .mast .mark .em,:root body.board .mast .flags .em{font-style:normal;font-synthesis:none;font-variant-emoji:emoji}
-@media (max-width:359px){:root body.board .mast h1.pages,:root body.board .mast .mark,:root body.board .mast .flags{font-size:12px}}
-/* v3.11: the title is one short line, so it keeps the shared 14px size (12px under 360px) instead of the smaller size the long sentence needed. */
+@media (max-width:359px){:root body.board .mast h1.pages,:root body.board .mast .mark,:root body.board .mast .flags{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}.kicker,.tracker .kicker,.kicker .kt,.legend,.stat .sv{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}.stat .sl{font-size:11px;-webkit-text-size-adjust:100%;text-size-adjust:100%}.months span,.dow span{font-size:10px;-webkit-text-size-adjust:100%;text-size-adjust:100%}}
+/* v3.11 / v3.29: the nav line stays 14px at every width. it used to drop to 12px under 360px. */
 :root body.board .mast .nav{flex-direction:row;justify-content:center;align-items:center;white-space:nowrap}
 :root body.board .copy > .note-line,:root body.snaps .backlog{--hw:min(100vw - 24px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);white-space:nowrap}
 /* v3.03: the quiet homepage does not invert. a fast-mode attribute, if one is ever set, still leaves the accents teal. light mode uses the same deeper teal as the rest of the site. */
