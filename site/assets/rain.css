@@ -30,7 +30,9 @@ html.au-snap,html.au-snap *,html.au-snap *::before,html.au-snap *::after{transit
    the near-white "hot" heads (#d2f6f7 / #ffd9cc / #FFFBE8) -> deep teal #0B6569 / deep orange #B8300A / deep gold #7A5C00, dim wake #8fa9aa -> #6E8B8C (2.49 -> 3.66:1).
    orange #FF4D1A -> #E85D0C (v1.58, jay 2026.10.03: a truer orange, 3.50:1 on white, hue 22deg; #D93D11 (4.54:1, hue 13deg) read too red. #F0650A was more orange but only 3.20:1. the tints moved with it: the same hue +9deg; was #D93D11 on the line from #FF4D1A to the brand dark orange #B8300A, its bright core). the rain on white is the state colour itself (see rain.js) */
 :root{--fg:#fff;--fg-rgb:255,255,255;--bg-rgb:0,0,0;--gk:1;--ink-rgb:246,239,233;--au:#FFD700;--au-rgb:255,215,0;--au-hot:#FFFBE8;--au-lt:#FFE066;--dim-w:#8fa9aa}
-@media (prefers-color-scheme:light){
+html{color-scheme:dark}
+/* locked dark for now: this query cannot match. the light palette stays in the file. */
+@media (prefers-color-scheme:light) and (prefers-color-scheme:dark){
   :root{--bg:#fff;--bg-rgb:255,255,255;--fg:#000;--fg-rgb:0,0,0;--gk:.45;--ink:#000;--ink-rgb:0,0,0;--ink-2:rgba(0,0,0,.72);--ink-3:rgba(0,0,0,.5);--white:#000;
     --au:#A67C00;--au-rgb:166,124,0;--au-hot:#7A5C00;--au-lt:#B8860B;--dim-w:#6E8B8C;--c:#127F84;--c-rgb:18,127,132;--c-hot:#0B6569;--c-wh:#0B6569;
     --f:#E85D0C;--f-rgb:232,93,12;--f-lt:#FF872F;--f-dk:#8B3808;--f-pale:#FFC39A;--f-wh:#B84A0A;--f-lt2:#FF963F;--f-l4-rgb:255,121,23;--f-l5-rgb:255,219,177}
