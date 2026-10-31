@@ -1,0 +1,216 @@
+{
+  "epoch": "2026-10-31",
+  "tz": "America/Chicago",
+  "given": "RSTLNE",
+  "how": "Index 0 is epoch (America/Chicago). Each next Chicago day uses the next object. After the last one, the list wraps. Append objects. Do not reorder or insert earlier ones, or past days shift. phrase is ASCII XOR 0xA5, then base64. python3 scripts/puzzle_bank.py \"PHRASE\" \"Category\"",
+  "puzzles": [
+    {
+      "category": "What Are You Wearing?",
+      "phrase": "8urq6YXn6eT/4Pc="
+    },
+    {
+      "category": "Food & Games",
+      "phrase": "9/Dn5+D3hebt7Obu4Os="
+    },
+    {
+      "category": "Thing",
+      "phrase": "4ez25PX14OT37OviheTm8Q=="
+    },
+    {
+      "category": "Phrase",
+      "phrase": "9vXp8Pfi7Oviherrhej89uDp4w=="
+    },
+    {
+      "category": "What Are You Doing?",
+      "phrase": "4/fk6Ozr4oXkhfLs6+Hq8g=="
+    },
+    {
+      "category": "Thing",
+      "phrase": "8ffq9e38hebk9uA="
+    },
+    {
+      "category": "Phrase",
+      "phrase": "8e3ghfLk7PGF7PaF6vPg9w=="
+    },
+    {
+      "category": "What Are You Doing?",
+      "phrase": "5/D//+zr4oXk6err4g=="
+    },
+    {
+      "category": "Phrase",
+      "phrase": "4/Dp6fyF9PDk6ezj7ODh"
+    },
+    {
+      "category": "Event",
+      "phrase": "9ffs8+Tx4IXn5Pbt"
+    },
+    {
+      "category": "Phrase",
+      "phrase": "7/D28YXx7eCF4+Tm8fY="
+    },
+    {
+      "category": "What Are You Doing?",
+      "phrase": "9ffk5vHs5uzr4oXz7Orp7Os="
+    },
+    {
+      "category": "Person",
+      "phrase": "5PDx7er37PH8hePs4vD34A=="
+    },
+    {
+      "category": "Phrase",
+      "phrase": "5+rw6+GF8eqF7eT19eDr"
+    },
+    {
+      "category": "What Are You Doing?",
+      "phrase": "9erw6+Hs6+KF8e3ghfXk8+Do4Ovx"
+    },
+    {
+      "category": "What Are You Wearing?",
+      "phrase": "5/fq8uuF9vDg4eCF9fDo9fY="
+    },
+    {
+      "category": "Food & Drink",
+      "phrase": "5IX/4Pbx/IXh7Pbt"
+    },
+    {
+      "category": "People",
+      "phrase": "4vfq8uuF7uzh9g=="
+    },
+    {
+      "category": "Phrase",
+      "phrase": "6+rxheSF9PDs5u6F4+z9"
+    },
+    {
+      "category": "In the Kitchen",
+      "phrase": "4/Dp6YXm6uru7OCF7+T3"
+    },
+    {
+      "category": "What Are You Doing?",
+      "phrase": "7Oj19+rz7Oviherw94Xm7eTr5uD2"
+    },
+    {
+      "category": "Phrase",
+      "phrase": "9PDs5u6F8eqF7/Dh4uA="
+    },
+    {
+      "category": "Thing",
+      "phrase": "5OuF6ufz7Orw9oX16uzr8Q=="
+    },
+    {
+      "category": "Phrase",
+      "phrase": "5+Dp7ODz4IXx7eCF7fz14A=="
+    },
+    {
+      "category": "Phrase",
+      "phrase": "8eTu7OvihePp7OLt8Q=="
+    },
+    {
+      "category": "Phrase",
+      "phrase": "6PyF5+Ti9oXk9+CF9eTm7uDh"
+    },
+    {
+      "category": "Person",
+      "phrase": "4+r36OD3herp/Oj17OTr"
+    },
+    {
+      "category": "Food & Drink",
+      "phrase": "9PDk9/GF6uOF8u3q6eCF6Ozp7g=="
+    },
+    {
+      "category": "Person",
+      "phrase": "6OTx7YX19+rh7OL8"
+    },
+    {
+      "category": "Food & Drink",
+      "phrase": "5+nq8uzr4oXn8Ofn6eD2"
+    },
+    {
+      "category": "Place",
+      "phrase": "9ez//+SF7+rs6/E="
+    },
+    {
+      "category": "What Are You Wearing?",
+      "phrase": "5IXm7ezmherw8ePs8Q=="
+    },
+    {
+      "category": "Food & Drink",
+      "phrase": "5Obq9+uF9vTw5Pbt"
+    },
+    {
+      "category": "What Are You Doing?",
+      "phrase": "4uzz7Ovihfzq8IXkhefg5PeF7fDi"
+    },
+    {
+      "category": "Food & Drink",
+      "phrase": "4/Dv7IXk9fXp4A=="
+    },
+    {
+      "category": "What Are You Doing?",
+      "phrase": "8PXh5PHs6+KF6PyF9e3q6+A="
+    },
+    {
+      "category": "Food & Drink",
+      "phrase": "9PDs5u6F5+zx4PY="
+    },
+    {
+      "category": "Thing",
+      "phrase": "4+To7Ons5PeF8+rs5uA="
+    },
+    {
+      "category": "What Are You Doing?",
+      "phrase": "4+zi7fHs6+KF5IXm6unh"
+    },
+    {
+      "category": "Around the House",
+      "phrase": "7+T3herjhebq7Ov2"
+    },
+    {
+      "category": "Phrase",
+      "phrase": "5/yF8e3ghefq6u4="
+    },
+    {
+      "category": "What Are You Doing?",
+      "phrase": "4Oj18fzs6+KF6PyF9erm7uDx9g=="
+    },
+    {
+      "category": "Food & Drink",
+      "phrase": "9eT15Pzkhe/w7Obg"
+    },
+    {
+      "category": "What Are You Doing?",
+      "phrase": "5+Ds6+KF9ffq5Obx7PPg"
+    },
+    {
+      "category": "Phrase",
+      "phrase": "6Orz7OvihfD1hezrhfHt4IXy6vfp4Q=="
+    },
+    {
+      "category": "What Are You Doing?",
+      "phrase": "7Ovh8Oni7Ovihej89uDp4w=="
+    },
+    {
+      "category": "Person",
+      "phrase": "4+r36OD3hery6+D3"
+    },
+    {
+      "category": "Place",
+      "phrase": "5IXm6urphe3k6+Lq8PE="
+    },
+    {
+      "category": "Place",
+      "phrase": "5OuF4Oj18fyF9eT37g=="
+    },
+    {
+      "category": "What Are You Doing?",
+      "phrase": "4unk6PXs6+KF7OuF8e3ghfLq6uH2"
+    },
+    {
+      "category": "Thing",
+      "phrase": "5IX16vbs8ezz4IXz7ODy9ers6/E="
+    },
+    {
+      "category": "Event",
+      "phrase": "5IXn7OKF9ffq6Orx7Orr"
+    }
+  ]
+}

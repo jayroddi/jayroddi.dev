@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rebuild the cursor habit graph. Day pages stay redirects to /.
+"""Rebuild the cursor habit graph. Day pages stay redirects to /habits/.
 
   python3 scripts/habits.py all      # fetch github, merge cursor-lines.json. day urls stay redirects
   python3 scripts/habits.py fetch    # cursor.json only
@@ -54,9 +54,9 @@ JARVIS = HABITS / "journal-jarvis.json"
 SLEEP = HABITS / "sleep.json"
 STEPS = HABITS / "steps.json"
 STEPS_CUTS = [2500, 5000, 7500, 10000]
-# habit grids live on / (site/index.html) and /habits/ (site/habits/index.html).
-# snaps live on /snaps/ (site/snaps/index.html). /me/ forwards to /habits/.
-# /daily/ is the quote feed. day pages still forward home (/).
+# snaps are the homepage (site/index.html) and /snaps/. habit grids live on
+# /habits/. /me/ and old /habits/YYYY-MM-DD/ pages forward to /habits/.
+# /daily/ is the quote feed and stays off the nav.
 HOME = HABITS.parent / "index.html"
 INDEX = HABITS / "index.html"
 SNAPS = HABITS.parent / "snaps" / "index.html"
@@ -555,8 +555,8 @@ def build_cursor_once(cfg: dict, today: date) -> dict:
 
 
 def grid_pages() -> list[Path]:
-    """Both copies of the habit grids. / is the homepage; /habits/ stays a real page."""
-    return [HOME, INDEX]
+    """The habit grids. They live on /habits/. / is the snaps homepage."""
+    return [INDEX]
 
 
 def check_index(cfg: dict) -> None:
@@ -644,14 +644,14 @@ REDIRECT_STUB = """<!doctype html>
 <head>
 <meta charset="utf-8">
 <title>jay tha ninja</title>
-<!-- v2.16: every page except / forwards home. location.replace keeps ?query and #hash, and the stub never sits in the back history. -->
-<script>location.replace("/" + location.search + location.hash)</script>
-<meta http-equiv="refresh" content="0; url=/">
+<!-- old day pages forward to /habits/. location.replace keeps ?query and #hash, and the stub never sits in the back history. -->
+<script>location.replace("/habits/" + location.search + location.hash)</script>
+<meta http-equiv="refresh" content="0; url=/habits/">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
-<link rel="canonical" href="https://jayroddi.dev/">
+<link rel="canonical" href="https://jayroddi.dev/habits/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="jayroddi.dev">
 <meta property="og:url" content="https://jayroddi.dev/">
@@ -673,7 +673,7 @@ REDIRECT_STUB = """<!doctype html>
 <style>html,body{margin:0;background:#000;color:#f6efe9}body{font:16px/1.5 "JetBrains Mono",ui-monospace,monospace;padding:24px}a{color:#FF4D1A;text-decoration:none}</style>
 </head>
 <body>
-<p><a href="/">jayroddi.dev</a></p>
+<p><a href="/habits/">habits</a></p>
 </body>
 </html>
 """
@@ -703,7 +703,7 @@ def assert_pages(today: date) -> tuple[date, date]:
 
 
 def write_redirects() -> int:
-    """Replace each published day page with a forward to /. New dates are not added."""
+    """Replace each published day page with a forward to /habits/. New dates are not added."""
     n = 0
     for child in sorted(HABITS.iterdir()):
         if not child.is_dir() or not DATE_RE.fullmatch(child.name):
@@ -711,7 +711,7 @@ def write_redirects() -> int:
         (child / "index.html").write_text(REDIRECT_STUB, encoding="utf-8")
         n += 1
     clear_coverage()
-    print(f"habits: day pages off; {n} old dates redirect to /")
+    print(f"habits: day pages off; {n} old dates redirect to /habits/")
     return n
 
 
@@ -720,8 +720,8 @@ def assert_redirects() -> int:
         html = path.read_text(encoding="utf-8")
         if 'data-pages-through="' in html:
             raise SystemExit(f"habits: data-pages-through is set on {path.relative_to(ROOT)} while day pages are off")
-    marker = 'location.replace("/" + location.search + location.hash)'
-    refresh = 'content="0; url=/"'
+    marker = 'location.replace("/habits/" + location.search + location.hash)'
+    refresh = 'content="0; url=/habits/"'
     n = 0
     for child in HABITS.iterdir():
         if not child.is_dir() or not DATE_RE.fullmatch(child.name):
@@ -731,12 +731,13 @@ def assert_redirects() -> int:
             raise SystemExit(f"habits: {child.name} has no redirect")
         text = page.read_text(encoding="utf-8")
         if marker not in text or refresh not in text or "day.js" in text:
-            raise SystemExit(f"habits: {child.name} is not a redirect to /")
+            raise SystemExit(f"habits: {child.name} is not a redirect to /habits/")
         n += 1
     if n == 0:
         raise SystemExit("habits: no day-page redirects under site/habits")
-    # grids live on / and /habits/. snaps live on /snaps/. /me/ forwards to /habits/.
+    # grids live on /habits/. snaps live on / and /snaps/. /me/ forwards to /habits/.
     mast = '<p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><span class="brand">life finds a way</span></h1><p class="flags"><span class="em">🇺🇸🇯🇵🇳🇿</span></p>'
+    nav = 'aria-label="pages"'
     for path in grid_pages():
         html = path.read_text(encoding="utf-8")
         label = path.relative_to(ROOT)
@@ -744,22 +745,31 @@ def assert_redirects() -> int:
             raise SystemExit(f"habits: {label} is not the grids page")
         if 'class="site-menu"' in html or "menu.js" in html or "🗓️" in html or 'class="day-quote"' not in html:
             raise SystemExit(f"habits: {label} still has the menu or the calendar subhead")
+        if 'href="/daily/"' in html:
+            raise SystemExit(f"habits: {label} still links /daily/ in the nav")
     me = ME.read_text(encoding="utf-8")
     if 'location.replace("/habits/"' not in me:
         raise SystemExit("habits: site/me/index.html is not a redirect to /habits/")
-    snaps = SNAPS.read_text(encoding="utf-8")
-    if 'id="gallery"' not in snaps or 'id="guess"' not in snaps or 'class="trackers"' in snaps or "location.replace" in snaps:
-        raise SystemExit("habits: site/snaps/index.html is not the snaps page")
-    if 'class="site-menu"' in snaps or "menu.js" in snaps:
-        raise SystemExit("habits: site/snaps/index.html still has the menu")
+    for path in (HOME, SNAPS):
+        snaps = path.read_text(encoding="utf-8")
+        label = path.relative_to(ROOT)
+        if 'id="gallery"' not in snaps or 'id="final"' not in snaps or 'class="trackers"' in snaps or "location.replace" in snaps:
+            raise SystemExit(f"habits: {label} is not the snaps page")
+        if 'id="guess"' in snaps or 'class="site-menu"' in snaps or "menu.js" in snaps:
+            raise SystemExit(f"habits: {label} still has the decoy field or the menu")
     for path in MAST_PAGES:
         text = path.read_text(encoding="utf-8")
-        if mast not in text or 'class="sep"' in text or "site-menu" in text or "menu.js" in text:
-            raise SystemExit(f"habits: {path.relative_to(ROOT)} mast is not hands / title / flags")
+        label = path.relative_to(ROOT)
+        if mast not in text or "site-menu" in text or "menu.js" in text or nav not in text:
+            raise SystemExit(f"habits: {label} mast is not hands / title / flags, or the nav is missing")
         if '<button type="button" class="brand"' in text or 'cycle accent color' in text:
-            raise SystemExit(f"habits: {path.relative_to(ROOT)} title is still an accent control")
+            raise SystemExit(f"habits: {label} title is still an accent control")
         if '✌️🤟🤙 // ' in text:
-            raise SystemExit(f"habits: {path.relative_to(ROOT)} still has the old header alt")
+            raise SystemExit(f"habits: {label} still has the old header alt")
+        nav_html = text.split('aria-label="pages"', 1)[-1].split("</nav>", 1)[0]
+        positions = [nav_html.find(f">{name}<") for name in ("snaps", "music", "books", "quotes", "habits")]
+        if any(pos < 0 for pos in positions) or positions != sorted(positions) or "/daily/" in nav_html:
+            raise SystemExit(f"habits: {label} nav is out of order")
     return n
 
 
@@ -1222,7 +1232,7 @@ def check() -> None:
     check_steps()
     check_jarvis()
     n = assert_redirects()
-    pages = f"{n} day urls redirect to /"
+    pages = f"{n} day urls redirect to /habits/"
     print(
         f"habits: check ok. cursor active {len(days)}, total {total}, year {year_total}, "
         f"longest {longest}, current {current}, best month {best_mo} ({best_mo_n}), best day {best_day} ({best_n}); "
