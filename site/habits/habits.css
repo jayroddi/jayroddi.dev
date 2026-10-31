@@ -7,7 +7,7 @@
 }
 /* v3.29: text-size-adjust stays 100% on every element. iOS Safari inflates copy that leaves it at auto when the phone rotates. the quote and the emoji line already set it; kickers, the mast, stats, month and weekday labels, and the legend did not, so those jumped. pinch zoom still works. heatmap cells are not text, and they still follow the column. */
 *{box-sizing:border-box;margin:0;padding:0;font-style:normal;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-html{background:var(--bg);color-scheme:dark;touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html{background:var(--bg);touch-action:manipulation;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{background:var(--bg);color:var(--ink);font-family:var(--mono);font-weight:500;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;min-height:100vh;min-height:100svh;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 a{color:var(--c);text-decoration:none;transition:color .15s ease}
 a:hover{color:var(--c)}
@@ -272,8 +272,7 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
   90%,100%{color:var(--dim-w);filter:none;text-shadow:none}
 }
 .gld .pad,html.gld .pad,:root.gld .pad,.pad.gld,.pad:has(.gld),.pad.off{visibility:hidden!important;pointer-events:none!important}
-/* locked dark for now: this query cannot match. the light palette stays in the file. */
-@media (prefers-color-scheme:light) and (prefers-color-scheme:dark){.pad{--bad:#C4173A;--bad-glow:rgba(196,23,58,.75)}}
+@media (prefers-color-scheme:light){.pad{--bad:#C4173A;--bad-glow:rgba(196,23,58,.75)}}
 @media (prefers-reduced-motion:reduce){
   .pad,.pad.in,.pad.go{transition:none}
   .pad.go button{animation:none;filter:drop-shadow(0 0 12px rgba(255,215,0,.85));text-shadow:none}
@@ -328,10 +327,9 @@ html.quiet[data-mode="fast"]{
   --c:#1AADB3;--c-rgb:26,173,179;--c-lt:#5FD6DA;--c-dk:#0E7C81;--c-pale:#C9F3F4;--c-hot:#d2f6f7;--c-wh:#E6FBFB;--c-lt-rgb:127,218,221;--c-lt2:#74CED2;
   --c-l1-rgb:107,203,207;--c-l2-rgb:118,208,211;--c-l3-rgb:129,212,215;--c-l4-rgb:74,191,196;--c-l5-rgb:226,245,246;
 }
-/* locked dark for now: this query cannot match. the light palette stays in the file. */
-@media (prefers-color-scheme:light) and (prefers-color-scheme:dark){
+@media (prefers-color-scheme:light){
   html.quiet[data-mode="fast"]{--c:#127F84;--c-rgb:18,127,132;--c-hot:#0B6569;--c-wh:#0B6569}
 }
 /* v3.23: quiet italic is the habit grids and the hover tip, not the document. the old rule (html.quiet and every descendant) set the root to italic. on a phone that resolves the subhead emoji through a different fallback than snaps and daily, and it sheared the header emoji, which stay upright on the other mosaic pages. labels, captions, and the tip stay italic. */
 html.quiet body.board .trackers,html.quiet body.board .trackers *,html.quiet body.board .tip,html.quiet body.board .tip *{font-style:italic}
-/* v3.32: accents stay the teal --c (#1AADB3). data-accent no longer recolours the site. the dark lock above is unchanged. */
+/* v3.33: accents stay the teal --c (#1AADB3 in dark, #127F84 on white). data-accent no longer recolours the site. light and dark follow prefers-color-scheme. */
