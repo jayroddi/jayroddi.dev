@@ -20,7 +20,7 @@ a:hover{color:var(--c)}
 /* the board scrolls. --habit-gap is the only vertical step: above each title, between a graph and its stats, and between sections. a new habit is another .tracker inside .trackers, and it picks up this step with no other layout change. the column is the shared --col (rain.css). */
 body.board{--habit-gap:16px;--left:max(24px,calc((100vw - 777.6px)/2));--edge:var(--left);--col:min(777.6px,calc(100vw - 48px));height:auto;min-height:100svh;overflow-x:hidden;display:flex;flex-direction:column}
 body.board .stage{position:relative;z-index:2;flex:none;display:flex;align-items:flex-start;justify-content:center;padding:48px 0 var(--habit-gap)}
-body.board .copy{margin-left:auto;margin-right:auto;width:var(--col);max-width:var(--col);display:flex;flex-direction:column;align-items:center;font-size:14px;text-align:center;text-shadow:0 0 8px rgba(var(--bg-rgb),.8)}
+body.board .copy{margin-left:auto;margin-right:auto;width:var(--col);max-width:var(--col);display:flex;flex-direction:column;align-items:center;font-size:12px;text-align:center;text-shadow:0 0 8px rgba(var(--bg-rgb),.8)}
 body.board .trackers,body.board .tracker,body.board .fit,body.board .graph{width:100%}
 body.board .kicker,body.board .legend,body.board .stat,body.board .status{text-align:center}
 body.board .legend{justify-content:center}
@@ -34,22 +34,22 @@ body.board .mast .pages:focus-visible{outline:2px solid var(--c);outline-offset:
 body.board .mast button.pages .pages-t{display:inline-block;color:inherit;font-style:italic;animation:title-glow 1.05s ease-in-out infinite}
 body.board .mast h1.pages .pages-t{display:inline;color:inherit;font-style:italic;white-space:normal}
 @media (prefers-reduced-motion:reduce){body.board .mast button.pages .pages-t{animation:none;text-shadow:0 0 8px rgba(var(--c-rgb),.75)}}
-/* v3.26: the header row is 11px, the same size as the teal emoji subheads and the homepage quote. jayroddi.dev sits on the left and links to /. the hands sit in the true center. the flags sit on the right. there is no // and no menu. only the domain is teal #1AADB3. the emoji keep their own colour. italic, and it does not pulse or glow. */
+/* v3.28: the header row is 12px, the same size as the homepage quote. jayroddi.dev sits on the left and cycles the accent. the hands sit in the true center. the flags sit on the right. there is no // and no menu. the emoji keep their own colour. italic, and it does not pulse or glow. */
 body.board .mast h1.pages{color:var(--fg);text-shadow:none;cursor:default}
 html.quiet body.board .mast .pages{text-shadow:none;cursor:default}
 html.quiet body.board .mast h1.pages{color:var(--fg)}
 html.quiet body.board .mast .pages .pages-t{animation:none;text-shadow:none}
 /* v3.14: the gap under the title matches the gap under the subtitle. the mast already has margin-bottom: --habit-gap (16px). the subtitle used to pull up over that with margin-top: calc(-1 * var(--habit-gap) + 6px), which left 6px between the title block and the subtitle while the subtitle kept 16px before the content. margin-top is 0 now, so both gaps are --habit-gap. */
 /* v3.23: the emoji subhead is 11px at every width, including a narrow Duo screen. text-size-adjust stays 100% so a phone does not boost this one glyph above the other mosaic pages. font-variant-emoji keeps the calendar an emoji, the same presentation as snaps and daily, instead of a text fallback when the document is italic. the line is one emoji. */
-body.board .copy > .subhead{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0;text-align:center;font-family:var(--mono);font-size:11px;font-weight:500;font-style:italic;font-variant-emoji:emoji;letter-spacing:normal;line-height:var(--mast-lh);color:#1AADB3;white-space:nowrap;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body.board .copy > .subhead{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0;text-align:center;font-family:var(--mono);font-size:11px;font-weight:500;font-style:italic;font-variant-emoji:emoji;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c);white-space:nowrap;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media (max-width:359px){body.board .copy > .subhead{font-size:11px;-webkit-text-size-adjust:100%;text-size-adjust:100%}}
-/* v3.25: today's quote on / and /habits/. 11px italic mono, the same size as the title and the centered mark. the words are --fg (white in dark, black in light). the name is the next line, teal #1AADB3. lowercase, same as /quotes. a long line wraps. */
-body.board .copy > .day-quote{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0;text-align:center;font-family:var(--mono);font-size:11px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+/* v3.28: today's quote on / and /habits/. 12px italic mono, the same size as the title and the centered mark. the words are --fg (white in dark, black in light). the name is the next line, in the accent, with a hyphen tight to the name. lowercase, same as /quotes. a long line wraps. */
+body.board .copy > .day-quote{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0;text-align:center;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body.board .copy > .day-quote[hidden]{display:none}
-body.board .copy > .day-quote .qt,body.board .copy > .day-quote .qa{margin:0;font-family:var(--mono);font-size:11px;font-weight:500;font-style:italic;line-height:var(--mast-lh);text-align:center;text-transform:lowercase;overflow-wrap:anywhere}
+body.board .copy > .day-quote .qt,body.board .copy > .day-quote .qa{margin:0;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;line-height:var(--mast-lh);text-align:center;text-transform:lowercase;overflow-wrap:anywhere}
 body.board .copy > .day-quote .qt{color:var(--fg);white-space:pre-line}
-body.board .copy > .day-quote .qa{margin-top:2px;color:#1AADB3}
-@media (max-width:359px){body.board .copy > .day-quote,body.board .copy > .day-quote .qt,body.board .copy > .day-quote .qa{font-size:11px;-webkit-text-size-adjust:100%;text-size-adjust:100%}}
+body.board .copy > .day-quote .qa{margin-top:2px;color:var(--c)}
+@media (max-width:359px){body.board .copy > .day-quote,body.board .copy > .day-quote .qt,body.board .copy > .day-quote .qa{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}}
 body.board .subhead + .covers{margin-top:0}
 /* v2.68 (jay 2026.10.20): the top line is plain text again, "by jay, a millennial living out loud", same font and size, in --fg
    (white in dark mode, black in light mode). below it the old v2.36 nav is back as snaps // quotes // habits: italic links in the speed
@@ -95,11 +95,11 @@ body.board .quotes .by{margin-top:4px;font-size:14px;line-height:1.5;color:var(-
 .home{display:inline-block;margin:0 0 8px;font-size:14px;line-height:1.5;color:var(--c);letter-spacing:.02em}
 body.board .home{margin:0 0 var(--habit-gap)}
 .home:hover,.home:focus-visible{color:var(--c)}
-/* v2.36: grid titles and the nav share this size (14px, 13px on a phone). */
-.kicker{font-size:14px;line-height:1.25;color:var(--c)}
+/* v3.28: grid titles are 12px, the same size as the board column and the mast. */
+.kicker{font-size:12px;line-height:1.25;color:var(--c)}
 .trackers{display:flex;flex-direction:column;gap:var(--habit-gap)}
 .tracker{display:flex;flex-direction:column;gap:var(--habit-gap)}
-.tracker .kicker{flex:none;margin:0;font-size:14px;line-height:1.25}
+.tracker .kicker{flex:none;margin:0;font-size:12px;line-height:1.25}
 
 /* the square size comes from the width. aspect-ratio reserves that height before the cells exist, so the legend never drops away while the page types in. the legend lives in .fit, so the habit gap below .fit is the gap between the graph and its stats. */
 .fit{flex:none;height:auto;min-height:0;width:100%;display:flex;flex-direction:column;gap:4px;overflow:visible}
@@ -153,13 +153,13 @@ body.board .graph{width:100%}
 @keyframes today-cursor{0%,100%{opacity:1}50%{opacity:.32}}
 @media (prefers-reduced-motion:reduce){.cell.today:not(.sweep){animation:none;opacity:1}}
 
-.legend{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;margin:0;min-height:1.5em;font-size:14px;line-height:1.2;font-weight:400;color:var(--ink-3)}
+.legend{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;margin:0;min-height:1.5em;font-size:12px;line-height:1.2;font-weight:400;color:var(--ink-3)}
 .swatches{display:inline-flex;gap:3px}
 .swatches i{width:10px;height:10px;display:block}
 
 .stats{flex:none;width:100%;display:grid;grid-template-columns:repeat(5, minmax(0, 1fr));gap:8px;margin:0;min-height:3.2em}
 .stat .sl{display:block;min-height:2.3em;font-size:11px;line-height:1.15;font-weight:400;color:var(--ink-3)}
-.stat .sv{display:block;min-height:1.25em;font-size:14px;line-height:1.25;font-weight:500;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat .sv{display:block;min-height:1.25em;font-size:12px;line-height:1.25;font-weight:500;color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 .tip{position:fixed;z-index:40;left:0;top:0;max-width:calc(100vw - 16px);padding:6px 8px;background:var(--bg);color:var(--fg);border:1px solid rgba(var(--ink-rgb),.4);border-radius:4px;font-size:14px;line-height:1.35;font-weight:400;pointer-events:none;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.35)}
 .tip[hidden]{display:none}
@@ -303,17 +303,19 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
 :root body.board .mast .nav,:root body.board .copy > .note-line,:root body.snaps .backlog{font-size:var(--ts)}
 :root body.board .mast .nav a{padding:0 var(--nav-pad)}
 :root body.board .mast .nav{--hw:min(100vw - 16px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);flex-wrap:nowrap}
-/* v3.26: one header row, three parts, no menu and no //. the domain is the left edge. the hands are centered on the row. the flags are the right edge. all three are 11px, including under 360px. */
+/* v3.28: one header row, three parts, no menu and no //. the domain is the left edge. the hands are centered on the row. the flags are the right edge. all three are 12px, including under 360px. */
 :root body.board .mast{display:flex;align-items:center;min-height:var(--mast-row)}
-:root body.board .mast h1.pages{position:relative;z-index:2;display:flex;align-items:center;justify-content:flex-start;width:auto;max-width:calc(50% - 28px);height:auto;min-height:var(--mast-row);margin:0;padding:0;white-space:nowrap;text-align:left;text-wrap:nowrap;font-size:11px;line-height:var(--mast-lh)}
-:root body.board .mast h1.pages .brand{color:#1AADB3;font-style:italic;font-weight:500;text-decoration:none}
-:root body.board .mast h1.pages .brand:hover{color:#1AADB3}
-:root body.board .mast .mark,:root body.board .mast .flags{z-index:1;margin:0;font-family:var(--mono);font-size:11px;font-weight:500;font-style:italic;line-height:var(--mast-lh);white-space:nowrap;pointer-events:none}
+:root body.board .mast h1.pages{position:relative;z-index:2;display:flex;align-items:center;justify-content:flex-start;width:auto;max-width:calc(50% - 28px);height:auto;min-height:var(--mast-row);margin:0;padding:0;white-space:nowrap;text-align:left;text-wrap:nowrap;font-size:12px;line-height:var(--mast-lh)}
+:root body.board .mast h1.pages .brand{margin:0;padding:0;border:0;background:none;appearance:none;-webkit-appearance:none;color:var(--c);font:inherit;font-style:italic;font-weight:500;text-decoration:none;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+:root body.board .mast h1.pages .brand:hover{color:var(--c)}
+:root body.board .mast h1.pages .brand:focus{outline:0}
+:root body.board .mast h1.pages .brand:focus-visible{outline:2px solid var(--c);outline-offset:2px}
+:root body.board .mast .mark,:root body.board .mast .flags{z-index:1;margin:0;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;line-height:var(--mast-lh);white-space:nowrap;pointer-events:none}
 :root body.board .mast .mark{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
 :root body.board .mast .flags{position:absolute;right:0;top:50%;transform:translateY(-50%)}
 /* the emoji are child spans. the universal reset sets those spans upright. quiet used to italicize them on /habits only, which sheared the cluster off the center the other pages use. */
 :root body.board .mast .mark .em,:root body.board .mast .flags .em{font-style:normal;font-synthesis:none;font-variant-emoji:emoji}
-@media (max-width:359px){:root body.board .mast h1.pages,:root body.board .mast .mark,:root body.board .mast .flags{font-size:11px}}
+@media (max-width:359px){:root body.board .mast h1.pages,:root body.board .mast .mark,:root body.board .mast .flags{font-size:12px}}
 /* v3.11: the title is one short line, so it keeps the shared 14px size (12px under 360px) instead of the smaller size the long sentence needed. */
 :root body.board .mast .nav{flex-direction:row;justify-content:center;align-items:center;white-space:nowrap}
 :root body.board .copy > .note-line,:root body.snaps .backlog{--hw:min(100vw - 24px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);white-space:nowrap}
@@ -327,3 +329,22 @@ html.quiet[data-mode="fast"]{
 }
 /* v3.23: quiet italic is the habit grids and the hover tip, not the document. the old rule (html.quiet and every descendant) set the root to italic. on a phone that resolves the subhead emoji through a different fallback than snaps and daily, and it sheared the header emoji, which stay upright on the other mosaic pages. labels, captions, and the tip stay italic. */
 html.quiet body.board .trackers,html.quiet body.board .trackers *,html.quiet body.board .tip,html.quiet body.board .tip *{font-style:italic}
+/* v3.27: clicking jayroddi.dev sets data-accent. teal is the unset default. orange is the brand orange (#FF4D1A, #E85D0C on white). gold is #FFD700 (#A67C00 on white, the same deeper gold the light theme already uses). these beat the quiet fast-mode lock, which would otherwise keep the accent teal. body text and the quote words stay --fg. */
+html[data-accent="orange"],html[data-accent="orange"][data-mode],html.quiet[data-accent="orange"],html.quiet[data-mode][data-accent="orange"]{
+  --c:#FF4D1A;--c-rgb:255,77,26;--c-lt:#FF8A5E;--c-dk:#B8300A;--c-pale:#FFC2A8;--c-hot:#ffd9cc;--c-wh:#FFE6DC;--c-lt-rgb:255,158,127;--c-lt2:#FF9A6E;
+  --c-l1-rgb:255,150,100;--c-l2-rgb:255,160,110;--c-l3-rgb:255,170,120;--c-l4-rgb:255,120,70;--c-l5-rgb:255,236,224;
+}
+html[data-accent="gold"],html[data-accent="gold"][data-mode],html.quiet[data-accent="gold"],html.quiet[data-mode][data-accent="gold"]{
+  --c:#FFD700;--c-rgb:255,215,0;--c-lt:#FFE066;--c-dk:#C99A00;--c-pale:#FFF6C2;--c-hot:#FFFBE8;--c-wh:#FFFBE8;--c-lt-rgb:255,230,102;--c-lt2:#FFE766;
+  --c-l1-rgb:255,224,102;--c-l2-rgb:255,231,120;--c-l3-rgb:255,236,150;--c-l4-rgb:255,190,0;--c-l5-rgb:255,246,194;
+}
+@media (prefers-color-scheme:light){
+  html[data-accent="orange"],html[data-accent="orange"][data-mode],html.quiet[data-accent="orange"],html.quiet[data-mode][data-accent="orange"]{
+    --c:#E85D0C;--c-rgb:232,93,12;--c-lt:#FF872F;--c-dk:#8B3808;--c-pale:#FFB579;--c-hot:#B84A0A;--c-wh:#B84A0A;--c-lt-rgb:255,148,80;--c-lt2:#FF963F;
+    --c-l1-rgb:255,148,53;--c-l2-rgb:255,158,63;--c-l3-rgb:255,167,73;--c-l4-rgb:255,121,23;--c-l5-rgb:255,219,177;
+  }
+  html[data-accent="gold"],html[data-accent="gold"][data-mode],html.quiet[data-accent="gold"],html.quiet[data-mode][data-accent="gold"]{
+    --c:#A67C00;--c-rgb:166,124,0;--c-lt:#C99A00;--c-dk:#7A5C00;--c-pale:#FFF6C2;--c-hot:#7A5C00;--c-wh:#7A5C00;--c-lt-rgb:201,154,0;--c-lt2:#B8860B;
+    --c-l1-rgb:201,154,0;--c-l2-rgb:184,134,11;--c-l3-rgb:166,124,0;--c-l4-rgb:184,134,11;--c-l5-rgb:255,246,194;
+  }
+}
