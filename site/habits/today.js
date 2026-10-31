@@ -1,9 +1,10 @@
-/* v2: today's quote under the mast on / and /habits/. the feed is still
+/* v3: today's quote under the mast on / and /habits/. the feed is still
    /quote-of-the-day/quotes.json. the filter matches quotes.js: a real date,
    text (or quote), an author, and date <= today in America/Chicago, so a
    future entry stays hidden. only the entry dated today is painted. the
-   name is the next line, lowercase via css, with a hyphen tight to the
-   name (-derek sivers). /quotes and /daily still paint the full list and
+   name sits at the end of the quote, on the same line as the last word,
+   lowercase via css, with a space and a hyphen tight to the name
+   (status. -derek sivers). /quotes and /daily still paint the full list and
    still drop a leading dash. */
 (() => {
   const host = document.querySelector('.day-quote');
@@ -19,11 +20,20 @@
     if (!hit || !hit.text || !hit.author) return;
     const q = document.createElement('p');
     q.className = 'qt';
-    q.textContent = hit.text;
-    const by = document.createElement('p');
+    const by = document.createElement('span');
     by.className = 'qa';
     by.textContent = '-' + hit.author;
-    host.replaceChildren(q, by);
+    const end = document.createElement('span');
+    end.className = 'qe';
+    const cut = hit.text.lastIndexOf(' ');
+    if (cut > 0) {
+      q.append(hit.text.slice(0, cut + 1));
+      end.append(hit.text.slice(cut + 1), ' ', by);
+    } else {
+      end.append(hit.text, ' ', by);
+    }
+    q.append(end);
+    host.replaceChildren(q);
     host.hidden = false;
   }).catch(() => {});
 })();
