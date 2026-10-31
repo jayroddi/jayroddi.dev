@@ -497,10 +497,11 @@ function armGuess(on) {
   .catch(() => note('photos are unavailable'));
 
 const canvas = document.getElementById('rain');
+let rain = null;
 if (canvas && window.JayRain){
 const T = [26, 173, 179], PALE_TEAL = [121, 205, 207], HEAD = [255, 255, 255], PALE_ORANGE = [255, 150, 121];
 const mob = () => document.documentElement.clientWidth < 760;
-const rain = JayRain.Rain(canvas, {
+rain = JayRain.Rain(canvas, {
   fs: 16, fsMobile: 13, mono: '"JetBrains Mono", monospace', seed: 5, head: HEAD, headMix: .6,
   tint: T, paleTint: PALE_TEAL, paleOrange: PALE_ORANGE,
   palette: (x, w, r) => r < .84 ? T : PALE_TEAL,
@@ -540,6 +541,6 @@ addEventListener('resize', () => {
   if (innerWidth === lastW) return;
   lastW = innerWidth;
   clearTimeout(rt);
-  rt = setTimeout(() => { relayout(); rain.build(); }, 150);
+  rt = setTimeout(() => { relayout(); if (rain) rain.build(); }, 150);
 });
 })();

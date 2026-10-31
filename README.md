@@ -82,4 +82,4 @@ The quote file is the commit described above, not a step in `snaps.yml`. The hom
 
 ## what the homepage leaves off
 
-No Buttondown field, no konami row, no social icons, no matrix rain, and no teal/orange toggle on `/`. `/confirmed/` is the signup page again. The homepage does not load `rain.js` and has no `#rain` canvas.
+No Buttondown field, no konami row, no social icons, and no teal/orange speed toggle on `/`. Matrix rain is on the board pages (`/`, `/habits/`, `/snaps/`, `/quotes/`, `/daily/`, `/books/`, `/music/`, `/confirmed/`): 25% behind `.copy`, `.gallery`, and `.foot`, full strength in the side gutters, and that same floor across the whole screen under 760px. `/confirmed/` is the signup page again.
