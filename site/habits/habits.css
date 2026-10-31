@@ -35,10 +35,10 @@ body.board .mast .pages:focus-visible{outline:2px solid var(--c);outline-offset:
 body.board .mast button.pages .pages-t{display:inline-block;color:inherit;font-style:italic;animation:title-glow 1.05s ease-in-out infinite}
 body.board .mast h1.pages .pages-t{display:inline;color:inherit;font-style:italic;white-space:normal}
 @media (prefers-reduced-motion:reduce){body.board .mast button.pages .pages-t{animation:none;text-shadow:0 0 8px rgba(var(--c-rgb),.75)}}
-/* v3.31: the header row is 12px, the same size as the homepage quote. the hands sit on the left. jayroddi.dev sits in the true center and cycles the accent, shown in the next colour. the flags sit on the right. there is no // and no menu. the emoji keep their own colour. italic, and it does not pulse or glow. */
-body.board .mast h1.pages{color:var(--fg);text-shadow:none;cursor:default}
+/* v3.33: the header row is 12px, the same size as the homepage quote. the hands sit on the left. the title sits in the true center, in teal, and does not cycle. the flags sit on the right. there is no // and no menu. the emoji keep their own colour. italic, and it does not pulse or glow. */
+body.board .mast h1.pages{color:var(--c);text-shadow:none;cursor:default}
 html.quiet body.board .mast .pages{text-shadow:none;cursor:default}
-html.quiet body.board .mast h1.pages{color:var(--fg)}
+html.quiet body.board .mast h1.pages{color:var(--c)}
 html.quiet body.board .mast .pages .pages-t{animation:none;text-shadow:none}
 /* v3.14: the gap under the title matches the gap under the subtitle. the mast already has margin-bottom: --habit-gap (16px). the subtitle used to pull up over that with margin-top: calc(-1 * var(--habit-gap) + 6px), which left 6px between the title block and the subtitle while the subtitle kept 16px before the content. margin-top is 0 now, so both gaps are --habit-gap. */
 /* v3.23: the emoji subhead is 11px at every width, including a narrow Duo screen. text-size-adjust stays 100% so a phone does not boost this one glyph above the other mosaic pages. font-variant-emoji keeps the calendar an emoji, the same presentation as snaps and daily, instead of a text fallback when the document is italic. the line is one emoji. */
@@ -310,7 +310,7 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
 :root body.board .mast .nav,:root body.board .copy > .note-line,:root body.snaps .backlog{font-size:14px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast .nav a{padding:0 var(--nav-pad)}
 :root body.board .mast .nav{--hw:min(100vw - 16px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);flex-wrap:nowrap}
-/* v3.31: one header row, three parts, no menu and no //. the hands are the left edge. the domain is absolutely centered on the row (the true center, not the gap between the sides) and still cycles the accent, in --c-next. the flags are the right edge. all three are 12px, including under 360px. */
+/* v3.33: one header row, three parts, no menu and no //. the hands are the left edge. the title is absolutely centered on the row (the true center, not the gap between the sides), in --c. the flags are the right edge. all three are 12px, including under 360px. */
 :root body.board .mast{display:flex;align-items:center;min-height:var(--mast-row)}
 :root body.board .mast .mark,:root body.board .mast .flags{z-index:1;margin:0;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;line-height:var(--mast-lh);white-space:nowrap;pointer-events:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast .mark{position:relative;display:flex;align-items:center;justify-content:flex-start;width:auto;max-width:calc(50% - 28px);height:auto;min-height:var(--mast-row);padding:0;text-align:left}
@@ -339,7 +339,7 @@ html.quiet[data-mode="fast"]{
 html.quiet body.board .trackers,html.quiet body.board .trackers *,html.quiet body.board .tip,html.quiet body.board .tip *{font-style:italic}
 /* v3.27: clicking jayroddi.dev sets data-accent. teal is the unset default. orange is the brand orange (#FF4D1A, #E85D0C on white). gold is #FFD700 (#A67C00 on white, the same deeper gold the light theme already uses). these beat the quiet fast-mode lock, which would otherwise keep the accent teal. body text and the quote words stay --fg. */
 /* v3.30: --c-next is the accent one step ahead (teal → orange, orange → gold, gold → teal). only the mast title reads it. light mode uses the same deeper hexes as --c. */
-:root{--c-next:#FF4D1A}
+:root{--c-next:#1AADB3}
 html[data-accent="orange"],html[data-accent="orange"][data-mode],html.quiet[data-accent="orange"],html.quiet[data-mode][data-accent="orange"]{
   --c:#FF4D1A;--c-rgb:255,77,26;--c-lt:#FF8A5E;--c-dk:#B8300A;--c-pale:#FFC2A8;--c-hot:#ffd9cc;--c-wh:#FFE6DC;--c-lt-rgb:255,158,127;--c-lt2:#FF9A6E;
   --c-l1-rgb:255,150,100;--c-l2-rgb:255,160,110;--c-l3-rgb:255,170,120;--c-l4-rgb:255,120,70;--c-l5-rgb:255,236,224;
@@ -363,4 +363,10 @@ html[data-accent="gold"],html[data-accent="gold"][data-mode],html.quiet[data-acc
     --c-l1-rgb:201,154,0;--c-l2-rgb:184,134,11;--c-l3-rgb:166,124,0;--c-l4-rgb:184,134,11;--c-l5-rgb:255,246,194;
     --c-next:#127F84;
   }
+}
+/* v3.33: accent is teal only. a stored data-accent cannot turn --c orange or gold. this follows the rules above and wins on equal specificity. */
+html[data-accent],html[data-accent][data-mode],html.quiet[data-accent],html.quiet[data-mode][data-accent]{
+  --c:#1AADB3;--c-rgb:26,173,179;--c-lt:#5FD6DA;--c-dk:#0E7C81;--c-pale:#C9F3F4;--c-hot:#d2f6f7;--c-wh:#E6FBFB;--c-lt-rgb:127,218,221;--c-lt2:#74CED2;
+  --c-l1-rgb:107,203,207;--c-l2-rgb:118,208,211;--c-l3-rgb:129,212,215;--c-l4-rgb:74,191,196;--c-l5-rgb:226,245,246;
+  --c-next:#1AADB3;
 }

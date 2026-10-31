@@ -20,23 +20,8 @@ function Rain(cv, o){
   // v1.14 preview: both palette families ease together, including drops already mid-fall.
   R.tint = o.tint ? {from: o.tint, to: o.tint, t0: 0, dur: 1} : null;
   R.paleTint = o.paleTint ? {from: o.paleTint, to: o.paleTint, t0: 0, dur: 1} : null;
-  // v2.75: an accent click sets data-accent. teal (no attribute) keeps the built palette. orange and gold read --c, the same tokens the title uses, including the light-theme shades.
-  let accentKey = '', accentPack = null;
-  const rgbOf = s => { const p = String(s).split(',').map(x => parseInt(x, 10)); return p.length === 3 && p.every(n => n === n) ? p : null; };
-  const accentAt = () => {
-    const name = document.documentElement.dataset.accent || '';
-    if (name !== 'orange' && name !== 'gold'){ accentKey = ''; accentPack = null; return null; }
-    const key = name + (LIGHT_Q.matches ? 'l' : 'd');
-    if (accentPack && accentKey === key) return accentPack;
-    const cs = getComputedStyle(document.documentElement);
-    const col = rgbOf(cs.getPropertyValue('--c-rgb'));
-    if (!col){ accentKey = ''; accentPack = null; return null; }
-    const pale = rgbOf(cs.getPropertyValue('--c-lt-rgb')) || col;
-    const hm = o.headMix ?? .62;
-    const mix = pal => pal.map((c, i) => Math.round(c + (o.head[i] - c)*hm));
-    accentKey = key; accentPack = {col, pale, head: mix(col), paleHead: mix(pale)};
-    return accentPack;
-  };
+  // v2.77: the accent stays teal. a stored data-accent does not recolor the rain.
+  const accentAt = () => null;
   R.speed = {from: 1, to: 1, t0: 0, dur: 1}; R.fast = modeName()==='fast';
   R.au = null; R.gh = [255,215,0].map((c, i) => Math.round(c + (o.head[i] - c)*(o.headMix ?? .62))); R.gph = [255,236,150].map((c, i) => Math.round(c + (o.head[i] - c)*(o.headMix ?? .62)));   // v1.52: gold heads
   const easeTint = (q, now) => { const k = Math.min(1, Math.max(0, (now - q.t0)/q.dur)), e = k*k*(3 - 2*k); return q.from.map((c, i) => Math.round(c + (q.to[i] - c)*e)); };
