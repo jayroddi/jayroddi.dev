@@ -1,8 +1,10 @@
-/* v1: today's quote under the mast on / and /habits/. the feed is still
+/* v2: today's quote under the mast on / and /habits/. the feed is still
    /quote-of-the-day/quotes.json. the filter matches quotes.js: a real date,
    text (or quote), an author, and date <= today in America/Chicago, so a
    future entry stays hidden. only the entry dated today is painted. the
-   full list on /quotes and /daily is still quotes.js. */
+   name is the next line, lowercase via css, with a hyphen tight to the
+   name (-derek sivers). /quotes and /daily still paint the full list and
+   still drop a leading dash. */
 (() => {
   const host = document.querySelector('.day-quote');
   if (!host) return;
@@ -20,7 +22,7 @@
     q.textContent = hit.text;
     const by = document.createElement('p');
     by.className = 'qa';
-    by.textContent = hit.author;
+    by.textContent = '-' + hit.author;
     host.replaceChildren(q, by);
     host.hidden = false;
   }).catch(() => {});

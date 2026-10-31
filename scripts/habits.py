@@ -756,6 +756,8 @@ def assert_redirects() -> int:
         text = path.read_text(encoding="utf-8")
         if mast not in text or 'class="sep"' in text or "site-menu" in text or "menu.js" in text:
             raise SystemExit(f"habits: {path.relative_to(ROOT)} mast is not domain / hands / flags")
+        if '<button type="button" class="brand" aria-label="cycle accent color">' not in text:
+            raise SystemExit(f"habits: {path.relative_to(ROOT)} brand is not the accent control")
         if '✌️🤟🤙 // ' in text:
             raise SystemExit(f"habits: {path.relative_to(ROOT)} still has the old header alt")
     return n
