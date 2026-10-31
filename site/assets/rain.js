@@ -20,6 +20,23 @@ function Rain(cv, o){
   // v1.14 preview: both palette families ease together, including drops already mid-fall.
   R.tint = o.tint ? {from: o.tint, to: o.tint, t0: 0, dur: 1} : null;
   R.paleTint = o.paleTint ? {from: o.paleTint, to: o.paleTint, t0: 0, dur: 1} : null;
+  // v2.75: an accent click sets data-accent. teal (no attribute) keeps the built palette. orange and gold read --c, the same tokens the title uses, including the light-theme shades.
+  let accentKey = '', accentPack = null;
+  const rgbOf = s => { const p = String(s).split(',').map(x => parseInt(x, 10)); return p.length === 3 && p.every(n => n === n) ? p : null; };
+  const accentAt = () => {
+    const name = document.documentElement.dataset.accent || '';
+    if (name !== 'orange' && name !== 'gold'){ accentKey = ''; accentPack = null; return null; }
+    const key = name + (LIGHT_Q.matches ? 'l' : 'd');
+    if (accentPack && accentKey === key) return accentPack;
+    const cs = getComputedStyle(document.documentElement);
+    const col = rgbOf(cs.getPropertyValue('--c-rgb'));
+    if (!col){ accentKey = ''; accentPack = null; return null; }
+    const pale = rgbOf(cs.getPropertyValue('--c-lt-rgb')) || col;
+    const hm = o.headMix ?? .62;
+    const mix = pal => pal.map((c, i) => Math.round(c + (o.head[i] - c)*hm));
+    accentKey = key; accentPack = {col, pale, head: mix(col), paleHead: mix(pale)};
+    return accentPack;
+  };
   R.speed = {from: 1, to: 1, t0: 0, dur: 1}; R.fast = modeName()==='fast';
   R.au = null; R.gh = [255,215,0].map((c, i) => Math.round(c + (o.head[i] - c)*(o.headMix ?? .62))); R.gph = [255,236,150].map((c, i) => Math.round(c + (o.head[i] - c)*(o.headMix ?? .62)));   // v1.52: gold heads
   const easeTint = (q, now) => { const k = Math.min(1, Math.max(0, (now - q.t0)/q.dur)), e = k*k*(3 - 2*k); return q.from.map((c, i) => Math.round(c + (q.to[i] - c)*e)); };
@@ -87,6 +104,7 @@ function Rain(cv, o){
     const th = tc && tc.map((c, i) => Math.round(c + (o.head[i] - c)*(o.headMix ?? .62)));
     const ph = pc && pc.map((c, i) => Math.round(c + (o.head[i] - c)*(o.headMix ?? .62)));   // family-matched tips ease with their bodies
     const light = LIGHT_Q.matches, le = light ? (tc ? clamp((tc[0] - T[0])/(RAIN_ORANGE[0] - T[0])) : (R.fast ? 1 : 0)) : 0, lc = light ? L_TEAL.map((c, i) => Math.round(c + (L_ORANGE[i] - c)*le)) : null;   // v1.53: where the tint is between teal and orange
+    const ac = accentAt();
     const A = R.au, gk = !A ? null : A.out ? (k => () => k)(1 - clamp((now - A.out.t0)/A.out.ms)) : A.trk ? (wy => wy === -Infinity ? () => 1 : y => clamp((y - wy)/A.soft))(A.trk()) : y => clamp((now - A.t0 - Math.min(1, Math.abs(y - A.y)/A.maxD)*A.ms)/A.fade);   // v1.52: the gold pulse (per glyph, by distance from its line) / the fade back
     for (const d of R.drops){
       if (!REDUCED){
@@ -106,6 +124,7 @@ function Rain(cv, o){
         if (i === 0){ col = R.fast ? (d.pal === o.paleTint ? ph : th) : d.head; a = Math.min(1, a*1.9); }
         else { const t = i / d.len; a *= i < 3 ? 1 : Math.pow(1 - t, 1.5); col = R.fast ? (d.pal === o.paleTint ? pc : tc) : d.pal; }
         if (light){ col = lc; if (d.pal === o.paleTint) a *= .6; }
+        if (ac){ const paleDrop = d.pal === o.paleTint; col = i === 0 ? (paleDrop ? ac.paleHead : ac.head) : (paleDrop ? ac.pale : ac.col); }
         if (gk){ const k = gk(y); if (k > 0){ const g = light ? L_GOLD : d.pal === o.paleTint ? (i === 0 ? R.gph : GOLD_PALE) : (i === 0 ? R.gh : GOLD); col = col.map((c, j) => Math.round(c + (g[j] - c)*k)); } }
         ctx.fillStyle = `rgba(${col[0]},${col[1]},${col[2]},${a})`;
         ctx.fillText(boost > .4 && Math.random() < .3 ? glyph() : d.g[i], d.x, y);
