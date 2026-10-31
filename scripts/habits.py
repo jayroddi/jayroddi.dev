@@ -1072,18 +1072,18 @@ def check_steps() -> None:
     edges = (data.get("intensity") or {}).get("edges")
     if edges != STEPS_CUTS:
         raise SystemExit(f"habits: steps.json edges {edges} != {STEPS_CUTS}")
-    if data.get("start") != "2025-10-05" or data.get("through") != "2026-10-30":
-        raise SystemExit("habits: steps.json window must be 2025-10-05 through 2026-10-30")
+    if data.get("start") != "2025-10-05" or data.get("through") != "2026-10-31":
+        raise SystemExit("habits: steps.json window must be 2025-10-05 through 2026-10-31")
     for key, day in days.items():
-        if not DATE_RE.fullmatch(key) or key < "2025-10-05" or key > "2026-10-30":
+        if not DATE_RE.fullmatch(key) or key < "2025-10-05" or key > "2026-10-31":
             raise SystemExit(f"habits: bad steps date {key}")
         if not isinstance(day, dict) or set(day) != {"steps"}:
             raise SystemExit(f"habits: {key} steps day must be steps only")
         steps = day["steps"]
         if isinstance(steps, bool) or not isinstance(steps, int) or steps <= 0:
             raise SystemExit(f"habits: {key} steps {steps!r} is not a positive count")
-    if len(days) != 385:
-        raise SystemExit(f"habits: steps.json has {len(days)} days, expected 385")
+    if len(days) != 386:
+        raise SystemExit(f"habits: steps.json has {len(days)} days, expected 386")
 
 
 def check_exercise(workouts: dict) -> None:
