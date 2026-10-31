@@ -35,7 +35,7 @@ body.board .mast .pages:focus-visible{outline:2px solid var(--c);outline-offset:
 body.board .mast button.pages .pages-t{display:inline-block;color:inherit;font-style:italic;animation:title-glow 1.05s ease-in-out infinite}
 body.board .mast h1.pages .pages-t{display:inline;color:inherit;font-style:italic;white-space:normal}
 @media (prefers-reduced-motion:reduce){body.board .mast button.pages .pages-t{animation:none;text-shadow:0 0 8px rgba(var(--c-rgb),.75)}}
-/* v3.32: the header row is 12px, the same size as the homepage quote. the hands sit on the left. the title sits in the true center, plain teal text, and it does not cycle the accent. the flags sit on the right. there is no // and no menu. the emoji keep their own colour. italic, and it does not pulse or glow. */
+/* v3.34: the header row is 12px, the same size as the homepage quote. ninja, wolf, and the hairy creature sit on the left. the five hand-and-cross emoji sit in the true center, and the title does not cycle the accent. the flags sit on the right. there is no // and no menu. the emoji keep their own colour. the title does not pulse or glow. */
 body.board .mast h1.pages{color:var(--fg);text-shadow:none;cursor:default}
 html.quiet body.board .mast .pages{text-shadow:none;cursor:default}
 html.quiet body.board .mast h1.pages{color:var(--fg)}
@@ -309,15 +309,15 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
 :root body.board .mast .nav,:root body.board .copy > .note-line,:root body.snaps .backlog{font-size:14px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast .nav a{padding:0 var(--nav-pad)}
 :root body.board .mast .nav{--hw:min(100vw - 16px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);flex-wrap:nowrap}
-/* v3.32: one header row, three parts, no menu and no //. the hands are the left edge. the title is absolutely centered on the row (the true center, not the gap between the sides), plain teal (--c), and it is not a control. the flags are the right edge. all three are 12px, including under 360px. */
+/* v3.34: one header row, three parts, no menu and no //. ninja, wolf, and the hairy creature are the left edge. the title emoji are absolutely centered on the row (the true center, not the gap between the sides), and the title is not a control. the flags are the right edge. all three are 12px, including under 360px. */
 :root body.board .mast{display:flex;align-items:center;min-height:var(--mast-row)}
 :root body.board .mast .mark,:root body.board .mast .flags{z-index:1;margin:0;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;line-height:var(--mast-lh);white-space:nowrap;pointer-events:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast .mark{position:relative;display:flex;align-items:center;justify-content:flex-start;width:auto;max-width:calc(50% - 28px);height:auto;min-height:var(--mast-row);padding:0;text-align:left}
 :root body.board .mast h1.pages{position:absolute;left:50%;top:50%;z-index:2;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;width:auto;max-width:none;height:auto;min-height:0;margin:0;padding:0;white-space:nowrap;text-align:center;text-wrap:nowrap;font-size:12px;line-height:var(--mast-lh);-webkit-text-size-adjust:100%;text-size-adjust:100%}
-:root body.board .mast h1.pages .brand{margin:0;padding:0;border:0;background:none;color:var(--c);font:inherit;font-style:italic;font-weight:500;text-decoration:none;cursor:default}
+:root body.board .mast h1.pages .brand{margin:0;padding:0;border:0;background:none;color:inherit;font:inherit;font-style:normal;font-weight:500;text-decoration:none;cursor:default}
 :root body.board .mast .flags{position:absolute;right:0;top:50%;transform:translateY(-50%)}
-/* the emoji are child spans. the universal reset sets those spans upright. quiet used to italicize them on /habits only, which sheared the cluster off the center the other pages use. */
-:root body.board .mast .mark .em,:root body.board .mast .flags .em{font-style:normal;font-synthesis:none;font-variant-emoji:emoji}
+/* the emoji are child spans. the universal reset sets those spans upright. quiet used to italicize them on /habits only, which sheared the cluster off the center the other pages use. the title cluster uses the same span. */
+:root body.board .mast .mark .em,:root body.board .mast .flags .em,:root body.board .mast h1.pages .em{font-style:normal;font-synthesis:none;font-variant-emoji:emoji}
 @media (max-width:359px){:root body.board .mast h1.pages,:root body.board .mast .mark,:root body.board .mast .flags{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}.kicker,.tracker .kicker,.kicker .kt,.legend,.stat .sv{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}.stat .sl{font-size:11px;-webkit-text-size-adjust:100%;text-size-adjust:100%}.months span,.dow span{font-size:10px;-webkit-text-size-adjust:100%;text-size-adjust:100%}}
 /* v3.11 / v3.29: the nav line stays 14px at every width. it used to drop to 12px under 360px. */
 :root body.board .mast .nav{flex-direction:row;justify-content:center;align-items:center;white-space:nowrap}

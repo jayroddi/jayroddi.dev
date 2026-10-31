@@ -736,7 +736,7 @@ def assert_redirects() -> int:
     if n == 0:
         raise SystemExit("habits: no day-page redirects under site/habits")
     # grids live on / and /habits/. snaps live on /snaps/. /me/ forwards to /habits/.
-    mast = '<p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><span class="brand">life finds a way</span></h1><p class="flags"><span class="em">🇺🇸🇯🇵🇳🇿</span></p>'
+    mast = '<p class="mark"><span class="em">🥷🐺🫈</span></p><h1 class="pages"><span class="brand"><span class="em">✌️🤟✝️🤘🤙</span></span></h1><p class="flags"><span class="em">🇺🇸🇯🇵🇳🇿</span></p>'
     for path in grid_pages():
         html = path.read_text(encoding="utf-8")
         label = path.relative_to(ROOT)
