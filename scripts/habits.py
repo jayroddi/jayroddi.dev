@@ -748,7 +748,7 @@ def assert_redirects() -> int:
     if 'location.replace("/habits/"' not in me:
         raise SystemExit("habits: site/me/index.html is not a redirect to /habits/")
     snaps = SNAPS.read_text(encoding="utf-8")
-    if 'id="gallery"' not in snaps or 'id="guess"' not in snaps or 'class="trackers"' in snaps or "location.replace" in snaps:
+    if 'id="gallery"' not in snaps or 'id="guess"' in snaps or 'type="password"' in snaps or 'class="trackers"' in snaps or "location.replace" in snaps:
         raise SystemExit("habits: site/snaps/index.html is not the snaps page")
     if 'class="site-menu"' in snaps or "menu.js" in snaps:
         raise SystemExit("habits: site/snaps/index.html still has the menu")
