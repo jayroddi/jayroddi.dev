@@ -429,26 +429,29 @@
     ctx.lineJoin = 'round';
     ctx.lineCap = 'round';
 
+    const narrow = w < 560;
     const spec = root.querySelector('.kronos-spec');
-    const specW = spec && getComputedStyle(spec).display !== 'none' ? spec.offsetWidth + 16 : 8;
+    const specW = spec && getComputedStyle(spec).display !== 'none' ? spec.offsetWidth + 16 : 10;
     const plot = {
-      left: Math.max(8, specW),
-      right: w - 50,
-      top: 26,
-      bottom: h - 16
+      left: Math.max(10, specW),
+      right: w - (narrow ? 34 : 50),
+      top: narrow ? 42 : 28,
+      bottom: h - (narrow ? 22 : 16)
     };
     plot.w = Math.max(10, plot.right - plot.left);
     plot.h = Math.max(10, plot.bottom - plot.top);
-    const nowX = plot.left + plot.w * (0.46 + Math.sin(t * 0.22) * 0.004);
+    const split = narrow ? 0.58 : 0.46;
+    const nowX = plot.left + plot.w * (split + Math.sin(t * 0.22) * 0.004);
     const yOf = v => plot.bottom - ((v - yLo) / (yHi - yLo || 1)) * plot.h;
 
     drawFloor(plot, t);
     drawGrid(plot, yOf);
 
-    const n = candles.length;
-    const slot = (nowX - plot.left - 10) / Math.max(1, n);
-    candles.forEach((c, i) => {
-      const x = plot.left + 6 + slot * (i + 0.5);
+    const shown = narrow ? candles.slice(-16) : candles;
+    const n = shown.length;
+    const slot = (nowX - plot.left - 12) / Math.max(1, n);
+    shown.forEach((c, i) => {
+      const x = plot.left + 8 + slot * (i + 0.5);
       drawCandle(c, x, slot, i >= n - 6, yOf, t);
     });
 
@@ -458,8 +461,8 @@
     drawEnvelope(plot, nowX, yOf, tip);
     drawPaths(plot, nowX, yOf, tip, t);
     drawMedian(plot, nowX, yOf, tip, t);
-    drawLabels(plot, nowX, yOf, tip, t);
-    drawReticle(nowX, yOf(model.level), t, plot);
+    drawLabels(plot, nowX, yOf, tip, t, narrow);
+    drawReticle(nowX, yOf(model.level), t, plot, narrow);
     drawStamp(nowX, yOf(model.level), t, grow);
     drawAxis(plot, yOf);
   }
@@ -690,7 +693,7 @@
     strokeSmooth(pts);
     ctx.restore();
   }
-  function drawLabels(plot, nowX, yOf, tip, t) {
+  function drawLabels(plot, nowX, yOf, tip, t, narrow) {
     if (!env || tip < 2) return;
     const h = tip;
     const wob = Math.sin(t * 1.6 + h * 0.4) * model.sigma * 0.04;
@@ -703,6 +706,24 @@
     ctx.font = '11px JetBrains Mono, ui-monospace, monospace';
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
+    if (narrow) {
+      let y = plot.top + 4;
+      spots.forEach(s => {
+        const text = s.name + ' ' + fmt(s.v);
+        const tw = ctx.measureText(text).width;
+        const x = Math.max(plot.left, plot.right - tw - 4);
+        ctx.fillStyle = 'rgba(4,10,14,0.82)';
+        ctx.fillRect(x - 3, y, tw + 8, 16);
+        ctx.strokeStyle = s.color;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x - 3, y, tw + 8, 16);
+        ctx.fillStyle = s.color;
+        ctx.fillText(text, x, y + 8);
+        y += 20;
+      });
+      ctx.restore();
+      return;
+    }
     spots.forEach(s => {
       const p = project(h / H, s.v, s.z, plot, nowX, yOf);
       const text = s.name + ' ' + fmt(s.v);
@@ -719,7 +740,7 @@
     });
     ctx.restore();
   }
-  function drawReticle(x, y, t, plot) {
+  function drawReticle(x, y, t, plot, narrow) {
     const bob = reduced ? Math.sin(t * 1.2) * 2 : Math.sin(t * 2.15) * 8;
     const rx = x + Math.sin(t * 1.3) * 1.4;
     const ry = y + bob;
@@ -784,6 +805,7 @@
     }
     ctx.restore();
 
+    if (narrow) return;
     ctx.save();
     ctx.font = '11px JetBrains Mono, ui-monospace, monospace';
     ctx.textAlign = 'left';
