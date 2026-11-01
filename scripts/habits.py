@@ -68,6 +68,7 @@ MAST_PAGES = (
     HABITS.parent / "music" / "index.html",
     HABITS.parent / "books" / "index.html",
     HABITS.parent / "quotes" / "index.html",
+    HABITS.parent / "social" / "index.html",
     HABITS.parent / "daily" / "index.html",
     HABITS.parent / "confirmed" / "index.html",
 )
@@ -744,7 +745,7 @@ def assert_redirects() -> int:
             raise SystemExit(f"habits: {label} is not the grids page")
         if 'class="site-menu"' not in html or "menu.js" not in html or "🗓️" in html or 'class="day-quote"' in html or "today.js" in html:
             raise SystemExit(f"habits: {label} is missing the menu or still has the daily quote")
-        if "only life goal: be better than i was yesterday" not in html:
+        if "only life objective: be better than i was yesterday" not in html:
             raise SystemExit(f"habits: {label} is missing the subhead")
         if 'id="kronos"' in html or "hud.js" in html or "hud.css" in html:
             raise SystemExit(f"habits: {label} still has the life-score tape")
