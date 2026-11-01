@@ -228,7 +228,7 @@ def test_page_copy() -> None:
     assert 'class="trackers"' in grind and 'id="kronos"' not in grind
     assert "hud.js" not in grind and "hud.css" not in grind
     assert 'class="day-quote"' not in grind and "today.js" not in grind
-    assert "only life objective: be better than i was yesterday" in grind
+    assert "we fall to the level of our habits" in grind
     assert 'id="gallery"' not in grind
     assert 'location.replace("/grind/"' in habits and 'class="trackers"' not in habits
     order = ["/grind/", "/snaps/", "/music/", "/books/", "/quotes/", "/social/"]
