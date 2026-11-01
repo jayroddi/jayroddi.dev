@@ -41,9 +41,9 @@ html.quiet body.board .mast .pages{text-shadow:none;cursor:default}
 html.quiet body.board .mast h1.pages{color:var(--c)}
 html.quiet body.board .mast .pages .pages-t{animation:none;text-shadow:none}
 /* v3.14: the gap under the title matches the gap under the subtitle. the mast already has margin-bottom: --habit-gap (16px). the subtitle used to pull up over that with margin-top: calc(-1 * var(--habit-gap) + 6px), which left 6px between the title block and the subtitle while the subtitle kept 16px before the content. margin-top is 0 now, so both gaps are --habit-gap. */
-/* v3.39: the subhead under the mast is 11px italic at every width, in --fg (white in dark, black in light), like the body text. the mast and the month and year headings stay teal. a page may use one emoji or a short phrase. a phrase wraps instead of running off a narrow screen. */
-body.board .copy > .subhead{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0 8px;text-align:center;font-family:var(--mono);font-size:11px;font-weight:500;font-style:italic;font-variant-emoji:emoji;letter-spacing:normal;line-height:var(--mast-lh);color:var(--fg);white-space:normal;overflow-wrap:anywhere;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-@media (max-width:359px){body.board .copy > .subhead{font-size:11px;-webkit-text-size-adjust:100%;text-size-adjust:100%}}
+/* v3.40: the subhead under the mast is 12px italic at every width, in --fg (white in dark, black in light). the title and the month and year headings stay teal. habit-grid type is unchanged. */
+body.board .copy > .subhead{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0 8px;text-align:center;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;font-variant-emoji:emoji;letter-spacing:normal;line-height:var(--mast-lh);color:var(--fg);white-space:normal;overflow-wrap:anywhere;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+@media (max-width:359px){body.board .copy > .subhead{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}}
 /* v3.36: today's quote on / and /habits/. 12px italic mono, the same size as the title and the hands. the words are --fg (white in dark, black in light). the name starts on the same line as the last word, in the accent, with a space and a hyphen tight to the name. lowercase, same as /quotes. a long line wraps. a name that does not fit wraps under that word instead of sitting on its own line. */
 body.board .copy > .day-quote{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0;text-align:center;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body.board .copy > .day-quote[hidden]{display:none}
@@ -317,7 +317,7 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
 :root body.board .mast .nav,:root body.board .copy > .note-line,:root body.snaps .backlog{font-size:14px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast .nav a{padding:0 var(--nav-pad)}
 :root body.board .mast .nav{--hw:min(100vw - 16px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);flex-wrap:nowrap}
-/* v3.39: one header row. three hands are the left edge. the title is the words ego is the enemy, centered, and it is not a control. the hamburger is the right edge. there are no flags. the row is 12px, including under 360px. */
+/* v3.39: one header row. three hands are the left edge. the title is the words 🧠 + 💛 + 💻 = 🚀, centered, and it is not a control. the hamburger is the right edge. there are no flags. the row is 12px, including under 360px. */
 :root body.board .mast{display:flex;align-items:center;min-height:var(--mast-row)}
 :root body.board .mast .mark,:root body.board .mast .flags{z-index:1;margin:0;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;line-height:var(--mast-lh);white-space:nowrap;pointer-events:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast .mark{position:relative;display:flex;align-items:center;justify-content:flex-start;width:auto;max-width:calc(50% - 28px);height:auto;min-height:var(--mast-row);padding:0;text-align:left}
