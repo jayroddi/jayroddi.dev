@@ -10,9 +10,9 @@ body.snaps .gallery{width:min(1280px,calc(100vw - 32px));margin:0 auto 32px;posi
 /* TEMPORARY (jay 2026.10.20): the backlog note above the newest month. the header line's font and size (mono, 14px / 13px on a phone,
    weight 500), upright, plain --fg (white dark, black light). it is a 44px row like the byline / nav / icon rows, pulled up by the mast's
    --habit-gap, so the gaps icons -> note -> month title match byline -> nav -> icons. delete with the line in /index.html. */
-body.snaps .backlog{box-sizing:border-box;display:flex;align-items:center;justify-content:center;min-height:44px;margin:calc(-1 * var(--habit-gap,16px) - 1px) 0 0;padding:calc((44px - 1.25em) / 2) 8px;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:1.25;color:var(--fg);text-shadow:0 0 8px rgba(var(--bg-rgb),.8)}
+body.snaps .backlog{box-sizing:border-box;display:flex;align-items:center;justify-content:center;min-height:44px;margin:calc(-1 * var(--habit-gap,16px) - 1px) 0 0;padding:calc((44px - 1.25em) / 2) 8px;text-align:center;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:1.25;color:var(--fg);text-shadow:0 0 8px rgba(var(--bg-rgb),.8)}
 body.snaps .backlog + .gallery .month:first-child h2{margin-top:0}
-@media (max-width:760px){body.snaps .backlog{font-size:13px}}
+@media (max-width:760px){body.snaps .backlog{font-size:12px}}
 /* v2.42: mosaic gutter is 2px between columns and between tiles in a column. */
 .grid{display:flex;align-items:flex-start;gap:2px}
 .col{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:2px}
@@ -23,7 +23,7 @@ body.snaps .backlog + .gallery .month:first-child h2{margin-top:0}
    white at .42, shadow soft enough not to halo the photo. */
 .shot .stamp{position:absolute;z-index:1;left:4px;right:4px;bottom:3px;overflow:hidden;text-align:right;white-space:nowrap;font-family:var(--mono);font-size:clamp(6.5px,6.4cqi,9px);font-style:italic;font-weight:500;line-height:1.15;letter-spacing:0;color:rgba(255,255,255,.42);text-shadow:0 0 1px rgba(0,0,0,.48),0 1px 1px rgba(0,0,0,.36);pointer-events:none}
 .shot:focus-visible{outline:2px solid var(--c);outline-offset:2px}
-.note{margin:12px 0 0;text-align:center;font-size:14px;line-height:1.4;font-weight:500;color:var(--ink-3)}
+.note{margin:12px 0 0;text-align:center;font-size:12px;line-height:1.4;font-weight:500;color:var(--ink-3)}
 html.light-open,html.light-open body{overflow:hidden;height:100%}
 .light:not([open]){display:none}
 .light{--cap:28px}
@@ -36,7 +36,7 @@ html.light-open,html.light-open body{overflow:hidden;height:100%}
 }
 /* v2.41: the same Chicago stamp, centered under the photo. a bit stronger than the
    tile (.42) so it reads on the dark lightbox. not over the image. */
-.light .cap{flex:none;z-index:1;margin:0;max-width:calc(100vw - 32px);text-align:center;white-space:nowrap;font-family:var(--mono);font-size:14px;font-style:italic;font-weight:500;line-height:1.25;letter-spacing:0;color:rgba(255,255,255,.72);pointer-events:none}
+.light .cap{flex:none;z-index:1;margin:0;max-width:calc(100vw - 32px);text-align:center;white-space:nowrap;font-family:var(--mono);font-size:12px;font-style:italic;font-weight:500;line-height:1.25;letter-spacing:0;color:rgba(255,255,255,.72);pointer-events:none}
 .light .cap:empty{display:none}
 .frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .frame .hi{opacity:0}
