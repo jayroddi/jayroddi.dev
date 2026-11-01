@@ -266,6 +266,7 @@ def test_page_copy() -> None:
     assert 'href="https://www.linkedin.com/in/jayroddi"' in social
     assert "say hi via email!" in social
     assert 'href="mailto:hi@jayroddi.lol"' in social
+    assert 'id="rain"' in social and "rain.js" in social and "social.js" in social and 'class="board"' in social
     assert not (ROOT / "workers" / "snap-guesses").exists()
     node = shutil.which("node")
     assert node
