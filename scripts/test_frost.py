@@ -228,13 +228,15 @@ def test_page_copy() -> None:
     assert 'class="trackers"' in grind and 'id="kronos"' not in grind
     assert "hud.js" not in grind and "hud.css" not in grind
     assert 'class="day-quote"' not in grind and "today.js" not in grind
-    assert "only life goal: be better than i was yesterday" in grind
+    assert "only life objective: be better than i was yesterday" in grind
     assert 'id="gallery"' not in grind
     assert 'location.replace("/grind/"' in habits and 'class="trackers"' not in habits
-    order = ["/grind/", "/snaps/", "/music/", "/books/", "/quotes/"]
+    order = ["/grind/", "/snaps/", "/music/", "/books/", "/quotes/", "/social/"]
+    social = (ROOT / "site" / "social" / "index.html").read_text(encoding="utf-8")
     for page in (
         html,
         grind,
+        social,
         (ROOT / "site" / "music" / "index.html").read_text(encoding="utf-8"),
         (ROOT / "site" / "books" / "index.html").read_text(encoding="utf-8"),
         (ROOT / "site" / "quotes" / "index.html").read_text(encoding="utf-8"),
@@ -242,15 +244,28 @@ def test_page_copy() -> None:
     ):
         assert 'class="site-menu"' in page and "menu.js" in page
         assert 'href="/daily/"' not in page and 'href="/habits/"' not in page
+        assert ">@jayroddi</a>" not in page
         spots = [page.index(f'href="{href}"') for href in order]
         assert spots == sorted(spots)
-        assert page.index("https://x.com/jayroddi") > page.index('href="/quotes/"')
+        assert page.index('href="/social/"') > page.index('href="/quotes/"')
     music = (ROOT / "site" / "music" / "index.html").read_text(encoding="utf-8")
     books = (ROOT / "site" / "books" / "index.html").read_text(encoding="utf-8")
     quotes = (ROOT / "site" / "quotes" / "index.html").read_text(encoding="utf-8")
     assert "shuffle around and find out" in music
     assert "garbage in, garbage out" in books
     assert "influence over influencers" in quotes
+    assert "one day, this page will be empty" in social
+    assert 'class="day-quote"' not in social and "today.js" not in social
+    assert 'href="https://x.com/jayroddi"' in social
+    assert 'href="https://github.com/jayroddi"' in social
+    assert 'href="https://www.instagram.com/jayroddi"' in social
+    assert 'href="https://www.threads.com/@jayroddi"' in social
+    assert 'href="https://open.spotify.com/user/1238911903"' in social
+    assert "open.spotify.com/playlist" not in social
+    assert "linkedin, the worst of all" in social
+    assert 'href="https://www.linkedin.com/in/jayroddi"' in social
+    assert "say hi via email!" in social
+    assert 'href="mailto:hi@jayroddi.lol"' in social
     assert not (ROOT / "workers" / "snap-guesses").exists()
     node = shutil.which("node")
     assert node
