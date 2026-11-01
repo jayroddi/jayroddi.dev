@@ -10,6 +10,8 @@
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const ROUND = reduced ? 14 : 8.6;
+  const HOLD = 5;
+  const CYCLE = ROUND + HOLD;
   const H = 24;
   const SAMPLES = 96;
   const WEIGHTS = { steps: 0.20, exercise: 0.20, sleep: 0.20, faith: 0.20, code: 0.20 };
@@ -313,10 +315,11 @@
     ctx.lineCap = 'round';
 
     const narrow = w < 560;
-    const spec = root.querySelector('.kronos-spec');
-    const specW = spec && getComputedStyle(spec).display !== 'none' ? spec.offsetWidth + 16 : 10;
+    // The spec floats on the corner. Indenting the tape by its width left a
+    // dark gutter, so day one of the 90d window starts at the left edge and
+    // the last candle still ends just before NOW.
     const plot = {
-      left: Math.max(10, specW),
+      left: 6,
       right: w - (narrow ? 34 : 50),
       top: narrow ? 42 : 28,
       bottom: h - (narrow ? 22 : 16)
@@ -330,11 +333,12 @@
     drawFloor(plot, t);
     drawGrid(plot, yOf);
 
-    const shown = candles;
-    const n = shown.length;
-    const slot = (nowX - plot.left - 12) / Math.max(1, n);
-    shown.forEach((c, i) => {
-      const x = plot.left + 8 + slot * (i + 0.5);
+    const n = candles.length;
+    const lead = 3;
+    const tail = 8;
+    const slot = (nowX - plot.left - lead - tail) / Math.max(1, n);
+    candles.forEach((c, i) => {
+      const x = plot.left + lead + slot * (i + 0.5);
       drawCandle(c, x, slot, i >= n - 6, yOf, t);
     });
 
@@ -752,11 +756,12 @@
     lastNow = now;
     clock += dt;
     if (model) {
-      const id = Math.floor(clock / ROUND);
+      const id = Math.floor(clock / CYCLE);
       if (id !== roundId) beginRound(id);
       yLo += (yLoT - yLo) * 0.08;
       yHi += (yHiT - yHi) * 0.08;
-      const u = (clock % ROUND) / ROUND;
+      // Spray still finishes at 70% of ROUND. The extra HOLD keeps that frame up.
+      const u = Math.min(1, (clock - id * CYCLE) / ROUND);
       const grow = smooth(0.05, 0.7, u);
       draw(clock, grow);
       paint(clock);
