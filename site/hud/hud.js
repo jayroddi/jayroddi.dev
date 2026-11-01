@@ -10,6 +10,8 @@
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const ROUND = reduced ? 14 : 8.6;
+  const HOLD = 5;
+  const CYCLE = ROUND + HOLD;
   const H = 24;
   const SAMPLES = 96;
   const WEIGHTS = { steps: 0.20, exercise: 0.20, sleep: 0.20, faith: 0.20, code: 0.20 };
@@ -754,11 +756,12 @@
     lastNow = now;
     clock += dt;
     if (model) {
-      const id = Math.floor(clock / ROUND);
+      const id = Math.floor(clock / CYCLE);
       if (id !== roundId) beginRound(id);
       yLo += (yLoT - yLo) * 0.08;
       yHi += (yHiT - yHi) * 0.08;
-      const u = (clock % ROUND) / ROUND;
+      // Spray still finishes at 70% of ROUND. The extra HOLD keeps that frame up.
+      const u = Math.min(1, (clock - id * CYCLE) / ROUND);
       const grow = smooth(0.05, 0.7, u);
       draw(clock, grow);
       paint(clock);
