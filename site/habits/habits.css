@@ -28,8 +28,8 @@ body.board .legend{justify-content:center}
 body.board .foot{margin-left:auto;margin-right:auto;text-align:center}
 body.board .mast{--k:.9167;--kx:.8;--mast-mark:calc(24px * var(--k));position:relative;width:100%;min-height:0;margin:0 0 var(--habit-gap)}
 /* v2.63: the header line is plain text, italic, the same size as the old nav, in the normal text colour. the share-card replica still uses .line. */
-body.board .mast .line{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c)}
-body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;padding:0;border:0;background:none;appearance:none;-webkit-appearance:none;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c);cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+body.board .mast .line{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;text-align:center;font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c)}
+body.board .mast .pages{box-sizing:border-box;display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;padding:0;border:0;background:none;appearance:none;-webkit-appearance:none;text-align:center;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c);cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 body.board .mast .pages:focus-visible{outline:2px solid var(--c);outline-offset:-4px}
 @keyframes title-glow{0%,100%{text-shadow:0 0 2px rgba(var(--c-rgb),.45)}50%{text-shadow:0 0 14px rgba(var(--c-rgb),.95),0 0 4px rgba(var(--c-rgb),.7)}}
 body.board .mast button.pages .pages-t{display:inline-block;color:inherit;font-style:italic;animation:title-glow 1.05s ease-in-out infinite}
@@ -56,7 +56,7 @@ body.board .subhead + .covers{margin-top:0}
 /* v2.68 (jay 2026.10.20): the top line is plain text again, "by jay, a millennial living out loud", same font and size, in --fg
    (white in dark mode, black in light mode). below it the old v2.36 nav is back as snaps // quotes // habits: italic links in the speed
    colour --c, separators in --fg, 44px tap targets, and the current page gets a subtle 1px underline (.2em offset, currentColor). */
-body.board .mast .nav{box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c)}
+body.board .mast .nav{box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:0;text-align:center;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c)}
 body.board .mast .nav a{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;min-height:var(--mast-row);padding:0 12px;font-style:italic;color:var(--c);text-decoration:none;border-radius:6px;-webkit-tap-highlight-color:transparent}
 body.board .mast .nav a:hover{color:var(--c)}
 body.board .mast .nav a[aria-current="page"]{text-decoration:underline;text-decoration-color:currentColor;text-decoration-thickness:1px;text-underline-offset:.2em}
@@ -64,7 +64,7 @@ body.board .mast .nav a:focus-visible{outline:2px solid var(--c);outline-offset:
 body.board .mast .nav .sep{font-style:normal;color:var(--fg);pointer-events:none}
 /* v2.69 (jay 2026.10.20): the line under the header on /me/ ("want to know more about me? just ask."), styled like the backlog note on /:
    the byline's font and size, upright, plain --fg, a 44px row pulled up so icons -> line -> first grid title match the header rhythm. */
-body.board .copy > .note-line{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:calc(-1 * var(--habit-gap) - 1px) 0 0;padding:calc((var(--mast-row) - var(--mast-lh) * 1em) / 2) 8px;text-align:center;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:var(--fg)}
+body.board .copy > .note-line{box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:100%;min-height:var(--mast-row);margin:calc(-1 * var(--habit-gap) - 1px) 0 0;padding:calc((var(--mast-row) - var(--mast-lh) * 1em) / 2) 8px;text-align:center;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);color:var(--fg)}
 body.board .signup{width:min(100%,26rem);margin:18px auto 10px}
 body.board .notify{justify-content:center;--mail-s:calc(11 / 16);--mail-slot:62px;--mail-h:calc(24px + 10px / var(--mail-s))}
 body.board .notify .mail{flex:0 0 auto;min-width:0;display:block;width:calc((100% - var(--mail-slot)) / var(--mail-s));margin:0 calc((100% - var(--mail-slot)) * (1 - 1 / var(--mail-s))) calc(var(--mail-h) * (var(--mail-s) - 1)) 0;transform:scale(var(--mail-s));transform-origin:0 0}
@@ -91,11 +91,11 @@ body.board .quotes .q,
 body.board .quotes .by{margin:0;font-family:var(--mono);font-weight:500}
 /* v3.24: quote date, words, and name are 14px at every width. a phone used to drop them to 12 / 14 / 13. v3.29: text-size-adjust stays 100% so iOS does not inflate the list. */
 body.board .quotes .d,body.board .quotes .q,body.board .quotes .by{-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body.board .quotes .d{font-size:14px;line-height:1.5;color:rgba(var(--c-rgb),.75);text-align:left}
-body.board .quotes .q{margin-top:4px;font-size:14px;line-height:1.65;color:var(--ink-2);text-align:left;text-transform:lowercase;white-space:pre-line;overflow-wrap:anywhere}
-body.board .quotes .by{margin-top:4px;font-size:14px;line-height:1.5;color:var(--c);text-align:right;text-transform:lowercase}
+body.board .quotes .d{font-size:12px;line-height:1.5;color:rgba(var(--c-rgb),.75);text-align:left}
+body.board .quotes .q{margin-top:4px;font-size:12px;line-height:1.65;color:var(--ink-2);text-align:left;text-transform:lowercase;white-space:pre-line;overflow-wrap:anywhere}
+body.board .quotes .by{margin-top:4px;font-size:12px;line-height:1.5;color:var(--c);text-align:right;text-transform:lowercase}
 .visually-hidden,.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-.home{display:inline-block;margin:0 0 8px;font-size:14px;line-height:1.5;color:var(--c);letter-spacing:.02em}
+.home{display:inline-block;margin:0 0 8px;font-size:12px;line-height:1.5;color:var(--c);letter-spacing:.02em}
 body.board .home{margin:0 0 var(--habit-gap)}
 .home:hover,.home:focus-visible{color:var(--c)}
 /* v3.29: grid titles are 12px at every width, the same size as the mast and the day quote. text-size-adjust stays 100% on the heading and on .kt, so iOS Safari does not inflate them when the phone rotates. */
@@ -219,10 +219,10 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
   body.board .legend,body.board .stat .sv{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body.board .stat .sl{font-size:11px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body.board .months span,body.board .dow span{font-size:10px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-  body.board .mast .line,body.board .mast .nav,body.board .copy > .note-line{font-size:14px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body.board .mast .line,body.board .mast .nav,body.board .copy > .note-line{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
   :root body.board .mast h1.pages,:root body.board .mast .mark,:root body.board .mast .flags{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body.board .copy > .day-quote,body.board .copy > .day-quote .qt,body.board .copy > .day-quote .qa{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-  body.board .quotes .d,body.board .quotes .q,body.board .quotes .by{font-size:14px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body.board .quotes .d,body.board .quotes .q,body.board .quotes .by{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
   .daysec h2{font-size:21px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body.board .graph{width:100%;--gap:1px;--lab:0px;--mh:13px;grid-template-columns:minmax(0,1fr);column-gap:0}
   body.board .months{grid-column:1}
@@ -314,10 +314,10 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
 @media (max-width:419px){:root{--nav-pad:2px}}
 @media (max-width:371px){:root{--nav-pad:1px}}
 @media (max-width:359px){:root{--nav-pad:1px}}
-:root body.board .mast .nav,:root body.board .copy > .note-line,:root body.snaps .backlog{font-size:14px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+:root body.board .mast .nav,:root body.board .copy > .note-line,:root body.snaps .backlog{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast .nav a{padding:0 var(--nav-pad)}
 :root body.board .mast .nav{--hw:min(100vw - 16px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);flex-wrap:nowrap}
-/* v3.39: one header row. three hands are the left edge. the title is the words 🧠 + 💛 + 💻 = 🚀, centered, and it is not a control. the hamburger is the right edge. there are no flags. the row is 12px, including under 360px. */
+/* v3.39: one header row. three hands are the left edge. the title is the words ego is the enemy, centered, and it is not a control. the hamburger is the right edge. there are no flags. the row is 12px, including under 360px. */
 :root body.board .mast{display:flex;align-items:center;min-height:var(--mast-row)}
 :root body.board .mast .mark,:root body.board .mast .flags{z-index:1;margin:0;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;line-height:var(--mast-lh);white-space:nowrap;pointer-events:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast .mark{position:relative;display:flex;align-items:center;justify-content:flex-start;width:auto;max-width:calc(50% - 28px);height:auto;min-height:var(--mast-row);padding:0;text-align:left}
@@ -334,7 +334,7 @@ body.board .menu-btn:focus-visible{outline:2px solid var(--c);outline-offset:2px
 body.board .menu-panel{position:absolute;top:calc(100% + 6px);right:0;z-index:6;min-width:9.5rem;margin:0;padding:6px 0;border:1px solid rgba(var(--c-rgb),.4);border-radius:8px;background:var(--bg,#000);box-shadow:0 12px 32px rgba(0,0,0,.28);text-align:left;text-shadow:none}
 body.board .menu-panel[hidden]{display:none}
 body.board .menu-panel ul{list-style:none;margin:0;padding:0}
-body.board .menu-panel a{display:flex;align-items:center;min-height:40px;padding:0 18px;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;line-height:1.25;letter-spacing:normal;color:var(--c);text-decoration:none;text-shadow:none;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+body.board .menu-panel a{display:flex;align-items:center;min-height:40px;padding:0 18px;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;line-height:1.25;letter-spacing:normal;color:var(--c);text-decoration:none;text-shadow:none;white-space:nowrap;-webkit-tap-highlight-color:transparent}
 body.board .menu-panel a:hover{color:var(--c);background:rgba(var(--c-rgb),.08)}
 body.board .menu-panel a.soc{color:var(--fg)}
 body.board .menu-panel a.soc:hover{color:var(--fg);background:rgba(var(--fg-rgb),.08)}
