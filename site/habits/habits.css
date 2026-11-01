@@ -224,8 +224,12 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
   body.board .copy > .day-quote,body.board .copy > .day-quote .qt,body.board .copy > .day-quote .qa{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body.board .quotes .d,body.board .quotes .q,body.board .quotes .by{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
   .daysec h2{font-size:21px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-  body.board .graph{width:100%;--gap:1px;--lab:0px;--mh:13px;grid-template-columns:minmax(0,1fr);column-gap:0}
-  body.board .months{grid-column:1}
+  body.board .graph{width:100%;--gap:1px;--lab:0px;--mh:30px;grid-template-columns:minmax(0,1fr);column-gap:0}
+  body.board .months{grid-column:1;align-items:end}
+  /* month names turn 90° left so oct and nov do not share a line. the word grows up from the week it belongs to and stays off the squares. */
+  body.board .months > span{position:relative;min-width:0;height:100%;overflow:visible}
+  body.board .months > span > span{position:absolute;left:50%;bottom:0;transform:rotate(-90deg);transform-origin:left bottom;font-size:10px;line-height:1;white-space:nowrap}
+  body.board .months > span.edge{grid-column:auto;justify-self:stretch;width:auto}
   body.board .dow{display:none}
   body.board .weeks{grid-column:1}
   .legend{gap:3px 8px}

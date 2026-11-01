@@ -115,7 +115,9 @@ function build(section, model){
   box.replaceChildren();
   weeks.forEach((col, i) => {
     const lab = mk('span');
-    lab.textContent = labels[i];
+    const word = mk('span');
+    word.textContent = labels[i];
+    lab.appendChild(word);
     /* a label in the last two columns is wider than those cells. pin its right edge to the grid so the month stays on screen. */
     if (labels[i] && weeks.length - i <= 2){
       lab.classList.add('edge');
