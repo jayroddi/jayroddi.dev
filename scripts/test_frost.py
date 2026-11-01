@@ -262,9 +262,15 @@ def test_page_copy() -> None:
     assert 'href="https://www.threads.com/@jayroddi"' in social
     assert 'href="https://open.spotify.com/user/1238911903"' in social
     assert "open.spotify.com/playlist" not in social
-    assert "linkedin, the worst of all" in social
+    assert "linkedin, the worst of all" not in social and "say hi via email!" not in social and " // " not in social
+    assert ">𝕏 💭</a>" in social
+    assert ">github 👨‍💻</a>" in social
+    assert ">instagram 📷</a>" in social
+    assert ">threads 🙃</a>" in social
+    assert ">spotify 🎧</a>" in social
+    assert ">linkedin 🤮</a>" in social
     assert 'href="https://www.linkedin.com/in/jayroddi"' in social
-    assert "say hi via email!" in social
+    assert ">email 💌</a>" in social
     assert 'href="mailto:hi@jayroddi.lol"' in social
     assert 'id="rain"' in social and "rain.js" in social and "social.js" in social and 'class="board"' in social
     assert not (ROOT / "workers" / "snap-guesses").exists()
