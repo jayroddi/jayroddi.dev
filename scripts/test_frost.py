@@ -17,7 +17,6 @@ import frost
 import publish_snaps
 
 ROOT = Path(__file__).resolve().parents[1]
-HINT = "if you know me well enough, you'd know the password"
 
 
 def rough(data: list, width: int) -> float:
@@ -75,7 +74,7 @@ def _album(root: Path, photos: list[dict]) -> None:
     html = root / "site" / "snaps" / "index.html"
     html.write_text(
         '<link rel="preconnect" href="https://photos.adobe.io">\n'
-        '<form class="guess" id="guess" hidden></form>\n',
+        '<p class="subhead">📷</p>\n',
         encoding="utf-8",
     )
 
@@ -173,26 +172,35 @@ def test_publish_holds_then_strips() -> None:
         assert "photos.adobe.io" not in blob
         assert "api_key" not in blob
         assert "Lightroom" not in blob
-        assert publish_snaps.PRECONNECT not in (root / "site" / "snaps" / "index.html").read_text(encoding="utf-8")
-        assert 'id="guess" hidden' in (root / "site" / "snaps" / "index.html").read_text(encoding="utf-8")
+        published = (root / "site" / "snaps" / "index.html").read_text(encoding="utf-8")
+        assert publish_snaps.PRECONNECT not in published
+        assert 'id="guess"' not in published and "password" not in published
+        assert "📷" in published
 
 
 def test_page_copy() -> None:
     html = (ROOT / "site" / "snaps" / "index.html").read_text(encoding="utf-8")
     home = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
+    css = (ROOT / "site" / "snaps" / "snaps.css").read_text(encoding="utf-8")
+    js = (ROOT / "site" / "snaps" / "snaps.js").read_text(encoding="utf-8")
     assert 'id="guess"' not in home and 'id="gallery"' not in home
     assert 'class="trackers"' in home
-    js = (ROOT / "site" / "snaps" / "snaps.js").read_text(encoding="utf-8")
-    assert f'placeholder="{HINT}"' in html
-    assert 'id="guess" hidden' in html
-    assert 'const GUESS_URL = \'\';' in js
-    assert "https://" not in js.split("const GUESS_URL", 1)[1].split(";", 1)[0]
-    assert "nope" in js
+    assert 'id="guess"' not in html
+    assert 'type="password"' not in html
+    assert "if you know me well enough" not in html
+    assert "GUESS_URL" not in js and "armGuess" not in js and "snap-guess" not in js
+    assert "nope" not in js and "getElementById('guess')" not in js
+    assert "body.snaps .guess" not in css and "guess-note" not in css
+    assert "useFrost" in js and "frost" in js
+    assert publish_snaps.GATE == datetime(2026, 11, 1, 0, 0, tzinfo=publish_snaps.CT)
     assert publish_snaps.PRECONNECT.strip() in html
+    assert 'class="site-menu"' not in html and "menu.js" not in html
+    for href in ("/music/", "/books/", "/quotes/", "/habits/", "/daily/"):
+        assert f'href="{href}"' not in html
+    assert not (ROOT / "workers" / "snap-guesses").exists()
     node = shutil.which("node")
     assert node
     subprocess.run([node, "--check", str(ROOT / "site" / "snaps" / "snaps.js")], check=True)
-    subprocess.run([node, "--check", str(ROOT / "workers" / "snap-guesses" / "worker.js")], check=True)
 
 
 def main() -> None:

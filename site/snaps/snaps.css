@@ -1,5 +1,4 @@
-/* v2.43: the decoy field under the camera emoji. 16px type scaled to the 11px
-   board size so a phone does not zoom on focus. hidden until snaps.json says frost.
+/* v2.44: frost is the photos only. no password field.
    v2.33: three columns under 900px, six from 900px. flex columns share one top edge.
    the lightbox is the full viewport. the photo box is the aspect ratio, contained. */
 body.snaps .stage{flex-direction:column;align-items:center;width:100%}
@@ -8,17 +7,6 @@ body.snaps .gallery{width:min(1280px,calc(100vw - 32px));margin:0 auto 32px;posi
 /* v2.43: month headings are the hamburger size, 14px at every width, still italic --c. */
 .month h2{margin:22px 0 10px;text-align:center;font-family:var(--mono);font-size:14px;font-style:italic;font-weight:500;line-height:1.25;color:var(--c);text-shadow:0 0 8px rgba(var(--bg-rgb),.8)}
 .month:first-child h2{margin-top:4px}
-/* the field sits in the copy column, under the camera emoji, same quiet underline as the old mail row. */
-body.snaps .guess{--s:calc(11 / 16);box-sizing:border-box;width:min(100%,26rem);margin:0 0 var(--habit-gap);padding:0;container-type:inline-size}
-body.snaps .guess[hidden]{display:none !important}
-body.snaps .guess-line{width:calc(100% / var(--s));margin:0 calc(100% * (1 - 1 / var(--s))) calc(30px * (var(--s) - 1)) 0;transform:scale(var(--s));transform-origin:0 0}
-body.snaps .guess input{display:block;width:100%;box-sizing:border-box;margin:0;padding:4px 0 5px;border:0;border-bottom:calc(1px / var(--s)) solid rgba(var(--c-rgb),.45);border-radius:0;background:transparent;color:var(--fg);caret-color:var(--c);font-family:var(--mono);font-size:16px;font-weight:500;font-style:italic;line-height:1.25;text-align:center;outline:none;-webkit-appearance:none;appearance:none}
-body.snaps .guess input::placeholder{color:rgba(var(--ink-rgb),.62);opacity:1;font-style:italic;font-size:min(16px,4.15cqi);letter-spacing:-.03em}
-body.snaps .guess input:hover{border-bottom-color:rgba(var(--c-rgb),.75)}
-body.snaps .guess input:focus{border-bottom-color:var(--c)}
-body.snaps .guess input:-webkit-autofill{-webkit-text-fill-color:var(--fg);-webkit-box-shadow:0 0 0 60px var(--bg) inset;caret-color:var(--c);transition:background-color 9999s}
-body.snaps .guess-note{margin:0;min-height:0;text-align:center;font-family:var(--mono);font-size:11px;font-style:italic;font-weight:500;line-height:1.25;color:var(--ink-3)}
-body.snaps .guess-note:empty{display:none}
 /* TEMPORARY (jay 2026.10.20): the backlog note above the newest month. the header line's font and size (mono, 14px / 13px on a phone,
    weight 500), upright, plain --fg (white dark, black light). it is a 44px row like the byline / nav / icon rows, pulled up by the mast's
    --habit-gap, so the gaps icons -> note -> month title match byline -> nav -> icons. delete with the line in /index.html. */
