@@ -1,8 +1,8 @@
-/* books.css v0.7: year headings are the hamburger size, 14px, matching snaps month headings. v0.6: the years column matches the snaps desktop gallery, min(1280px, calc(100vw - 32px)). v0.5: cover mosaic gutter is 2px at every width. v0.4 (jay 2026.10.30): covers stay the same grid. glow-gold is an explicit top recommendation (pulsing gold border). glow-orange is a favorite (pulsing brand-orange #FF4D1A border). each read-year is a .year, newest first.
+/* books.css v0.8: year headings are 11px, the subhead size, matching snaps month headings. v0.7: year headings were the hamburger size, 14px. v0.6: the years column matches the snaps desktop gallery, min(1280px, calc(100vw - 32px)). v0.5: cover mosaic gutter is 2px at every width. v0.4 (jay 2026.10.30): covers stay the same grid. glow-gold is an explicit top recommendation (pulsing gold border). glow-orange is a favorite (pulsing brand-orange #FF4D1A border). each read-year is a .year, newest first.
    the heading matches the snaps month caption (snaps.css .month h2): italic mono, --c, 22px above and 10px below. those month headings are not sticky, so these are not either.
    the first year sits under the note the way the first month sits under the backlog (margin-top 0). */
 body.board .years{--gw:min(1280px,calc(100vw - 32px));width:var(--gw);max-width:none;margin:0 calc((100% - var(--gw)) / 2)}
-body.board .year h2{margin:22px 0 10px;text-align:center;font-family:var(--mono);font-size:14px;font-style:italic;font-weight:500;line-height:1.25;color:var(--c);text-shadow:0 0 8px rgba(var(--bg-rgb),.8)}
+body.board .year h2{margin:22px 0 10px;text-align:center;font-family:var(--mono);font-size:11px;font-style:italic;font-weight:500;line-height:1.25;color:var(--c);text-shadow:0 0 8px rgba(var(--bg-rgb),.8)}
 body.board .year:first-child h2{margin-top:0}
 body.board .covers{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;width:100%}
 @media (min-width:760px){body.board .covers{grid-template-columns:repeat(5,1fr);gap:2px}}
