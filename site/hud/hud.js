@@ -313,10 +313,11 @@
     ctx.lineCap = 'round';
 
     const narrow = w < 560;
-    const spec = root.querySelector('.kronos-spec');
-    const specW = spec && getComputedStyle(spec).display !== 'none' ? spec.offsetWidth + 16 : 10;
+    // The spec floats on the corner. Indenting the tape by its width left a
+    // dark gutter, so day one of the 90d window starts at the left edge and
+    // the last candle still ends just before NOW.
     const plot = {
-      left: Math.max(10, specW),
+      left: 6,
       right: w - (narrow ? 34 : 50),
       top: narrow ? 42 : 28,
       bottom: h - (narrow ? 22 : 16)
@@ -330,11 +331,12 @@
     drawFloor(plot, t);
     drawGrid(plot, yOf);
 
-    const shown = candles;
-    const n = shown.length;
-    const slot = (nowX - plot.left - 12) / Math.max(1, n);
-    shown.forEach((c, i) => {
-      const x = plot.left + 8 + slot * (i + 0.5);
+    const n = candles.length;
+    const lead = 3;
+    const tail = 8;
+    const slot = (nowX - plot.left - lead - tail) / Math.max(1, n);
+    candles.forEach((c, i) => {
+      const x = plot.left + lead + slot * (i + 0.5);
       drawCandle(c, x, slot, i >= n - 6, yOf, t);
     });
 
