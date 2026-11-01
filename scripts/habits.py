@@ -737,7 +737,7 @@ def assert_redirects() -> int:
     if n == 0:
         raise SystemExit("habits: no day-page redirects under site/habits")
     # / and /habits/ and /me/ forward to /grind/. snaps are /snaps/. grids are /grind/.
-    mast = '<p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><a class="brand" href="/"><span class="em">🧠 + 💛 + 💻 = 🚀</span></a></h1>'
+    mast = '<p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><a class="brand" href="/"><span class="em">a/b tester of the year? 🎭</span></a></h1>'
     for path in grid_pages():
         html = path.read_text(encoding="utf-8")
         label = path.relative_to(ROOT)
@@ -766,7 +766,7 @@ def assert_redirects() -> int:
     for path in MAST_PAGES:
         text = path.read_text(encoding="utf-8")
         if mast not in text or 'class="sep"' in text or "site-menu" not in text or "menu.js" not in text:
-            raise SystemExit(f"habits: {path.relative_to(ROOT)} mast is not hands / 🧠 + 💛 + 💻 = 🚀 / menu")
+            raise SystemExit(f"habits: {path.relative_to(ROOT)} mast is not hands / a/b tester of the year? 🎭 / menu")
         if '<button type="button" class="brand"' in text or 'cycle accent color' in text:
             raise SystemExit(f"habits: {path.relative_to(ROOT)} title is still an accent control")
         if '<a class="brand" href="/">' not in text:

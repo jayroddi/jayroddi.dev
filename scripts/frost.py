@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""Mid frosted glass for a snap rendition.
+"""Soft frosted glass for a snap rendition.
 
-Jay picked the mid column: a Pillow two-pass Gaussian blur at 0.06 of the
-long edge, saturation 0.75, brightness 1.08, a 0.28 white haze, and mono
-grain with sigma 12 (numpy seed 1). The blur runs on the rendition itself,
-so a 640 and a 1280 come out at the same strength.
+The live column is soft, lighter than the old mid recipe, so more of the
+photo shows through. A Pillow two-pass Gaussian blur at 0.04 of the long
+edge, saturation 0.85, brightness 1.05, a 0.16 white haze, and mono grain
+with sigma 8 (numpy seed 1). Mid was 0.06, 0.75, 1.08, 0.28, and 12. The
+blur runs on the rendition itself, so a 640 and a 1280 come out at the same
+strength.
 
 `bake` writes site/snaps/f/{asset}.jpg from the 640 and {asset}-l.jpg from
 the 1280 (else the 2048, else the 640). The cache is keyed by filename so a
@@ -27,9 +29,10 @@ import numpy as np
 from PIL import Image, ImageEnhance, ImageFilter, ImageOps
 
 # radius as a fraction of the long edge, saturation, brightness, haze, grain sigma.
-# This is the mid column Jay picked. There is no heavier recipe in the repo.
+# Soft is the live column. Mid is the heavier recipe it replaced.
+SOFT = (0.04, 0.85, 1.05, 0.16, 8)
 MID = (0.06, 0.75, 1.08, 0.28, 12)
-RECIPE = "mid-v1"
+RECIPE = "soft-v1"
 # Chicago capture date. Callers frost only photos on this day or later.
 FROST_FROM = "2026-11-01"
 _ID = re.compile(r"^[0-9a-f]{16,64}$")
@@ -49,7 +52,8 @@ def _tag(rendition: str) -> str:
 
 
 def frost_mid(im: Image.Image) -> Image.Image:
-    radius, sat, bright, haze, noise = MID
+    """Bake the live soft recipe. The name stays so callers do not change."""
+    radius, sat, bright, haze, noise = SOFT
     im = ImageOps.exif_transpose(im).convert("RGB")
     width, height = im.size
     rad = radius * max(width, height)
