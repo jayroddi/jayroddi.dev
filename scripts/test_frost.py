@@ -86,7 +86,7 @@ def _album(root: Path, photos: list[dict], month: str = "2026-10") -> None:
     months.append({"m": month, "n": len(photos)})
     index["months"] = months
     index_path.write_text(json.dumps(index) + "\n", encoding="utf-8")
-    html = root / "site" / "index.html"
+    html = root / "site" / "snaps" / "index.html"
     html.parent.mkdir(parents=True, exist_ok=True)
     if not html.is_file():
         html.write_text(
@@ -169,7 +169,7 @@ def test_publish_holds_then_strips() -> None:
             code = publish_snaps.main(["--root", str(root), "--now", "2026-10-31T23:59:00-05:00", "--apply"])
             assert code == 0
             assert (root / "site" / "snaps" / "snaps.json").read_text(encoding="utf-8") == before
-            assert publish_snaps.PRECONNECT in (root / "site" / "index.html").read_text(encoding="utf-8")
+            assert publish_snaps.PRECONNECT in (root / "site" / "snaps" / "index.html").read_text(encoding="utf-8")
 
             cache = root / "frost-cache"
             cache.mkdir()
@@ -201,7 +201,7 @@ def test_publish_holds_then_strips() -> None:
             assert not (frost_dir / f"{old['i']}.jpg").exists()
             assert not (frost_dir / f"{waiting['i']}.jpg").exists()
             assert not (cache / f"{old['i']}.jpg").exists()
-            assert publish_snaps.PRECONNECT in (root / "site" / "index.html").read_text(encoding="utf-8")
+            assert publish_snaps.PRECONNECT in (root / "site" / "snaps" / "index.html").read_text(encoding="utf-8")
     finally:
         sync_snaps.bytes_of = original
 
@@ -209,41 +209,42 @@ def test_publish_holds_then_strips() -> None:
 def test_page_copy() -> None:
     html = (ROOT / "site" / "snaps" / "index.html").read_text(encoding="utf-8")
     home = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
+    grind = (ROOT / "site" / "grind" / "index.html").read_text(encoding="utf-8")
     habits = (ROOT / "site" / "habits" / "index.html").read_text(encoding="utf-8")
     css = (ROOT / "site" / "snaps" / "snaps.css").read_text(encoding="utf-8")
     js = (ROOT / "site" / "snaps" / "snaps.js").read_text(encoding="utf-8")
-    assert 'id="gallery"' in home and 'class="trackers"' not in home and 'id="kronos"' not in home
-    assert 'class="site-menu"' in home and "menu.js" in home
-    assert "you can see everythi" in home
-    assert 'location.replace("/"' in html
-    assert 'id="guess"' not in home and 'id="guess"' not in html
-    assert 'type="password"' not in home and 'type="password"' not in html
-    assert "if you know me well enough" not in home
+    assert 'location.replace("/grind/"' in home and 'id="gallery"' not in home and 'class="trackers"' not in home
+    assert 'id="gallery"' in html and 'class="site-menu"' in html and "menu.js" in html
+    assert "you can see everythi" in html
+    assert 'id="guess"' not in html and 'type="password"' not in html
+    assert "if you know me well enough" not in html
     assert "GUESS_URL" not in js and "armGuess" not in js and "snap-guess" not in js
     assert "nope" not in js and "getElementById('guess')" not in js
     assert "body.snaps .guess" not in css and "guess-note" not in css
     assert "useFrost" in js and "photo.f" in js
     assert "index.frost" not in js
     assert publish_snaps.GATE == datetime(2026, 11, 1, 0, 0, tzinfo=publish_snaps.CT)
-    assert publish_snaps.PRECONNECT.strip() in home
-    assert 'class="trackers"' in habits and 'id="kronos"' in habits
-    assert 'class="day-quote"' not in habits and "today.js" not in habits
-    assert "only life goal: be better than i was yesterday" in habits
-    assert 'id="gallery"' not in habits
-    order = ["/", "/music/", "/books/", "/quotes/", "/habits/"]
+    assert publish_snaps.PRECONNECT.strip() in html
+    assert 'class="trackers"' in grind and 'id="kronos"' not in grind
+    assert "hud.js" not in grind and "hud.css" not in grind
+    assert 'class="day-quote"' not in grind and "today.js" not in grind
+    assert "only life goal: be better than i was yesterday" in grind
+    assert 'id="gallery"' not in grind
+    assert 'location.replace("/grind/"' in habits and 'class="trackers"' not in habits
+    order = ["/grind/", "/snaps/", "/music/", "/books/", "/quotes/"]
     for page in (
-        home,
-        habits,
+        html,
+        grind,
         (ROOT / "site" / "music" / "index.html").read_text(encoding="utf-8"),
         (ROOT / "site" / "books" / "index.html").read_text(encoding="utf-8"),
         (ROOT / "site" / "quotes" / "index.html").read_text(encoding="utf-8"),
         (ROOT / "site" / "daily" / "index.html").read_text(encoding="utf-8"),
     ):
         assert 'class="site-menu"' in page and "menu.js" in page
-        assert 'href="/daily/"' not in page
+        assert 'href="/daily/"' not in page and 'href="/habits/"' not in page
         spots = [page.index(f'href="{href}"') for href in order]
         assert spots == sorted(spots)
-        assert page.index("https://x.com/jayroddi") > page.index('href="/habits/"')
+        assert page.index("https://x.com/jayroddi") > page.index('href="/quotes/"')
     music = (ROOT / "site" / "music" / "index.html").read_text(encoding="utf-8")
     books = (ROOT / "site" / "books" / "index.html").read_text(encoding="utf-8")
     quotes = (ROOT / "site" / "quotes" / "index.html").read_text(encoding="utf-8")

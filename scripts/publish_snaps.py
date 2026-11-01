@@ -38,7 +38,6 @@ GATE = datetime(2026, 11, 1, 0, 0, tzinfo=CT)
 DROP = ("v", "t", "s", "l")
 PRECONNECT = '<link rel="preconnect" href="https://photos.adobe.io">\n'
 HTML_NAMES = (
-    Path("site") / "index.html",
     Path("site") / "snaps" / "index.html",
 )
 

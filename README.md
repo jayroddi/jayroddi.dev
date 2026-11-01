@@ -4,19 +4,19 @@ Personal site. The repository is still named `jaytha.ninja`. The live site is [h
 
 `site/CNAME` is `jayroddi.dev`. Pushes to `main` deploy `site/` to GitHub Pages (`.github/workflows/pages.yml`).
 
-The homepage is the snaps grid. The ground is plain and follows the system: black when the system is dark, white when it is light (`prefers-color-scheme`). Dark is the default when that query matches dark. There is no mist and no gradient.
+The homepage is `/grind/`. `/` forwards there. The ground is plain and follows the system: black when the system is dark, white when it is light (`prefers-color-scheme`). Dark is the default when that query matches dark. There is no mist and no gradient.
 
 In order:
 
 1. The header is one row at 12px, the same size as the habit grid titles. Grid titles, the less/more line, and the stat values are 12px too. Month labels stay 10px and the stat captions stay 11px. `✌️🤟🤙` is on the left. `🧠 + 💛 + 💻 = 🚀` is centered on the row. There are no flags. Accents stay teal (`#1AADB3` in dark, `#127F84` on white). The title is not a control. The quote words and the body text stay the system foreground (`--fg`: white in dark, black in light). The right edge is the hamburger. There is no `//`. The emoji keep their own colour. The title does not pulse or glow. There is no underline. The space under the row matches the space under the subtitle (`--habit-gap`, 16px).
-2. On `/habits/`, the subtitle is `only life goal: be better than i was yesterday`, the same 12px italic subhead as the other pages. That line is `--fg` (white in dark, black in light). The title and the month and year headings stay teal at 12px. `/quotes/` and `/daily/` still list the quote file. `/` says `you can see everythi`. `/music/` says `shuffle around and find out`. `/books/` says `garbage in, garbage out`. `/quotes/` says `influence over influencers`. `/daily/` is `🗓️`.
-3. On `/habits/`, the habit grids (code, workouts, steps, sleep, faith) and the life-score tape. The photo grid is `/` and `/snaps/` forwards there.
+2. On `/grind/`, the subtitle is `only life goal: be better than i was yesterday`, a 12px italic subhead, the same size as the rest of the site text outside the habit grids. That line is `--fg` (white in dark, black in light). The title, the menu, quote dates, quote text, and authors, and the month and year headings are 12px. Subheaders stay `--fg`. The title, the menu, and the month and year headings stay teal. `/quotes/` and `/daily/` still list the quote file. `/snaps/` says `you can see everythi`. `/music/` says `shuffle around and find out`. `/books/` says `garbage in, garbage out`. `/quotes/` says `influence over influencers`. `/daily/` is `🗓️`.
+3. On `/grind/`, the habit grids (code, workouts, steps, sleep, faith). There is no life-score tape on this page. `/hud/` is still that chart on its own. The photo grid is `/snaps/`.
 
-The hamburger is the right edge of the header. The list is snaps, music, books, quotes, habits, @jayroddi. Snaps is `/`. `/me/` forwards to `/habits/`. `/daily/` stays a URL and is not in the menu. It is the quote feed (the same list as `/quotes/`). `/confirmed/` still opens by URL. Each of those pages starts with the same header: `✌️🤟🤙` on the left, `🧠 + 💛 + 💻 = 🚀` in the center, the hamburger on the right, then that page’s subtitle. The nightly sync still updates snaps and the playlist.
+The hamburger is the right edge of the header. The list is grind, snaps, music, books, quotes, @jayroddi. Grind is `/grind/`, and `/` forwards there. `/habits/` and `/me/` forward to `/grind/`. `/daily/` stays a URL and is not in the menu. It is the quote feed (the same list as `/quotes/`). `/confirmed/` still opens by URL. Each of those pages starts with the same header: `✌️🤟🤙` on the left, `🧠 + 💛 + 💻 = 🚀` in the center, the hamburger on the right, then that page’s subtitle. The nightly sync still updates snaps and the playlist.
 
 ## snaps
 
-`/` is the photo grid (`site/index.html`). `/snaps/` forwards there. `python3 scripts/sync_snaps.py` reads the public Lightroom album and writes `site/snaps/`. Nothing with a location is stored.
+`/snaps/` is the photo grid (`site/snaps/index.html`). `/` forwards to `/grind/`. `python3 scripts/sync_snaps.py` reads the public Lightroom album and writes `site/snaps/`. Nothing with a location is stored.
 
 Until 2026-11-01 00:00 America/Chicago the grid and the lightbox load Adobe renditions. `site/snaps/snaps.json` in the repo is the index (`base`, `key`, and `months`, newest first). Each month is `site/snaps/m/YYYY-MM.json`, newest first. A photo is `{i, v, d, a, w, h, t, s, l, c}`: asset id, revision, Chicago date, capture time, oriented width and height, the 640 / 1280 / 2048 rendition ids, and a dominant color from the 640 JPEG. `a` is that capture clock tagged America/Chicago (`2026-10-25T07:33:00-05:00`). Each tile stamps it in the bottom-right as `2026.10.25 // 7:33am`, italic mono, readable without covering the photo. The lightbox repeats that line, centered under the photo. A photo with no time shows the date only. `scripts/snaps_colors.json` remembers those colors so the next run does not download an unchanged rendition.
 
@@ -52,9 +52,9 @@ A new object in `quotes.json` is still just a commit. The lists pick it up from 
 
 ## habits
 
-The grids are `/habits/` (`site/habits/index.html`). `/` is the snaps grid. Below the title and the subhead, `/habits/` shows a Kronos-style tape (`site/hud/`) in the same column and side inset as the grids, then the habit grids. The tape is the chart: daily candles for the trailing 90 calendar days through yesterday (America/Chicago), a now beam, and a 24-day spray. The title and the subhead stay where they sit when the tape is absent. The life score is an equal mix of steps, exercise, sleep, faith, and code. The spray is an illustrative residual walk from the blended 7/14/30-day slope inside that 90-day series, not a prediction. `/hud/` is that same chart on its own, in the same column.
+The grids are `/grind/` (`site/grind/index.html`). `/` and `/habits/` and `/me/` forward there. Below the title and the subhead, `/grind/` is the five habit grids. There is no life-score tape on this page. `/hud/` is still that chart on its own: daily candles for the trailing 90 calendar days through yesterday (America/Chicago), a now beam, and a 24-day spray. The life score is an equal mix of steps, exercise, sleep, faith, and code. The spray is an illustrative residual walk from the blended 7/14/30-day slope inside that 90-day series, not a prediction. The grid JSON stays in `site/habits/`.
 
-`/me/` forwards to `/habits/`. `/` is the photo grid and `/snaps/` forwards there. `/daily/` is the quote feed. The grids, in order:
+`/daily/` is the quote feed. The grids, in order:
 
 | grid | file | what a cell is |
 |---|---|---|
@@ -64,7 +64,7 @@ The grids are `/habits/` (`site/habits/index.html`). `/` is the snaps grid. Belo
 | sleep | `site/habits/sleep.json` | the 0–100 score (duration 50, bedtime consistency 30, interruptions 20) and minutes asleep. Colour steps are the 20th / 40th / 60th / 80th of the nonzero nights on screen. A streak is nights scoring 70 or more. A past night with no record stays empty. |
 | faith | `site/habits/faith.json` | from `start` through the day before `full`, the span splits into four levels. From `full` through today (America/Chicago) each day is a full cell, unless the date is in `no`. The browser fills a new day, so the grid moves forward without a commit. |
 
-The journal grid is hidden. Its section is commented out on `/habits/`, and `journal` is `"enabled": false` in `site/habits/trackers.json`. `journal.json` and `journal-jarvis.json` stay in the repo.
+The journal grid is hidden. Its section is commented out on `/grind/`, and `journal` is `"enabled": false` in `site/habits/trackers.json`. `journal.json` and `journal-jarvis.json` stay in the repo.
 
 `python3 scripts/habits.py all` rebuilds `cursor.json` from GitHub. Dates are author dates in America/Chicago. Merge commits are skipped. A pull request counts on the day it was opened and again on the day it merged. AI line edits come from `site/habits/cursor-lines.json` and are not fetched. The Pages workflow runs this before upload and still deploys if the fetch fails. A private repo needs `HABITS_GITHUB_TOKEN`. `python3 scripts/habits.py check` checks the schema and does not use the network.
 

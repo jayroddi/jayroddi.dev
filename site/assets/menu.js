@@ -1,5 +1,5 @@
 /* v3: the top-right menu. three lines, a short list, escape and a click outside close it.
-   snaps is home (/). the list ends habits, then @jayroddi. daily is not in it. */
+   the list is grind, snaps, music, books, quotes, then @jayroddi. daily is not in it. */
 (function () {
   const boot = () => {
     const root = document.querySelector('.site-menu');
