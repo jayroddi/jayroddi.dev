@@ -55,7 +55,7 @@ SLEEP = HABITS / "sleep.json"
 STEPS = HABITS / "steps.json"
 STEPS_CUTS = [2500, 5000, 7500, 10000]
 # snaps are the homepage (site/index.html). /snaps/ forwards to /.
-# habit grids and the life-score tape live on /habits/. /me/ forwards to /habits/.
+# habit grids live on /habits/. /me/ forwards to /habits/. the life-score tape is /hud/ only.
 # /daily/ is the quote feed. day pages still forward home (/).
 HOME = HABITS.parent / "index.html"
 INDEX = HABITS / "index.html"
@@ -745,8 +745,8 @@ def assert_redirects() -> int:
             raise SystemExit(f"habits: {label} is missing the menu or still has the daily quote")
         if "only life goal: be better than i was yesterday" not in html:
             raise SystemExit(f"habits: {label} is missing the subhead")
-        if 'id="kronos"' not in html:
-            raise SystemExit(f"habits: {label} is missing the life-score tape")
+        if 'id="kronos"' in html or "hud.js" in html or "hud.css" in html:
+            raise SystemExit(f"habits: {label} still has the life-score tape")
     me = ME.read_text(encoding="utf-8")
     if 'location.replace("/habits/"' not in me:
         raise SystemExit("habits: site/me/index.html is not a redirect to /habits/")

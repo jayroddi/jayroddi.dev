@@ -226,7 +226,8 @@ def test_page_copy() -> None:
     assert "index.frost" not in js
     assert publish_snaps.GATE == datetime(2026, 11, 1, 0, 0, tzinfo=publish_snaps.CT)
     assert publish_snaps.PRECONNECT.strip() in home
-    assert 'class="trackers"' in habits and 'id="kronos"' in habits
+    assert 'class="trackers"' in habits and 'id="kronos"' not in habits
+    assert "hud.js" not in habits and "hud.css" not in habits
     assert 'class="day-quote"' not in habits and "today.js" not in habits
     assert "only life goal: be better than i was yesterday" in habits
     assert 'id="gallery"' not in habits

@@ -10,7 +10,7 @@ In order:
 
 1. The header is one row at 12px, the same size as the habit grid titles. Grid titles, the less/more line, and the stat values are 12px too. Month labels stay 10px and the stat captions stay 11px. `✌️🤟🤙` is on the left. `ego is the enemy` is centered on the row. There are no flags. Accents stay teal (`#1AADB3` in dark, `#127F84` on white). The title is not a control. The quote words and the body text stay the system foreground (`--fg`: white in dark, black in light). The right edge is the hamburger. There is no `//`. The emoji keep their own colour. The title does not pulse or glow. There is no underline. The space under the row matches the space under the subtitle (`--habit-gap`, 16px).
 2. On `/habits/`, the subtitle is `only life goal: be better than i was yesterday`, a 12px italic subhead, the same size as the rest of the site text outside the habit grids. That line is `--fg` (white in dark, black in light). The title, the menu, and the month and year headings are 12px and stay teal. `/quotes/` and `/daily/` still list the quote file. `/` says `you can see everythi`. `/music/` says `shuffle around and find out`. `/books/` says `garbage in, garbage out`. `/quotes/` says `influence over influencers`. `/daily/` is `🗓️`.
-3. On `/habits/`, the habit grids (code, workouts, steps, sleep, faith) and the life-score tape. The photo grid is `/` and `/snaps/` forwards there.
+3. On `/habits/`, the habit grids (code, workouts, steps, sleep, faith). The photo grid is `/` and `/snaps/` forwards there.
 
 The hamburger is the right edge of the header. The list is snaps, music, books, quotes, habits, @jayroddi. Snaps is `/`. `/me/` forwards to `/habits/`. `/daily/` stays a URL and is not in the menu. It is the quote feed (the same list as `/quotes/`). `/confirmed/` still opens by URL. Each of those pages starts with the same header: `✌️🤟🤙` on the left, `ego is the enemy` in the center, the hamburger on the right, then that page’s subtitle. The nightly sync still updates snaps and the playlist.
 
@@ -52,7 +52,7 @@ A new object in `quotes.json` is still just a commit. The lists pick it up from 
 
 ## habits
 
-The grids are `/habits/` (`site/habits/index.html`). `/` is the snaps grid. Below the title and the subhead, `/habits/` shows a Kronos-style tape (`site/hud/`) in the same column and side inset as the grids, then the habit grids. The tape is the chart: daily candles for the trailing 90 calendar days through yesterday (America/Chicago), a now beam, and a 24-day spray. The title and the subhead stay where they sit when the tape is absent. The life score is an equal mix of steps, exercise, sleep, faith, and code. The spray is an illustrative residual walk from the blended 7/14/30-day slope inside that 90-day series, not a prediction. `/hud/` is that same chart on its own, in the same column.
+The grids are `/habits/` (`site/habits/index.html`). `/` is the snaps grid. Below the title and the subhead, `/habits/` is the five habit grids. There is no life-score tape on this page. `/hud/` is still that chart on its own, in the habit column: daily candles for the trailing 90 calendar days through yesterday (America/Chicago), a now beam, and a 24-day spray. The life score is an equal mix of steps, exercise, sleep, faith, and code. The spray is an illustrative residual walk from the blended 7/14/30-day slope inside that 90-day series, not a prediction.
 
 `/me/` forwards to `/habits/`. `/` is the photo grid and `/snaps/` forwards there. `/daily/` is the quote feed. The grids, in order:
 
