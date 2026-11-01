@@ -741,8 +741,10 @@ def assert_redirects() -> int:
         label = path.relative_to(ROOT)
         if 'class="trackers"' not in html or "location.replace" in html or 'id="gallery"' in html:
             raise SystemExit(f"habits: {label} is not the grids page")
-        if 'class="site-menu"' not in html or "menu.js" not in html or "🗓️" in html or 'class="day-quote"' not in html:
-            raise SystemExit(f"habits: {label} is missing the menu or the daily quote")
+        if 'class="site-menu"' not in html or "menu.js" not in html or "🗓️" in html or 'class="day-quote"' in html or "today.js" in html:
+            raise SystemExit(f"habits: {label} is missing the menu or still has the daily quote")
+        if "only life goal: be better than i was yesterday" not in html:
+            raise SystemExit(f"habits: {label} is missing the subhead")
         if 'id="kronos"' not in html:
             raise SystemExit(f"habits: {label} is missing the life-score tape")
     me = ME.read_text(encoding="utf-8")

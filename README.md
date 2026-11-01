@@ -8,11 +8,11 @@ The homepage is the snaps grid. The ground is plain and follows the system: blac
 
 In order:
 
-1. The header is one row at 12px, the same size as the habits quote. Grid titles, the less/more line, and the stat values are 12px too. Month labels stay 10px and the stat captions stay 11px. `🇺🇸🇯🇵🇳🇿` is on the left. `✌️🤟✝️🤘🤙` is centered on the row. Accents stay teal (`#1AADB3` in dark, `#127F84` on white). The title is not a control. The quote words and the body text stay the system foreground (`--fg`: white in dark, black in light). The right edge is the hamburger. The flags are not repeated there. There is no `//`. The emoji keep their own colour. The title does not pulse or glow. There is no underline. The space under the row matches the space under the subtitle (`--habit-gap`, 16px).
-2. On `/habits/`, the subtitle is today’s quote from `site/quote-of-the-day/quotes.json` (America/Chicago, future dates hidden). The words are `--fg` (white in dark, black in light), 12px italic mono, centered, lowercase. The author sits at the end of the quote, on the same line as the last word, teal (`#1AADB3` in dark, `#127F84` on white), with a space and a hyphen tight to the name (`status. -derek sivers`). The other pages keep a teal subheader, italic, 11px at every width (also 11px under 360px). `/` says `you can see everythi`. `/music/` says `shuffle around and find out`. `/books/` says `garbage in, garbage out`. `/quotes/` says `influence over influencers`. `/daily/` is `🗓️`.
+1. The header is one row at 12px, the same size as the habit grid titles. Grid titles, the less/more line, and the stat values are 12px too. Month labels stay 10px and the stat captions stay 11px. `🇺🇸🇯🇵🇳🇿` is on the left. `✌️🤟✝️🤘🤙` is centered on the row. Accents stay teal (`#1AADB3` in dark, `#127F84` on white). The title is not a control. The quote words and the body text stay the system foreground (`--fg`: white in dark, black in light). The right edge is the hamburger. The flags are not repeated there. There is no `//`. The emoji keep their own colour. The title does not pulse or glow. There is no underline. The space under the row matches the space under the subtitle (`--habit-gap`, 16px).
+2. On `/habits/`, the subtitle is `only life goal: be better than i was yesterday`, the same 11px italic teal subhead as the other pages. `/quotes/` and `/daily/` still list the quote file. The other pages keep that teal subhead, italic, 11px at every width (also 11px under 360px). `/` says `you can see everythi`. `/music/` says `shuffle around and find out`. `/books/` says `garbage in, garbage out`. `/quotes/` says `influence over influencers`. `/daily/` is `🗓️`.
 3. On `/habits/`, the habit grids (code, workouts, steps, sleep, faith) and the life-score tape. The photo grid is `/` and `/snaps/` forwards there.
 
-The hamburger is the right edge of the header. The list is snaps, music, books, quotes, daily, @jayroddi, habits. Snaps is `/`. `/me/` forwards to `/habits/`. `/daily/` is the quote feed (the same list as `/quotes/`). `/confirmed/` still opens by URL. Each of those pages starts with the same header: the flags on the left, `✌️🤟✝️🤘🤙` in the center, the hamburger on the right, then that page’s subtitle. The nightly sync still updates snaps and the playlist.
+The hamburger is the right edge of the header. The list is snaps, music, books, quotes, habits, @jayroddi. Snaps is `/`. `/me/` forwards to `/habits/`. `/daily/` stays a URL and is not in the menu. It is the quote feed (the same list as `/quotes/`). `/confirmed/` still opens by URL. Each of those pages starts with the same header: the flags on the left, `✌️🤟✝️🤘🤙` in the center, the hamburger on the right, then that page’s subtitle. The nightly sync still updates snaps and the playlist.
 
 ## snaps
 
@@ -46,13 +46,13 @@ Frost is the glass on a new snap only. There is no password field, no guess log,
 {"date": "YYYY-MM-DD", "text": "the quote", "author": "Name"}
 ```
 
-`date` is America/Chicago. `/quotes/` and `/daily/` read that file and paint the whole list (future dates stay hidden). `/habits/` reads the same file and shows only today’s entry. `/quote-of-the-day/` still forwards home.
+`date` is America/Chicago. `/quotes/` and `/daily/` read that file and paint the whole list (future dates stay hidden). `/habits/` does not. `/quote-of-the-day/` still forwards home.
 
-A new object in `quotes.json` is still just a commit. The habits quote and the lists pick it up from that file.
+A new object in `quotes.json` is still just a commit. The lists pick it up from that file.
 
 ## habits
 
-The grids are `/habits/` (`site/habits/index.html`). `/` is the snaps grid. Below the title and the daily quote, `/habits/` shows a Kronos-style tape (`site/hud/`) in the same column and side inset as the grids, then the habit grids. The tape is the chart: daily candles for the trailing 90 calendar days through yesterday (America/Chicago), a now beam, and a 24-day spray. The title and the quote stay where they sit when the tape is absent. The life score is an equal mix of steps, exercise, sleep, faith, and code. The spray is an illustrative residual walk from the blended 7/14/30-day slope inside that 90-day series, not a prediction. `/hud/` is that same chart on its own, in the same column.
+The grids are `/habits/` (`site/habits/index.html`). `/` is the snaps grid. Below the title and the subhead, `/habits/` shows a Kronos-style tape (`site/hud/`) in the same column and side inset as the grids, then the habit grids. The tape is the chart: daily candles for the trailing 90 calendar days through yesterday (America/Chicago), a now beam, and a 24-day spray. The title and the subhead stay where they sit when the tape is absent. The life score is an equal mix of steps, exercise, sleep, faith, and code. The spray is an illustrative residual walk from the blended 7/14/30-day slope inside that 90-day series, not a prediction. `/hud/` is that same chart on its own, in the same column.
 
 `/me/` forwards to `/habits/`. `/` is the photo grid and `/snaps/` forwards there. `/daily/` is the quote feed. The grids, in order:
 
@@ -80,7 +80,7 @@ That job syncs the Lightroom album and bakes mid-frost JPEGs for photos dated 20
 
 `.github/workflows/pages.yml` deploys on every push to `main`, on manual dispatch, and on `0,2,32 5,6 * * *` (midnight Chicago, plus two retries, both CDT and CST). Before upload it runs `python3 scripts/publish_snaps.py --apply` (a no-op until the frost gate, and after the gate it frosts only photos dated 2026-11-01 or later), refreshes `cursor.json`, and runs `python3 scripts/make_cards.py flip`, which copies a staged `og-next/` into `site/og/` once that date has started in Chicago. The habits refresh and the card flip can fail without blocking the deploy. The frost gate does not: a crash there keeps the previous deploy up. A missing frost file does not. That case exits 0 and leaves the sharp URLs for that deploy.
 
-The quote file is the commit described above, not a step in `snaps.yml`. `/habits/` shows today’s entry from that file.
+The quote file is the commit described above, not a step in `snaps.yml`. `/quotes/` and `/daily/` show it. `/habits/` does not.
 
 ## what the homepage leaves off
 
