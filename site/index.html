@@ -12,7 +12,7 @@
 <title>habits</title>
 <script src="/assets/accent.js?v=2"></script>
 <link rel="stylesheet" href="/habits/habits.css?v=3.36">
-<link rel="stylesheet" href="/hud/hud.css?v=1">
+<link rel="stylesheet" href="/hud/hud.css?v=2">
 <link rel="stylesheet" href="/assets/rain.css?v=2.63"><script src="/assets/rain.js?v=2.77"></script>
 <link rel="icon" href="/favicon.ico?v=6" sizes="any">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=6">
@@ -43,13 +43,13 @@
 </head>
 <body class="board">
 <canvas id="rain" aria-hidden="true"></canvas>
-<section class="kronos" id="kronos" data-kronos="embed" aria-label="Paper demo life-score forecast in a Kronos-style HUD. Not a model and not a trade."></section>
-<main class="stage" id="grids">
+<main class="stage">
   <div class="copy">
     <header class="mast"><p class="mark"><span class="em">🥷🐺🫈</span></p><h1 class="pages"><span class="brand"><span class="em">✌️🤟✝️🤘🤙</span></span></h1><p class="flags"><span class="em">🇺🇸🇯🇵🇳🇿</span></p>
     </header>
     <div class="day-quote" hidden></div>
-    <div class="trackers">
+    <section class="kronos" id="kronos" data-kronos="embed" aria-label="Paper demo life-score forecast in a Kronos-style HUD. Not a model and not a trade."></section>
+    <div class="trackers" id="grids">
       <section class="tracker" data-id="cursor" data-unit="contribution" data-src="/habits/cursor.json" aria-label="code">
         <h2 class="kicker"><span class="kt">code</span></h2>
         <div class="fit">
