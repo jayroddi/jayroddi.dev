@@ -54,16 +54,17 @@ JARVIS = HABITS / "journal-jarvis.json"
 SLEEP = HABITS / "sleep.json"
 STEPS = HABITS / "steps.json"
 STEPS_CUTS = [2500, 5000, 7500, 10000]
-# snaps are the homepage (site/index.html). /snaps/ forwards to /.
-# habit grids and the life-score tape live on /habits/. /me/ forwards to /habits/.
-# /daily/ is the quote feed. day pages still forward home (/).
+# / forwards to /grind/. the grids are site/grind/index.html. /habits/ and /me/ forward there.
+# snaps are /snaps/. the life-score tape is /hud/ only, not on /grind/.
+# /daily/ is the quote feed. day pages still forward to /, which forwards to /grind/.
 HOME = HABITS.parent / "index.html"
 INDEX = HABITS / "index.html"
+GRIND = HABITS.parent / "grind" / "index.html"
 SNAPS = HABITS.parent / "snaps" / "index.html"
 ME = HABITS.parent / "me" / "index.html"
 MAST_PAGES = (
-    HOME,
-    INDEX,
+    GRIND,
+    SNAPS,
     HABITS.parent / "music" / "index.html",
     HABITS.parent / "books" / "index.html",
     HABITS.parent / "quotes" / "index.html",
@@ -554,8 +555,8 @@ def build_cursor_once(cfg: dict, today: date) -> dict:
 
 
 def grid_pages() -> list[Path]:
-    """The habit grids. They live on /habits/. / is the snaps homepage."""
-    return [INDEX]
+    """The habit grids. They live on /grind/. / and /habits/ forward there."""
+    return [GRIND]
 
 
 def check_index(cfg: dict) -> None:
@@ -734,7 +735,7 @@ def assert_redirects() -> int:
         n += 1
     if n == 0:
         raise SystemExit("habits: no day-page redirects under site/habits")
-    # snaps are /, /snaps/ forwards home, grids are /habits/. /me/ forwards to /habits/.
+    # / and /habits/ and /me/ forward to /grind/. snaps are /snaps/. grids are /grind/.
     mast = '<p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><span class="brand"><span class="em">🧠 + 💛 + 💻 = 🚀</span></span></h1>'
     for path in grid_pages():
         html = path.read_text(encoding="utf-8")
@@ -745,19 +746,22 @@ def assert_redirects() -> int:
             raise SystemExit(f"habits: {label} is missing the menu or still has the daily quote")
         if "only life goal: be better than i was yesterday" not in html:
             raise SystemExit(f"habits: {label} is missing the subhead")
-        if 'id="kronos"' not in html:
-            raise SystemExit(f"habits: {label} is missing the life-score tape")
+        if 'id="kronos"' in html or "hud.js" in html or "hud.css" in html:
+            raise SystemExit(f"habits: {label} still has the life-score tape")
+        if 'href="/grind/"' not in html or ">grind</a>" not in html:
+            raise SystemExit(f"habits: {label} is missing the grind link")
     me = ME.read_text(encoding="utf-8")
-    if 'location.replace("/habits/"' not in me:
-        raise SystemExit("habits: site/me/index.html is not a redirect to /habits/")
+    if 'location.replace("/grind/"' not in me:
+        raise SystemExit("habits: site/me/index.html is not a redirect to /grind/")
     home = HOME.read_text(encoding="utf-8")
-    if 'id="gallery"' not in home or 'class="trackers"' in home or 'id="kronos"' in home or 'id="guess"' in home:
-        raise SystemExit("habits: site/index.html is not the snaps homepage")
-    if "you can see everythi" not in home:
-        raise SystemExit("habits: snaps subhead is missing")
+    if 'location.replace("/grind/"' not in home or 'id="gallery"' in home or 'class="trackers"' in home:
+        raise SystemExit("habits: site/index.html is not a redirect to /grind/")
+    habits_page = INDEX.read_text(encoding="utf-8")
+    if 'location.replace("/grind/"' not in habits_page or 'class="trackers"' in habits_page:
+        raise SystemExit("habits: site/habits/index.html is not a redirect to /grind/")
     snaps = SNAPS.read_text(encoding="utf-8")
-    if 'location.replace("/"' not in snaps or 'content="0; url=/"' not in snaps or 'id="gallery"' in snaps:
-        raise SystemExit("habits: site/snaps/index.html is not a redirect to /")
+    if 'id="gallery"' not in snaps or "you can see everythi" not in snaps or 'id="kronos"' in snaps:
+        raise SystemExit("habits: site/snaps/index.html is not the photo grid")
     for path in MAST_PAGES:
         text = path.read_text(encoding="utf-8")
         if mast not in text or 'class="sep"' in text or "site-menu" not in text or "menu.js" not in text:

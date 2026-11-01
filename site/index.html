@@ -2,82 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8DYYL3KYM"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());(function(){var l=location.href;try{var u=new URL(l),d=[];u.searchParams.forEach(function(v,k){if(/mail/i.test(k)||v.indexOf('@')>=0)d.push(k);});d.forEach(function(k){u.searchParams.delete(k);});l=u.href;}catch(e){}gtag('config','G-G8DYYL3KYM',{page_location:l});})();</script>
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
-<meta name="color-scheme" content="dark light">
-<link rel="preconnect" href="https://photos.adobe.io">
-<link rel="preconnect" href="https://www.googletagmanager.com">
-<link rel="preconnect" href="https://www.google-analytics.com">
-<script>document.documentElement.classList.add('js');window.__snaps=fetch('/snaps/snaps.json',{cache:'no-cache'}).then(function(r){if(!r.ok)throw new Error();return r.json();});</script>
-<title>snaps</title>
-<script src="/assets/accent.js?v=2"></script>
-<link rel="stylesheet" href="/habits/habits.css?v=3.41">
-<link rel="stylesheet" href="/assets/rain.css?v=2.63"><script src="/assets/rain.js?v=2.77"></script>
-<link rel="stylesheet" href="/snaps/snaps.css?v=2.47">
-<link rel="icon" href="/favicon.ico?v=6" sizes="any">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=6">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=6">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=6">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=6">
-<link rel="manifest" href="/site.webmanifest?v=6">
-<link rel="canonical" href="https://jayroddi.dev/">
-<meta name="description" content="photos">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="jayroddi.dev">
-<meta property="og:url" content="https://jayroddi.dev/">
-<meta property="og:title" content="snaps">
-<meta property="og:description" content="photos">
-<meta property="og:image" content="https://jayroddi.dev/og-card.png?v=4.0">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:type" content="image/png">
-<meta property="og:image:alt" content="jayroddi.dev ✌️🤟🤙 🇺🇸🇯🇵🇳🇿">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@jayroddi">
-<meta name="twitter:url" content="https://jayroddi.dev/">
-<meta name="twitter:title" content="snaps">
-<meta name="twitter:description" content="photos">
-<meta name="twitter:image" content="https://jayroddi.dev/og-card.png?v=4.0">
-<meta name="twitter:image:alt" content="jayroddi.dev ✌️🤟🤙 🇺🇸🇯🇵🇳🇿">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"snaps","url":"https://jayroddi.dev/","isPartOf":{"@type":"WebSite","name":"jayroddi.dev","url":"https://jayroddi.dev/"}}</script>
+<title>grind</title>
+<!-- forwards to /grind/. location.replace keeps ?query and #hash. -->
+<script>location.replace("/grind/" + location.search + location.hash)</script>
+<meta http-equiv="refresh" content="0; url=/grind/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://jayroddi.dev/grind/">
 </head>
-<body class="board snaps">
-<canvas id="rain" aria-hidden="true"></canvas>
-<main class="stage">
-  <div class="copy">
-    <header class="mast"><p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><span class="brand"><span class="em">🧠 + 💛 + 💻 = 🚀</span></span></h1>
-      <div class="site-menu">
-        <button type="button" class="menu-btn" aria-label="menu" aria-expanded="false" aria-controls="site-nav">
-          <svg viewBox="0 0 18 14" aria-hidden="true" focusable="false"><path d="M1 1.5h16M1 7h16M1 12.5h16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </button>
-        <nav id="site-nav" class="menu-panel" aria-label="pages" hidden>
-          <ul>
-            <li><a href="/">snaps</a></li>
-            <li><a href="/music/">music</a></li>
-            <li><a href="/books/">books</a></li>
-            <li><a href="/quotes/">quotes</a></li>
-            <li><a href="/habits/">habits</a></li>
-            <li><a class="soc" href="https://x.com/jayroddi" target="_blank" rel="noopener noreferrer">@jayroddi</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-    <p class="subhead">you can see everythi</p>
-  </div>
-  <div class="gallery" id="gallery"><div id="more" hidden></div></div>
-</main>
-<dialog id="light" class="light" aria-labelledby="light-name" tabindex="-1">
-  <p id="light-name" class="visually-hidden" aria-live="polite" aria-atomic="true"></p>
-  <button type="button" class="nav prev" aria-label="newer photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6.5 8 12l6.5 5.5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-  <button type="button" class="nav next" aria-label="older photo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6.5 16 12l-6.5 5.5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-  <div class="frame"><img class="lo" alt="" decoding="async" draggable="false"><img class="hi" alt="" decoding="async" draggable="false"></div>
-  <time class="cap"></time>
-  <button type="button" class="x" aria-label="close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg></button>
-</dialog>
-<script src="/snaps/snaps.js?v=2.62" defer></script>
-<script src="/assets/menu.js?v=3" defer></script>
-</body>
+<body><p><a href="/grind/">grind</a></p></body>
 </html>
