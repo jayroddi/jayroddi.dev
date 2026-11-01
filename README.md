@@ -52,7 +52,7 @@ A new object in `quotes.json` is still just a commit. The homepage quote and the
 
 ## habits
 
-The grids are the homepage (`site/index.html`) and `/habits/` (`site/habits/index.html`). Below the title and the daily quote, both pages show a Kronos-style tape (`site/hud/`) in the same column and side inset as the grids, then the habit grids. The tape is taller than the viewport: the chart, then the scorecard and the live terminal, so the page scrolls through it. The title and the quote stay where they sit when the tape is absent. It is a paper demo: one daily life score from steps, exercise, sleep, faith, and code, then a 24-day fan from the blended 7/14/30-day slope against the previous 30 days. `/hud/` is that same tape on its own, in the same column. Nothing on it is a trading model.
+The grids are the homepage (`site/index.html`) and `/habits/` (`site/habits/index.html`). Below the title and the daily quote, both pages show a Kronos-style tape (`site/hud/`) in the same column and side inset as the grids, then the habit grids. The tape is the chart: daily candles for the trailing 90 calendar days through yesterday (America/Chicago), a now beam, and a 24-day spray. The title and the quote stay where they sit when the tape is absent. The life score is an equal mix of steps, exercise, sleep, faith, and code. The spray is an illustrative residual walk from the blended 7/14/30-day slope inside that 90-day series, not a prediction. `/hud/` is that same chart on its own, in the same column.
 
 `/me/` forwards to `/habits/`. `/snaps/` is the photo grid. `/daily/` is the quote feed. The grids, in order:
 
