@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en" class="quiet">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>mock A — streak on the title</title>
+<script src="../../site/assets/accent.js?v=2"></script>
+<link rel="stylesheet" href="../../site/habits/habits.css?v=3.40">
+<link rel="stylesheet" href="../../site/assets/rain.css?v=2.63">
+<link rel="stylesheet" href="mock.css">
+<script src="../../site/assets/rain.js?v=2.77"></script>
+</head>
+<body class="board mock-a">
+<canvas id="rain" aria-hidden="true"></canvas>
+<p class="mock-banner">mock A · current streak on the title · longest streak leaves the row · squares unchanged</p>
+<main class="stage">
+  <div class="copy">
+    <header class="mast"><p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><span class="brand"><span class="em">🧠 + 💛 + 💻 = 🚀</span></span></h1></header>
+    <p class="subhead">only life goal: be better than i was yesterday</p>
+    <div class="trackers" id="grids">
+      <section class="tracker" data-id="cursor" data-unit="contribution" data-src="../../site/habits/cursor.json" aria-label="code">
+        <h2 class="kicker"><span class="kt">code</span><span class="streak"><span class="sl">streak</span> <b class="sv" data-k="current">0d</b></span></h2>
+        <div class="fit">
+          <div class="graph">
+            <div class="months"></div>
+            <div class="dow" aria-hidden="true"><span>mon</span><span></span><span>wed</span><span></span><span>fri</span><span></span><span></span></div>
+            <div class="weeks"></div>
+          </div>
+          <p class="legend"><span>less</span><span class="swatches" aria-hidden="true"><i data-lv="0"></i><i data-lv="1"></i><i data-lv="2"></i><i data-lv="3"></i><i data-lv="4"></i><i data-lv="5"></i></span><span>more</span></p>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="sl">year</span><b class="sv" data-k="total">0</b></div>
+          <div class="stat"><span class="sl">most active month</span><b class="sv" data-k="month">—</b></div>
+          <div class="stat"><span class="sl">most active day</span><b class="sv" data-k="day">—</b></div>
+        </div>
+      </section>
+      <section class="tracker" data-id="workouts" data-unit="workout" data-metric="minutes" data-src="../../site/habits/workouts.json" aria-label="workouts">
+        <h2 class="kicker"><span class="kt">workouts</span><span class="streak"><span class="sl">streak</span> <b class="sv" data-k="current">0d</b></span></h2>
+        <div class="fit">
+          <div class="graph">
+            <div class="months"></div>
+            <div class="dow" aria-hidden="true"><span>mon</span><span></span><span>wed</span><span></span><span>fri</span><span></span><span></span></div>
+            <div class="weeks"></div>
+          </div>
+          <p class="legend"><span>less</span><span class="swatches" aria-hidden="true"><i data-lv="0"></i><i data-lv="1"></i><i data-lv="2"></i><i data-lv="3"></i><i data-lv="4"></i><i data-lv="5"></i></span><span>more</span></p>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="sl">year</span><b class="sv" data-k="total">0</b></div>
+          <div class="stat"><span class="sl">most active month</span><b class="sv" data-k="month">—</b></div>
+          <div class="stat"><span class="sl">most active day</span><b class="sv" data-k="day">—</b></div>
+        </div>
+      </section>
+      <section class="tracker" data-id="steps" data-kind="steps" data-unit="step" data-src="../../site/habits/steps.json" aria-label="steps">
+        <h2 class="kicker"><span class="kt">steps</span><span class="streak"><span class="sl">streak</span> <b class="sv" data-k="current">0d</b></span></h2>
+        <div class="fit">
+          <div class="graph">
+            <div class="months"></div>
+            <div class="dow" aria-hidden="true"><span>mon</span><span></span><span>wed</span><span></span><span>fri</span><span></span><span></span></div>
+            <div class="weeks"></div>
+          </div>
+          <p class="legend"><span>less</span><span class="swatches" aria-hidden="true"><i data-lv="0"></i><i data-lv="1"></i><i data-lv="2"></i><i data-lv="3"></i><i data-lv="4"></i><i data-lv="5"></i></span><span>more</span></p>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="sl">year</span><b class="sv" data-k="total">0</b></div>
+          <div class="stat"><span class="sl">most active month</span><b class="sv" data-k="month">—</b></div>
+          <div class="stat"><span class="sl">most active day</span><b class="sv" data-k="day">—</b></div>
+        </div>
+      </section>
+      <section class="tracker" data-id="sleep" data-kind="sleep" data-unit="night" data-src="../../site/habits/sleep.json" aria-label="sleep">
+        <h2 class="kicker"><span class="kt">sleep</span><span class="streak"><span class="sl">streak</span> <b class="sv" data-k="current">0d</b></span></h2>
+        <div class="fit">
+          <div class="graph">
+            <div class="months"></div>
+            <div class="dow" aria-hidden="true"><span>mon</span><span></span><span>wed</span><span></span><span>fri</span><span></span><span></span></div>
+            <div class="weeks"></div>
+          </div>
+          <p class="legend"><span>less</span><span class="swatches" aria-hidden="true"><i data-lv="0"></i><i data-lv="1"></i><i data-lv="2"></i><i data-lv="3"></i><i data-lv="4"></i><i data-lv="5"></i></span><span>more</span></p>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="sl">year avg score</span><b class="sv" data-k="total">0</b></div>
+          <div class="stat"><span class="sl">best month</span><b class="sv" data-k="month">—</b></div>
+          <div class="stat"><span class="sl">best night</span><b class="sv" data-k="day">—</b></div>
+        </div>
+      </section>
+      <section class="tracker" data-id="faith" data-kind="faith" data-unit="day" data-src="../../site/habits/faith.json" aria-label="faith">
+        <h2 class="kicker"><span class="kt">faith</span><span class="streak"><span class="sl">streak</span> <b class="sv" data-k="current">0d</b></span></h2>
+        <div class="fit">
+          <div class="graph">
+            <div class="months"></div>
+            <div class="dow" aria-hidden="true"><span>mon</span><span></span><span>wed</span><span></span><span>fri</span><span></span><span></span></div>
+            <div class="weeks"></div>
+          </div>
+          <p class="legend"><span>less</span><span class="swatches" aria-hidden="true"><i data-lv="0"></i><i data-lv="1"></i><i data-lv="2"></i><i data-lv="3"></i><i data-lv="4"></i><i data-lv="5"></i></span><span>more</span></p>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="sl">year</span><b class="sv" data-k="total">0</b></div>
+          <div class="stat"><span class="sl">most active month</span><b class="sv" data-k="month">—</b></div>
+          <div class="stat"><span class="sl">most active day</span><b class="sv" data-k="day">—</b></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+<script src="../../site/habits/habits.js?v=2.63" defer></script>
+<script src="mock.js" defer></script>
+</body>
+</html>
