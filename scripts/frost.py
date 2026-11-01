@@ -9,7 +9,8 @@ so a 640 and a 1280 come out at the same strength.
 `bake` writes site/snaps/f/{asset}.jpg from the 640 and {asset}-l.jpg from
 the 1280 (else the 2048, else the 640). The cache is keyed by filename so a
 new rendition id replaces the file and an unchanged one is not downloaded
-again.
+again. Callers pass only photos dated on or after FROST_FROM. Older snaps
+stay the sharp Lightroom rendition.
 """
 
 from __future__ import annotations
@@ -25,11 +26,22 @@ from pathlib import Path
 import numpy as np
 from PIL import Image, ImageEnhance, ImageFilter, ImageOps
 
-# radius as a fraction of the long edge, saturation, brightness, haze, grain sigma
+# radius as a fraction of the long edge, saturation, brightness, haze, grain sigma.
+# This is the mid column Jay picked. There is no heavier recipe in the repo.
 MID = (0.06, 0.75, 1.08, 0.28, 12)
 RECIPE = "mid-v1"
+# Chicago capture date. Callers frost only photos on this day or later.
+FROST_FROM = "2026-11-01"
 _ID = re.compile(r"^[0-9a-f]{16,64}$")
 MIN_BYTES = 800
+
+
+def dated_for_frost(photo: dict) -> bool:
+    """True when the snap's Chicago capture date is on or after the frost cutoff."""
+    day = photo.get("d")
+    if not isinstance(day, str) or len(day) < 10:
+        return False
+    return day[:10] >= FROST_FROM
 
 
 def _tag(rendition: str) -> str:
@@ -119,12 +131,12 @@ def missing_files(dest: Path, photos: list[dict]) -> int:
 def bake(photos: list[dict], dest: Path, cache_path: Path, fetch, base: str, key: str) -> int:
     """Frost whatever is missing. Returns how many frost files are still absent.
 
+    Pass only photos that should be frosted. An empty list clears dest, so a
+    caller that filters to the cutoff does not leave older glass behind.
     A photo with no rendition ids (the stripped public JSON) is left alone.
-    Files for assets no longer in the album are removed. One bad download
-    does not delete a file that is already there.
+    Files for assets not in this list are removed. One bad download does not
+    delete a file that is already there.
     """
-    if not photos:
-        return 0
     dest.mkdir(parents=True, exist_ok=True)
     for part in dest.glob("*.part"):
         part.unlink()

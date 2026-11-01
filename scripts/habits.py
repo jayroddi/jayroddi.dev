@@ -54,8 +54,8 @@ JARVIS = HABITS / "journal-jarvis.json"
 SLEEP = HABITS / "sleep.json"
 STEPS = HABITS / "steps.json"
 STEPS_CUTS = [2500, 5000, 7500, 10000]
-# habit grids live on / (site/index.html) and /habits/ (site/habits/index.html).
-# snaps live on /snaps/ (site/snaps/index.html). /me/ forwards to /habits/.
+# snaps are the homepage (site/index.html). /snaps/ forwards to /.
+# habit grids and the life-score tape live on /habits/. /me/ forwards to /habits/.
 # /daily/ is the quote feed. day pages still forward home (/).
 HOME = HABITS.parent / "index.html"
 INDEX = HABITS / "index.html"
@@ -64,7 +64,6 @@ ME = HABITS.parent / "me" / "index.html"
 MAST_PAGES = (
     HOME,
     INDEX,
-    SNAPS,
     HABITS.parent / "music" / "index.html",
     HABITS.parent / "books" / "index.html",
     HABITS.parent / "quotes" / "index.html",
@@ -555,8 +554,8 @@ def build_cursor_once(cfg: dict, today: date) -> dict:
 
 
 def grid_pages() -> list[Path]:
-    """Both copies of the habit grids. / is the homepage; /habits/ stays a real page."""
-    return [HOME, INDEX]
+    """The habit grids. They live on /habits/. / is the snaps homepage."""
+    return [INDEX]
 
 
 def check_index(cfg: dict) -> None:
@@ -735,27 +734,32 @@ def assert_redirects() -> int:
         n += 1
     if n == 0:
         raise SystemExit("habits: no day-page redirects under site/habits")
-    # grids live on / and /habits/. snaps live on /snaps/. /me/ forwards to /habits/.
-    mast = '<p class="mark"><span class="em">🥷🐺🫈</span></p><h1 class="pages"><span class="brand"><span class="em">✌️🤟✝️🤘🤙</span></span></h1><p class="flags"><span class="em">🇺🇸🇯🇵🇳🇿</span></p>'
+    # snaps are /, /snaps/ forwards home, grids are /habits/. /me/ forwards to /habits/.
+    mast = '<p class="mark"><span class="em">🇺🇸🇯🇵🇳🇿</span></p><h1 class="pages"><span class="brand"><span class="em">✌️🤟✝️🤘🤙</span></span></h1>'
     for path in grid_pages():
         html = path.read_text(encoding="utf-8")
         label = path.relative_to(ROOT)
         if 'class="trackers"' not in html or "location.replace" in html or 'id="gallery"' in html:
             raise SystemExit(f"habits: {label} is not the grids page")
-        if 'class="site-menu"' in html or "menu.js" in html or "🗓️" in html or 'class="day-quote"' not in html:
-            raise SystemExit(f"habits: {label} still has the menu or the calendar subhead")
+        if 'class="site-menu"' not in html or "menu.js" not in html or "🗓️" in html or 'class="day-quote"' not in html:
+            raise SystemExit(f"habits: {label} is missing the menu or the daily quote")
+        if 'id="kronos"' not in html:
+            raise SystemExit(f"habits: {label} is missing the life-score tape")
     me = ME.read_text(encoding="utf-8")
     if 'location.replace("/habits/"' not in me:
         raise SystemExit("habits: site/me/index.html is not a redirect to /habits/")
+    home = HOME.read_text(encoding="utf-8")
+    if 'id="gallery"' not in home or 'class="trackers"' in home or 'id="kronos"' in home or 'id="guess"' in home:
+        raise SystemExit("habits: site/index.html is not the snaps homepage")
+    if "you can see everythi" not in home:
+        raise SystemExit("habits: snaps subhead is missing")
     snaps = SNAPS.read_text(encoding="utf-8")
-    if 'id="gallery"' not in snaps or 'id="guess"' in snaps or 'type="password"' in snaps or 'class="trackers"' in snaps or "location.replace" in snaps:
-        raise SystemExit("habits: site/snaps/index.html is not the snaps page")
-    if 'class="site-menu"' in snaps or "menu.js" in snaps:
-        raise SystemExit("habits: site/snaps/index.html still has the menu")
+    if 'location.replace("/"' not in snaps or 'content="0; url=/"' not in snaps or 'id="gallery"' in snaps:
+        raise SystemExit("habits: site/snaps/index.html is not a redirect to /")
     for path in MAST_PAGES:
         text = path.read_text(encoding="utf-8")
-        if mast not in text or 'class="sep"' in text or "site-menu" in text or "menu.js" in text:
-            raise SystemExit(f"habits: {path.relative_to(ROOT)} mast is not hands / title / flags")
+        if mast not in text or 'class="sep"' in text or "site-menu" not in text or "menu.js" not in text:
+            raise SystemExit(f"habits: {path.relative_to(ROOT)} mast is not flags / title / menu")
         if '<button type="button" class="brand"' in text or 'cycle accent color' in text:
             raise SystemExit(f"habits: {path.relative_to(ROOT)} title is still an accent control")
         if '✌️🤟🤙 // ' in text:

@@ -11,7 +11,7 @@
 <script>document.documentElement.classList.add('js')</script>
 <title>quotes</title>
 <script src="/assets/accent.js?v=2"></script>
-<link rel="stylesheet" href="/habits/habits.css?v=3.36">
+<link rel="stylesheet" href="/habits/habits.css?v=3.38">
 <link rel="stylesheet" href="/assets/rain.css?v=2.63"><script src="/assets/rain.js?v=2.77"></script>
 <link rel="icon" href="/favicon.ico?v=6" sizes="any">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=6">
@@ -42,12 +42,29 @@
 <canvas id="rain" aria-hidden="true"></canvas>
 <main class="stage">
   <div class="copy">
-    <header class="mast"><p class="mark"><span class="em">🥷🐺🫈</span></p><h1 class="pages"><span class="brand"><span class="em">✌️🤟✝️🤘🤙</span></span></h1><p class="flags"><span class="em">🇺🇸🇯🇵🇳🇿</span></p>
+    <header class="mast"><p class="mark"><span class="em">🇺🇸🇯🇵🇳🇿</span></p><h1 class="pages"><span class="brand"><span class="em">✌️🤟✝️🤘🤙</span></span></h1>
+      <div class="site-menu">
+        <button type="button" class="menu-btn" aria-label="menu" aria-expanded="false" aria-controls="site-nav">
+          <svg viewBox="0 0 18 14" aria-hidden="true" focusable="false"><path d="M1 1.5h16M1 7h16M1 12.5h16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <nav id="site-nav" class="menu-panel" aria-label="pages" hidden>
+          <ul>
+            <li><a href="/">snaps</a></li>
+            <li><a href="/music/">music</a></li>
+            <li><a href="/books/">books</a></li>
+            <li><a href="/quotes/">quotes</a></li>
+            <li><a href="/daily/">daily</a></li>
+            <li><a class="soc" href="https://x.com/jayroddi" target="_blank" rel="noopener noreferrer">@jayroddi</a></li>
+            <li><a href="/habits/">habits</a></li>
+          </ul>
+        </nav>
+      </div>
     </header>
-    <p class="subhead">💬</p>
+    <p class="subhead">influence over influencers</p>
     <ol class="quotes" aria-label="quotes"></ol>
   </div>
 </main>
 <script src="/habits/quotes.js?v=2.55" defer></script>
+<script src="/assets/menu.js?v=2" defer></script>
 </body>
 </html>

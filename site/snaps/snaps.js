@@ -1,8 +1,8 @@
-/* v2.61: frost is glass only. no password field, no guess log, no unlock.
-   v2.59: when snaps.json says frost, tiles and the lightbox load
-   /snaps/f/{id}.jpg and /snaps/f/{id}-l.jpg. that flag is set by the Pages
-   deploy at 2026-11-01 00:00 America/Chicago, which also strips the sharp
-   Lightroom ids from the uploaded JSON. until then the grid is unchanged.
+/* v2.62: frost is per photo. a row with f loads /snaps/f/{id}.jpg and
+   /snaps/f/{id}-l.jpg. the Pages deploy sets f only for a Chicago capture
+   date of 2026-11-01 or later, and only once those JPEGs exist. it also
+   strips that row's sharp Lightroom ids. every earlier snap stays sharp.
+   v2.61: frost is glass only. no password field, no guess log, no unlock.
    v2.33: newest month first. one month is drawn, then another when the sentinel
    scrolls into view (a short month keeps going until the screen is full).
    photos go round-robin into 3 columns, or 6 from 900px, so each row reads
@@ -47,8 +47,8 @@ let eatClick = false;
 let stepping = false;
 let held = [];
 
-function useFrost() {
-  return !!(index && index.frost);
+function useFrost(photo) {
+  return !!(photo && photo.f);
 }
 
 function frostSrc(photo, big) {
@@ -58,11 +58,11 @@ function frostSrc(photo, big) {
 const url = (photo, id) => index.base + 'assets/' + photo.i + '/revisions/' + photo.v + '/renditions/' + id + '?api_key=' + encodeURIComponent(index.key);
 
 function tileSrc(photo) {
-  return useFrost() ? frostSrc(photo, false) : url(photo, photo.t);
+  return useFrost(photo) ? frostSrc(photo, false) : url(photo, photo.t);
 }
 
 function bigSrc(photo) {
-  return useFrost() ? frostSrc(photo, true) : url(photo, photo.l || photo.s || photo.t);
+  return useFrost(photo) ? frostSrc(photo, true) : url(photo, photo.l || photo.s || photo.t);
 }
 
 function monthName(key) {
@@ -138,7 +138,7 @@ function render(meta, photos) {
     button.dataset.src = thumb;
     button.dataset.w = photo.w;
     button.dataset.h = photo.h;
-    if (useFrost()) button.dataset.srcset = thumb + ' ' + resource(640) + 'w, ' + frostSrc(photo, true) + ' ' + resource(1280) + 'w';
+    if (useFrost(photo)) button.dataset.srcset = thumb + ' ' + resource(640) + 'w, ' + frostSrc(photo, true) + ' ' + resource(1280) + 'w';
     else if (photo.s) button.dataset.srcset = thumb + ' ' + resource(640) + 'w, ' + url(photo, photo.s) + ' ' + resource(1280) + 'w';
     button.dataset.eager = already + n < eagerCount ? '1' : '';
     button.addEventListener('click', () => openAt(seqAt));

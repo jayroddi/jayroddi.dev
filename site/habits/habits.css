@@ -21,7 +21,7 @@ a:hover{color:var(--c)}
 /* the board scrolls. --habit-gap is the only vertical step: above each title, between a graph and its stats, and between sections. a new habit is another .tracker inside .trackers, and it picks up this step with no other layout change. the column is the shared --col (rain.css). */
 body.board{--habit-gap:16px;--left:max(24px,calc((100vw - 777.6px)/2));--edge:var(--left);--col:min(777.6px,calc(100vw - 48px));height:auto;min-height:100svh;overflow-x:hidden;display:flex;flex-direction:column}
 body.board .stage{position:relative;z-index:2;flex:none;display:flex;align-items:flex-start;justify-content:center;padding:48px 0 var(--habit-gap)}
-body.board .copy{margin-left:auto;margin-right:auto;width:var(--col);max-width:var(--col);display:flex;flex-direction:column;align-items:center;font-size:12px;text-align:center;text-shadow:0 0 8px rgba(var(--bg-rgb),.8);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body.board .copy{position:relative;z-index:3;margin-left:auto;margin-right:auto;width:var(--col);max-width:var(--col);display:flex;flex-direction:column;align-items:center;font-size:12px;text-align:center;text-shadow:0 0 8px rgba(var(--bg-rgb),.8);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body.board .trackers,body.board .tracker,body.board .fit,body.board .graph{width:100%}
 body.board .kicker,body.board .legend,body.board .stat,body.board .status{text-align:center}
 body.board .legend{justify-content:center}
@@ -35,14 +35,14 @@ body.board .mast .pages:focus-visible{outline:2px solid var(--c);outline-offset:
 body.board .mast button.pages .pages-t{display:inline-block;color:inherit;font-style:italic;animation:title-glow 1.05s ease-in-out infinite}
 body.board .mast h1.pages .pages-t{display:inline;color:inherit;font-style:italic;white-space:normal}
 @media (prefers-reduced-motion:reduce){body.board .mast button.pages .pages-t{animation:none;text-shadow:0 0 8px rgba(var(--c-rgb),.75)}}
-/* v3.34: the header row is 12px, the same size as the homepage quote. ninja, wolf, and the hairy creature sit on the left. the five hand-and-cross emoji sit in the true center, and the title does not cycle the accent. the flags sit on the right. there is no // and no menu. the emoji keep their own colour. the title does not pulse or glow. */
+/* v3.38: the flags are the left edge. the five hand-and-cross emoji sit in the true center, and the title does not cycle the accent. the hamburger is the right edge. the header row is 12px. there is no //. the emoji keep their own colour. the title does not pulse or glow. */
 body.board .mast h1.pages{color:var(--fg);text-shadow:none;cursor:default}
 html.quiet body.board .mast .pages{text-shadow:none;cursor:default}
 html.quiet body.board .mast h1.pages{color:var(--fg)}
 html.quiet body.board .mast .pages .pages-t{animation:none;text-shadow:none}
 /* v3.14: the gap under the title matches the gap under the subtitle. the mast already has margin-bottom: --habit-gap (16px). the subtitle used to pull up over that with margin-top: calc(-1 * var(--habit-gap) + 6px), which left 6px between the title block and the subtitle while the subtitle kept 16px before the content. margin-top is 0 now, so both gaps are --habit-gap. */
-/* v3.23: the emoji subhead is 11px at every width, including a narrow Duo screen. text-size-adjust stays 100% so a phone does not boost this one glyph above the other mosaic pages. font-variant-emoji keeps the calendar an emoji, the same presentation as snaps and daily, instead of a text fallback when the document is italic. the line is one emoji. */
-body.board .copy > .subhead{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0;text-align:center;font-family:var(--mono);font-size:11px;font-weight:500;font-style:italic;font-variant-emoji:emoji;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c);white-space:nowrap;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+/* v3.37: the subhead under the mast is still 11px italic teal at every width. a page may use one emoji or a short phrase. a phrase wraps instead of running off a narrow screen. */
+body.board .copy > .subhead{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0 8px;text-align:center;font-family:var(--mono);font-size:11px;font-weight:500;font-style:italic;font-variant-emoji:emoji;letter-spacing:normal;line-height:var(--mast-lh);color:var(--c);white-space:normal;overflow-wrap:anywhere;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 @media (max-width:359px){body.board .copy > .subhead{font-size:11px;-webkit-text-size-adjust:100%;text-size-adjust:100%}}
 /* v3.36: today's quote on / and /habits/. 12px italic mono, the same size as the title and the hands. the words are --fg (white in dark, black in light). the name starts on the same line as the last word, in the accent, with a space and a hyphen tight to the name. lowercase, same as /quotes. a long line wraps. a name that does not fit wraps under that word instead of sitting on its own line. */
 body.board .copy > .day-quote{box-sizing:border-box;width:100%;margin:0 0 var(--habit-gap);padding:0;text-align:center;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;letter-spacing:normal;line-height:var(--mast-lh);-webkit-text-size-adjust:100%;text-size-adjust:100%}
@@ -317,13 +317,31 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
 :root body.board .mast .nav,:root body.board .copy > .note-line,:root body.snaps .backlog{font-size:14px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast .nav a{padding:0 var(--nav-pad)}
 :root body.board .mast .nav{--hw:min(100vw - 16px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);flex-wrap:nowrap}
-/* v3.34: one header row, three parts, no menu and no //. ninja, wolf, and the hairy creature are the left edge. the title emoji are absolutely centered on the row (the true center, not the gap between the sides), and the title is not a control. the flags are the right edge. all three are 12px, including under 360px. */
+/* v3.38: one header row. the flags are the left edge. the title emoji are absolutely centered on the row (the true center, not the gap between the sides), and the title is not a control. the hamburger is the right edge. the clusters are 12px, including under 360px. */
 :root body.board .mast{display:flex;align-items:center;min-height:var(--mast-row)}
 :root body.board .mast .mark,:root body.board .mast .flags{z-index:1;margin:0;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;line-height:var(--mast-lh);white-space:nowrap;pointer-events:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast .mark{position:relative;display:flex;align-items:center;justify-content:flex-start;width:auto;max-width:calc(50% - 28px);height:auto;min-height:var(--mast-row);padding:0;text-align:left}
 :root body.board .mast h1.pages{position:absolute;left:50%;top:50%;z-index:2;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;width:auto;max-width:none;height:auto;min-height:0;margin:0;padding:0;white-space:nowrap;text-align:center;text-wrap:nowrap;font-size:12px;line-height:var(--mast-lh);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast h1.pages .brand{margin:0;padding:0;border:0;background:none;color:inherit;font:inherit;font-style:normal;font-weight:500;text-decoration:none;cursor:default}
-:root body.board .mast .flags{position:absolute;right:0;top:50%;transform:translateY(-50%)}
+:root body.board .mast .flags{position:absolute;right:44px;top:50%;transform:translateY(-50%)}
+/* v3.37: the hamburger stays at the right edge of the column and centers on the header row. the three lines follow the accent. the open list paints above the gallery because .copy is z-index 3. */
+body.board .site-menu{position:absolute;z-index:5;top:0;right:0;bottom:0;height:auto;display:flex;align-items:center;justify-content:flex-end}
+body.board .menu-btn{box-sizing:border-box;display:flex;align-items:center;justify-content:flex-end;width:44px;height:var(--mast-row);margin:0;padding:0;border:0;border-radius:6px;background:transparent;color:var(--c);cursor:pointer;touch-action:manipulation;appearance:none;-webkit-appearance:none;-webkit-tap-highlight-color:transparent}
+body.board .menu-btn svg{display:block;width:18px;height:14px;color:var(--c)}
+body.board .menu-btn svg path{stroke:currentColor;fill:none}
+body.board .menu-btn:focus{outline:0}
+body.board .menu-btn:focus-visible{outline:2px solid var(--c);outline-offset:2px}
+body.board .menu-panel{position:absolute;top:calc(100% + 6px);right:0;z-index:6;min-width:9.5rem;margin:0;padding:6px 0;border:1px solid rgba(var(--c-rgb),.4);border-radius:8px;background:var(--bg,#000);box-shadow:0 12px 32px rgba(0,0,0,.28);text-align:left;text-shadow:none}
+body.board .menu-panel[hidden]{display:none}
+body.board .menu-panel ul{list-style:none;margin:0;padding:0}
+body.board .menu-panel a{display:flex;align-items:center;min-height:40px;padding:0 18px;font-family:var(--mono);font-size:14px;font-weight:500;font-style:italic;line-height:1.25;letter-spacing:normal;color:var(--c);text-decoration:none;text-shadow:none;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+body.board .menu-panel a:hover{color:var(--c);background:rgba(var(--c-rgb),.08)}
+body.board .menu-panel a.soc{color:var(--fg)}
+body.board .menu-panel a.soc:hover{color:var(--fg);background:rgba(var(--fg-rgb),.08)}
+body.board .menu-panel a.soc:focus-visible{outline-color:var(--fg)}
+body.board .menu-panel a[aria-current="page"]{text-decoration:underline;text-decoration-color:currentColor;text-decoration-thickness:1px;text-underline-offset:.2em}
+body.board .menu-panel a:focus{outline:0}
+body.board .menu-panel a:focus-visible{outline:2px solid var(--c);outline-offset:-4px}
 /* the emoji are child spans. the universal reset sets those spans upright. quiet used to italicize them on /habits only, which sheared the cluster off the center the other pages use. the title cluster uses the same span. */
 :root body.board .mast .mark .em,:root body.board .mast .flags .em,:root body.board .mast h1.pages .em{font-style:normal;font-synthesis:none;font-variant-emoji:emoji}
 @media (max-width:359px){:root body.board .mast h1.pages,:root body.board .mast .mark,:root body.board .mast .flags{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}.kicker,.tracker .kicker,.kicker .kt,.legend,.stat .sv{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}.stat .sl{font-size:11px;-webkit-text-size-adjust:100%;text-size-adjust:100%}.months span,.dow span{font-size:10px;-webkit-text-size-adjust:100%;text-size-adjust:100%}}
