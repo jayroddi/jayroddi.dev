@@ -1,0 +1,135 @@
+/* mock-only. not loaded by /habits/. squares, gaps, and the column stay the site's. */
+
+.mock-banner{
+  position:relative;
+  z-index:4;
+  margin:0;
+  padding:8px 16px;
+  font-family:var(--mono);
+  font-size:12px;
+  font-weight:500;
+  font-style:italic;
+  line-height:1.25;
+  text-align:center;
+  color:var(--fg);
+  background:rgba(var(--c-rgb),.16);
+}
+
+/* A: current streak sits on the title row. desktop keeps the centered title.
+   the phone puts the name on the left and the streak on the right. */
+body.mock-a .tracker .kicker{position:relative}
+body.mock-a .tracker .kicker .streak{
+  position:absolute;
+  right:0;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:12px;
+  font-weight:400;
+  font-style:italic;
+  line-height:1.25;
+  color:var(--ink-3);
+  white-space:nowrap;
+}
+body.mock-a .tracker .kicker .streak .sl{font-size:11px;font-weight:400;color:var(--ink-3)}
+body.mock-a .tracker .kicker .streak .sv{
+  font-size:12px;
+  font-weight:500;
+  font-style:normal;
+  color:var(--fg);
+}
+body.mock-a .stats{grid-template-columns:repeat(3, minmax(0, 1fr))}
+@media (max-width:760px){
+  body.mock-a .tracker .kicker{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:8px;
+    text-align:left;
+  }
+  body.mock-a .tracker .kicker .streak{position:static;transform:none}
+  body.mock-a .stats{grid-template-columns:repeat(3, minmax(0, 1fr));gap:6px 8px}
+  body.mock-a .stats .stat:nth-child(n){grid-column:auto}
+}
+
+/* B: one today row under the subhead. the five grids below are the current ones. */
+body.mock-b .today{
+  box-sizing:border-box;
+  width:100%;
+  margin:0 0 var(--habit-gap);
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+body.mock-b .today-label{
+  margin:0;
+  font-family:var(--mono);
+  font-size:12px;
+  font-weight:500;
+  font-style:italic;
+  line-height:1.25;
+  color:var(--c);
+}
+body.mock-b .today-row{
+  list-style:none;
+  display:grid;
+  grid-template-columns:repeat(5, minmax(0, 1fr));
+  gap:8px;
+  margin:0;
+  min-height:3.2em;
+}
+body.mock-b .today-row li{min-width:0;text-align:center}
+body.mock-b .today-row .sl{
+  display:block;
+  min-height:1.15em;
+  font-size:11px;
+  line-height:1.15;
+  font-weight:400;
+  color:var(--ink-3);
+}
+body.mock-b .today-row .sv{
+  display:block;
+  min-height:1.25em;
+  font-size:12px;
+  line-height:1.25;
+  font-weight:500;
+  color:var(--fg);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+@media (max-width:760px){
+  body.mock-b .today-row{grid-template-columns:repeat(6, minmax(0, 1fr));gap:6px 8px}
+  body.mock-b .today-row li:nth-child(1){grid-column:1 / span 2}
+  body.mock-b .today-row li:nth-child(2){grid-column:3 / span 2}
+  body.mock-b .today-row li:nth-child(3){grid-column:5 / span 2}
+  body.mock-b .today-row li:nth-child(4){grid-column:2 / span 2}
+  body.mock-b .today-row li:nth-child(5){grid-column:4 / span 2}
+}
+
+/* C: phone only. current streak leads the stat stack. squares and the desktop row stay. */
+@media (max-width:760px){
+  body.mock-c .stats{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    min-height:0;
+  }
+  body.mock-c .stats .stat{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:8px;
+    text-align:left;
+  }
+  body.mock-c .stats .stat .sl{min-height:0}
+  body.mock-c .stats .stat:nth-child(5){
+    order:-1;
+    padding-bottom:4px;
+    border-bottom:1px solid rgba(var(--ink-rgb),.28);
+  }
+  body.mock-c .stats .stat:nth-child(5) .sl{
+    font-size:12px;
+    color:var(--c);
+  }
+  body.mock-c .stats .stat:nth-child(5) .sv{font-size:18px;line-height:1.2}
+}
