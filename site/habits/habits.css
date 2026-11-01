@@ -35,7 +35,7 @@ body.board .mast .pages:focus-visible{outline:2px solid var(--c);outline-offset:
 body.board .mast button.pages .pages-t{display:inline-block;color:inherit;font-style:italic;animation:title-glow 1.05s ease-in-out infinite}
 body.board .mast h1.pages .pages-t{display:inline;color:inherit;font-style:italic;white-space:normal}
 @media (prefers-reduced-motion:reduce){body.board .mast button.pages .pages-t{animation:none;text-shadow:0 0 8px rgba(var(--c-rgb),.75)}}
-/* v3.37: the hamburger is back at the right edge. the flags sit just left of it. the header row is 12px. ninja, wolf, and the hairy creature sit on the left. the five hand-and-cross emoji sit in the true center, and the title does not cycle the accent. there is no //. the emoji keep their own colour. the title does not pulse or glow. */
+/* v3.38: the flags are the left edge. the five hand-and-cross emoji sit in the true center, and the title does not cycle the accent. the hamburger is the right edge. the header row is 12px. there is no //. the emoji keep their own colour. the title does not pulse or glow. */
 body.board .mast h1.pages{color:var(--fg);text-shadow:none;cursor:default}
 html.quiet body.board .mast .pages{text-shadow:none;cursor:default}
 html.quiet body.board .mast h1.pages{color:var(--fg)}
@@ -317,7 +317,7 @@ body.day .quiet{margin-top:8px;font-size:15px;line-height:1.5;font-weight:400;co
 :root body.board .mast .nav,:root body.board .copy > .note-line,:root body.snaps .backlog{font-size:14px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast .nav a{padding:0 var(--nav-pad)}
 :root body.board .mast .nav{--hw:min(100vw - 16px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);flex-wrap:nowrap}
-/* v3.37: one header row. ninja, wolf, and the hairy creature are the left edge. the title emoji are absolutely centered on the row (the true center, not the gap between the sides), and the title is not a control. the flags sit just left of the hamburger, which is the right edge. all three clusters are 12px, including under 360px. */
+/* v3.38: one header row. the flags are the left edge. the title emoji are absolutely centered on the row (the true center, not the gap between the sides), and the title is not a control. the hamburger is the right edge. the clusters are 12px, including under 360px. */
 :root body.board .mast{display:flex;align-items:center;min-height:var(--mast-row)}
 :root body.board .mast .mark,:root body.board .mast .flags{z-index:1;margin:0;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;line-height:var(--mast-lh);white-space:nowrap;pointer-events:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast .mark{position:relative;display:flex;align-items:center;justify-content:flex-start;width:auto;max-width:calc(50% - 28px);height:auto;min-height:var(--mast-row);padding:0;text-align:left}
