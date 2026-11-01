@@ -735,14 +735,16 @@ def assert_redirects() -> int:
     if n == 0:
         raise SystemExit("habits: no day-page redirects under site/habits")
     # snaps are /, /snaps/ forwards home, grids are /habits/. /me/ forwards to /habits/.
-    mast = '<p class="mark"><span class="em">🇺🇸🇯🇵🇳🇿</span></p><h1 class="pages"><span class="brand"><span class="em">✌️🤟✝️🤘🤙</span></span></h1>'
+    mast = '<p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><span class="brand"><span class="em">🧠 + 💛 + 💻 = 🚀</span></span></h1>'
     for path in grid_pages():
         html = path.read_text(encoding="utf-8")
         label = path.relative_to(ROOT)
         if 'class="trackers"' not in html or "location.replace" in html or 'id="gallery"' in html:
             raise SystemExit(f"habits: {label} is not the grids page")
-        if 'class="site-menu"' not in html or "menu.js" not in html or "🗓️" in html or 'class="day-quote"' not in html:
-            raise SystemExit(f"habits: {label} is missing the menu or the daily quote")
+        if 'class="site-menu"' not in html or "menu.js" not in html or "🗓️" in html or 'class="day-quote"' in html or "today.js" in html:
+            raise SystemExit(f"habits: {label} is missing the menu or still has the daily quote")
+        if "only life goal: be better than i was yesterday" not in html:
+            raise SystemExit(f"habits: {label} is missing the subhead")
         if 'id="kronos"' not in html:
             raise SystemExit(f"habits: {label} is missing the life-score tape")
     me = ME.read_text(encoding="utf-8")
@@ -759,7 +761,7 @@ def assert_redirects() -> int:
     for path in MAST_PAGES:
         text = path.read_text(encoding="utf-8")
         if mast not in text or 'class="sep"' in text or "site-menu" not in text or "menu.js" not in text:
-            raise SystemExit(f"habits: {path.relative_to(ROOT)} mast is not flags / title / menu")
+            raise SystemExit(f"habits: {path.relative_to(ROOT)} mast is not hands / 🧠 + 💛 + 💻 = 🚀 / menu")
         if '<button type="button" class="brand"' in text or 'cycle accent color' in text:
             raise SystemExit(f"habits: {path.relative_to(ROOT)} title is still an accent control")
         if '✌️🤟🤙 // ' in text:

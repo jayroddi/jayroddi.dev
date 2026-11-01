@@ -226,9 +226,11 @@ def test_page_copy() -> None:
     assert "index.frost" not in js
     assert publish_snaps.GATE == datetime(2026, 11, 1, 0, 0, tzinfo=publish_snaps.CT)
     assert publish_snaps.PRECONNECT.strip() in home
-    assert 'class="trackers"' in habits and 'id="kronos"' in habits and 'class="day-quote"' in habits
+    assert 'class="trackers"' in habits and 'id="kronos"' in habits
+    assert 'class="day-quote"' not in habits and "today.js" not in habits
+    assert "only life goal: be better than i was yesterday" in habits
     assert 'id="gallery"' not in habits
-    order = ["/", "/music/", "/books/", "/quotes/", "/daily/", "/habits/"]
+    order = ["/", "/music/", "/books/", "/quotes/", "/habits/"]
     for page in (
         home,
         habits,
@@ -238,9 +240,10 @@ def test_page_copy() -> None:
         (ROOT / "site" / "daily" / "index.html").read_text(encoding="utf-8"),
     ):
         assert 'class="site-menu"' in page and "menu.js" in page
+        assert 'href="/daily/"' not in page
         spots = [page.index(f'href="{href}"') for href in order]
         assert spots == sorted(spots)
-        assert page.index('href="/habits/"') > page.index('href="/daily/"')
+        assert page.index("https://x.com/jayroddi") > page.index('href="/habits/"')
     music = (ROOT / "site" / "music" / "index.html").read_text(encoding="utf-8")
     books = (ROOT / "site" / "books" / "index.html").read_text(encoding="utf-8")
     quotes = (ROOT / "site" / "quotes" / "index.html").read_text(encoding="utf-8")
