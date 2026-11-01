@@ -58,6 +58,8 @@ def test_gate_instant() -> None:
     naive = datetime(2026, 10, 31, 12, 0)
     assert not publish_snaps.gate_open(naive)
     assert frost.FROST_FROM == "2026-11-01"
+    assert frost.RECIPE == "soft-v1"
+    assert frost.SOFT[0] < frost.MID[0] and frost.SOFT[3] < frost.MID[3] and frost.SOFT[4] < frost.MID[4]
     old = _photo()
     assert not frost.dated_for_frost(old)
     new = _photo()

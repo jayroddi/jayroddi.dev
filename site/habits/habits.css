@@ -335,7 +335,7 @@ body.board .socials a{color:inherit;font-style:italic}
 :root body.board .mast .nav,:root body.board .copy > .note-line,:root body.snaps .backlog{font-size:12px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast .nav a{padding:0 var(--nav-pad)}
 :root body.board .mast .nav{--hw:min(100vw - 16px,720px);width:var(--hw);max-width:none;margin-left:calc((100% - var(--hw)) / 2);margin-right:calc((100% - var(--hw)) / 2);flex-wrap:nowrap}
-/* v3.39: one header row. three hands are the left edge. the title is the words 🧠 + 💛 + 💻 = 🚀, centered, and it links home. it is not an accent control. the hamburger is the right edge. there are no flags. the row is 12px, including under 360px. */
+/* v3.39: one header row. three hands are the left edge. the title is the words a/b tester of the year? 🎭, centered, and it links home. it is not an accent control. the hamburger is the right edge. there are no flags. the row is 12px, including under 360px. */
 :root body.board .mast{display:flex;align-items:center;min-height:var(--mast-row)}
 :root body.board .mast .mark,:root body.board .mast .flags{z-index:1;margin:0;font-family:var(--mono);font-size:12px;font-weight:500;font-style:italic;line-height:var(--mast-lh);white-space:nowrap;pointer-events:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root body.board .mast .mark{position:relative;display:flex;align-items:center;justify-content:flex-start;width:auto;max-width:calc(50% - 28px);height:auto;min-height:var(--mast-row);padding:0;text-align:left}
