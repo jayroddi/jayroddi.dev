@@ -21,11 +21,12 @@ it. The color cache is scripts/snaps_colors.json so a later run does not
 download a rendition that has not changed.
 
 The same run frosts the 640 and the larger rendition into frost-cache/
-(mid strength, see frost.py). Those JPEGs are not committed: the grain
-makes a full bake a couple of hundred megabytes, and the Pages deploy
-uploads them only after the frost gate. scripts/snaps_frost.json (also
-uncommitted; the Actions cache keeps both) remembers which rendition id
-each file was baked from.
+(mid strength, see frost.py) for photos whose Chicago capture date is
+2026-11-01 or later. Older photos stay sharp and are not baked. Those
+JPEGs are not committed: the grain does not compress, and the Pages
+deploy uploads them only for the dated photos. scripts/snaps_frost.json
+(also uncommitted; the Actions cache keeps both) remembers which
+rendition id each file was baked from.
 """
 
 from __future__ import annotations
@@ -44,7 +45,7 @@ from zoneinfo import ZoneInfo
 
 from PIL import Image
 
-from frost import bake
+from frost import bake, dated_for_frost
 
 SPACE = "70e5cd134b2e42feae9e82952152c5e8"
 KEY = "LightroomMobileWeb1"
@@ -315,8 +316,12 @@ def main() -> None:
     CACHE.write_text(json.dumps(cache, separators=(",", ":"), ensure_ascii=True) + "\n", encoding="utf-8")
     FROST = ROOT / "frost-cache"
     FROST_CACHE = ROOT / "scripts" / "snaps_frost.json"
-    missing = bake(rows, FROST, FROST_CACHE, bytes_of, base, KEY)
-    print(f"{len(rows)} photos, {len(grouped)} months, {min(grouped)} .. {max(grouped)}; frost missing {missing}")
+    frost_rows = [row for row in rows if dated_for_frost(row)]
+    missing = bake(frost_rows, FROST, FROST_CACHE, bytes_of, base, KEY)
+    print(
+        f"{len(rows)} photos, {len(grouped)} months, {min(grouped)} .. {max(grouped)}; "
+        f"frost {len(frost_rows)} from 2026-11-01, missing {missing}"
+    )
 
 
 if __name__ == "__main__":

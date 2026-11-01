@@ -42,9 +42,9 @@ jobs:
       - name: Pillow and numpy
         run: pip install pillow numpy
       - name: Snaps frost gate
-        # --bake fills frost-cache/ (outside site/, so a pre-gate deploy does not upload it).
-        # --apply is a no-op until 2026-11-01 00:00 America/Chicago. after that it copies
-        # the frost JPEGs into the artifact and drops sharp Lightroom URLs.
+        # --bake fills frost-cache/ for photos dated 2026-11-01 or later (Chicago).
+        # --apply is a no-op until that midnight. after that it publishes frost JPEGs
+        # for those photos only and leaves every earlier snap sharp.
         run: |
           python3 scripts/publish_snaps.py --bake
           python3 scripts/publish_snaps.py --apply
