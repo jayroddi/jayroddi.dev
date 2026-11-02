@@ -62,7 +62,7 @@ function chooseHubs(positions, degree, groupOf) {
   for (let i = 0; i < n; i++) order.push(i);
   order.sort((a, b) => degree[b] - degree[a] || a - b);
   const picked = [];
-  const minSep = 26;
+  const minSep = 14;
   const radiusOf = (i) => Math.hypot(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
   const tooClose = (i) => picked.some((j) => {
     const dx = positions[i * 3] - positions[j * 3];
@@ -78,7 +78,7 @@ function chooseHubs(positions, degree, groupOf) {
   };
   for (let g = 0; g < 4; g++) {
     for (const i of order) {
-      if (groupOf[i] !== g || degree[i] < 12) continue;
+      if (groupOf[i] !== g) continue;
       if (take(i)) break;
     }
   }
@@ -117,30 +117,35 @@ function glowTexture() {
 const RIPPLE = `
 const int HUBS = 8;
 uniform vec3 uHubPos[HUBS];
+uniform vec3 uHubColor[HUBS];
 uniform float uHubOffset[HUBS];
 uniform float uHubTravel[HUBS];
 uniform float uHubOn[HUBS];
+uniform float uHubAmp[HUBS];
 uniform float uReach;
 uniform float uShell;
 uniform float uRest;
-float rippleAt(vec3 p) {
+vec3 rippleGlow(vec3 p) {
   float radius = length(p);
-  float shellFade = 1.0 - smoothstep(uShell * 0.58, uShell * 0.74, radius);
-  if (shellFade <= 0.0) return 0.0;
-  float sum = 0.0;
+  float shellFade = 1.0 - smoothstep(uShell * 0.66, uShell * 0.82, radius);
+  if (shellFade <= 0.0) return vec3(0.0);
+  vec3 sum = vec3(0.0);
   for (int i = 0; i < HUBS; i++) {
     float travelT = max(uHubTravel[i], 0.001);
     float local = mod(uTime + uHubOffset[i], travelT + uRest);
-    float firing = (1.0 - step(travelT, local)) * uHubOn[i];
+    float firing = (1.0 - step(travelT, local)) * uHubOn[i] * uHubAmp[i];
     float u = clamp(local / travelT, 0.0, 1.0);
     float d = distance(p, uHubPos[i]);
     float front = u * uReach;
-    float band = exp(-pow((d - front) / 6.8, 2.0));
-    float outward = 1.0 - smoothstep(uReach * 0.38, uReach * 0.86, d);
-    float age = 1.0 - smoothstep(0.68, 1.0, u);
-    sum += band * outward * age * firing;
+    float width = mix(3.2, 18.0, u);
+    float band = exp(-pow((d - front) / width, 2.0));
+    float nucleus = exp(-pow(d / 4.6, 2.0)) * (1.0 - smoothstep(0.0, 0.32, u));
+    float soften = 1.0 - smoothstep(0.18, 0.96, u);
+    float edge = 1.0 - smoothstep(uReach * 0.58, uReach * 0.94, d);
+    float amp = nucleus * 2.8 + band * soften * edge;
+    sum += uHubColor[i] * amp * firing;
   }
-  return min(sum, 1.2) * shellFade;
+  return sum * shellFade;
 }
 `;
 
@@ -160,12 +165,12 @@ function pointMaterial(uniforms) {
       ${RIPPLE}
       void main() {
         float wobble = sin(uTime * (0.48 + aHub * 0.4) + aPhase) * uMotion;
-        float wave = rippleAt(position) * uMotion;
-        float pulse = 1.0 + (0.028 + aHub * 0.075) * wobble + wave * 0.72;
-        vColor = aColor * (0.94 + (0.06 + aHub * 0.1) * wobble);
-        vColor = vColor * (1.0 + wave * 1.25) + vec3(wave * 0.48);
+        vec3 glow = rippleGlow(position) * uMotion;
+        float wave = max(glow.r, max(glow.g, glow.b));
+        float pulse = 1.0 + (0.028 + aHub * 0.075) * wobble + wave * 1.55;
+        vColor = aColor * (0.94 + (0.06 + aHub * 0.1) * wobble) + glow;
         vec4 mv = modelViewMatrix * vec4(position, 1.0);
-        gl_PointSize = clamp(aSize * pulse * uScale / -mv.z, 1.0, 48.0);
+        gl_PointSize = clamp(aSize * pulse * uScale / -mv.z, 1.0, 64.0);
         gl_Position = projectionMatrix * mv;
       }
     `,
@@ -247,10 +252,11 @@ function linkMaterial(uniforms) {
         float travel = sin(uTime * 0.42 + vAlong * 6.2 + vPhase);
         float breathe = sin(uTime * 0.31 + vPhase);
         float life = 1.0 + uMotion * (0.1 * travel + 0.08 * breathe);
-        float wave = rippleAt(mix(vLocal, vLocalOther, vAlong)) * uMotion;
+        vec3 hubGlow = rippleGlow(mix(vLocal, vLocalOther, vAlong)) * uMotion;
+        float wave = max(hubGlow.r, max(hubGlow.g, hubGlow.b));
         float a = (glow * 0.07 + core * 0.28) * life * vGain;
-        a *= 1.0 + wave * 2.6;
-        fragColor = vec4(vColor * a + vec3(wave * 0.28) * core, a);
+        a *= 1.0 + wave * 2.4;
+        fragColor = vec4(vColor * a + hubGlow * (0.45 + core), a);
       }
     `,
     transparent: true,
@@ -417,20 +423,28 @@ function build(data, positions) {
   const hubOffset = new Float32Array(8);
   const hubTravel = new Float32Array(8);
   const hubOn = new Float32Array(8);
+  const hubAmp = new Float32Array(8);
+  const hubColor = Array.from({ length: 8 }, () => new THREE.Vector3());
   const hubs = chooseHubs(positions, degree, groupOf);
   hubs.forEach((index, n) => {
     hubPos[n].set(positions[index * 3], positions[index * 3 + 1], positions[index * 3 + 2]);
+    const rgb = linear(GROUPS[groupOf[index]]);
+    hubColor[n].set(rgb[0], rgb[1], rgb[2]);
     hubTravel[n] = HUB_TRAVEL[n];
     const period = HUB_TRAVEL[n] + HUB_REST;
     hubOffset[n] = (n * 1.37) % period;
     hubOn[n] = 1;
+    const weight = degree[index];
+    hubAmp[n] = weight >= 80 ? 1 : weight >= 12 ? 0.86 : 0.72;
   });
   const ripple = {
     uHubPos: { value: hubPos },
+    uHubColor: { value: hubColor },
     uHubOffset: { value: hubOffset },
     uHubTravel: { value: hubTravel },
     uHubOn: { value: hubOn },
-    uReach: { value: 34 },
+    uHubAmp: { value: hubAmp },
+    uReach: { value: 40 },
     uShell: { value: maxR },
     uRest: { value: HUB_REST },
     uTime: time,
