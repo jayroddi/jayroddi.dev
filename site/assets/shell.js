@@ -31,8 +31,6 @@
   nav.append(bar);
   document.body.prepend(nav);
 
-  if (document.body.classList.contains('is-grind')) return;
-
   const bg = document.createElement('div');
   bg.className = 'habit-bg';
   bg.setAttribute('aria-hidden', 'true');

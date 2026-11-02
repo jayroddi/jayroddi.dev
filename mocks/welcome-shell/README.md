@@ -16,7 +16,7 @@ The page reads the quote file, the habit json, the snaps manifest, the playlist,
 
 Home does not scroll. It is one screen: a dense teal square field, stronger through the middle and faded at the top and bottom. The pill is home, grind, snaps, music, books, quotes, social. The active tab is white.
 
-The block from ✌️🤟🤙 through the quote author's name is centered in the viewport. The title is `hi, i'm jay`, with `i like building stuff, and i'm grateful you're here 💛` in a smaller line under it. On a phone that line stays one line. Under that, on a soft patch, is only today's quote: the date (`2026.11.01`), a blank line, the words, a blank line, and the name. The rest of the field stays loud.
+The block from ✌️🤟🤙 through the quote author's name is centered in the viewport. The title is `hi, i'm jay`, with `i like building stuff, and i'm grateful you're here` in a smaller line under it. On a phone that line stays one line. A 💛 on its own line, the same size as the hand emojis, sits before today's quote: the date (`2026.11.01`), a blank line, the words, a blank line, and the name. The rest of the field stays loud.
 
 ## other pages
 

@@ -164,6 +164,13 @@ body:not(.is-welcome) .habit-bg {
   color: #f4efe6;
   text-shadow: 0 2px 12px rgba(0, 0, 0, .7);
 }
+.heart {
+  display: block;
+  margin: 14px 0 0;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 1;
+}
 .soft {
   width: min(640px, 100%);
   margin: 20px auto 0;
@@ -207,6 +214,7 @@ body.board .welcome .quotes .by { margin-top: 1.65em; }
 @media (max-height: 760px) {
   .hero-title { font-size: 32px; }
   .hands { margin-bottom: 6px; }
+  .heart { margin-top: 8px; }
   .soft { margin-top: 8px; }
 }
 @media (max-width: 480px) {
