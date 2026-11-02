@@ -1,0 +1,41 @@
+/* one quote in the homepage panel. right arrow brings an older quote in. */
+.deck {
+  position: relative;
+  overflow: hidden;
+  min-height: 180px;
+}
+#quote-card { margin: 0; }
+#quote-card.swap { transition: transform .42s ease, opacity .42s ease; }
+#quote-card.to-left { transform: translateX(-108%); opacity: 0; }
+#quote-card.to-right { transform: translateX(108%); opacity: 0; }
+#quote-card.from-right { transform: translateX(108%); opacity: 0; }
+#quote-card.from-left { transform: translateX(-108%); opacity: 0; }
+.arrow {
+  position: fixed;
+  z-index: 35;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: #1AADB3;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.arrow svg { display: block; width: 28px; height: 28px; margin: 0 auto; }
+.arrow.next { right: max(10px, calc((100vw - 920px) / 2)); opacity: .92; }
+.arrow.prev { left: max(10px, calc((100vw - 920px) / 2)); opacity: .18; }
+.arrow[hidden] { display: none; }
+.arrow:focus-visible { outline: 2px solid #1AADB3; outline-offset: 2px; }
+@media (max-width: 760px) {
+  body.board .welcome .deck { padding-left: 40px; padding-right: 40px; }
+  .arrow.next { right: 0; }
+  .arrow.prev { left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #quote-card.swap { transition: none; }
+}
