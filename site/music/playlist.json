@@ -7,8 +7,8 @@
   "cover": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84ce5b316b1e9a30e1e9b46262"
  },
  "source": "spotify web api (user refresh token)",
- "count": 375,
- "albums": 316,
+ "count": 376,
+ "albums": 317,
  "skipped": 0,
  "tracks": [
   {
@@ -4135,7 +4135,18 @@
    "url": "https://open.spotify.com/track/6liaHE9iHh23PLVvw7lK8V",
    "explicit": false,
    "duration_ms": 273826
+  },
+  {
+   "n": 376,
+   "name": "That's What You Get",
+   "artists": "Paramore",
+   "album_id": "3UoOO8m0oxxvUHXUKf3qcZ",
+   "album": "Riot!",
+   "cover": "https://i.scdn.co/image/ab67616d00001e0269966efa45b125ed6711b43c",
+   "url": "https://open.spotify.com/track/0UY4FvG4f9JI6kBR1BlWrZ",
+   "explicit": false,
+   "duration_ms": 220480
   }
  ],
- "fetched": "2026-11-02T02:08:31Z"
+ "fetched": "2026-11-02T14:37:03Z"
 }
