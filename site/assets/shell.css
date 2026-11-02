@@ -95,7 +95,7 @@ body:not(.is-welcome) .habit-bg {
   padding: 8px 12px;
   border-radius: 999px;
   background: none;
-  color: var(--c);
+  color: #1AADB3;
   font-family: var(--mono);
   font-size: 12px;
   font-weight: 500;
@@ -105,9 +105,18 @@ body:not(.is-welcome) .habit-bg {
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
 }
-.tabs a[aria-current="page"] {
-  background: var(--c);
+.tabs a[aria-current="page"],
+.tabs a[aria-current="page"]:hover {
+  background: #1AADB3;
   color: #fff;
+}
+@media (prefers-color-scheme: light) {
+  .tabs a { color: #1AADB3; }
+  .tabs a[aria-current="page"],
+  .tabs a[aria-current="page"]:hover {
+    background: #1AADB3;
+    color: #fff;
+  }
 }
 .tabs a:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }
 @media (max-width: 720px) {
@@ -158,14 +167,14 @@ body.is-welcome .welcome {
   text-shadow: 0 2px 12px rgba(0, 0, 0, .7);
 }
 .soft {
-  width: min(640px, 100%);
-  margin: 20px auto 0;
-  padding: 16px 22px 12px;
+  width: min(880px, 100%);
+  margin: 0 auto;
+  padding: 22px 28px 18px;
   border-radius: 18px;
-  background: rgba(0, 0, 0, .84);
-  box-shadow: 0 0 32px 18px rgba(0, 0, 0, .72);
+  background: rgba(0, 0, 0, .94);
+  box-shadow: 0 0 40px 24px rgba(0, 0, 0, .8);
 }
-body.board .welcome .quotes { margin: 0; }
+body.board .welcome .quotes { margin: 16px 0 0; }
 body.board .welcome .quotes .d { margin: 0; }
 body.board .welcome .quotes .q { margin-top: 1.65em; }
 body.board .welcome .quotes .by { margin-top: 1.65em; }
