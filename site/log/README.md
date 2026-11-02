@@ -6,7 +6,7 @@ Media log. `/music/` and `/books/` forward here.
 
 ## What the page reads
 
-`filters` paints the chips, in order. `all` is the word `all` (lowercase) plus its count. The rest are emoji and count only:
+`filters` paints the chips, in order. `all` is the word `all` (lowercase), with no count. The rest are emoji and a count:
 
 | c | chip | n in this export |
 |---|---|---|
@@ -30,6 +30,7 @@ Each item:
 | `a` | artist or author, or null |
 | `r` | rating (`★★★★☆`) or null. Drawn quiet on the tile when set |
 | `img` | filename under `covers/`, or null when the note has no embedded cover |
+| `glow` | optional. `gold` pulses gold. `orange`, `teal`, or `favorite` pulse orange. Omitted means no glow |
 | `src` | vault folder label. Kept for the next export. Not shown. `shows` already folds tv, documentaries, and comedy |
 
 `all` is selected on load and shows every note. Tapping the selected category chip returns to `all`. Tapping `all` while it is selected stays on `all`. `#movies`, `#shows`, `#books`, `#albums`, and `#games` open that filter. An empty hash is `all`.
