@@ -3,7 +3,7 @@
     {
       "c": "all",
       "e": "all",
-      "n": 464
+      "n": 463
     },
     {
       "c": "movies",
@@ -18,7 +18,7 @@
     {
       "c": "books",
       "e": "📚",
-      "n": 112
+      "n": 111
     },
     {
       "c": "albums",
@@ -42,7 +42,7 @@
     },
     {
       "m": "2024",
-      "n": 78
+      "n": 77
     },
     {
       "m": "2023",
@@ -995,17 +995,6 @@
       "r": null,
       "img": "books-right-thing-right-now-justice-in-an-unjust-world-2024-06-20-5e9f69.jpg",
       "src": "books-page",
-      "blurb": null
-    },
-    {
-      "i": "books-ryan-holiday-2024-06-20-c9b9ea",
-      "d": "2024-06-20",
-      "c": "books",
-      "t": "Ryan Holiday",
-      "a": "Right Thing Right Now",
-      "r": null,
-      "img": "books-ryan-holiday-2024-06-20-c9b9ea.jpeg",
-      "src": "books 📚",
       "blurb": null
     },
     {
