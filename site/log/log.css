@@ -1,6 +1,6 @@
-/* log.css v1. draft media log. filter bubbles sit under the pill, outside it.
-   month headings match snaps. covers are a 3-column tile grid on a phone and 6 from 900px.
-   albums stay square. posters stay 2:3. the square field is the shell. no subheader. */
+/* log.css v1. media log. filter bubbles sit under the pill, outside it.
+   year headings match snaps. covers are a 3-column tile grid on a phone and 6 from 900px.
+   albums stay square. posters stay 2:3. the square field is the shell. the page line sits under the pill. */
 body.board.log:not(.is-welcome) .stage {
   flex-direction: column;
   align-items: center;
@@ -21,6 +21,7 @@ body.log .log-filters {
   max-width: 100%;
   margin-top: 8px;
   overflow-x: auto;
+  overflow-y: hidden;
   scrollbar-width: none;
 }
 body.log .log-filters::-webkit-scrollbar { display: none; }
@@ -52,7 +53,7 @@ body.log .log-filters button .word {
   line-height: 1;
   text-transform: lowercase;
 }
-body.log .log-filters button .n { font-variant-numeric: tabular-nums; }
+body.log .log-filters button .n { font-variant-numeric: tabular-nums; font-size: 10px; }
 body.log .log-filters button[aria-pressed="true"] {
   background: #1AADB3;
   border-color: #1AADB3;
@@ -61,7 +62,8 @@ body.log .log-filters button[aria-pressed="true"] {
 body.log .log-filters button:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }
 @media (max-width: 720px) {
   body.log .log-filters { gap: 4px; }
-  body.log .log-filters button { padding: 6px 8px; }
+  body.log .log-filters button { padding: 4px 7px; }
+  body.log .log-filters button .n { font-size: 9px; }
 }
 
 body.log .gallery {
@@ -110,6 +112,25 @@ body.log .shot {
     flex-basis: calc((100% - 10px) / 6);
     width: calc((100% - 10px) / 6);
   }
+}
+/* gold: top recommendation. orange: favorite (also teal / favorite). same pulse as /books. */
+@keyframes book-glow-gold{0%,100%{box-shadow:inset 0 0 0 2px #C9A227,0 0 8px 1px rgba(255,215,0,.55)}50%{box-shadow:inset 0 0 0 2px #FFE566,0 0 18px 4px rgba(255,215,0,.95)}}
+@keyframes book-glow-orange{0%,100%{box-shadow:inset 0 0 0 2px #B8300A,0 0 8px 1px rgba(255,77,26,.55)}50%{box-shadow:inset 0 0 0 2px #FF8A5E,0 0 18px 4px rgba(255,77,26,.95)}}
+body.log .shot.glow-gold,
+body.log .shot.glow-orange{overflow:visible;z-index:1}
+body.log .shot.glow-gold::after,
+body.log .shot.glow-orange::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:3;
+  pointer-events:none;
+}
+body.log .shot.glow-gold::after{animation:book-glow-gold 1.8s ease-in-out infinite}
+body.log .shot.glow-orange::after{animation:book-glow-orange 1.8s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){
+  body.log .shot.glow-gold::after{animation:none;box-shadow:inset 0 0 0 2px #FFD700,0 0 12px 2px rgba(255,215,0,.85)}
+  body.log .shot.glow-orange::after{animation:none;box-shadow:inset 0 0 0 2px #FF4D1A,0 0 12px 2px rgba(255,77,26,.85)}
 }
 body.log .shot.bare { background: #161616; }
 body.log .bare-t {

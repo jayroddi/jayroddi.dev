@@ -1,5 +1,5 @@
-/* log.js v2. media log from site/log/media.json.
-   the all chip is selected on load and shows every note, newest month first.
+/* log.js v5. media log from site/log/media.json.
+   the all chip is selected on load and shows every note, newest year first.
    tapping the selected category chip returns to all. tapping all while it is selected stays on all.
    a note with no embedded cover draws the title only. no stand-in image.
    albums are square. everything else is a 2:3 poster. three columns under 900px, six from there.
@@ -16,7 +16,7 @@
 
   function groupKey(item) {
     const day = String(item.d || '');
-    if (/^\d{4}-\d{2}-\d{2}$/.test(day)) return day.slice(0, 7);
+    if (/^\d{4}-\d{2}-\d{2}$/.test(day)) return day.slice(0, 4);
     return day;
   }
 
@@ -65,10 +65,18 @@
     return { name, star };
   }
 
+  function glowName(glow) {
+    if (glow === 'gold') return 'glow-gold';
+    if (glow === 'orange' || glow === 'teal' || glow === 'favorite') return 'glow-orange';
+    return '';
+  }
+
   function tile(item, order, eager) {
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'shot';
+    const glow = glowName(item.glow);
+    if (glow) button.classList.add(glow);
     button.dataset.order = String(order);
     button.style.setProperty('--r', ratio(item.c));
     const { name, star } = labelFor(item);
@@ -186,15 +194,18 @@
       button.setAttribute('aria-pressed', 'false');
       const isAll = filter.c === 'all';
       const word = isAll ? 'all' : (WORDS[filter.c] || String(filter.c).toLowerCase());
-      button.setAttribute('aria-label', word + ', ' + filter.n);
+      button.setAttribute('aria-label', isAll ? word : word + ', ' + filter.n);
       const mark = document.createElement('span');
       mark.className = isAll ? 'word' : 'e';
       mark.setAttribute('aria-hidden', 'true');
       mark.textContent = isAll ? 'all' : filter.e;
-      const count = document.createElement('span');
-      count.className = 'n';
-      count.textContent = String(filter.n);
-      button.append(mark, count);
+      button.append(mark);
+      if (!isAll) {
+        const count = document.createElement('span');
+        count.className = 'n';
+        count.textContent = String(filter.n);
+        button.append(count);
+      }
       button.addEventListener('click', () => choose(filter.c));
       bar.append(button);
     });
