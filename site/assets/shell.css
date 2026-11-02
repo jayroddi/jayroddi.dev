@@ -80,10 +80,11 @@ body:not(.is-welcome):not(.no-veil) .habit-bg {
   .habit-bg i.blink { animation: none; opacity: 1; }
 }
 
+:root { --pill-inset: 14px; }
 .nav-stack {
   position: fixed;
   z-index: 40;
-  top: 14px;
+  top: var(--pill-inset);
   left: 50%;
   transform: translateX(-50%);
   max-width: calc(100% - 16px);
@@ -143,7 +144,7 @@ body.board:not(.is-welcome) .stage { padding-top: 68px; padding-bottom: calc(76p
   --kx: .8;
   position: fixed;
   z-index: 40;
-  bottom: max(14px, env(safe-area-inset-bottom, 0px));
+  bottom: var(--pill-inset);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -183,7 +184,6 @@ body.board:not(.is-welcome) .stage { padding-top: 68px; padding-bottom: calc(76p
   width: calc(var(--s) * var(--k, 1) * 1px);
   height: calc(var(--s) * var(--k, 1) * 1px);
 }
-body.is-welcome .social-dock { display: none; }
 @media (max-width: 480px) {
   .social-dock a { padding: 8px 7px; }
 }
