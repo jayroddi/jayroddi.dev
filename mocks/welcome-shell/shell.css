@@ -5,6 +5,8 @@ body.is-welcome {
   overflow: hidden;
   height: 100svh;
 }
+body.is-grind { background: var(--bg, #000); }
+body.is-grind .habit-bg { display: none; }
 
 .habit-bg {
   position: fixed;
@@ -195,7 +197,10 @@ body:not(.is-welcome) .habit-bg {
   line-height: 1.45;
   color: #f4efe6;
 }
-.welcome .quotes { margin: 6px 0 0; }
+body.board .welcome .quotes { margin: 0; }
+body.board .welcome .quotes .d { margin: 0; }
+body.board .welcome .quotes .q { margin-top: 1.65em; }
+body.board .welcome .quotes .by { margin-top: 1.65em; }
 .panel:not(.welcome) .stage { padding-top: 84px; }
 
 /* music covers are square. books.css also targets .covers and would stretch them. */

@@ -14,6 +14,7 @@
       tab.setAttribute('aria-selected', tab.dataset.tab === page ? 'true' : 'false');
     });
     document.body.classList.toggle('is-welcome', home);
+    document.body.classList.toggle('is-grind', page === 'grind');
     scrollTo(0, 0);
     placeBlinkers();
   }
