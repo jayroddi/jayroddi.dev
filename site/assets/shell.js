@@ -6,8 +6,7 @@
     ['/snaps/', 'snaps'],
     ['/music/', 'music'],
     ['/books/', 'books'],
-    ['/quotes/', 'quotes'],
-    ['/social/', 'social']
+    ['/quotes/', 'quotes']
   ];
   const here = (() => {
     let path = location.pathname.replace(/\/index\.html$/, '');
