@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" class="quiet">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#000000">
+<title>quotes swipe · draft</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='2' fill='%231AADB3'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../../site/habits/habits.css?v=3.49">
+<link rel="stylesheet" href="../../site/assets/rain.css?v=2.64">
+<link rel="stylesheet" href="../../site/assets/shell.css?v=5">
+<link rel="stylesheet" href="quotes.css">
+<script>
+(function () {
+  var orig = window.fetch;
+  function local(url) {
+    try {
+      var abs = new URL(url, location.href);
+      if (abs.origin !== location.origin) return url;
+      if (/^\/(habits|snaps|music|books|quote-of-the-day|assets)\//.test(abs.pathname)) {
+        return new URL('../../site' + abs.pathname + abs.search, location.href).href;
+      }
+    } catch (e) {}
+    return url;
+  }
+  window.fetch = function (input, init) {
+    if (typeof input === 'string') input = local(input);
+    else if (input && input.url) {
+      var next = local(input.url);
+      if (next !== input.url) input = new Request(next, input);
+    }
+    return orig.call(this, input, init);
+  };
+})();
+</script>
+</head>
+<body class="board quotes is-welcome">
+<main class="welcome">
+  <div class="hero">
+    <div class="soft deck">
+      <ol class="quotes" id="quote-card" aria-live="polite" aria-label="quote"></ol>
+    </div>
+  </div>
+</main>
+<button type="button" class="arrow prev" hidden aria-label="newer quote">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6.5 8 12l6.5 5.5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<button type="button" class="arrow next" hidden aria-label="older quote">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6.5 16 12l-6.5 5.5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<script src="../../site/assets/shell.js?v=4" defer></script>
+<script src="quotes.js" defer></script>
+</body>
+</html>
