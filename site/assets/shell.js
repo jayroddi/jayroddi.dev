@@ -35,7 +35,7 @@
     '/grind/': 'we fall to the level of our habits',
     '/snaps/': 'you can see everythi',
     '/log/': "there's never enough time",
-    '/quotes/': "be so good they can't ignore you. -steve martin"
+    '/quotes/': "be so good they can't ignore you"
   };
   if (titles[here]) {
     const line = document.createElement('p');
