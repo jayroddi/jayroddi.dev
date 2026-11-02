@@ -53,6 +53,42 @@ function towardWhite(rgb, amount) {
   return rgb.map((channel) => channel + (1 - channel) * amount);
 }
 
+const HUB_TRAVEL = [2.7, 3.15, 3.55, 2.9, 3.85, 3.3, 2.5, 3.65];
+const HUB_REST = 1;
+
+function chooseHubs(positions, degree, groupOf) {
+  const n = degree.length;
+  const order = [];
+  for (let i = 0; i < n; i++) order.push(i);
+  order.sort((a, b) => degree[b] - degree[a] || a - b);
+  const picked = [];
+  const minSep = 26;
+  const radiusOf = (i) => Math.hypot(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
+  const tooClose = (i) => picked.some((j) => {
+    const dx = positions[i * 3] - positions[j * 3];
+    const dy = positions[i * 3 + 1] - positions[j * 3 + 1];
+    const dz = positions[i * 3 + 2] - positions[j * 3 + 2];
+    return dx * dx + dy * dy + dz * dz < minSep * minSep;
+  });
+  const take = (i) => {
+    if (picked.includes(i) || picked.length >= 8) return false;
+    if (radiusOf(i) > 55 || tooClose(i)) return false;
+    picked.push(i);
+    return true;
+  };
+  for (let g = 0; g < 4; g++) {
+    for (const i of order) {
+      if (groupOf[i] !== g || degree[i] < 12) continue;
+      if (take(i)) break;
+    }
+  }
+  for (const i of order) {
+    if (picked.length >= 8 || degree[i] < 20) break;
+    take(i);
+  }
+  return picked;
+}
+
 function phase(n) {
   let x = Math.imul(n + 1, 374761393);
   x = Math.imul(x ^ (x >>> 13), 1274126177);
@@ -78,6 +114,36 @@ function glowTexture() {
   return tex;
 }
 
+const RIPPLE = `
+const int HUBS = 8;
+uniform vec3 uHubPos[HUBS];
+uniform float uHubOffset[HUBS];
+uniform float uHubTravel[HUBS];
+uniform float uHubOn[HUBS];
+uniform float uReach;
+uniform float uShell;
+uniform float uRest;
+float rippleAt(vec3 p) {
+  float radius = length(p);
+  float shellFade = 1.0 - smoothstep(uShell * 0.58, uShell * 0.74, radius);
+  if (shellFade <= 0.0) return 0.0;
+  float sum = 0.0;
+  for (int i = 0; i < HUBS; i++) {
+    float travelT = max(uHubTravel[i], 0.001);
+    float local = mod(uTime + uHubOffset[i], travelT + uRest);
+    float firing = (1.0 - step(travelT, local)) * uHubOn[i];
+    float u = clamp(local / travelT, 0.0, 1.0);
+    float d = distance(p, uHubPos[i]);
+    float front = u * uReach;
+    float band = exp(-pow((d - front) / 6.8, 2.0));
+    float outward = 1.0 - smoothstep(uReach * 0.38, uReach * 0.86, d);
+    float age = 1.0 - smoothstep(0.68, 1.0, u);
+    sum += band * outward * age * firing;
+  }
+  return min(sum, 1.2) * shellFade;
+}
+`;
+
 function pointMaterial(uniforms) {
   return new THREE.ShaderMaterial({
     glslVersion: THREE.GLSL3,
@@ -91,12 +157,15 @@ function pointMaterial(uniforms) {
       uniform float uScale;
       uniform float uTime;
       uniform float uMotion;
+      ${RIPPLE}
       void main() {
         float wobble = sin(uTime * (0.48 + aHub * 0.4) + aPhase) * uMotion;
-        float pulse = 1.0 + (0.028 + aHub * 0.075) * wobble;
+        float wave = rippleAt(position) * uMotion;
+        float pulse = 1.0 + (0.028 + aHub * 0.075) * wobble + wave * 0.72;
         vColor = aColor * (0.94 + (0.06 + aHub * 0.1) * wobble);
+        vColor = vColor * (1.0 + wave * 1.25) + vec3(wave * 0.48);
         vec4 mv = modelViewMatrix * vec4(position, 1.0);
-        gl_PointSize = clamp(aSize * pulse * uScale / -mv.z, 1.0, 42.0);
+        gl_PointSize = clamp(aSize * pulse * uScale / -mv.z, 1.0, 48.0);
         gl_Position = projectionMatrix * mv;
       }
     `,
@@ -134,6 +203,8 @@ function linkMaterial(uniforms) {
       out float vAlong;
       out float vPhase;
       out float vGain;
+      out vec3 vLocal;
+      out vec3 vLocalOther;
       uniform float uWidth;
       void main() {
         vec3 p = (modelViewMatrix * vec4(position, 1.0)).xyz;
@@ -152,6 +223,8 @@ function linkMaterial(uniforms) {
         vAlong = aAlong;
         vPhase = aPhase;
         vGain = aGain;
+        vLocal = position;
+        vLocalOther = aOther;
       }
     `,
     fragmentShader: `
@@ -161,9 +234,12 @@ function linkMaterial(uniforms) {
       in float vAlong;
       in float vPhase;
       in float vGain;
+      in vec3 vLocal;
+      in vec3 vLocalOther;
       out vec4 fragColor;
       uniform float uTime;
       uniform float uMotion;
+      ${RIPPLE}
       void main() {
         float d = abs(vSide);
         float glow = smoothstep(1.0, 0.08, d);
@@ -171,8 +247,10 @@ function linkMaterial(uniforms) {
         float travel = sin(uTime * 0.42 + vAlong * 6.2 + vPhase);
         float breathe = sin(uTime * 0.31 + vPhase);
         float life = 1.0 + uMotion * (0.1 * travel + 0.08 * breathe);
+        float wave = rippleAt(mix(vLocal, vLocalOther, vAlong)) * uMotion;
         float a = (glow * 0.12 + core * 0.48) * life * vGain;
-        fragColor = vec4(vColor * a, a);
+        a *= 1.0 + wave * 2.6;
+        fragColor = vec4(vColor * a + vec3(wave * 0.28) * core, a);
       }
     `,
     transparent: true,
@@ -305,11 +383,13 @@ function build(data, positions) {
   });
   renderer.setClearColor(0x000000, 1);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.NoToneMapping;
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.innerWidth < 760 ? 1.35 : 1.6));
   renderer.setSize(window.innerWidth, window.innerHeight);
   host.appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x000000);
   const camera = new THREE.PerspectiveCamera(38, window.innerWidth / window.innerHeight, 0.1, 4000);
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
@@ -331,16 +411,39 @@ function build(data, positions) {
     TWO: THREE.TOUCH.DOLLY_PAN
   };
 
+  const time = { value: 0 };
+  const motion = { value: reduceMotion ? 0 : 1 };
+  const hubPos = Array.from({ length: 8 }, () => new THREE.Vector3());
+  const hubOffset = new Float32Array(8);
+  const hubTravel = new Float32Array(8);
+  const hubOn = new Float32Array(8);
+  const hubs = chooseHubs(positions, degree, groupOf);
+  hubs.forEach((index, n) => {
+    hubPos[n].set(positions[index * 3], positions[index * 3 + 1], positions[index * 3 + 2]);
+    hubTravel[n] = HUB_TRAVEL[n];
+    const period = HUB_TRAVEL[n] + HUB_REST;
+    hubOffset[n] = (n * 1.37) % period;
+    hubOn[n] = 1;
+  });
+  const ripple = {
+    uHubPos: { value: hubPos },
+    uHubOffset: { value: hubOffset },
+    uHubTravel: { value: hubTravel },
+    uHubOn: { value: hubOn },
+    uReach: { value: 34 },
+    uShell: { value: maxR },
+    uRest: { value: HUB_REST },
+    uTime: time,
+    uMotion: motion
+  };
   const pointUniforms = {
     uTex: { value: glowTexture() },
     uScale: { value: Math.min(window.innerWidth, window.innerHeight) * 0.58 },
-    uTime: { value: 0 },
-    uMotion: { value: reduceMotion ? 0 : 1 }
+    ...ripple
   };
   const linkUniforms = {
     uWidth: { value: window.innerWidth < 760 ? 1.05 : 1.5 },
-    uTime: { value: 0 },
-    uMotion: { value: reduceMotion ? 0 : 1 }
+    ...ripple
   };
   const haloMat = pointMaterial(pointUniforms);
   const coreMat = pointMaterial(pointUniforms);
@@ -411,16 +514,24 @@ function build(data, positions) {
     controls.mouseButtons.LEFT = event.shiftKey ? THREE.MOUSE.PAN : THREE.MOUSE.ROTATE;
   }, true);
   renderer.domElement.addEventListener('contextmenu', (event) => event.preventDefault());
+  const holdPage = (event) => {
+    if (event.target && event.target.closest && event.target.closest('.nav-stack, .social-dock')) return;
+    event.preventDefault();
+  };
+  window.addEventListener('wheel', holdPage, { passive: false });
+  window.addEventListener('touchmove', holdPage, { passive: false });
 
+  const still = new URLSearchParams(location.search).get('still');
+  const stillTime = still == null || still === '' || Number.isNaN(Number(still)) ? null : Number(still);
+  if (stillTime != null) controls.autoRotate = false;
   const clock = new THREE.Clock();
   const frame = () => {
     requestAnimationFrame(frame);
     if (document.hidden) return;
-    const t = reduceMotion ? 0 : clock.getElapsedTime();
+    const t = reduceMotion ? 0 : (stillTime != null ? stillTime : clock.getElapsedTime());
     const breath = reduceMotion ? 1 : 1 + Math.sin(t * 0.37) * 0.016;
     cloud.scale.setScalar(breath);
-    pointUniforms.uTime.value = t;
-    linkUniforms.uTime.value = t;
+    time.value = t;
     if (!reduceMotion && resumeAt !== Infinity && performance.now() >= resumeAt) controls.autoRotate = true;
     controls.update();
     renderer.render(scene, camera);
@@ -430,6 +541,7 @@ function build(data, positions) {
   host.dataset.ready = '1';
   host.dataset.nodes = String(n);
   host.dataset.links = String(links.length);
+  host.dataset.hubs = String(hubs.length);
 }
 
 fetch('graph.json', { cache: 'no-cache' })

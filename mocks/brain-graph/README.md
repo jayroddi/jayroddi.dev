@@ -16,7 +16,7 @@ The page loads three.js 0.170.0 from jsDelivr. The graph file is local.
 
 Drag to orbit. Scroll or pinch to zoom. Right-drag, shift-drag, or a horizontal trackpad swipe pans. Two fingers on a touch screen zoom and pan. The page does not scroll. The pill and the social pill stay clickable. They go to the live site. This page is not one of those links.
 
-The nodes sit in one tight sphere. Each color is a lobe inside that sphere, not its own island. Links are thin luminous threads. The sphere breathes, hubs shimmer, and the threads drift in brightness. When nobody is dragging, the camera turns very slowly, and a drag takes over at once. `prefers-reduced-motion` holds it still.
+The nodes sit in one tight sphere. Each color is a lobe inside that sphere, not its own island. Links are thin luminous threads. The sphere breathes, hubs shimmer, and the threads drift in brightness. When nobody is dragging, the camera turns very slowly, and a drag takes over at once. The busy nodes (highest degree, kept inside the sphere, spread across the four lobes) each send a pulse outward through nearby nodes and threads. The pulse softens as it travels and is gone before the outer shell. After it fades, that hub waits about a second, then fires again. Each hub travels at its own speed, and they do not start together. `prefers-reduced-motion` holds it still, including the pulses.
 
 The ground is black. Dark is locked. There is no subhead under the pill.
 
