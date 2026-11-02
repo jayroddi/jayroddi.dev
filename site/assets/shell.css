@@ -79,6 +79,19 @@ body:not(.is-welcome):not(.no-veil) .habit-bg {
 @media (prefers-reduced-motion: reduce) {
   .habit-bg i.blink { animation: none; opacity: 1; }
 }
+/* grind uses the same loud field as home and quotes. the column panel keeps the grids readable. */
+body.board.is-grind .habit-bg {
+  opacity: 1;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%);
+  -webkit-mask-composite: source-over;
+  mask-composite: add;
+}
+body.is-grind .copy {
+  background: rgba(0, 0, 0, .9);
+  border-radius: 18px;
+  box-shadow: 0 0 40px 24px rgba(0, 0, 0, .8);
+}
 
 :root { --pill-inset: 14px; }
 .nav-stack {
