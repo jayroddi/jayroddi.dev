@@ -145,6 +145,12 @@ body.is-grind .copy {
     color: #fff;
   }
 }
+.tabs a.mark {
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1;
+  padding: 7px 11px;
+}
 .tabs a:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }
 @media (max-width: 720px) {
   .tabs a { padding: 7px 6px; font-size: 11px; }

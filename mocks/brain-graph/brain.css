@@ -35,6 +35,8 @@ body.board.is-brain {
   scrollbar-width: none;
 }
 
+body.is-brain .habit-bg { display: none !important; }
+
 #graph {
   position: fixed;
   inset: 0;
