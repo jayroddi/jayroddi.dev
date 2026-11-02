@@ -2,7 +2,7 @@
 
 Media log. `/music/` and `/books/` forward here.
 
-`media.json` and `covers/` are the 2026-11-02 export with the two untitled book twins removed, and the swapped Ryan Holiday note for Right Thing, Right Now removed. 463 notes. A cover is only an embedded `![[…]]` image. A note with no embed has `img: null` and the tile shows the title, not a nearby file. Snaps stay photos on `/snaps`. Moments that are not media notes are not in this file.
+`media.json` and `covers/` are the 2026-11-02 export with the two untitled book twins removed, the swapped Ryan Holiday note for Right Thing, Right Now removed, and Fighting for Your Marriage While Separated by Linda Rooks removed. 462 notes. A cover is only an embedded `![[…]]` image. A note with no embed has `img: null` and the tile shows the title, not a nearby file. Snaps stay photos on `/snaps`. Moments that are not media notes are not in this file.
 
 ## What the page reads
 
@@ -10,10 +10,10 @@ Media log. `/music/` and `/books/` forward here.
 
 | c | chip | n in this export |
 |---|---|---|
-| all | all | 463 |
+| all | all | 462 |
 | movies | 🍿 | 171 |
 | shows | 📺 | 26 (tv + documentaries + comedy, already one bucket) |
-| books | 📚 | 111 |
+| books | 📚 | 110 |
 | albums | 💿 | 148 |
 | games | 🎮 | 7 |
 
@@ -35,7 +35,7 @@ Each item:
 
 `all` is selected on load and shows every note. Tapping the selected category chip returns to `all`. Tapping `all` while it is selected stays on `all`. `#movies`, `#shows`, `#books`, `#albums`, and `#games` open that filter. An empty hash is `all`.
 
-The same title and author render once. Punctuation and spacing fold together (`Right Thing, Right Now` and `Right Thing Right Now`). On books, a subtitle after a colon folds into that short title, and a note that swaps the title and the author folds into the real entry. The fuller title stays. A rating, glow, or cover on the dropped note is kept when the one that stays is missing it. Chip counts follow the folded list. Sequels, editions, remasters, and both 101 Dalmatians stay, because the leftover words are not just punctuation.
+The same title and author render once. Punctuation and spacing fold together (`Right Thing, Right Now` and `Right Thing Right Now`). On books, a subtitle after a colon folds into that short title, and a note that swaps the title and the author folds into the real entry. The fuller title stays. A rating, glow, or cover on the dropped note is kept when the one that stays is missing it. Chip counts follow the folded list. Sequels, editions, remasters, and both 101 Dalmatians stay, because the leftover words are not just punctuation. Fighting for Your Marriage While Separated by Linda Rooks stays out, including a swapped title and author or a subtitle after a colon.
 
 Chips, year headings, cover rows, and a note with no cover are centered. A short year sits in the middle of the row. Three columns under 900px, six from 900px.
 

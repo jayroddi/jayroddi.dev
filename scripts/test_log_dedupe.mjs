@@ -48,14 +48,15 @@ assert.equal(sequels.length, 6);
 const media = JSON.parse(fs.readFileSync(new URL('../site/log/media.json', import.meta.url), 'utf8'));
 const once = dedupeLog(media);
 assert.equal(once.items.length, media.items.length);
-assert.equal(once.items.filter((item) => item.c === 'books').length, 111);
+assert.equal(once.items.filter((item) => item.c === 'books').length, 110);
+assert.equal(once.items.some((item) => /rooks/i.test(item.a || '') || /fighting for your marriage/i.test(item.t || '')), false);
 const holiday = once.items.filter((item) => /right thing/i.test(item.t) || /right thing/i.test(item.a || ''));
 assert.equal(holiday.length, 1);
 assert.equal(holiday[0].t, 'Right Thing, Right Now: Justice in an Unjust World');
 assert.equal(holiday[0].a, 'Ryan Holiday');
 const booksChip = once.filters.find((filter) => filter.c === 'books');
-assert.equal(booksChip.n, 111);
-assert.equal(once.filters.find((filter) => filter.c === 'all').n, 463);
+assert.equal(booksChip.n, 110);
+assert.equal(once.filters.find((filter) => filter.c === 'all').n, 462);
 
 const withTwin = dedupeLog({
   filters: media.filters,
@@ -64,7 +65,15 @@ const withTwin = dedupeLog({
 assert.equal(withTwin.items.length, media.items.length);
 assert.equal(withTwin.items.filter((item) => item.i === 'swapped').length, 0);
 assert.equal(withTwin.items.filter((item) => /right thing/i.test(item.t)).length, 1);
-assert.equal(withTwin.filters.find((filter) => filter.c === 'books').n, 111);
+assert.equal(withTwin.filters.find((filter) => filter.c === 'books').n, 110);
+
+const rooks = dedupeItems([
+  book('Fighting For Your Marriage While Separated', 'Linda Rooks', { i: 'rooks' }),
+  book('Linda Rooks', 'Fighting for Your Marriage While Separated: A Guide', { i: 'rooks-swap' }),
+  book('Ego Is the Enemy', 'Ryan Holiday', { i: 'ego' })
+]);
+assert.equal(rooks.length, 1);
+assert.equal(rooks[0].i, 'ego');
 
 const keptIds = new Set(once.items.map((item) => item.i));
 for (const title of [

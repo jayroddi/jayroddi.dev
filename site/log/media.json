@@ -3,7 +3,7 @@
     {
       "c": "all",
       "e": "all",
-      "n": 463
+      "n": 462
     },
     {
       "c": "movies",
@@ -18,7 +18,7 @@
     {
       "c": "books",
       "e": "📚",
-      "n": 111
+      "n": 110
     },
     {
       "c": "albums",
@@ -38,7 +38,7 @@
     },
     {
       "m": "2025",
-      "n": 23
+      "n": 22
     },
     {
       "m": "2024",
@@ -247,17 +247,6 @@
       "r": null,
       "img": "books-lighter-let-go-of-the-past-connect-with-the-present-and-expand-the-future--ddf2a9.jpg",
       "src": "books-page",
-      "blurb": null
-    },
-    {
-      "i": "books-fighting-for-your-marriage-while-separated-2025-03-09-15b452",
-      "d": "2025-03-09",
-      "c": "books",
-      "t": "Fighting For Your Marriage While Separated",
-      "a": "Linda Rooks",
-      "r": null,
-      "img": "books-fighting-for-your-marriage-while-separated-2025-03-09-15b452.jpeg",
-      "src": "books 📚",
       "blurb": null
     },
     {

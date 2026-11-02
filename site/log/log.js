@@ -1,10 +1,11 @@
-/* log.js v6. media log from site/log/media.json.
+/* log.js v7. media log from site/log/media.json.
    the all chip is selected on load and shows every note, newest year first.
    tapping the selected category chip returns to all. tapping all while it is selected stays on all.
    a note with no embedded cover draws the title only. no stand-in image.
    the same title and author render once. punctuation and spacing fold together.
    a book subtitle after a colon folds into the short title, and a book note that
    swaps the title and the author folds into the real entry. the fuller title stays.
+   fighting for your marriage while separated by linda rooks stays out. the note was deleted.
    albums are square. everything else is a 2:3 poster. three columns under 900px, six from there.
    a rating, when the note has one, sits quiet on the tile. */
 (() => {
@@ -70,7 +71,26 @@
     return best;
   }
 
+  const DROPPED_BOOKS = new Set([
+    'fighting for your marriage while separated|linda rooks'
+  ]);
+
+  function droppedBook(item) {
+    if (item.c !== 'books') return false;
+    const forms = (value) => {
+      const full = fold(value);
+      const head = fold(String(value || '').split(':')[0]);
+      return head && head !== full ? [full, head] : [full];
+    };
+    return forms(item.t).some((title) => forms(item.a).some((author) => {
+      if (!title || !author) return false;
+      const pair = title < author ? title + '|' + author : author + '|' + title;
+      return DROPPED_BOOKS.has(pair);
+    }));
+  }
+
   function dedupeItems(items) {
+    items = items.filter((item) => !droppedBook(item));
     const parent = items.map((_, i) => i);
     function find(i) {
       while (parent[i] !== i) {
