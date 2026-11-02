@@ -34,8 +34,8 @@ body.is-welcome {
   0%, 100% { opacity: .5; }
   50% { opacity: .14; }
 }
-body.no-veil .habit-bg i.blink.soft,
-body.is-welcome .habit-bg i.blink.soft {
+body.no-veil .habit-bg i.blink.faint,
+body.is-welcome .habit-bg i.blink.faint {
   animation-name: today-cursor-soft;
 }
 body:not(.is-welcome) .habit-bg {
@@ -66,8 +66,8 @@ body:not(.is-welcome):not(.no-veil) .habit-bg {
 }
 @media (max-width: 760px) {
   .habit-bg i { border-radius: 4px; }
-  body.no-veil .habit-bg i.blink.soft,
-  body.is-welcome .habit-bg i.blink.soft { animation-name: today-cursor; }
+  body.no-veil .habit-bg i.blink.faint,
+  body.is-welcome .habit-bg i.blink.faint { animation-name: today-cursor; }
   body:not(.is-welcome) .habit-bg {
     opacity: .18;
     -webkit-mask-image: linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent);

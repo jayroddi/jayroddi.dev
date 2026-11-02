@@ -63,7 +63,7 @@
   };
   function placeBlinkers() {
     cells.forEach((bit) => {
-      bit.classList.remove('blink', 'soft');
+      bit.classList.remove('blink', 'faint');
       bit.style.animationDelay = '';
       const lv = bit.dataset.lv;
       bit.className = lv && lv !== '0' ? 'lv' + lv : '';
@@ -116,7 +116,7 @@
     if (!gridsReady()) return;
     chosen.forEach((item, n) => {
       item.bit.classList.add('blink');
-      if (item.soft) item.bit.classList.add('soft');
+      if (item.soft) item.bit.classList.add('faint');
       if (!reduce) item.bit.style.animationDelay = (n * 0.18) + 's';
     });
   }
