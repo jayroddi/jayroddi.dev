@@ -4,8 +4,8 @@
     ['/', '👋'],
     ['/grind/', 'grind'],
     ['/snaps/', 'snaps'],
-    ['/music/', 'music'],
     ['/books/', 'books'],
+    ['/music/', 'music'],
     ['/quotes/', 'quotes'],
     ['/brain/', '🧠']
   ];
