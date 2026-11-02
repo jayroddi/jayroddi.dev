@@ -95,7 +95,7 @@ body:not(.is-welcome) .habit-bg {
   padding: 8px 12px;
   border-radius: 999px;
   background: none;
-  color: #c8e8e8;
+  color: var(--c);
   font-family: var(--mono);
   font-size: 12px;
   font-weight: 500;
@@ -106,8 +106,8 @@ body:not(.is-welcome) .habit-bg {
   -webkit-tap-highlight-color: transparent;
 }
 .tabs a[aria-current="page"] {
-  background: #fff;
-  color: #141414;
+  background: var(--c);
+  color: #fff;
 }
 .tabs a:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }
 @media (max-width: 720px) {
