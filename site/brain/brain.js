@@ -248,7 +248,7 @@ function linkMaterial(uniforms) {
         float breathe = sin(uTime * 0.31 + vPhase);
         float life = 1.0 + uMotion * (0.1 * travel + 0.08 * breathe);
         float wave = rippleAt(mix(vLocal, vLocalOther, vAlong)) * uMotion;
-        float a = (glow * 0.12 + core * 0.48) * life * vGain;
+        float a = (glow * 0.07 + core * 0.28) * life * vGain;
         a *= 1.0 + wave * 2.6;
         fragColor = vec4(vColor * a + vec3(wave * 0.28) * core, a);
       }
@@ -293,7 +293,7 @@ function build(data, positions) {
     const hot = linear(towardWhite(GROUPS[groupOf[i]], shell ? 0.28 : 0.5));
     haloColor.set(base, i * 3);
     coreColor.set(hot, i * 3);
-    const size = shell ? 24 : 6.8 + hub * 11;
+    const size = shell ? 15 : 4.6 + hub * 6.5;
     haloSize[i] = size;
     coreSize[i] = size * (shell ? 0.42 : 0.38);
     nodePhase[i] = phase(nodes[i].id);
@@ -338,7 +338,7 @@ function build(data, positions) {
     const cb = linear(towardWhite(GROUPS[groupOf[b]], 0.42));
     const ph = phase(i + 17);
     const span = Math.hypot(bx - ax, by - ay, bz - az);
-    const gain = 0.72 / (1 + span / 86);
+    const gain = 0.36 / (1 + span / 34);
     const base = i * 4;
     for (let v = 0; v < 4; v++) {
       const end = v >> 1;
@@ -436,13 +436,17 @@ function build(data, positions) {
     uTime: time,
     uMotion: motion
   };
+  const pointScale = () => {
+    const short = Math.min(window.innerWidth, window.innerHeight);
+    return short * (window.innerWidth < 760 ? 1.55 : 0.58);
+  };
   const pointUniforms = {
     uTex: { value: glowTexture() },
-    uScale: { value: Math.min(window.innerWidth, window.innerHeight) * 0.58 },
+    uScale: { value: pointScale() },
     ...ripple
   };
   const linkUniforms = {
-    uWidth: { value: window.innerWidth < 760 ? 1.05 : 1.5 },
+    uWidth: { value: window.innerWidth < 760 ? 0.62 : 0.85 },
     ...ripple
   };
   const haloMat = pointMaterial(pointUniforms);
@@ -475,8 +479,8 @@ function build(data, positions) {
     controls.minDistance = dist * 0.28;
     controls.maxDistance = dist * 3.4;
     controls.update();
-    pointUniforms.uScale.value = Math.min(window.innerWidth, window.innerHeight) * 0.58;
-    linkUniforms.uWidth.value = window.innerWidth < 760 ? 1.05 : 1.5;
+    pointUniforms.uScale.value = pointScale();
+    linkUniforms.uWidth.value = window.innerWidth < 760 ? 0.62 : 0.85;
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.innerWidth < 760 ? 1.35 : 1.6));
     renderer.setSize(window.innerWidth, window.innerHeight);
   };
@@ -484,8 +488,8 @@ function build(data, positions) {
   window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-    pointUniforms.uScale.value = Math.min(window.innerWidth, window.innerHeight) * 0.58;
-    linkUniforms.uWidth.value = window.innerWidth < 760 ? 1.05 : 1.5;
+    pointUniforms.uScale.value = pointScale();
+    linkUniforms.uWidth.value = window.innerWidth < 760 ? 0.62 : 0.85;
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.innerWidth < 760 ? 1.35 : 1.6));
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
