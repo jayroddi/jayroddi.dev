@@ -282,10 +282,15 @@ body.is-welcome .welcome {
   color: rgba(244, 239, 230, .72);
   text-shadow: 0 2px 12px rgba(0, 0, 0, .7);
 }
-.splash-quote p { margin: 0; }
+.splash-quote p {
+  margin: 0;
+  font-style: italic;
+}
 .splash-quote .by {
   margin-top: 12px;
-  color: var(--c, #1AADB3);
+  font-style: normal;
+  font-weight: 400;
+  color: rgba(244, 239, 230, .5);
 }
 .heart {
   display: block;
