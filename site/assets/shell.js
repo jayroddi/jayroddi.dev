@@ -31,7 +31,25 @@
     bar.append(link);
   });
   nav.append(bar);
+  const titles = {
+    '/grind/': 'we fall to the level of our habits',
+    '/snaps/': 'you can see everythi',
+    '/log/': "there's never enough time",
+    '/quotes/': "be so good they can't ignore you. -steve martin"
+  };
+  if (titles[here]) {
+    const line = document.createElement('p');
+    line.className = 'subhead';
+    line.textContent = titles[here];
+    nav.append(line);
+  }
   document.body.prepend(nav);
+  const padNav = () => {
+    const bottom = nav.getBoundingClientRect().bottom;
+    document.documentElement.style.setProperty('--shell-nav', Math.ceil(bottom + 12) + 'px');
+  };
+  padNav();
+  addEventListener('resize', padNav);
 
   const dock = document.createElement('nav');
   dock.className = 'social-dock';
