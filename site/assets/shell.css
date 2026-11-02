@@ -258,7 +258,7 @@ body.is-welcome .welcome {
   color: #f4efe6;
   text-shadow: 0 2px 16px rgba(0, 0, 0, .55);
 }
-.hero-title .name { color: var(--c, #1AADB3); }
+.hero-title .name { color: var(--c, #1AADB3); font-style: italic; }
 .hero-sub {
   margin: 14px auto 16px;
   max-width: 100%;
