@@ -302,8 +302,12 @@ def test_clear_month_flag_and_policy() -> None:
 
 def test_committed_clear_list_matches_album() -> None:
     ids = snaps_clear.load_clear_ids(ROOT)
-    assert ids == {"925fd7fec8e040f5adcaab7ec847e21c"}
+    assert ids == {
+        "925fd7fec8e040f5adcaab7ec847e21c",
+        "f535b7a5b2494dd0a69f5a2f207b12c6",
+    }
     found = {}
+    november = json.loads((ROOT / "site" / "snaps" / "m" / "2026-11.json").read_text(encoding="utf-8"))
     for path in (ROOT / "site" / "snaps" / "m").glob("*.json"):
         for row in json.loads(path.read_text(encoding="utf-8")):
             if row.get("i") in ids:
@@ -313,8 +317,16 @@ def test_committed_clear_list_matches_album() -> None:
     assert pin["d"] == "2026-11-02"
     assert pin["a"] == "2026-11-02T08:45:21-06:00"
     assert pin["w"] == 5472 and pin["h"] == 3648
-    assert frost.dated_for_frost(pin)
-    assert not snaps_clear.should_frost(pin, ids)
+    court = found["f535b7a5b2494dd0a69f5a2f207b12c6"]
+    assert court["d"] == "2026-11-01"
+    assert court["a"] == "2026-11-01T11:47:51-06:00"
+    assert court["w"] == 4032 and court["h"] == 2688
+    for row in (pin, court):
+        assert frost.dated_for_frost(row)
+        assert not snaps_clear.should_frost(row, ids)
+    for row in november:
+        if row["i"] not in ids:
+            assert snaps_clear.should_frost(row, ids)
     saved = json.loads((ROOT / "scripts" / "snaps_clear.json").read_text(encoding="utf-8"))
     assert saved["ids"] == sorted(ids)
     assert saved["note"] == snaps_clear.NOTE
