@@ -16,6 +16,8 @@ The page loads three.js 0.170.0 from jsDelivr. The graph file is local.
 
 Drag to orbit. Scroll or pinch to zoom. Right-drag, shift-drag, or a horizontal trackpad swipe pans. Two fingers on a touch screen zoom and pan. The page does not scroll. The pill and the social pill stay clickable. They go to the live site. This page is not one of those links.
 
+The nodes sit in one tight sphere. Each color is a lobe inside that sphere, not its own island. Links are thin luminous threads. The sphere breathes, hubs shimmer, and the threads drift in brightness. When nobody is dragging, the camera turns very slowly, and a drag takes over at once. `prefers-reduced-motion` holds it still.
+
 The ground is black. Dark is locked. There is no subhead under the pill.
 
 ## data
@@ -36,7 +38,7 @@ Schema, and the only keys the page will draw:
 {"v":1,"nodes":[{"id":0,"g":0}],"links":[{"s":0,"t":1}]}
 ```
 
-`v` is 1. `id`, `g`, `s`, and `t` are integers. `g` is a coarse group, 0–3, and it may be omitted. Group numbers are not folder names. Colors are applied in `brain.js`: teal `#1AADB3`, orange `#FF4D1A`, and two muted neutrals. Node size follows degree. The page lays the graph out. The file has no coordinates.
+`v` is 1. `id`, `g`, `s`, and `t` are integers. `g` is a coarse group, 0–3, and it may be omitted. Group numbers are not folder names. Colors are applied in `brain.js`: teal `#1AADB3`, orange `#FF4D1A`, a warm stone, and a cool slate. Node size follows degree. `layout.js` packs the nodes into one sphere and keeps each group in its own lobe. The file has no coordinates.
 
 The page refuses a file that contains a string or any other key, so a title or a path cannot render. `python3 mocks/brain-graph/generate_graph.py` rewrites the synthetic file.
 

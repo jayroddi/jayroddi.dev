@@ -1,12 +1,17 @@
-/* One-shot 3D force layout. Springs, local repulsion, and a pull toward
-   four fixed centers. Ids stay integers. Nothing here is drawn. */
+/* One sphere. Four color groups sit in lobes inside it, like continents.
+   The outer shell is exactly round. Ids stay integers. Nothing here is drawn. */
 
-const CENTERS = [
-  [0, 6, 0],
-  [168, 34, -36],
-  [-138, 22, 78],
-  [46, -128, 62]
-];
+const RADIUS = 100;
+
+const LOBES = [
+  [1, 1, 1],
+  [1, -1, -1],
+  [-1, 1, -1],
+  [-1, -1, 1]
+].map((v) => {
+  const len = Math.hypot(v[0], v[1], v[2]);
+  return [v[0] / len, v[1] / len, v[2] / len];
+});
 
 function hash(n) {
   let x = Math.imul(n + 1, 374761393);
@@ -18,13 +23,49 @@ function unit(n, salt) {
   return hash(Math.imul(n, 131) + salt) / 4294967296;
 }
 
-function gauss(n, salt) {
-  const u = Math.max(1e-9, unit(n, salt));
-  const v = unit(n, salt + 17);
-  return Math.sqrt(-2 * Math.log(u)) * Math.cos(Math.PI * 2 * v);
+function nearestLobe(x, y, z) {
+  let best = 0;
+  let score = -2;
+  for (let g = 0; g < 4; g++) {
+    const dot = x * LOBES[g][0] + y * LOBES[g][1] + z * LOBES[g][2];
+    if (dot > score) {
+      score = dot;
+      best = g;
+    }
+  }
+  return best;
 }
 
-export function layout(nodes, links, iterations = 90) {
+function basis(lobe) {
+  const up = Math.abs(lobe[1]) < 0.85 ? [0, 1, 0] : [1, 0, 0];
+  let tx = lobe[1] * up[2] - lobe[2] * up[1];
+  let ty = lobe[2] * up[0] - lobe[0] * up[2];
+  let tz = lobe[0] * up[1] - lobe[1] * up[0];
+  const len = Math.hypot(tx, ty, tz);
+  tx /= len;
+  ty /= len;
+  tz /= len;
+  const bx = lobe[1] * tz - lobe[2] * ty;
+  const by = lobe[2] * tx - lobe[0] * tz;
+  const bz = lobe[0] * ty - lobe[1] * tx;
+  return [tx, ty, tz, bx, by, bz];
+}
+
+function cone(id, lobe, cosMin, salt) {
+  const z = cosMin + (1 - cosMin) * unit(id, salt);
+  const phi = Math.PI * 2 * unit(id, salt + 1);
+  const s = Math.sqrt(Math.max(0, 1 - z * z));
+  const [tx, ty, tz, bx, by, bz] = basis(lobe);
+  const cx = Math.cos(phi);
+  const sn = Math.sin(phi);
+  return [
+    tx * s * cx + bx * s * sn + lobe[0] * z,
+    ty * s * cx + by * s * sn + lobe[1] * z,
+    tz * s * cx + bz * s * sn + lobe[2] * z
+  ];
+}
+
+export function layout(nodes, links) {
   const n = nodes.length;
   const index = new Map();
   const group = new Uint8Array(n);
@@ -33,142 +74,83 @@ export function layout(nodes, links, iterations = 90) {
     index.set(node.id, i);
     group[i] = node.g == null ? 2 : node.g;
   });
-  const springs = new Int32Array(links.length * 2);
-  links.forEach((link, i) => {
-    const a = index.get(link.s);
-    const b = index.get(link.t);
-    springs[i * 2] = a;
-    springs[i * 2 + 1] = b;
-    degree[a] += 1;
-    degree[b] += 1;
+  links.forEach((link) => {
+    degree[index.get(link.s)] += 1;
+    degree[index.get(link.t)] += 1;
   });
+
+  const buckets = [[], [], [], []];
+  for (let i = 0; i < n; i++) buckets[group[i]].push(i);
+  for (let g = 0; g < 4; g++) {
+    buckets[g].sort((a, b) => degree[a] - degree[b] || a - b);
+  }
 
   const x = new Float64Array(n);
   const y = new Float64Array(n);
   const z = new Float64Array(n);
-  const vx = new Float64Array(n);
-  const vy = new Float64Array(n);
-  const vz = new Float64Array(n);
-  const spread = [30, 26, 22, 18];
-  for (let i = 0; i < n; i++) {
-    const g = group[i];
-    const c = CENTERS[g];
-    const pull = 1 / (1 + Math.sqrt(degree[i]) * 0.14);
-    const s = spread[g] * pull;
-    const id = nodes[i].id;
-    x[i] = c[0] + gauss(id, 1) * s;
-    y[i] = c[1] + gauss(id, 2) * s;
-    z[i] = c[2] + gauss(id, 3) * s;
+  const shell = new Uint8Array(n);
+
+  const shellCount = Math.min(980, Math.floor(n * 0.42));
+  const dirs = [];
+  const golden = Math.PI * (3 - Math.sqrt(5));
+  for (let i = 0; i < shellCount; i++) {
+    const yf = 1 - (i / Math.max(1, shellCount - 1)) * 2;
+    const ring = Math.sqrt(Math.max(0, 1 - yf * yf));
+    const theta = golden * i;
+    const dx = Math.cos(theta) * ring;
+    const dz = Math.sin(theta) * ring;
+    dirs.push([dx, yf, dz, nearestLobe(dx, yf, dz)]);
   }
 
-  const cell = 14;
-  const reach = 13;
-  const reach2 = reach * reach;
-  const keyOf = (ix, iy, iz) => ((ix + 1024) << 20) ^ ((iy + 1024) << 10) ^ (iz + 1024);
+  const cursor = [0, 0, 0, 0];
+  for (let i = 0; i < dirs.length; i++) {
+    const g = dirs[i][3];
+    const bucket = buckets[g];
+    if (cursor[g] >= bucket.length) continue;
+    const idx = bucket[cursor[g]++];
+    shell[idx] = 1;
+    x[idx] = dirs[i][0] * RADIUS;
+    y[idx] = dirs[i][1] * RADIUS;
+    z[idx] = dirs[i][2] * RADIUS;
+  }
 
-  for (let iter = 0; iter < iterations; iter++) {
-    const alpha = 1 - iter / iterations;
-    const springK = 0.045 * (0.35 + alpha);
-    const rest = 6.5;
-    const gravity = 0.01 * (0.45 + alpha);
-
-    for (let i = 0; i < n; i++) {
-      const c = CENTERS[group[i]];
-      vx[i] += (c[0] - x[i]) * gravity;
-      vy[i] += (c[1] - y[i]) * gravity;
-      vz[i] += (c[2] - z[i]) * gravity;
-    }
-
-    for (let i = 0; i < links.length; i++) {
-      const a = springs[i * 2];
-      const b = springs[i * 2 + 1];
-      let dx = x[b] - x[a];
-      let dy = y[b] - y[a];
-      let dz = z[b] - z[a];
-      let dist = Math.hypot(dx, dy, dz);
-      if (dist < 0.05) dist = 0.05;
-      const force = (dist - rest) * springK / dist;
-      const fx = dx * force;
-      const fy = dy * force;
-      const fz = dz * force;
-      vx[a] += fx;
-      vy[a] += fy;
-      vz[a] += fz;
-      vx[b] -= fx;
-      vy[b] -= fy;
-      vz[b] -= fz;
-    }
-
-    const grid = new Map();
-    for (let i = 0; i < n; i++) {
-      const ix = Math.floor(x[i] / cell);
-      const iy = Math.floor(y[i] / cell);
-      const iz = Math.floor(z[i] / cell);
-      const key = keyOf(ix, iy, iz);
-      const bucket = grid.get(key);
-      if (bucket) bucket.push(i);
-      else grid.set(key, [i]);
-    }
-    const rep = 1.35 * (0.35 + alpha);
-    for (let i = 0; i < n; i++) {
-      const ix = Math.floor(x[i] / cell);
-      const iy = Math.floor(y[i] / cell);
-      const iz = Math.floor(z[i] / cell);
-      for (let ox = -1; ox <= 1; ox++) {
-        for (let oy = -1; oy <= 1; oy++) {
-          for (let oz = -1; oz <= 1; oz++) {
-            const bucket = grid.get(keyOf(ix + ox, iy + oy, iz + oz));
-            if (!bucket) continue;
-            for (let k = 0; k < bucket.length; k++) {
-              const j = bucket[k];
-              if (j <= i) continue;
-              let dx = x[i] - x[j];
-              let dy = y[i] - y[j];
-              let dz = z[i] - z[j];
-              let d2 = dx * dx + dy * dy + dz * dz;
-              if (d2 < 0.04) {
-                dx = (i - j) * 0.01 + 0.02;
-                dy = 0.02;
-                dz = 0.01;
-                d2 = dx * dx + dy * dy + dz * dz;
-              }
-              if (d2 > reach2) continue;
-              const dist = Math.sqrt(d2);
-              const force = rep * (1 - dist / reach) / dist;
-              vx[i] += dx * force;
-              vy[i] += dy * force;
-              vz[i] += dz * force;
-              vx[j] -= dx * force;
-              vy[j] -= dy * force;
-              vz[j] -= dz * force;
-            }
-          }
-        }
-      }
-    }
-
-    for (let i = 0; i < n; i++) {
-      let sp = Math.hypot(vx[i], vy[i], vz[i]);
-      if (sp > 3.2) {
-        const scale = 3.2 / sp;
-        vx[i] *= scale;
-        vy[i] *= scale;
-        vz[i] *= scale;
-      }
-      x[i] += vx[i];
-      y[i] += vy[i];
-      z[i] += vz[i];
-      vx[i] *= 0.62;
-      vy[i] *= 0.62;
-      vz[i] *= 0.62;
+  for (let g = 0; g < 4; g++) {
+    const lobe = LOBES[g];
+    const bucket = buckets[g];
+    for (let k = cursor[g]; k < bucket.length; k++) {
+      const idx = bucket[k];
+      const id = nodes[idx].id;
+      const hub = degree[idx] >= 8;
+      const dir = cone(id, lobe, hub ? 0.78 : 0.5, 40 + g);
+      const u = unit(id, 70);
+      const radial = hub
+        ? 0.08 + 0.42 * u
+        : 0.22 + 0.72 * Math.pow(u, 0.55);
+      x[idx] = dir[0] * RADIUS * radial;
+      y[idx] = dir[1] * RADIUS * radial;
+      z[idx] = dir[2] * RADIUS * radial;
     }
   }
 
   const positions = new Float32Array(n * 3);
   for (let i = 0; i < n; i++) {
-    positions[i * 3] = x[i];
-    positions[i * 3 + 1] = y[i];
-    positions[i * 3 + 2] = z[i];
+    let px = x[i];
+    let py = y[i];
+    let pz = z[i];
+    const len = Math.hypot(px, py, pz) || 1;
+    if (shell[i]) {
+      px = px / len * RADIUS;
+      py = py / len * RADIUS;
+      pz = pz / len * RADIUS;
+    } else if (len > RADIUS * 0.972) {
+      const scale = (RADIUS * 0.972) / len;
+      px *= scale;
+      py *= scale;
+      pz *= scale;
+    }
+    positions[i * 3] = px;
+    positions[i * 3 + 1] = py;
+    positions[i * 3 + 2] = pz;
   }
   return positions;
 }
