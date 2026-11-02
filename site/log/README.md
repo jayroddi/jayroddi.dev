@@ -1,8 +1,8 @@
 # /log
 
-Draft media log. It is not on the live site until this branch is merged. Do not deploy it ahead of that.
+Media log. `/music/` and `/books/` forward here.
 
-`media.json` and `covers/` are the 2026-11-02 books-merge export (`type: media-item` plus the live shelf). 466 notes. A cover is only an embedded `![[…]]` image. A note with no embed has `img: null` and the tile shows the title, not a nearby file. Snaps stay photos on `/snaps`. Moments that are not media notes are not in this file.
+`media.json` and `covers/` are the 2026-11-02 export with the two untitled book twins removed. 464 notes. A cover is only an embedded `![[…]]` image. A note with no embed has `img: null` and the tile shows the title, not a nearby file. Snaps stay photos on `/snaps`. Moments that are not media notes are not in this file.
 
 ## What the page reads
 
@@ -10,14 +10,14 @@ Draft media log. It is not on the live site until this branch is merged. Do not 
 
 | c | chip | n in this export |
 |---|---|---|
-| all | all | 466 |
+| all | all | 464 |
 | movies | 🍿 | 171 |
 | shows | 📺 | 26 (tv + documentaries + comedy, already one bucket) |
-| books | 📚 | 114 |
+| books | 📚 | 112 |
 | albums | 💿 | 148 |
 | games | 🎮 | 7 |
 
-`months` is newest first (`m` is `YYYY-MM`, `n` is how many notes). The grid follows that order. A month heading is lowercase (`march 2026`). `bucketLabel` maps a key such as `2015-2020` to the heading `2015 - 2020`. That group is not split into months.
+`groupBy` is `year`. `months` is newest first (`m` is a year such as `2026`, or the undated key `2015-2020`; `n` is how many notes). Sections are built from each note: a full date uses `d.slice(0, 4)`, and any other `d` (the undated books) stays as that literal key. `months` only orders keys it still lists. A year heading is the year (`2026`). `bucketLabel` maps `2015-2020` to the heading `2015 - 2020`. Notes inside a year stay newest first.
 
 Each item:
 
@@ -34,7 +34,7 @@ Each item:
 
 `all` is selected on load and shows every note. Tapping the selected category chip returns to `all`. Tapping `all` while it is selected stays on `all`. `#movies`, `#shows`, `#books`, `#albums`, and `#games` open that filter. An empty hash is `all`.
 
-Chips, month headings, cover rows, and a note with no cover are centered. A short month sits in the middle of the row. Three columns under 900px, six from 900px.
+Chips, year headings, cover rows, and a note with no cover are centered. A short year sits in the middle of the row. Three columns under 900px, six from 900px.
 
 ## Replacing the export
 

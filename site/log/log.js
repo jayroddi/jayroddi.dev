@@ -1,5 +1,5 @@
-/* log.js v2. media log from site/log/media.json.
-   the all chip is selected on load and shows every note, newest month first.
+/* log.js v4. media log from site/log/media.json.
+   the all chip is selected on load and shows every note, newest year first.
    tapping the selected category chip returns to all. tapping all while it is selected stays on all.
    a note with no embedded cover draws the title only. no stand-in image.
    albums are square. everything else is a 2:3 poster. three columns under 900px, six from there.
@@ -16,7 +16,7 @@
 
   function groupKey(item) {
     const day = String(item.d || '');
-    if (/^\d{4}-\d{2}-\d{2}$/.test(day)) return day.slice(0, 7);
+    if (/^\d{4}-\d{2}-\d{2}$/.test(day)) return day.slice(0, 4);
     return day;
   }
 

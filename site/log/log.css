@@ -1,5 +1,5 @@
-/* log.css v1. draft media log. filter bubbles sit under the pill, outside it.
-   month headings match snaps. covers are a 3-column tile grid on a phone and 6 from 900px.
+/* log.css v1. media log. filter bubbles sit under the pill, outside it.
+   year headings match snaps. covers are a 3-column tile grid on a phone and 6 from 900px.
    albums stay square. posters stay 2:3. the square field is the shell. no subheader. */
 body.board.log:not(.is-welcome) .stage {
   flex-direction: column;
