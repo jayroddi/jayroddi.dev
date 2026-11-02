@@ -46,6 +46,7 @@ body.board.quotes .welcome .soft {
   padding: 36px 28px;
 }
 body.board .welcome .deck .quotes { margin: 0; }
+body.board.quotes .quotes .by { font-weight: 400; }
 .arrow {
   position: fixed;
   z-index: 35;
