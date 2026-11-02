@@ -36,15 +36,28 @@
     return ol;
   }
 
-  function fit(slideEl) {
-    stage.style.height = slideEl.offsetHeight + 'px';
+  function lock() {
+    const probe = document.createElement('div');
+    probe.className = 'probe';
+    probe.setAttribute('aria-hidden', 'true');
+    stage.append(probe);
+    let max = 0;
+    list.forEach((entry) => {
+      const sample = slide(entry);
+      sample.classList.add('measure');
+      probe.append(sample);
+      const box = sample.querySelector('li').getBoundingClientRect().height;
+      if (box > max) max = box;
+      sample.remove();
+    });
+    probe.remove();
+    if (max) stage.style.height = Math.ceil(max) + 'px';
   }
 
   function paint(entry) {
     stage.replaceChildren();
     current = slide(entry);
     stage.append(current);
-    fit(current);
     current.classList.add('layer');
   }
 
@@ -68,7 +81,6 @@
     const incoming = slide(list[nextIndex]);
     incoming.classList.add('layer', enter);
     stage.append(incoming);
-    stage.style.height = Math.max(outgoing.offsetHeight, incoming.offsetHeight) + 'px';
     incoming.getBoundingClientRect();
     outgoing.classList.add('swap', leave);
     const onLeave = (event) => {
@@ -84,7 +96,6 @@
         incoming.classList.remove('swap');
         current = incoming;
         index = nextIndex;
-        fit(current);
         busy = false;
         arrows();
       };
@@ -120,6 +131,12 @@
   });
   addEventListener('pointercancel', () => { tracking = false; });
 
+  let resizeTimer;
+  addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => { if (list.length) lock(); }, 120);
+  });
+
   fetch('/quote-of-the-day/quotes.json', { cache: 'no-cache' }).then((res) => res.json()).then((rows) => {
     if (!Array.isArray(rows)) return;
     const day = chicago();
@@ -132,6 +149,7 @@
       .sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0);
     if (!list.length) return;
     index = 0;
+    lock();
     paint(list[0]);
     arrows();
   }).catch(() => {});

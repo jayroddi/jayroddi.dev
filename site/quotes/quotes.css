@@ -1,13 +1,34 @@
-/* one quote in the homepage panel. right arrow brings an older quote in. */
+/* one quote in the homepage panel. the black box is the tallest quote in the set.
+   swiping does not resize it, and the date, words, and name stay in its center. */
 .deck {
   position: relative;
   overflow: hidden;
-  min-height: 180px;
+}
+#quote-card {
+  position: relative;
+}
+.deck .probe {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 .deck .slide {
   margin: 0;
   width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+.deck .slide.measure {
+  position: relative;
+  height: auto;
+  display: block;
+}
+.deck .slide li { width: 100%; }
 .deck .slide.layer {
   position: absolute;
   left: 0;
@@ -18,6 +39,11 @@
 .deck .slide.to-right { transform: translateX(108%); opacity: 0; }
 .deck .slide.from-right { transform: translateX(108%); opacity: 0; }
 .deck .slide.from-left { transform: translateX(-108%); opacity: 0; }
+body.board.quotes .welcome .soft {
+  margin-top: 0;
+  padding: 36px 28px;
+}
+body.board .welcome .deck .quotes { margin: 0; }
 .arrow {
   position: fixed;
   z-index: 35;
@@ -42,9 +68,12 @@
 .arrow[hidden] { display: none; }
 .arrow:focus-visible { outline: 2px solid #1AADB3; outline-offset: 2px; }
 @media (max-width: 760px) {
-  body.board .welcome .deck { padding-left: 40px; padding-right: 40px; }
+  body.board.quotes .welcome .soft { padding: 32px 40px; }
   .arrow.next { right: 0; }
   .arrow.prev { left: 0; }
+}
+@media (max-height: 740px) {
+  body.board.quotes .welcome .soft { padding-top: 22px; padding-bottom: 22px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .deck .slide.swap { transition: none; }
