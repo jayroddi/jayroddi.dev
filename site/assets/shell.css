@@ -288,9 +288,9 @@ body.is-welcome .welcome {
 }
 .splash-quote .by {
   margin-top: 12px;
-  font-style: normal;
-  font-weight: 400;
-  color: rgba(244, 239, 230, .5);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--c, #1AADB3);
 }
 .heart {
   display: block;
