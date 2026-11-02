@@ -1,4 +1,4 @@
-# Lightroom sync + /music playlist (spotify), four times a day on the Chicago clock.
+# Lightroom sync, four times a day on the Chicago clock.
 # Frost JPEGs for photos dated 2026-11-01 or later are baked on the same run,
 # except asset ids in scripts/snaps_clear.json, which stay sharp. The Pages
 # deploy is what stops serving sharp Adobe URLs for the frosted rows.
@@ -87,14 +87,6 @@ jobs:
       - name: Sync the album
         if: steps.chicago.outputs.run == 'true'
         run: python3 scripts/sync_snaps.py
-      - name: Sync the /music playlist
-        if: steps.chicago.outputs.run == 'true'
-        continue-on-error: true   # a spotify outage never blocks the snaps sync
-        env:
-          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
-          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
-          SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
-        run: python3 scripts/spotify_playlist.py site/music/playlist.json
       - name: Commit when the album changed
         if: steps.chicago.outputs.run == 'true'
         env:
@@ -102,11 +94,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A site/snaps scripts/snaps_colors.json site/music/playlist.json
+          git add -A site/snaps scripts/snaps_colors.json
           if git diff --cached --quiet; then
-            echo "snaps and music unchanged"
+            echo "snaps unchanged"
             exit 0
           fi
-          git commit -m "Sync Lightroom snaps / music playlist."
+          git commit -m "Sync Lightroom snaps."
           git push
           gh workflow run pages.yml --ref main
