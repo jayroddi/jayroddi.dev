@@ -1,7 +1,10 @@
-/* log.js v5. media log from site/log/media.json.
+/* log.js v6. media log from site/log/media.json.
    the all chip is selected on load and shows every note, newest year first.
    tapping the selected category chip returns to all. tapping all while it is selected stays on all.
    a note with no embedded cover draws the title only. no stand-in image.
+   the same title and author render once. punctuation and spacing fold together.
+   a book subtitle after a colon folds into the short title, and a book note that
+   swaps the title and the author folds into the real entry. the fuller title stays.
    albums are square. everything else is a 2:3 poster. three columns under 900px, six from there.
    a rating, when the note has one, sits quiet on the tile. */
 (() => {
@@ -13,6 +16,110 @@
 
   let data = null;
   let selected = 'all';
+
+  function fold(value) {
+    return String(value || '')
+      .normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, ' ')
+      .trim()
+      .replace(/\s+/g, ' ');
+  }
+
+  function identityKeys(item) {
+    const cat = String(item.c || '');
+    const title = fold(item.t);
+    const author = fold(item.a);
+    const keys = [cat + '|' + title + '|' + author];
+    if (cat !== 'books' || !title) return keys;
+    const head = fold(String(item.t || '').split(':')[0]);
+    if (head && head !== title) keys.push(cat + '|' + head + '|' + author);
+    if (author) {
+      const left = head || title;
+      const pair = left < author ? left + '|' + author : author + '|' + left;
+      keys.push(cat + '|swap|' + pair);
+    }
+    return keys;
+  }
+
+  function richness(item) {
+    let score = 0;
+    if (item.img) score += 8;
+    if (item.r) score += 4;
+    if (item.glow) score += 4;
+    if (item.blurb) score += 2;
+    if (item.a) score += 1;
+    return score;
+  }
+
+  function prefer(list) {
+    const ranked = list.slice().sort((a, b) => {
+      const len = String(b.t || '').length - String(a.t || '').length;
+      if (len) return len;
+      return richness(b) - richness(a);
+    });
+    const best = Object.assign({}, ranked[0]);
+    list.forEach((item) => {
+      if (!best.img && item.img) best.img = item.img;
+      if (!best.r && item.r) best.r = item.r;
+      if (!best.glow && item.glow) best.glow = item.glow;
+      if (!best.blurb && item.blurb) best.blurb = item.blurb;
+      if (!best.a && item.a) best.a = item.a;
+    });
+    return best;
+  }
+
+  function dedupeItems(items) {
+    const parent = items.map((_, i) => i);
+    function find(i) {
+      while (parent[i] !== i) {
+        parent[i] = parent[parent[i]];
+        i = parent[i];
+      }
+      return i;
+    }
+    function unite(a, b) {
+      let pa = find(a);
+      let pb = find(b);
+      if (pa === pb) return;
+      if (pa > pb) {
+        const swap = pa;
+        pa = pb;
+        pb = swap;
+      }
+      parent[pb] = pa;
+    }
+    const seen = new Map();
+    items.forEach((item, i) => {
+      identityKeys(item).forEach((key) => {
+        if (seen.has(key)) unite(i, seen.get(key));
+        else seen.set(key, i);
+      });
+    });
+    const groups = new Map();
+    items.forEach((item, i) => {
+      const root = find(i);
+      if (!groups.has(root)) groups.set(root, []);
+      groups.get(root).push(item);
+    });
+    return [...groups.values()].map(prefer);
+  }
+
+  function dedupeLog(json) {
+    const source = json || {};
+    const items = dedupeItems(source.items || []);
+    const counts = {};
+    items.forEach((item) => {
+      counts[item.c] = (counts[item.c] || 0) + 1;
+    });
+    const filters = (Array.isArray(source.filters) ? source.filters : []).map((filter) => {
+      if (!filter || filter.c === 'all') return Object.assign({}, filter, { n: items.length });
+      if (Object.prototype.hasOwnProperty.call(counts, filter.c)) return Object.assign({}, filter, { n: counts[filter.c] });
+      return filter;
+    });
+    return Object.assign({}, source, { items, filters });
+  }
 
   function groupKey(item) {
     const day = String(item.d || '');
@@ -258,7 +365,7 @@
     if (!res.ok) throw new Error();
     return res.json();
   }).then((json) => {
-    data = json || {};
+    data = dedupeLog(json || {});
     const filters = Array.isArray(data.filters) && data.filters.length ? data.filters : [
       { c: 'all', e: 'all', n: 0 },
       { c: 'movies', e: '🍿', n: 0 },
