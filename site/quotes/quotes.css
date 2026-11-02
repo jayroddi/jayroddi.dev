@@ -51,7 +51,9 @@ body.board.quotes .quotes .by { font-weight: 400; }
   position: fixed;
   z-index: 35;
   top: 50%;
-  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 44px;
   height: 44px;
   margin: 0;
@@ -61,9 +63,10 @@ body.board.quotes .quotes .by { font-weight: 400; }
   background: none;
   color: #1AADB3;
   cursor: pointer;
+  transform: translateY(-50%);
   -webkit-tap-highlight-color: transparent;
 }
-.arrow svg { display: block; width: 28px; height: 28px; margin: 0 auto; }
+.arrow svg { display: block; width: 28px; height: 28px; }
 .arrow.next,
 .arrow.prev { opacity: .92; }
 .arrow.next { right: max(10px, calc((100vw - 920px) / 2)); }

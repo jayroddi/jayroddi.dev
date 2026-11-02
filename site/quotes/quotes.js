@@ -67,6 +67,15 @@
     next.hidden = index >= list.length - 1;
   }
 
+  function placeArrows() {
+    const box = stage.closest('.soft');
+    if (!box) return;
+    const rect = box.getBoundingClientRect();
+    const top = (rect.top + rect.height / 2) + 'px';
+    prev.style.top = top;
+    next.style.top = top;
+  }
+
   const span = () => stage.clientWidth || 1;
   let drag = null;
   let suppressClick = false;
@@ -275,8 +284,15 @@
   let resizeTimer;
   addEventListener('resize', () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => { if (list.length) lock(); }, 120);
+    resizeTimer = setTimeout(() => {
+      if (list.length) lock();
+      placeArrows();
+    }, 120);
   });
+  if (window.ResizeObserver) {
+    const box = stage.closest('.soft');
+    if (box) new ResizeObserver(() => placeArrows()).observe(box);
+  }
 
   fetch('/quote-of-the-day/quotes.json', { cache: 'no-cache' }).then((res) => res.json()).then((rows) => {
     if (!Array.isArray(rows)) return;
@@ -293,5 +309,6 @@
     lock();
     paint(list[0]);
     arrows();
+    placeArrows();
   }).catch(() => {});
 })();
