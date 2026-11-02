@@ -1,0 +1,134 @@
+/* welcome shell. mock only. not loaded by the live site. */
+html { color-scheme: dark light; }
+body {
+  background: var(--bg, #000);
+}
+body.is-welcome {
+  overflow: hidden;
+  height: 100svh;
+}
+
+.habit-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  pointer-events: none;
+  --gutter: var(--left, 64px);
+  -webkit-mask-image: linear-gradient(90deg,
+    #000 0,
+    #000 calc(var(--gutter) - 8px),
+    rgba(0, 0, 0, .28) var(--gutter),
+    rgba(0, 0, 0, .28) calc(100% - var(--gutter)),
+    #000 calc(100% - var(--gutter) + 8px),
+    #000 100%);
+  mask-image: linear-gradient(90deg,
+    #000 0,
+    #000 calc(var(--gutter) - 8px),
+    rgba(0, 0, 0, .28) var(--gutter),
+    rgba(0, 0, 0, .28) calc(100% - var(--gutter)),
+    #000 calc(100% - var(--gutter) + 8px),
+    #000 100%);
+}
+.habit-bg i {
+  border-radius: 2px;
+  background: rgba(var(--c-rgb), .5);
+}
+.habit-bg i.blink {
+  background: var(--c);
+  animation: today-cursor 1.2s ease-in-out infinite;
+}
+@media (max-width: 760px) {
+  .habit-bg {
+    opacity: .34;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .habit-bg i.blink { animation: none; opacity: 1; }
+}
+
+.tabs {
+  position: fixed;
+  z-index: 40;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  max-width: calc(100vw - 16px);
+  padding: 5px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  border: 1px solid rgba(var(--c-rgb), .35);
+  backdrop-filter: blur(12px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tabs button {
+  flex: none;
+  margin: 0;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--c);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.25;
+  letter-spacing: normal;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.tabs button[aria-selected="true"] {
+  background: var(--fg);
+  color: var(--bg, #000);
+}
+.tabs button:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }
+@media (max-width: 720px) {
+  .tabs button { padding: 8px 8px; }
+}
+
+.panel[hidden] { display: none !important; }
+.panel { position: relative; z-index: 2; }
+
+.welcome:not([hidden]) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 100svh;
+  padding: 76px 24px 28px;
+  overflow: hidden;
+}
+.welcome-inner {
+  width: min(640px, 100%);
+}
+.hello {
+  margin: 0 auto 28px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: clamp(16px, 2.2vw, 22px);
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--fg);
+  text-shadow: 0 0 8px rgba(var(--bg-rgb), .85);
+}
+.welcome .quotes { margin: 0; }
+.panel:not(.welcome) .stage { padding-top: 72px; }
+
+/* music covers are square. books.css also targets .covers and would stretch them. */
+.panel[data-page="music"] .covers li { aspect-ratio: 1; }
+
+@media (max-height: 740px) {
+  .hello { font-size: 16px; margin-bottom: 16px; }
+  .welcome:not([hidden]) { padding-top: 64px; }
+}
