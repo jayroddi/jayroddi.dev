@@ -22,11 +22,12 @@ download a rendition that has not changed.
 
 The same run frosts the 640 and the larger rendition into frost-cache/
 (mid strength, see frost.py) for photos whose Chicago capture date is
-2026-11-01 or later. Older photos stay sharp and are not baked. Those
-JPEGs are not committed: the grain does not compress, and the Pages
-deploy uploads them only for the dated photos. scripts/snaps_frost.json
-(also uncommitted; the Actions cache keeps both) remembers which
-rendition id each file was baked from.
+2026-11-01 or later, except asset ids in scripts/snaps_clear.json. Those
+pins stay sharp across later syncs. Older photos stay sharp and are not
+baked. Those JPEGs are not committed: the grain does not compress, and
+the Pages deploy uploads them only for the dated photos that are not
+clear-listed. scripts/snaps_frost.json (also uncommitted; the Actions
+cache keeps both) remembers which rendition id each file was baked from.
 """
 
 from __future__ import annotations
@@ -46,6 +47,7 @@ from zoneinfo import ZoneInfo
 from PIL import Image
 
 from frost import bake, dated_for_frost
+from snaps_clear import load_clear_ids, should_frost
 
 SPACE = "70e5cd134b2e42feae9e82952152c5e8"
 KEY = "LightroomMobileWeb1"
@@ -316,11 +318,13 @@ def main() -> None:
     CACHE.write_text(json.dumps(cache, separators=(",", ":"), ensure_ascii=True) + "\n", encoding="utf-8")
     FROST = ROOT / "frost-cache"
     FROST_CACHE = ROOT / "scripts" / "snaps_frost.json"
-    frost_rows = [row for row in rows if dated_for_frost(row)]
+    clear_ids = load_clear_ids(ROOT)
+    frost_rows = [row for row in rows if should_frost(row, clear_ids)]
+    pinned = sum(1 for row in rows if row.get("i") in clear_ids and dated_for_frost(row))
     missing = bake(frost_rows, FROST, FROST_CACHE, bytes_of, base, KEY)
     print(
         f"{len(rows)} photos, {len(grouped)} months, {min(grouped)} .. {max(grouped)}; "
-        f"frost {len(frost_rows)} from 2026-11-01, missing {missing}"
+        f"frost {len(frost_rows)} from 2026-11-01, {pinned} clear-listed, missing {missing}"
     )
 
 

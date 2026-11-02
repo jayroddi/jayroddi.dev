@@ -3,22 +3,33 @@
 
 The Pages workflow runs `--bake` on every deploy. That fills frost-cache/
 (outside site/, so it is not uploaded) for photos whose Chicago capture
-date is on or after the cutoff. Older photos are not baked.
+date is on or after the cutoff. Older photos are not baked. Asset ids in
+scripts/snaps_clear.json are not baked either: they stay the sharp
+Lightroom rendition across later syncs. The soft recipe itself does not
+change.
 
 `--apply` changes the uploaded site only at and after 2026-11-01 00:00
-America/Chicago, and only for those newer photos: it copies their frost
-JPEGs into site/snaps/f/ and drops `v`, `t`, `s`, and `l` from those rows,
-setting `f` so the grid loads the glass. Photos captured before the cutoff
-keep their sharp Lightroom ids. `base` and `key` stay while any sharp row
-remains, and so does the Adobe preconnect. This script does not commit.
+America/Chicago, and only for newer photos that are not clear-listed: it
+copies their frost JPEGs into site/snaps/f/ and drops `v`, `t`, `s`, and
+`l` from those rows, setting `f` so the grid loads the glass. Photos
+captured before the cutoff, and clear-listed ids, keep their sharp
+Lightroom ids. `base` and `key` stay while any sharp row remains, and so
+does the Adobe preconnect. This script does not commit.
 
 The repo on GitHub still has rendition ids after the flip. The sync needs
 them to frost the next batch. A new photo whose frost file is missing keeps
 its sharp URL for that deploy instead of shipping a broken tile.
 
-  python3 scripts/publish_snaps.py                 print the gate
-  python3 scripts/publish_snaps.py --apply         the deploy
-  python3 scripts/publish_snaps.py --bake          frost files only, no strip
+Month-end policy (not scheduled): on the 1st in America/Chicago, the prior
+calendar month should all go clear and the current month stays frosted
+except clear-list pins. `--clear-month YYYY-MM` appends that month's asset
+ids to scripts/snaps_clear.json. Commit the file afterward.
+`snaps_clear.clear_month_due` names the month to pass on the 1st.
+
+  python3 scripts/publish_snaps.py                      print the gate
+  python3 scripts/publish_snaps.py --apply              the deploy
+  python3 scripts/publish_snaps.py --bake               frost files only, no strip
+  python3 scripts/publish_snaps.py --clear-month YYYY-MM
 """
 
 from __future__ import annotations
@@ -31,6 +42,8 @@ import sys
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
+
+from snaps_clear import add_clear_month, load_clear_ids, should_frost
 
 ROOT = Path(__file__).resolve().parents[1]
 CT = ZoneInfo("America/Chicago")
@@ -107,17 +120,15 @@ def ready_ids(cache_dir: Path, photos: list[dict]) -> set[str]:
     return ready
 
 
-def write_public(root: Path, index: dict, months: list[tuple[Path, list]], ready: set[str]) -> int:
+def write_public(root: Path, index: dict, months: list[tuple[Path, list]], ready: set[str], clear_ids: set[str]) -> int:
     """Strip sharp ids only on photos whose frost files are ready. Returns how many."""
-    from frost import dated_for_frost
-
     snaps = root / "site" / "snaps"
     frosted = 0
     sharp = 0
     for path, rows in months:
         public: list[dict] = []
         for row in rows:
-            glass = dated_for_frost(row) and row.get("i") in ready
+            glass = should_frost(row, clear_ids) and row.get("i") in ready
             if glass:
                 frosted += 1
             elif row.get("t") and row.get("v"):
@@ -171,8 +182,9 @@ def stage_frost(cache_dir: Path, dest: Path, photos: list[dict]) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--apply", action="store_true", help="once the gate is open, publish frost for photos dated on or after the cutoff")
+    parser.add_argument("--apply", action="store_true", help="once the gate is open, publish frost for photos dated on or after the cutoff, skipping the clear list")
     parser.add_argument("--bake", action="store_true", help="frost missing cutoff photos into frost-cache/ and do not publish them")
+    parser.add_argument("--clear-month", metavar="YYYY-MM", help="append that month's asset ids to scripts/snaps_clear.json so they stay sharp")
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--now", default=os.environ.get("SNAP_NOW", ""))
     args = parser.parse_args(argv)
@@ -181,6 +193,13 @@ def main(argv: list[str] | None = None) -> int:
     now = parse_now(args.now)
     stamp = now.astimezone(CT).isoformat(timespec="seconds")
     open_gate = gate_open(now)
+    if args.clear_month:
+        try:
+            added, total = add_clear_month(root, args.clear_month)
+        except (OSError, ValueError, json.JSONDecodeError) as err:
+            print(f"clear month failed: {err}", file=sys.stderr)
+            return 1
+        print(f"clear-list {args.clear_month}: added {len(added)}, {total} ids in scripts/snaps_clear.json")
     if not open_gate and not args.bake:
         print(f"snaps gate closed until 2026-11-01 00:00 America/Chicago (now {stamp})")
         return 0
@@ -190,30 +209,42 @@ def main(argv: list[str] | None = None) -> int:
 
     index, months = load_album(snaps)
     photos = photos_of(months)
-    newer = [photo for photo in photos if dated_for_frost(photo)]
+    clear_ids = load_clear_ids(root)
+    newer = [photo for photo in photos if should_frost(photo, clear_ids)]
+    pins = sum(
+        1
+        for photo in photos
+        if isinstance(photo.get("i"), str) and photo["i"].strip().lower() in clear_ids and dated_for_frost(photo)
+    )
+    if pins == 1:
+        pin_note = " 1 clear-listed id stays sharp."
+    elif pins:
+        pin_note = f" {pins} clear-listed ids stay sharp."
+    else:
+        pin_note = ""
     base = index.get("base") or ""
     key = index.get("key") or KEY
     cache_dir = root / "frost-cache"
     should_bake = args.bake or (args.apply and open_gate)
     if should_bake and base and key:
         left = bake(newer, cache_dir, root / "scripts" / "snaps_frost.json", bytes_of, base, key)
-        print(f"frost files still missing: {left} of {len(newer)} photos dated 2026-11-01 or later")
+        print(f"frost files still missing: {left} of {len(newer)} photos to frost")
     if not open_gate:
         print(f"snaps gate closed ({stamp}); frost cache warmed for new photos, sharp renditions stay on the site")
         return 0
     if not args.apply:
         ready = ready_ids(cache_dir, newer)
-        print(f"snaps gate open ({stamp}); {len(ready)} of {len(newer)} new photos have frost files. re-run with --apply to publish")
+        print(f"snaps gate open ({stamp}); {len(ready)} of {len(newer)} new photos have frost files.{pin_note} re-run with --apply to publish")
         return 0
     ready = ready_ids(cache_dir, newer)
     stage_frost(cache_dir, snaps / "f", [photo for photo in newer if photo.get("i") in ready])
-    frosted = write_public(root, index, months, ready)
+    frosted = write_public(root, index, months, ready, clear_ids)
     waiting = len(newer) - len(ready)
-    clear = len(photos) - len(newer)
+    sharp = len(photos) - len(newer)
     if waiting:
-        print(f"snaps gate open ({stamp}); {frosted} photos frosted, {clear} stay sharp, {waiting} new photos still waiting on frost files")
+        print(f"snaps gate open ({stamp}); {frosted} photos frosted, {sharp} stay sharp, {waiting} new photos still waiting on frost files.{pin_note}")
     else:
-        print(f"snaps gate open ({stamp}); {frosted} photos frosted, {clear} stay sharp")
+        print(f"snaps gate open ({stamp}); {frosted} photos frosted, {sharp} stay sharp.{pin_note}")
     return 0
 
 
