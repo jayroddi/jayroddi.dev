@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<!-- DRAFT hold: /books/ forwards to /log/. Delete this script and the refresh meta to restore the shelf. books.js, books.css, books.json, and covers/ are unchanged. -->
+<script>location.replace("/log/" + location.search + location.hash)</script>
+<meta http-equiv="refresh" content="0; url=/log/">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-G8DYYL3KYM"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());(function(){var l=location.href;try{var u=new URL(l),d=[];u.searchParams.forEach(function(v,k){if(/mail/i.test(k)||v.indexOf('@')>=0)d.push(k);});d.forEach(function(k){u.searchParams.delete(k);});l=u.href;}catch(e){}gtag('config','G-G8DYYL3KYM',{page_location:l});})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -46,6 +49,6 @@
   </div>
 </main>
 <script src="/books/books.js?v=0.9" defer></script>
-<script src="/assets/shell.js?v=8" defer></script>
+<script src="/assets/shell.js?v=9" defer></script>
 </body>
 </html>
