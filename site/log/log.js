@@ -1,17 +1,18 @@
-/* log.js v1. media log from site/log/media.json.
-   nothing selected shows every cover, newest month first.
-   a bubble selects one category. tapping it again clears back to all.
+/* log.js v2. media log from site/log/media.json.
+   the all chip is selected on load and shows every note, newest month first.
+   tapping the selected category chip returns to all. tapping all while it is selected stays on all.
+   a note with no embedded cover draws the title only. no stand-in image.
    albums are square. everything else is a 2:3 poster. three columns under 900px, six from there.
    a rating, when the note has one, sits quiet on the tile. */
 (() => {
   const NAMES = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
-  const WORDS = { movies: 'movies', shows: 'shows', books: 'books', albums: 'albums', games: 'games' };
+  const WORDS = { all: 'all', movies: 'movies', shows: 'shows', books: 'books', albums: 'albums', games: 'games' };
   const COL_BREAK = 900;
   const gallery = document.getElementById('gallery');
   const columnCount = () => (innerWidth >= COL_BREAK ? 6 : 3);
 
   let data = null;
-  let selected = '';
+  let selected = 'all';
 
   function monthName(key) {
     const [year, month] = String(key || '').split('-');
@@ -61,31 +62,27 @@
     button.style.setProperty('--r', ratio(item.c));
     const { name, star } = labelFor(item);
     button.setAttribute('aria-label', name);
-    const img = document.createElement('img');
-    img.alt = '';
-    img.decoding = 'async';
-    img.draggable = false;
-    img.loading = eager ? 'eager' : 'lazy';
-    img.src = '/log/covers/' + item.img;
-    button.append(img);
+    if (item.img) {
+      const img = document.createElement('img');
+      img.alt = '';
+      img.decoding = 'async';
+      img.draggable = false;
+      img.loading = eager ? 'eager' : 'lazy';
+      img.src = '/log/covers/' + item.img;
+      button.append(img);
+    } else {
+      button.classList.add('bare');
+      const miss = document.createElement('span');
+      miss.className = 'bare-t';
+      miss.textContent = item.t || '';
+      button.append(miss);
+    }
     if (star) button.append(star.node);
     const cap = document.createElement('span');
     cap.className = 'cap';
     cap.textContent = item.a ? item.t + ' // ' + item.a : (item.t || '');
     button.append(cap);
     return button;
-  }
-
-  function place(grid, shots) {
-    const n = columnCount();
-    const columns = Array.from({ length: n }, () => {
-      const col = document.createElement('div');
-      col.className = 'col';
-      return col;
-    });
-    shots.forEach((shot, i) => columns[i % n].appendChild(shot));
-    grid.replaceChildren(...columns);
-    grid.dataset.cols = String(n);
   }
 
   function groups(items) {
@@ -110,7 +107,7 @@
   }
 
   function render() {
-    const items = (data.items || []).filter((item) => !selected || item.c === selected);
+    const items = (data.items || []).filter((item) => selected === 'all' || item.c === selected);
     gallery.replaceChildren();
     if (!items.length) {
       const note = document.createElement('p');
@@ -127,29 +124,19 @@
       heading.textContent = monthName(key);
       const grid = document.createElement('div');
       grid.className = 'grid';
-      const shots = rows.map((item) => {
-        const shot = tile(item, order, order < columnCount());
+      rows.forEach((item) => {
+        grid.append(tile(item, order, order < columnCount()));
         order += 1;
-        return shot;
       });
-      place(grid, shots);
       section.append(heading, grid);
       gallery.append(section);
     });
   }
 
-  function relayout() {
-    const n = String(columnCount());
-    document.querySelectorAll('.grid').forEach((grid) => {
-      if (grid.dataset.cols === n) return;
-      const shots = [...grid.querySelectorAll('.shot')].sort((a, b) => +a.dataset.order - +b.dataset.order);
-      place(grid, shots);
-    });
-  }
-
   function readHash() {
-    const key = location.hash.replace(/^#/, '');
-    return WORDS[key] ? key : '';
+    const key = location.hash.replace(/^#/, '').toLowerCase();
+    if (!key || key === 'all') return 'all';
+    return WORDS[key] ? key : 'all';
   }
 
   function writeHash(key) {
@@ -165,8 +152,10 @@
   }
 
   function choose(key) {
-    selected = selected === key ? '' : key;
-    writeHash(selected);
+    const next = (key === 'all' || key === selected) ? 'all' : key;
+    if (next === selected) return;
+    selected = next;
+    writeHash(selected === 'all' ? '' : selected);
     syncPressed();
     render();
     scrollTo(0, 0);
@@ -184,16 +173,17 @@
       button.type = 'button';
       button.dataset.c = filter.c;
       button.setAttribute('aria-pressed', 'false');
-      const word = WORDS[filter.c] || filter.c;
+      const isAll = filter.c === 'all';
+      const word = isAll ? 'all' : (WORDS[filter.c] || String(filter.c).toLowerCase());
       button.setAttribute('aria-label', word + ', ' + filter.n);
-      const emoji = document.createElement('span');
-      emoji.className = 'e';
-      emoji.setAttribute('aria-hidden', 'true');
-      emoji.textContent = filter.e;
+      const mark = document.createElement('span');
+      mark.className = isAll ? 'word' : 'e';
+      mark.setAttribute('aria-hidden', 'true');
+      mark.textContent = isAll ? 'all' : filter.e;
       const count = document.createElement('span');
       count.className = 'n';
       count.textContent = String(filter.n);
-      button.append(emoji, count);
+      button.append(mark, count);
       button.addEventListener('click', () => choose(filter.c));
       bar.append(button);
     });
@@ -239,10 +229,7 @@
     }
     lastW = innerWidth;
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      relayout();
-      pad();
-    }, 150);
+    resizeTimer = setTimeout(pad, 150);
   });
 
   fetch('/log/media.json', { cache: 'no-cache' }).then((res) => {
@@ -251,6 +238,7 @@
   }).then((json) => {
     data = json || {};
     const filters = Array.isArray(data.filters) && data.filters.length ? data.filters : [
+      { c: 'all', e: 'all', n: 0 },
       { c: 'movies', e: '🍿', n: 0 },
       { c: 'shows', e: '📺', n: 0 },
       { c: 'books', e: '📚', n: 0 },

@@ -17,7 +17,7 @@ body.log .log-filters {
   display: flex;
   gap: 6px;
   align-items: center;
-  justify-content: center;
+  justify-content: safe center;
   max-width: 100%;
   margin-top: 8px;
   overflow-x: auto;
@@ -45,6 +45,13 @@ body.log .log-filters button {
   -webkit-tap-highlight-color: transparent;
 }
 body.log .log-filters button .e { font-style: normal; font-size: 15px; line-height: 1; }
+body.log .log-filters button .word {
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1;
+  text-transform: lowercase;
+}
 body.log .log-filters button .n { font-variant-numeric: tabular-nums; }
 body.log .log-filters button[aria-pressed="true"] {
   background: #1AADB3;
@@ -74,13 +81,21 @@ body.log .month h2 {
   color: var(--c);
   text-shadow: 0 0 8px rgba(var(--bg-rgb), .8);
 }
+body.log .month { width: 100%; }
 body.log .month:first-child h2 { margin-top: 4px; }
-body.log .grid { display: flex; align-items: flex-start; gap: 2px; }
-body.log .col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+body.log .grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2px;
+  width: 100%;
+}
 body.log .shot {
   position: relative;
   display: block;
-  width: 100%;
+  flex: 0 0 calc((100% - 4px) / 3);
+  width: calc((100% - 4px) / 3);
   margin: 0;
   padding: 0;
   border: 0;
@@ -89,6 +104,28 @@ body.log .shot {
   aspect-ratio: var(--r, 2 / 3);
   overflow: hidden;
   -webkit-tap-highlight-color: transparent;
+}
+@media (min-width: 900px) {
+  body.log .shot {
+    flex-basis: calc((100% - 10px) / 6);
+    width: calc((100% - 10px) / 6);
+  }
+}
+body.log .shot.bare { background: #161616; }
+body.log .bare-t {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.3;
+  color: rgba(244, 239, 230, .72);
+  text-align: center;
 }
 body.log .shot img {
   position: absolute;
@@ -125,6 +162,7 @@ body.log .cap {
   font-style: italic;
   font-weight: 500;
   line-height: 1.25;
+  text-align: center;
   color: #fff;
   background: linear-gradient(transparent, rgba(0, 0, 0, .82));
   opacity: 0;
@@ -141,6 +179,7 @@ body.log .shot.show .cap,
 body.log .shot:focus-visible .cap { opacity: 1; }
 body.log .shot:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }
 body.log .note {
+  width: 100%;
   margin: 12px 0 0;
   text-align: center;
   font-size: 12px;
