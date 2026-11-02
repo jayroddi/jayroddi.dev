@@ -1,0 +1,64 @@
+/* mock only. locks the viewport. the pill and the social dock stay on top. */
+
+html {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  color-scheme: dark;
+  overflow: hidden;
+}
+
+body.board.is-brain {
+  position: fixed;
+  inset: 0;
+  width: auto;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none;
+  margin: 0;
+  overflow: hidden !important;
+  background: #000;
+  overscroll-behavior: none;
+  user-select: none;
+}
+
+#graph {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+}
+
+#graph canvas {
+  display: block;
+  touch-action: none;
+  cursor: grab;
+}
+
+#graph canvas:active {
+  cursor: grabbing;
+}
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 42%, rgba(0, 0, 0, .55) 100%);
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.nav-stack,
+.social-dock {
+  touch-action: manipulation;
+}
