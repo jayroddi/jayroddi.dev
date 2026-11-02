@@ -153,7 +153,8 @@ body.board .graph{width:100%}
 .cell.sweep{background:var(--c-wh);box-shadow:0 0 7px 1px var(--c);position:relative;z-index:3}
 .cell.future{cursor:default}
 /* the current America/Chicago day is the you-are-here cursor. it uses the strongest step of this grid's scale — the same fill as data-lv 5, var(--c) inherited on the tracker — even when that day has no record. the cell keeps its real level and label. a gentle opacity blink; reduced motion stays the solid strongest square. */
-.cell.today:not(.sweep){background:var(--c);animation:today-cursor 1.2s ease-in-out infinite;position:relative;z-index:2}
+.cell.today:not(.sweep){background:var(--c);position:relative;z-index:2}
+html.year-done .cell.today:not(.sweep){animation:today-cursor 1.2s ease-in-out infinite}
 @keyframes today-cursor{0%,100%{opacity:1}50%{opacity:.32}}
 @media (prefers-reduced-motion:reduce){.cell.today:not(.sweep){animation:none;opacity:1}}
 

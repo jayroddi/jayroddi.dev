@@ -30,6 +30,14 @@ body.is-welcome {
   background: #1aadb3;
   animation: today-cursor 1.2s ease-in-out infinite;
 }
+@keyframes today-cursor-soft {
+  0%, 100% { opacity: .5; }
+  50% { opacity: .14; }
+}
+body.no-veil .habit-bg i.blink.soft,
+body.is-welcome .habit-bg i.blink.soft {
+  animation-name: today-cursor-soft;
+}
 body:not(.is-welcome) .habit-bg {
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%);
   mask-image: linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%);
@@ -58,6 +66,8 @@ body:not(.is-welcome):not(.no-veil) .habit-bg {
 }
 @media (max-width: 760px) {
   .habit-bg i { border-radius: 4px; }
+  body.no-veil .habit-bg i.blink.soft,
+  body.is-welcome .habit-bg i.blink.soft { animation-name: today-cursor; }
   body:not(.is-welcome) .habit-bg {
     opacity: .18;
     -webkit-mask-image: linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent);
@@ -126,7 +136,57 @@ body:not(.is-welcome):not(.no-veil) .habit-bg {
   .tabs a { padding: 7px 6px; font-size: 11px; }
 }
 
-body.board:not(.is-welcome) .stage { padding-top: 68px; }
+body.board:not(.is-welcome) .stage { padding-top: 68px; padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+
+.social-dock {
+  --k: .9167;
+  --kx: .8;
+  position: fixed;
+  z-index: 40;
+  bottom: max(14px, env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  max-width: calc(100% - 16px);
+  padding: 5px;
+  border-radius: 999px;
+  background: rgba(12, 12, 12, .84);
+  border: 1px solid rgba(244, 239, 230, .14);
+  backdrop-filter: blur(12px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.social-dock::-webkit-scrollbar { display: none; }
+.social-dock a {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: none;
+  color: #1AADB3;
+  line-height: 1;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.social-dock a[aria-current="page"],
+.social-dock a[aria-current="page"]:hover {
+  background: #1AADB3;
+  color: #fff;
+}
+.social-dock .ic {
+  display: block;
+  width: calc(var(--s) * var(--k, 1) * 1px);
+  height: calc(var(--s) * var(--k, 1) * 1px);
+}
+body.is-welcome .social-dock { display: none; }
+@media (max-width: 480px) {
+  .social-dock a { padding: 8px 7px; }
+}
 
 body.is-welcome .welcome {
   position: relative;

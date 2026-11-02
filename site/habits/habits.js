@@ -565,6 +565,16 @@ function finish(){
   if (state.done) return;
   if (window.JayRain && JayRain.introDone) JayRain.introDone();
   state.done = true;
+  $$('.tracker').forEach(section => {
+    if (section.dataset.error === '1') return;
+    section.dataset.swept = '1';
+  });
+  const grids = $$('.tracker');
+  const settled = !grids.length || grids.every(section => section.dataset.error === '1' || section.dataset.swept === '1');
+  if (settled){
+    document.documentElement.classList.add('year-done');
+    dispatchEvent(new Event('year-done'));
+  }
   if (window.JayRain) {
     JayRain.dump && JayRain.dump(false);
     JayRain.rendered && JayRain.rendered();
