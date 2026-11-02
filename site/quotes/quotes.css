@@ -5,7 +5,7 @@
   min-height: 180px;
 }
 #quote-card { margin: 0; }
-#quote-card.swap { transition: transform .42s ease, opacity .42s ease; }
+#quote-card.swap { transition: transform .21s ease, opacity .21s ease; }
 #quote-card.to-left { transform: translateX(-108%); opacity: 0; }
 #quote-card.to-right { transform: translateX(108%); opacity: 0; }
 #quote-card.from-right { transform: translateX(108%); opacity: 0; }
@@ -27,8 +27,10 @@
   -webkit-tap-highlight-color: transparent;
 }
 .arrow svg { display: block; width: 28px; height: 28px; margin: 0 auto; }
-.arrow.next { right: max(10px, calc((100vw - 920px) / 2)); opacity: .92; }
-.arrow.prev { left: max(10px, calc((100vw - 920px) / 2)); opacity: .18; }
+.arrow.next,
+.arrow.prev { opacity: .92; }
+.arrow.next { right: max(10px, calc((100vw - 920px) / 2)); }
+.arrow.prev { left: max(10px, calc((100vw - 920px) / 2)); }
 .arrow[hidden] { display: none; }
 .arrow:focus-visible { outline: 2px solid #1AADB3; outline-offset: 2px; }
 @media (max-width: 760px) {

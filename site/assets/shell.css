@@ -207,6 +207,7 @@ body.is-welcome .welcome {
   font-style: normal;
   letter-spacing: .16em;
   font-size: 18px;
+  line-height: 1;
 }
 .hero-title {
   margin: 0;
@@ -229,6 +230,7 @@ body.is-welcome .welcome {
   line-height: 1.35;
   color: #f4efe6;
   text-shadow: 0 2px 12px rgba(0, 0, 0, .7);
+  white-space: nowrap;
 }
 .heart {
   display: block;
@@ -257,4 +259,11 @@ body.board .welcome .quotes .by { margin-top: 1.65em; }
   .hero-title { font-size: 32px; }
   .hero-copy { --intro-blank: 18px; }
   .soft { margin-top: 8px; }
+}
+body.is-welcome .soft { padding-top: 22px; padding-bottom: 22px; }
+@media (max-width: 720px) {
+  body.is-welcome .soft { padding-top: 14px; padding-bottom: 14px; }
+}
+@media (max-width: 480px) {
+  .hero-sub { font-size: 11px; letter-spacing: -0.03em; }
 }
