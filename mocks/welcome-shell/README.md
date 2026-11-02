@@ -20,6 +20,6 @@ The block from ✌️🤟🤙 through the quote author's name is centered in the
 
 ## other pages
 
-A tab shows that live page (same markup and scripts, hamburger left off). Grind has no square field. Its background is the site black or white. The other pages keep the field, quieter under the content column than on home, and stronger in the desktop gutters. On a phone that field stays soft across the screen.
+A tab shows that live page (same markup and scripts, hamburger left off). The old mast line, the hands plus `a/b tester of the year?`, is not on these tabs. Content starts under the pill. Grind has no square field. Its background is the site black or white. The other pages keep the field, quieter under the content column than on home, and stronger in the desktop gutters. On a phone that field stays soft across the screen.
 
 Six squares blink on the same 1.2s opacity pulse as the live today cell, on the pages that still show the field. On home they stay off the title and the quote. On the other field pages they stay in the gutters, out of the real habit grids. Grind has no field, so it has no blinkers.
