@@ -8,13 +8,14 @@ import shutil
 import subprocess
 import sys
 import tempfile
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from PIL import Image
 
 import frost
 import publish_snaps
+import snaps_clear
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -208,6 +209,117 @@ def test_publish_holds_then_strips() -> None:
         sync_snaps.bytes_of = original
 
 
+def test_clear_pin_stays_sharp() -> None:
+    import sync_snaps
+
+    old = _photo()
+    pinned = _photo()
+    pinned["i"] = "ab" * 16
+    pinned["d"] = "2026-11-02"
+    pinned["a"] = "2026-11-02T08:45:21-06:00"
+    other = _photo()
+    other["i"] = "cd" * 16
+    other["d"] = "2026-11-02"
+    other["a"] = "2026-11-02T08:47:51-06:00"
+    original = sync_snaps.bytes_of
+    sync_snaps.bytes_of = lambda _url: (_ for _ in ()).throw(OSError("offline"))
+    try:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            _album(root, [old])
+            _album(root, [pinned, other], "2026-11")
+            (root / "scripts" / "snaps_clear.json").write_text(
+                json.dumps({"ids": [pinned["i"]]}) + "\n",
+                encoding="utf-8",
+            )
+            cache = root / "frost-cache"
+            cache.mkdir()
+            for photo in (pinned, other):
+                for name in frost.filenames(photo):
+                    (cache / name).write_bytes(b"y" * 900)
+            code = publish_snaps.main(["--root", str(root), "--now", "2026-11-02T12:00:00-06:00", "--apply"])
+            assert code == 0
+            november = json.loads((root / "site" / "snaps" / "m" / "2026-11.json").read_text(encoding="utf-8"))
+            by_id = {row["i"]: row for row in november}
+            kept = by_id[pinned["i"]]
+            assert kept["t"] == pinned["t"] and kept["v"] == pinned["v"]
+            assert kept["s"] == pinned["s"] and kept["l"] == pinned["l"]
+            assert "f" not in kept
+            glass = by_id[other["i"]]
+            assert glass["f"] == 1
+            assert "t" not in glass and "v" not in glass and "s" not in glass and "l" not in glass
+            frost_dir = root / "site" / "snaps" / "f"
+            assert (frost_dir / f"{other['i']}.jpg").is_file()
+            assert (frost_dir / f"{other['i']}-l.jpg").is_file()
+            assert not (frost_dir / f"{pinned['i']}.jpg").exists()
+            assert not (frost_dir / f"{pinned['i']}-l.jpg").exists()
+            october = json.loads((root / "site" / "snaps" / "m" / "2026-10.json").read_text(encoding="utf-8"))
+            assert october[0]["t"] == old["t"] and "f" not in october[0]
+            assert frost.dated_for_frost(pinned)
+            assert frost.SOFT == (0.04, 0.85, 1.05, 0.16, 8)
+            assert frost.RECIPE == "soft-v1"
+            assert not snaps_clear.should_frost(pinned, {pinned["i"]})
+            assert snaps_clear.should_frost(other, {pinned["i"]})
+    finally:
+        sync_snaps.bytes_of = original
+
+
+def test_clear_month_flag_and_policy() -> None:
+    ct = publish_snaps.CT
+    assert snaps_clear.clear_month_due(datetime(2026, 12, 1, 0, 0, tzinfo=ct)) == "2026-11"
+    assert snaps_clear.clear_month_due(datetime(2026, 11, 1, 0, 0, tzinfo=ct)) == "2026-10"
+    assert snaps_clear.clear_month_due(datetime(2027, 1, 1, 8, 0, tzinfo=ct)) == "2026-12"
+    assert snaps_clear.clear_month_due(datetime(2026, 11, 2, 9, 45, tzinfo=ct)) is None
+    assert snaps_clear.clear_month_due(datetime(2026, 12, 1, 0, 30)) == "2026-11"
+    assert snaps_clear.clear_month_due(datetime(2026, 12, 1, 5, 30, tzinfo=timezone.utc)) is None
+    assert snaps_clear.clear_month_due(datetime(2026, 12, 1, 6, 0, tzinfo=timezone.utc)) == "2026-11"
+
+    pinned = _photo()
+    pinned["i"] = "ab" * 16
+    pinned["d"] = "2026-11-02"
+    other = _photo()
+    other["i"] = "cd" * 16
+    other["d"] = "2026-11-02"
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        _album(root, [pinned, other], "2026-11")
+        code = publish_snaps.main(["--root", str(root), "--now", "2026-11-02T12:00:00-06:00", "--clear-month", "2026-11"])
+        assert code == 0
+        ids = snaps_clear.load_clear_ids(root)
+        assert ids == {pinned["i"], other["i"]}
+        again = publish_snaps.main(["--root", str(root), "--now", "2026-11-02T12:00:00-06:00", "--clear-month", "2026-11"])
+        assert again == 0
+        assert snaps_clear.load_clear_ids(root) == ids
+        assert publish_snaps.main(["--root", str(root), "--clear-month", "2026-13"]) == 1
+        assert publish_snaps.main(["--root", str(root), "--clear-month", "2024-01"]) == 1
+        assert snaps_clear.load_clear_ids(root) == ids
+        # a closed gate still records the month, and does not publish
+        before = (root / "site" / "snaps" / "m" / "2026-11.json").read_text(encoding="utf-8")
+        held = publish_snaps.main(["--root", str(root), "--now", "2026-10-31T12:00:00-05:00", "--clear-month", "2026-11", "--apply"])
+        assert held == 0
+        assert (root / "site" / "snaps" / "m" / "2026-11.json").read_text(encoding="utf-8") == before
+
+
+def test_committed_clear_list_matches_album() -> None:
+    ids = snaps_clear.load_clear_ids(ROOT)
+    assert ids == {"925fd7fec8e040f5adcaab7ec847e21c"}
+    found = {}
+    for path in (ROOT / "site" / "snaps" / "m").glob("*.json"):
+        for row in json.loads(path.read_text(encoding="utf-8")):
+            if row.get("i") in ids:
+                found[row["i"]] = row
+    assert set(found) == ids
+    pin = found["925fd7fec8e040f5adcaab7ec847e21c"]
+    assert pin["d"] == "2026-11-02"
+    assert pin["a"] == "2026-11-02T08:45:21-06:00"
+    assert pin["w"] == 5472 and pin["h"] == 3648
+    assert frost.dated_for_frost(pin)
+    assert not snaps_clear.should_frost(pin, ids)
+    saved = json.loads((ROOT / "scripts" / "snaps_clear.json").read_text(encoding="utf-8"))
+    assert saved["ids"] == sorted(ids)
+    assert saved["note"] == snaps_clear.NOTE
+
+
 def test_page_copy() -> None:
     html = (ROOT / "site" / "snaps" / "index.html").read_text(encoding="utf-8")
     home = (ROOT / "site" / "index.html").read_text(encoding="utf-8")
@@ -287,6 +399,9 @@ def main() -> None:
     test_gate_instant()
     test_bake_caches_and_keeps_stripped_files()
     test_publish_holds_then_strips()
+    test_clear_pin_stays_sharp()
+    test_clear_month_flag_and_policy()
+    test_committed_clear_list_matches_album()
     test_page_copy()
     print("ok")
 

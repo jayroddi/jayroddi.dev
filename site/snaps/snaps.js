@@ -1,7 +1,11 @@
-/* v2.62: frost is per photo. a row with f loads /snaps/f/{id}.jpg and
+/* v2.63: clear-listed asset ids (scripts/snaps_clear.json) are published
+   without f, so they stay the sharp Lightroom rendition. the soft recipe
+   is unchanged for every other new snap.
+   v2.62: frost is per photo. a row with f loads /snaps/f/{id}.jpg and
    /snaps/f/{id}-l.jpg. the Pages deploy sets f only for a Chicago capture
-   date of 2026-11-01 or later, and only once those JPEGs exist. it also
-   strips that row's sharp Lightroom ids. every earlier snap stays sharp.
+   date of 2026-11-01 or later that is not clear-listed, and only once those
+   JPEGs exist. it also strips that row's sharp Lightroom ids. every earlier
+   snap stays sharp.
    v2.61: frost is glass only. no password field, no guess log, no unlock.
    v2.33: newest month first. one month is drawn, then another when the sentinel
    scrolls into view (a short month keeps going until the screen is full).
