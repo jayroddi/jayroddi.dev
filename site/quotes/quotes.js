@@ -1,9 +1,9 @@
 /* landing is always today's quote. the right arrow brings the next older quote in from the right. */
 (() => {
-  const card = document.getElementById('quote-card');
+  const stage = document.getElementById('quote-card');
   const prev = document.querySelector('.arrow.prev');
   const next = document.querySelector('.arrow.next');
-  if (!card || !prev || !next) return;
+  if (!stage || !prev || !next) return;
 
   const chicago = () => new Intl.DateTimeFormat('en-CA', {
     timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit'
@@ -13,9 +13,11 @@
   let list = [];
   let index = 0;
   let busy = false;
+  let current = null;
 
-  function paint(entry) {
-    card.replaceChildren();
+  function slide(entry) {
+    const ol = document.createElement('ol');
+    ol.className = 'quotes slide';
     const li = document.createElement('li');
     const date = document.createElement('p');
     date.className = 'd';
@@ -30,7 +32,20 @@
     by.className = 'by';
     by.textContent = entry.author;
     li.append(date, words, by);
-    card.append(li);
+    ol.append(li);
+    return ol;
+  }
+
+  function fit(slideEl) {
+    stage.style.height = slideEl.offsetHeight + 'px';
+  }
+
+  function paint(entry) {
+    stage.replaceChildren();
+    current = slide(entry);
+    stage.append(current);
+    fit(current);
+    current.classList.add('layer');
   }
 
   function arrows() {
@@ -39,7 +54,7 @@
   }
 
   function show(nextIndex, dir) {
-    if (busy || nextIndex < 0 || nextIndex >= list.length || nextIndex === index) return;
+    if (busy || !current || nextIndex < 0 || nextIndex >= list.length || nextIndex === index) return;
     const enter = dir > 0 ? 'from-right' : 'from-left';
     const leave = dir > 0 ? 'to-left' : 'to-right';
     if (reduce) {
@@ -49,30 +64,33 @@
       return;
     }
     busy = true;
-    card.classList.add('swap', leave);
-    const done = (event) => {
-      if (event.propertyName !== 'transform') return;
-      card.removeEventListener('transitionend', done);
-      index = nextIndex;
-      paint(list[index]);
-      card.classList.remove('swap', leave);
-      card.classList.add(enter);
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          card.classList.add('swap');
-          card.classList.remove(enter);
-          const finish = (event) => {
-            if (event.propertyName !== 'transform') return;
-            card.removeEventListener('transitionend', finish);
-            card.classList.remove('swap');
-            busy = false;
-            arrows();
-          };
-          card.addEventListener('transitionend', finish);
-        });
-      });
+    const outgoing = current;
+    const incoming = slide(list[nextIndex]);
+    incoming.classList.add('layer', enter);
+    stage.append(incoming);
+    stage.style.height = Math.max(outgoing.offsetHeight, incoming.offsetHeight) + 'px';
+    incoming.getBoundingClientRect();
+    outgoing.classList.add('swap', leave);
+    const onLeave = (event) => {
+      if (event.propertyName !== 'transform' || event.target !== outgoing) return;
+      outgoing.removeEventListener('transitionend', onLeave);
+      incoming.classList.add('swap');
+      incoming.getBoundingClientRect();
+      incoming.classList.remove(enter);
+      const onEnter = (event) => {
+        if (event.propertyName !== 'transform' || event.target !== incoming) return;
+        incoming.removeEventListener('transitionend', onEnter);
+        outgoing.remove();
+        incoming.classList.remove('swap');
+        current = incoming;
+        index = nextIndex;
+        fit(current);
+        busy = false;
+        arrows();
+      };
+      incoming.addEventListener('transitionend', onEnter);
     };
-    card.addEventListener('transitionend', done);
+    outgoing.addEventListener('transitionend', onLeave);
   }
 
   prev.addEventListener('click', () => show(index - 1, -1));
@@ -84,18 +102,18 @@
 
   let startX = 0;
   let tracking = false;
-  card.addEventListener('pointerdown', (event) => {
+  stage.addEventListener('pointerdown', (event) => {
     tracking = true;
     startX = event.clientX;
   });
-  card.addEventListener('pointerup', (event) => {
+  stage.addEventListener('pointerup', (event) => {
     if (!tracking) return;
     tracking = false;
     const dx = event.clientX - startX;
     if (dx < -48) show(index + 1, 1);
     else if (dx > 48) show(index - 1, -1);
   });
-  card.addEventListener('pointercancel', () => { tracking = false; });
+  stage.addEventListener('pointercancel', () => { tracking = false; });
 
   fetch('/quote-of-the-day/quotes.json', { cache: 'no-cache' }).then((res) => res.json()).then((rows) => {
     if (!Array.isArray(rows)) return;

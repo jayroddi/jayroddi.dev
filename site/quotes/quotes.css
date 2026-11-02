@@ -4,12 +4,20 @@
   overflow: hidden;
   min-height: 180px;
 }
-#quote-card { margin: 0; }
-#quote-card.swap { transition: transform .21s ease, opacity .21s ease; }
-#quote-card.to-left { transform: translateX(-108%); opacity: 0; }
-#quote-card.to-right { transform: translateX(108%); opacity: 0; }
-#quote-card.from-right { transform: translateX(108%); opacity: 0; }
-#quote-card.from-left { transform: translateX(-108%); opacity: 0; }
+.deck .slide {
+  margin: 0;
+  width: 100%;
+}
+.deck .slide.layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.deck .slide.swap { transition: transform .21s ease, opacity .21s ease; }
+.deck .slide.to-left { transform: translateX(-108%); opacity: 0; }
+.deck .slide.to-right { transform: translateX(108%); opacity: 0; }
+.deck .slide.from-right { transform: translateX(108%); opacity: 0; }
+.deck .slide.from-left { transform: translateX(-108%); opacity: 0; }
 .arrow {
   position: fixed;
   z-index: 35;
@@ -39,5 +47,5 @@
   .arrow.prev { left: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  #quote-card.swap { transition: none; }
+  .deck .slide.swap { transition: none; }
 }
