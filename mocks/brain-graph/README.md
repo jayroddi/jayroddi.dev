@@ -12,6 +12,8 @@ python3 -m http.server 8766
 
 Open http://127.0.0.1:8766/mocks/brain-graph/
 
+The page loads three.js 0.170.0 from jsDelivr. The graph file is local.
+
 Drag to orbit. Scroll or pinch to zoom. Right-drag, shift-drag, or a horizontal trackpad swipe pans. Two fingers on a touch screen zoom and pan. The page does not scroll. The pill and the social pill stay clickable. They go to the live site. This page is not one of those links.
 
 The ground is black. Dark is locked. There is no subhead under the pill.
