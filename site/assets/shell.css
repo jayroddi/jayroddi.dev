@@ -202,7 +202,7 @@ body.is-welcome .welcome {
 .hero { width: min(880px, 100%); text-align: center; }
 .hands {
   display: block;
-  margin: 0 0 10px;
+  margin: 0 0 1.6em;
   font-style: normal;
   letter-spacing: .16em;
   font-size: 18px;
@@ -219,7 +219,7 @@ body.is-welcome .welcome {
   text-shadow: 0 2px 16px rgba(0, 0, 0, .55);
 }
 .hero-sub {
-  margin: 14px auto 0;
+  margin: 14px auto 1.5em;
   max-width: 100%;
   font-family: var(--mono);
   font-size: clamp(16px, 1.6vw, 22px);
@@ -231,7 +231,7 @@ body.is-welcome .welcome {
 }
 .heart {
   display: block;
-  margin: 14px 0 0;
+  margin: 0;
   font-style: normal;
   font-size: 18px;
   line-height: 1;
@@ -254,8 +254,8 @@ body.board .welcome .quotes .by { margin-top: 1.65em; }
 }
 @media (max-height: 760px) {
   .hero-title { font-size: 32px; }
-  .hands { margin-bottom: 6px; }
-  .heart { margin-top: 8px; }
+  .hands { margin-bottom: 1em; }
+  .hero-sub { margin-bottom: 1em; }
   .soft { margin-top: 8px; }
 }
 @media (max-width: 480px) {
