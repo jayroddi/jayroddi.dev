@@ -115,21 +115,6 @@ body:not(.is-welcome) .habit-bg {
   background: #fff;
   color: #141414;
 }
-.sound {
-  border: 1px solid rgba(244, 239, 230, .14);
-  border-radius: 999px;
-  background: rgba(12, 12, 12, .84);
-  color: #b7b1a8;
-  padding: 6px 10px;
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 400;
-  font-style: normal;
-  letter-spacing: .16em;
-  cursor: pointer;
-  backdrop-filter: blur(12px);
-}
-.sound[aria-pressed="true"] { color: #f4efe6; border-color: #1aadb3; }
 .tabs button:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }
 @media (max-width: 720px) {
   .tabs button { padding: 7px 6px; font-size: 11px; }
@@ -146,7 +131,7 @@ body:not(.is-welcome) .habit-bg {
   justify-content: center;
   box-sizing: border-box;
   height: 100svh;
-  padding: 92px 20px 20px;
+  padding: 20px;
   overflow: hidden;
 }
 .hero { width: min(880px, 100%); text-align: center; }
@@ -211,7 +196,7 @@ body.board .welcome .quotes { margin: 0; }
 body.board .welcome .quotes .d { margin: 0; }
 body.board .welcome .quotes .q { margin-top: 1.65em; }
 body.board .welcome .quotes .by { margin-top: 1.65em; }
-.panel:not(.welcome) .stage { padding-top: 84px; }
+.panel:not(.welcome) .stage { padding-top: 68px; }
 
 /* music covers are square. books.css also targets .covers and would stretch them. */
 .panel[data-page="music"] .covers li { aspect-ratio: 1; }
@@ -220,7 +205,6 @@ body.board .welcome .quotes .by { margin-top: 1.65em; }
   .tabs button { padding: 7px 6px; font-size: 11px; }
 }
 @media (max-height: 760px) {
-  .welcome:not([hidden]) { padding-top: 78px; }
   .hero-title { font-size: 32px; }
   .hands { margin-bottom: 6px; }
   .soft { margin-top: 8px; }

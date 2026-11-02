@@ -170,6 +170,7 @@
     const today = list.find((entry) => entry.date === day) || list[0];
     if (today && todayHost) todayHost.append(quoteItem(today));
     if (listHost) list.forEach((entry) => listHost.append(quoteItem(entry)));
+    placeBlinkers();
   }).catch(() => {});
 
   const fixSrc = (img) => {
@@ -182,13 +183,4 @@
     document.querySelectorAll('img').forEach(fixSrc);
   });
   watch.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['src'], childList: true });
-
-  const sound = document.querySelector('.sound');
-  if (sound) {
-    sound.addEventListener('click', () => {
-      const on = sound.getAttribute('aria-pressed') === 'true';
-      sound.setAttribute('aria-pressed', on ? 'false' : 'true');
-      sound.textContent = on ? 'sound off' : 'sound on';
-    });
-  }
 })();
