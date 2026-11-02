@@ -10,16 +10,16 @@ python3 -m http.server 8766
 
 Open http://127.0.0.1:8766/mocks/welcome-shell/
 
-The page reads the quote file, the habit json, the snaps manifest, the playlist, and the shelf from `site/`. Those paths are rewritten in the mock so a server rooted at the repo can see them. There is no sound.
+The page reads the quote file, the habit json, the snaps manifest, the playlist, and the shelf from `site/`. Those paths are rewritten in the mock so a server rooted at the repo can see them. There is no sound. The `sound off` pill only relabels itself.
 
-## what you get
+## home
 
-Welcome does not scroll. The greeting is fixed copy. Under it is today's quote in America/Chicago, dated the way `/quotes` dates a line (`2026.11.01`), with the words and the name in the same sizes and colours as that page.
+Home does not scroll. It is one screen: a dense teal square field, stronger through the middle and faded at the top and bottom. The pill is home, grind, snaps, music, books, quotes, social. The active tab is white. Under it, `sound off`.
 
-The pill is the nav: grind, snaps, music, books, quotes, social. A tab shows that page. The title in the mast comes back to welcome. The page bodies are the live markup and the live scripts (`habits.js`, `snaps.js`, `music.js`, `books.js`), with the hamburger left off because the pill replaces it.
+The center is the hands, `a/b tester of the year? 🎭`, and `america/chicago`. Under that, on a soft patch so the type stays readable, is the greeting and today's quote in America/Chicago, dated the way `/quotes` dates a line. The rest of the field stays loud.
 
-Behind every page is a field of empty teal squares. On a desktop the field is stronger in the gutters and quieter under the column. On a phone it stays soft across the screen. Six of the gutter squares blink on the same 1.2s opacity pulse as the live today cell. They stay out of the column, so they never sit on the type or inside a real habit grid.
+## other pages
 
-## what was scrapped
+A tab shows that live page (same markup and scripts, hamburger left off). The same square field continues behind it, clearly quieter under the content column than on the home field, and stronger in the desktop gutters. On a phone the field stays soft across the screen.
 
-The earlier mock in this PR was a scrolling theater: parallax hero, word-by-word manifesto, keycaps, a case of squares you pull out, a pixel wipe, and a sound pill. That is gone. This folder replaces `mocks/motion-portfolio/`.
+Six squares blink on the same 1.2s opacity pulse as the live today cell. On home they sit in the open field, not under the title, the greeting, or the quote. On the other pages they stay in the gutters, out of the real habit grids.

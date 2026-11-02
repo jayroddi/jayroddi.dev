@@ -5,20 +5,16 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function show(name) {
-    const welcome = !name || name === 'welcome';
+    const home = !name || name === 'home' || name === 'welcome';
+    const page = home ? 'home' : name;
     panels.forEach((panel) => {
-      const on = welcome ? panel.dataset.page === 'welcome' : panel.dataset.page === name;
-      panel.hidden = !on;
+      panel.hidden = panel.dataset.page !== page;
     });
     tabs.forEach((tab) => {
-      const on = tab.dataset.tab === name;
-      tab.setAttribute('aria-selected', on ? 'true' : 'false');
+      tab.setAttribute('aria-selected', tab.dataset.tab === page ? 'true' : 'false');
     });
-    document.body.classList.toggle('is-welcome', welcome);
-    if (welcome) scrollTo(0, 0);
-    else if (location.hash === '#' + name) {
-      /* stay */
-    }
+    document.body.classList.toggle('is-welcome', home);
+    scrollTo(0, 0);
     placeBlinkers();
   }
 
@@ -32,14 +28,14 @@
   document.querySelectorAll('a.brand').forEach((link) => {
     link.addEventListener('click', (event) => {
       event.preventDefault();
-      if (location.hash !== '#welcome' && location.hash !== '') location.hash = 'welcome';
-      else show('welcome');
+      if (location.hash !== '#home' && location.hash !== '') location.hash = 'home';
+      else show('home');
     });
   });
   function fromHash() {
     const name = (location.hash || '').replace('#', '');
     if (tabs.some((tab) => tab.dataset.tab === name)) show(name);
-    else show('welcome');
+    else show('home');
   }
   addEventListener('hashchange', fromHash);
 
@@ -47,43 +43,81 @@
   let cells = [];
   let gutterCells = [];
 
+  let seed = 19;
+  function roll() {
+    seed = (seed * 16807 + 13) % 2147483647;
+    return seed / 2147483647;
+  }
   function buildBg() {
     if (!bg) return;
-    const cell = innerWidth < 760 ? 9 : 13;
-    const gap = innerWidth < 760 ? 3 : 4;
+    const cell = innerWidth < 760 ? 26 : 48;
+    const gap = innerWidth < 760 ? 5 : 7;
     const cols = Math.max(8, Math.floor((innerWidth + gap) / (cell + gap)));
     const rows = Math.max(8, Math.floor((innerHeight + gap) / (cell + gap)));
     bg.style.gridTemplateColumns = `repeat(${cols}, ${cell}px)`;
     bg.style.gridAutoRows = `${cell}px`;
     bg.style.gap = gap + 'px';
     bg.replaceChildren();
-    const gutter = parseFloat(getComputedStyle(document.body).getPropertyValue('--left')) || 24;
-    const side = Math.max(1, Math.floor(gutter / (cell + gap)));
+    seed = 19;
     const frag = document.createDocumentFragment();
     cells = [];
-    gutterCells = [];
     for (let row = 0; row < rows; row++) {
+      const mid = 1 - Math.abs((row + 0.5) / rows - 0.5) * 2;
       for (let col = 0; col < cols; col++) {
         const bit = document.createElement('i');
+        const heat = roll() * (0.28 + mid * 0.95);
+        const lv = heat > 0.78 ? 4 : heat > 0.56 ? 3 : heat > 0.36 ? 2 : heat > 0.18 ? 1 : 0;
+        if (lv) bit.className = 'lv' + lv;
+        bit.dataset.lv = String(lv);
         frag.append(bit);
         cells.push(bit);
-        const edge = col < side || col >= cols - side;
-        const underBar = row < 4;
-        if (edge && !underBar) gutterCells.push(bit);
       }
     }
     bg.append(frag);
     placeBlinkers();
   }
 
+  function hits(rect, boxes) {
+    return boxes.some((box) => rect.right > box.left && rect.left < box.right && rect.bottom > box.top && rect.top < box.bottom);
+  }
   function placeBlinkers() {
-    gutterCells.forEach((bit) => { bit.className = ''; bit.style.animationDelay = ''; });
-    if (!gutterCells.length) return;
-    const want = Math.min(6, gutterCells.length);
-    const step = Math.max(1, Math.floor(gutterCells.length / want));
+    cells.forEach((bit) => {
+      bit.classList.remove('blink');
+      bit.style.animationDelay = '';
+      const lv = bit.dataset.lv;
+      bit.className = lv && lv !== '0' ? 'lv' + lv : '';
+    });
+    const home = document.body.classList.contains('is-welcome');
+    const blocked = [];
+    const nav = document.querySelector('.nav-stack');
+    if (nav) {
+      const box = nav.getBoundingClientRect();
+      blocked.push({ left: box.left - 8, right: box.right + 8, top: box.top - 8, bottom: box.bottom + 10 });
+    }
+    const column = document.querySelector('.panel:not([hidden]) .copy');
+    const columnBox = column ? column.getBoundingClientRect() : null;
+    if (home) {
+      document.querySelectorAll('.hero-copy, .soft').forEach((el) => {
+        const box = el.getBoundingClientRect();
+        blocked.push({ left: box.left - 16, right: box.right + 16, top: box.top - 10, bottom: box.bottom + 10 });
+      });
+    } else if (columnBox) {
+      blocked.push({ left: columnBox.left - 12, right: columnBox.right + 12, top: 0, bottom: innerHeight });
+      document.querySelectorAll('.panel:not([hidden]) .gallery').forEach((el) => {
+        const box = el.getBoundingClientRect();
+        if (box.width > 2) blocked.push({ left: box.left - 8, right: box.right + 8, top: 0, bottom: innerHeight });
+      });
+    }
+    const open = cells.filter((bit) => {
+      const rect = bit.getBoundingClientRect();
+      if (rect.width < 2 || hits(rect, blocked)) return false;
+      return true;
+    });
+    const want = Math.min(6, open.length);
+    const step = Math.max(1, Math.floor(open.length / want));
     for (let n = 0; n < want; n++) {
-      const bit = gutterCells[Math.min(gutterCells.length - 1, n * step + Math.floor(step / 3))];
-      bit.className = 'blink';
+      const bit = open[Math.min(open.length - 1, n * step + Math.floor(step / 3))];
+      bit.classList.add('blink');
       if (!reduce) bit.style.animationDelay = (n * 0.18) + 's';
     }
   }
@@ -147,4 +181,13 @@
     document.querySelectorAll('img').forEach(fixSrc);
   });
   watch.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['src'], childList: true });
+
+  const sound = document.querySelector('.sound');
+  if (sound) {
+    sound.addEventListener('click', () => {
+      const on = sound.getAttribute('aria-pressed') === 'true';
+      sound.setAttribute('aria-pressed', on ? 'false' : 'true');
+      sound.textContent = on ? 'sound off' : 'sound on';
+    });
+  }
 })();

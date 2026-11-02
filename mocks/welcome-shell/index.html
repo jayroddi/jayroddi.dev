@@ -39,26 +39,37 @@
 </head>
 <body class="board quotes snaps is-welcome">
 <div class="habit-bg" aria-hidden="true"></div>
-<nav class="tabs" aria-label="pages">
-  <button type="button" data-tab="grind">grind</button>
-  <button type="button" data-tab="snaps">snaps</button>
-  <button type="button" data-tab="music">music</button>
-  <button type="button" data-tab="books">books</button>
-  <button type="button" data-tab="quotes">quotes</button>
-  <button type="button" data-tab="social">social</button>
-</nav>
+<div class="nav-stack">
+  <nav class="tabs" aria-label="pages">
+    <button type="button" data-tab="home" aria-selected="true">home</button>
+    <button type="button" data-tab="grind">grind</button>
+    <button type="button" data-tab="snaps">snaps</button>
+    <button type="button" data-tab="music">music</button>
+    <button type="button" data-tab="books">books</button>
+    <button type="button" data-tab="quotes">quotes</button>
+    <button type="button" data-tab="social">social</button>
+  </nav>
+  <button class="sound" type="button" aria-pressed="false">sound off</button>
+</div>
 
-<section class="panel welcome" data-page="welcome">
-  <div class="welcome-inner">
-    <p class="hello">👋 hi, i'm jay, and i do cool nerd stuff when i'm not doing cool non-nerd stuff<br>i like cool stuff</p>
-    <ol class="quotes" id="today-quote" aria-label="today's quote"></ol>
+<section class="panel welcome" data-page="home">
+  <div class="hero">
+    <div class="hero-copy">
+      <span class="hands">✌️🤟🤙</span>
+      <h1 class="hero-title">a/b tester<br>of the year? 🎭</h1>
+      <p class="where">america/chicago</p>
+    </div>
+    <div class="soft">
+      <p class="hello">👋 hi, i'm jay, and i do cool nerd stuff when i'm not doing cool non-nerd stuff<br>i like cool stuff</p>
+      <ol class="quotes" id="today-quote" aria-label="today's quote"></ol>
+    </div>
   </div>
 </section>
 
 <section class="panel" data-page="grind" hidden>
   <main class="stage">
     <div class="copy">
-      <header class="mast"><p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><a class="brand" href="#welcome"><span class="em">a/b tester of the year? 🎭</span></a></h1></header>
+      <header class="mast"><p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><a class="brand" href="#home"><span class="em">a/b tester of the year? 🎭</span></a></h1></header>
       <p class="subhead">we fall to the level of our habits</p>
       <div class="trackers" id="grids">
         <section class="tracker" data-id="cursor" data-unit="contribution" data-src="/habits/cursor.json" aria-label="code">
@@ -99,7 +110,7 @@
 <section class="panel" data-page="snaps" hidden>
   <main class="stage">
     <div class="copy">
-      <header class="mast"><p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><a class="brand" href="#welcome"><span class="em">a/b tester of the year? 🎭</span></a></h1></header>
+      <header class="mast"><p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><a class="brand" href="#home"><span class="em">a/b tester of the year? 🎭</span></a></h1></header>
       <p class="subhead">you can see everythi</p>
     </div>
     <div class="gallery" id="gallery"><div id="more" hidden></div></div>
@@ -117,7 +128,7 @@
 <section class="panel" data-page="music" hidden>
   <main class="stage">
     <div class="copy">
-      <header class="mast"><p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><a class="brand" href="#welcome"><span class="em">a/b tester of the year? 🎭</span></a></h1></header>
+      <header class="mast"><p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><a class="brand" href="#home"><span class="em">a/b tester of the year? 🎭</span></a></h1></header>
       <p class="subhead">shuffle around and find out</p>
       <ol class="covers" aria-label="playlist"></ol>
     </div>
@@ -127,7 +138,7 @@
 <section class="panel" data-page="books" hidden>
   <main class="stage">
     <div class="copy">
-      <header class="mast"><p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><a class="brand" href="#welcome"><span class="em">a/b tester of the year? 🎭</span></a></h1></header>
+      <header class="mast"><p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><a class="brand" href="#home"><span class="em">a/b tester of the year? 🎭</span></a></h1></header>
       <p class="subhead">garbage in, garbage out</p>
       <div class="years" aria-label="books"></div>
     </div>
@@ -137,7 +148,7 @@
 <section class="panel" data-page="quotes" hidden>
   <main class="stage">
     <div class="copy">
-      <header class="mast"><p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><a class="brand" href="#welcome"><span class="em">a/b tester of the year? 🎭</span></a></h1></header>
+      <header class="mast"><p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><a class="brand" href="#home"><span class="em">a/b tester of the year? 🎭</span></a></h1></header>
       <p class="subhead">influence over influencers</p>
       <ol class="quotes" id="quote-list" aria-label="quotes"></ol>
     </div>
@@ -147,7 +158,7 @@
 <section class="panel" data-page="social" hidden>
   <main class="stage">
     <div class="copy">
-      <header class="mast"><p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><a class="brand" href="#welcome"><span class="em">a/b tester of the year? 🎭</span></a></h1></header>
+      <header class="mast"><p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><a class="brand" href="#home"><span class="em">a/b tester of the year? 🎭</span></a></h1></header>
       <p class="subhead">one day, this page will be empty</p>
       <nav class="socials" aria-label="social">
         <p><a href="https://x.com/jayroddi" target="_blank" rel="noopener noreferrer">𝕏 💭</a></p>
