@@ -102,18 +102,23 @@
 
   let startX = 0;
   let tracking = false;
-  stage.addEventListener('pointerdown', (event) => {
+  const onPill = (event) => {
+    const el = event.target;
+    return !!(el && el.closest && el.closest('.nav-stack, .social-dock'));
+  };
+  addEventListener('pointerdown', (event) => {
+    if (onPill(event)) return;
     tracking = true;
     startX = event.clientX;
   });
-  stage.addEventListener('pointerup', (event) => {
+  addEventListener('pointerup', (event) => {
     if (!tracking) return;
     tracking = false;
     const dx = event.clientX - startX;
     if (dx < -48) show(index + 1, 1);
     else if (dx > 48) show(index - 1, -1);
   });
-  stage.addEventListener('pointercancel', () => { tracking = false; });
+  addEventListener('pointercancel', () => { tracking = false; });
 
   fetch('/quote-of-the-day/quotes.json', { cache: 'no-cache' }).then((res) => res.json()).then((rows) => {
     if (!Array.isArray(rows)) return;

@@ -13,7 +13,7 @@
   left: 0;
   top: 0;
 }
-.deck .slide.swap { transition: transform .21s ease, opacity .21s ease; }
+.deck .slide.swap { transition: transform .42s ease, opacity .42s ease; }
 .deck .slide.to-left { transform: translateX(-108%); opacity: 0; }
 .deck .slide.to-right { transform: translateX(108%); opacity: 0; }
 .deck .slide.from-right { transform: translateX(108%); opacity: 0; }
