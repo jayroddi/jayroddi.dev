@@ -9,7 +9,8 @@
   const DPR=Math.min(window.devicePixelRatio||1,2);
   const T=[26,173,179], RAIN_ORANGE=[255,77,26];
   // v1.53: light theme (prefers-color-scheme): on white every glyph is the state colour itself (deeper teal #127F84, orange #E85D0C, gold #A67C00), no white heads
-  const LIGHT_Q=matchMedia('(prefers-color-scheme: light)'), L_TEAL=[18,127,132], L_ORANGE=[232,93,12], L_GOLD=[166,124,0];
+  // locked dark for now. the light palette stays in the file and does not run.
+  const LIGHT_Q={matches:false}, L_TEAL=[18,127,132], L_ORANGE=[232,93,12], L_GOLD=[166,124,0];
   const RAIN_FLOOR=.25, RAIN_CONTENT='.copy, .gallery, .foot', rainMobile=()=>matchMedia('(max-width: 760px)').matches;
   const modeName=()=>document.documentElement.dataset.mode==='fast'?'fast':'normal';
 function Rain(cv, o){

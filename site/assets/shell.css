@@ -4,7 +4,6 @@ body.is-welcome {
   overflow: hidden;
   height: 100svh;
 }
-body.is-grind .habit-bg { display: none; }
 #rain { display: none !important; }
 
 .habit-bg {
@@ -32,6 +31,10 @@ body.is-grind .habit-bg { display: none; }
   animation: today-cursor 1.2s ease-in-out infinite;
 }
 body:not(.is-welcome) .habit-bg {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%);
+}
+body:not(.is-welcome):not(.no-veil) .habit-bg {
   -webkit-mask-image:
     linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%),
     linear-gradient(90deg,
@@ -166,6 +169,13 @@ body.is-welcome .welcome {
   color: #f4efe6;
   text-shadow: 0 2px 12px rgba(0, 0, 0, .7);
 }
+.heart {
+  display: block;
+  margin: 14px 0 0;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 1;
+}
 .soft {
   width: min(880px, 100%);
   margin: 0 auto;
@@ -185,6 +195,7 @@ body.board .welcome .quotes .by { margin-top: 1.65em; }
 @media (max-height: 760px) {
   .hero-title { font-size: 32px; }
   .hands { margin-bottom: 6px; }
+  .heart { margin-top: 8px; }
   .soft { margin-top: 8px; }
 }
 @media (max-width: 480px) {

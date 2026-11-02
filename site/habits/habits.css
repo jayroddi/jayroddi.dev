@@ -299,7 +299,8 @@ body.board .socials a{color:inherit;font-style:italic}
   90%,100%{color:var(--dim-w);filter:none;text-shadow:none}
 }
 .gld .pad,html.gld .pad,:root.gld .pad,.pad.gld,.pad:has(.gld),.pad.off{visibility:hidden!important;pointer-events:none!important}
-@media (prefers-color-scheme:light){.pad{--bad:#C4173A;--bad-glow:rgba(196,23,58,.75)}}
+/* locked dark for now. */
+@media (prefers-color-scheme: light) and (min-width: 99999px) {.pad{--bad:#C4173A;--bad-glow:rgba(196,23,58,.75)}}
 @media (prefers-reduced-motion:reduce){
   .pad,.pad.in,.pad.go{transition:none}
   .pad.go button{animation:none;filter:drop-shadow(0 0 12px rgba(255,215,0,.85));text-shadow:none}
@@ -372,7 +373,8 @@ html.quiet[data-mode="fast"]{
   --c:#1AADB3;--c-rgb:26,173,179;--c-lt:#5FD6DA;--c-dk:#0E7C81;--c-pale:#C9F3F4;--c-hot:#d2f6f7;--c-wh:#E6FBFB;--c-lt-rgb:127,218,221;--c-lt2:#74CED2;
   --c-l1-rgb:107,203,207;--c-l2-rgb:118,208,211;--c-l3-rgb:129,212,215;--c-l4-rgb:74,191,196;--c-l5-rgb:226,245,246;
 }
-@media (prefers-color-scheme:light){
+/* locked dark for now. */
+@media (prefers-color-scheme: light) and (min-width: 99999px) {
   html.quiet[data-mode="fast"]{--c:#127F84;--c-rgb:18,127,132;--c-hot:#0B6569;--c-wh:#0B6569}
 }
 /* v3.23: quiet italic is the habit grids and the hover tip, not the document. the old rule (html.quiet and every descendant) set the root to italic. on a phone that resolves the subhead emoji through a different fallback than snaps and daily, and it sheared the header emoji, which stay upright on the other mosaic pages. labels, captions, and the tip stay italic. */
