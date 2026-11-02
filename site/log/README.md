@@ -2,7 +2,7 @@
 
 Draft media log. It is not on the live site until this branch is merged. Do not deploy it ahead of that.
 
-`media.json` and `covers/` are the 2026-11-02 export of the Obsidian vault `media/` folder (`type: media-item`). 414 notes. A cover is only an embedded `![[…]]` image. A note with no embed has `img: null` and the tile shows the title, not a nearby file. Snaps stay photos on `/snaps`. Moments that are not media notes are not in this file.
+`media.json` and `covers/` are the 2026-11-02 books-merge export (`type: media-item` plus the live shelf). 466 notes. A cover is only an embedded `![[…]]` image. A note with no embed has `img: null` and the tile shows the title, not a nearby file. Snaps stay photos on `/snaps`. Moments that are not media notes are not in this file.
 
 ## What the page reads
 
@@ -10,14 +10,14 @@ Draft media log. It is not on the live site until this branch is merged. Do not 
 
 | c | chip | n in this export |
 |---|---|---|
-| all | all | 414 |
-| movies | 🍿 | 175 |
-| shows | 📺 | 27 (tv + documentaries + comedy, already one bucket) |
-| books | 📚 | 56 |
+| all | all | 466 |
+| movies | 🍿 | 171 |
+| shows | 📺 | 26 (tv + documentaries + comedy, already one bucket) |
+| books | 📚 | 114 |
 | albums | 💿 | 148 |
-| games | 🎮 | 8 |
+| games | 🎮 | 7 |
 
-`months` is newest first (`m` is `YYYY-MM`, `n` is how many notes). The grid follows that order. A month heading is lowercase (`march 2026`).
+`months` is newest first (`m` is `YYYY-MM`, `n` is how many notes). The grid follows that order. A month heading is lowercase (`march 2026`). `bucketLabel` maps a key such as `2015-2020` to the heading `2015 - 2020`. That group is not split into months.
 
 Each item:
 

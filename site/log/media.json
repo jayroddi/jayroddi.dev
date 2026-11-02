@@ -3,22 +3,22 @@
     {
       "c": "all",
       "e": "all",
-      "n": 414
+      "n": 466
     },
     {
       "c": "movies",
       "e": "🍿",
-      "n": 175
+      "n": 171
     },
     {
       "c": "shows",
       "e": "📺",
-      "n": 27
+      "n": 26
     },
     {
       "c": "books",
       "e": "📚",
-      "n": 56
+      "n": 114
     },
     {
       "c": "albums",
@@ -28,17 +28,17 @@
     {
       "c": "games",
       "e": "🎮",
-      "n": 8
+      "n": 7
     }
   ],
   "months": [
     {
       "m": "2026-10",
-      "n": 3
+      "n": 6
     },
     {
       "m": "2026-08",
-      "n": 1
+      "n": 2
     },
     {
       "m": "2026-01",
@@ -46,7 +46,7 @@
     },
     {
       "m": "2025-04",
-      "n": 2
+      "n": 3
     },
     {
       "m": "2025-03",
@@ -86,7 +86,7 @@
     },
     {
       "m": "2024-06",
-      "n": 9
+      "n": 10
     },
     {
       "m": "2024-05",
@@ -94,11 +94,11 @@
     },
     {
       "m": "2024-04",
-      "n": 2
+      "n": 1
     },
     {
       "m": "2024-03",
-      "n": 2
+      "n": 3
     },
     {
       "m": "2024-02",
@@ -146,15 +146,15 @@
     },
     {
       "m": "2023-03",
-      "n": 15
+      "n": 14
     },
     {
       "m": "2023-02",
-      "n": 6
+      "n": 7
     },
     {
       "m": "2023-01",
-      "n": 10
+      "n": 11
     },
     {
       "m": "2022-12",
@@ -178,7 +178,7 @@
     },
     {
       "m": "2022-05",
-      "n": 3
+      "n": 2
     },
     {
       "m": "2022-04",
@@ -226,7 +226,7 @@
     },
     {
       "m": "2021-04",
-      "n": 4
+      "n": 3
     },
     {
       "m": "2021-03",
@@ -266,7 +266,7 @@
     },
     {
       "m": "2020-04",
-      "n": 10
+      "n": 8
     },
     {
       "m": "2020-03",
@@ -298,7 +298,7 @@
     },
     {
       "m": "2019-08",
-      "n": 8
+      "n": 7
     },
     {
       "m": "2019-07",
@@ -326,7 +326,7 @@
     },
     {
       "m": "2018-12",
-      "n": 3
+      "n": 2
     },
     {
       "m": "2018-08",
@@ -363,9 +363,24 @@
     {
       "m": "2016-01",
       "n": 1
+    },
+    {
+      "m": "2015-2020",
+      "n": 51
     }
   ],
   "items": [
+    {
+      "i": "books-you-can-t-please-everyone-2026-10-30-023aeb",
+      "d": "2026-10-30",
+      "c": "books",
+      "t": "You Can’t Please Everyone",
+      "a": "Vex King",
+      "r": null,
+      "img": "books-you-can-t-please-everyone-2026-10-30-023aeb.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
     {
       "i": "shows-sean-combs-the-reckoning-2026-10-30-9b0f28",
       "d": "2026-10-30",
@@ -375,6 +390,28 @@
       "r": null,
       "img": null,
       "src": "documentaries 🎞️",
+      "blurb": null
+    },
+    {
+      "i": "books-unsayable-a-life-in-writing-2026-10-26-e1ac4c",
+      "d": "2026-10-26",
+      "c": "books",
+      "t": "Unsayable: A Life in Writing",
+      "a": "Michael Cunningham",
+      "r": null,
+      "img": "books-unsayable-a-life-in-writing-2026-10-26-e1ac4c.webp",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-what-i-talk-about-when-i-talk-about-running-2026-10-25-80bec3",
+      "d": "2026-10-25",
+      "c": "books",
+      "t": "What I Talk About When I Talk About Running",
+      "a": "Haruki Murakami",
+      "r": null,
+      "img": "books-what-i-talk-about-when-i-talk-about-running-2026-10-25-80bec3.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -406,8 +443,19 @@
       "t": "This Is Me: A Reckoning",
       "a": "Hayden Panettiere",
       "r": null,
-      "img": "books-this-is-me-a-reckoning-2026-08-29-62bb84.jpg",
+      "img": "books-this-is-me-a-reckoning-2026-08-29-62bb84.jpeg",
       "src": "books 📚",
+      "blurb": null
+    },
+    {
+      "i": "books-skinny-dipping-at-low-tide-a-saga-of-squeezed-shorts-shattered-dreams-and--74c534",
+      "d": "2026-08-15",
+      "c": "books",
+      "t": "Skinny Dipping at Low Tide: A Saga of Squeezed Shorts, Shattered Dreams, and Embarrassing Riches",
+      "a": "M.F. Hamlin",
+      "r": null,
+      "img": "books-skinny-dipping-at-low-tide-a-saga-of-squeezed-shorts-shattered-dreams-and--74c534.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -417,7 +465,7 @@
       "t": "Clarity & Connection",
       "a": "yung pueblo",
       "r": null,
-      "img": "books-clarity-connection-2026-01-29-bc4ca1.jpg",
+      "img": "books-clarity-connection-2026-01-29-bc4ca1.jpeg",
       "src": "books 📚",
       "blurb": null
     },
@@ -428,7 +476,7 @@
       "t": "Avatar: Fire and Ash",
       "a": null,
       "r": null,
-      "img": "movies-avatar-fire-and-ash-2026-01-29-5f25ff.jpg",
+      "img": "movies-avatar-fire-and-ash-2026-01-29-5f25ff.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -439,19 +487,30 @@
       "t": "Inward",
       "a": "yung pueblo",
       "r": null,
-      "img": "books-inward-2026-01-26-d9ee54.jpg",
+      "img": "books-inward-2026-01-26-d9ee54.jpeg",
       "src": "books 📚",
       "blurb": null
     },
     {
-      "i": "books-the-courage-to-be-disliked-2025-04-27-c76d15",
-      "d": "2025-04-27",
+      "i": "books-the-courage-to-be-disliked-how-to-free-yourself-change-your-life-and-achie-8c3623",
+      "d": "2025-04-26",
       "c": "books",
-      "t": "The Courage to be Disliked",
-      "a": null,
+      "t": "The Courage to Be Disliked: How to Free Yourself, Change Your Life and Achieve Real Happiness",
+      "a": "Ichiro Kishimi",
       "r": null,
-      "img": "books-the-courage-to-be-disliked-2025-04-27-c76d15.jpg",
-      "src": "books 📚",
+      "img": "books-the-courage-to-be-disliked-how-to-free-yourself-change-your-life-and-achie-8c3623.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-the-way-forward-the-inward-trilogy-2025-04-05-f83f85",
+      "d": "2025-04-05",
+      "c": "books",
+      "t": "The Way Forward (The Inward Trilogy)",
+      "a": "Yung Pueblo",
+      "r": null,
+      "img": "books-the-way-forward-the-inward-trilogy-2025-04-05-f83f85.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -461,30 +520,30 @@
       "t": "The Way Forward",
       "a": "Yung Pueblo",
       "r": null,
-      "img": "books-the-way-forward-2025-04-05-c3664b.jpg",
+      "img": "books-the-way-forward-2025-04-05-c3664b.jpeg",
       "src": "books 📚",
       "blurb": null
     },
     {
-      "i": "books-what-happened-to-you-2025-03-28-2a59b9",
-      "d": "2025-03-28",
+      "i": "books-what-happened-to-you-conversations-on-trauma-resilience-and-healing-2025-0-8f139d",
+      "d": "2025-03-27",
       "c": "books",
-      "t": "What Happened To You?",
-      "a": "Oprah Winfrey & Bruce Perry",
+      "t": "What Happened To You?: Conversations on Trauma, Resilience, and Healing",
+      "a": "Bruce D. Perry",
       "r": null,
-      "img": "books-what-happened-to-you-2025-03-28-2a59b9.jpg",
-      "src": "books 📚",
+      "img": "books-what-happened-to-you-conversations-on-trauma-resilience-and-healing-2025-0-8f139d.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
-      "i": "books-lighter-2025-03-18-704d5d",
+      "i": "books-lighter-let-go-of-the-past-connect-with-the-present-and-expand-the-future--ddf2a9",
       "d": "2025-03-18",
       "c": "books",
-      "t": "Lighter",
+      "t": "Lighter: Let Go of the Past, Connect With the Present, and Expand the Future",
       "a": "Yung Pueblo",
       "r": null,
-      "img": "books-lighter-2025-03-18-704d5d.jpg",
-      "src": "books 📚",
+      "img": "books-lighter-let-go-of-the-past-connect-with-the-present-and-expand-the-future--ddf2a9.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -494,41 +553,41 @@
       "t": "Fighting For Your Marriage While Separated",
       "a": "Linda Rooks",
       "r": null,
-      "img": "books-fighting-for-your-marriage-while-separated-2025-03-09-15b452.jpg",
+      "img": "books-fighting-for-your-marriage-while-separated-2025-03-09-15b452.jpeg",
       "src": "books 📚",
       "blurb": null
     },
     {
-      "i": "books-crystals-for-beginners-2025-03-03-dfbfb5",
-      "d": "2025-03-03",
+      "i": "books-crystals-for-beginners-the-guide-to-get-started-with-the-healing-power-of--c7fbc8",
+      "d": "2025-03-02",
       "c": "books",
-      "t": "Crystals for Beginners",
+      "t": "Crystals for Beginners: The Guide to Get Started with the Healing Power of Crystals",
       "a": "Karen Frazier",
       "r": null,
-      "img": "books-crystals-for-beginners-2025-03-03-dfbfb5.jpg",
-      "src": "books 📚",
+      "img": "books-crystals-for-beginners-the-guide-to-get-started-with-the-healing-power-of--c7fbc8.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
-      "i": "books-zero-to-one-2025-02-24-22afe4",
+      "i": "books-zero-to-one-notes-on-startups-or-how-to-build-the-future-2025-02-24-a5473f",
       "d": "2025-02-24",
       "c": "books",
-      "t": "Zero to One",
+      "t": "Zero to One: Notes on Startups, or How to Build the Future",
       "a": "Peter Thiel",
       "r": null,
-      "img": "books-zero-to-one-2025-02-24-22afe4.jpg",
-      "src": "books 📚",
+      "img": "books-zero-to-one-notes-on-startups-or-how-to-build-the-future-2025-02-24-a5473f.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
-      "i": "books-sybil-and-david-yurman-artists-and-jewelers-2025-02-17-2319b5",
-      "d": "2025-02-17",
+      "i": "books-sybil-and-david-yurman-artists-and-jewelers-2025-02-16-0e88f8",
+      "d": "2025-02-16",
       "c": "books",
       "t": "Sybil and David Yurman: Artists and Jewelers",
-      "a": null,
+      "a": "Sybil Yurman",
       "r": null,
-      "img": "books-sybil-and-david-yurman-artists-and-jewelers-2025-02-17-2319b5.jpg",
-      "src": "books 📚",
+      "img": "books-sybil-and-david-yurman-artists-and-jewelers-2025-02-16-0e88f8.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -538,7 +597,7 @@
       "t": "How to Train Your Dragon",
       "a": null,
       "r": null,
-      "img": "movies-how-to-train-your-dragon-2025-02-16-873abb.jpg",
+      "img": "movies-how-to-train-your-dragon-2025-02-16-873abb.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -549,7 +608,7 @@
       "t": "Hero DJ Mix",
       "a": "Alan Walker",
       "r": null,
-      "img": "albums-hero-dj-mix-2025-02-16-5c32c1.jpg",
+      "img": "albums-hero-dj-mix-2025-02-16-5c32c1.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -560,7 +619,7 @@
       "t": "Robin Williams: Come Inside My Mind",
       "a": null,
       "r": null,
-      "img": "shows-robin-williams-come-inside-my-mind-2025-02-15-4c1889.jpg",
+      "img": "shows-robin-williams-come-inside-my-mind-2025-02-15-4c1889.jpeg",
       "src": "documentaries 🎞️",
       "blurb": null
     },
@@ -571,7 +630,7 @@
       "t": "Tetris Effect: Connected",
       "a": null,
       "r": null,
-      "img": "games-tetris-effect-connected-2025-02-15-c0d218.jpg",
+      "img": "games-tetris-effect-connected-2025-02-15-c0d218.jpeg",
       "src": "games 🎮",
       "blurb": null
     },
@@ -582,7 +641,7 @@
       "t": "Dog Man",
       "a": null,
       "r": null,
-      "img": "movies-dog-man-2025-02-14-3e73d1.jpg",
+      "img": "movies-dog-man-2025-02-14-3e73d1.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -593,7 +652,7 @@
       "t": "Hot Fuss",
       "a": "The Killers",
       "r": null,
-      "img": "albums-hot-fuss-2025-02-13-ecbe45.jpg",
+      "img": "albums-hot-fuss-2025-02-13-ecbe45.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -604,7 +663,7 @@
       "t": "Hotel California",
       "a": "Eagles",
       "r": null,
-      "img": "albums-hotel-california-2025-02-08-901b71.jpg",
+      "img": "albums-hotel-california-2025-02-08-901b71.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -615,7 +674,7 @@
       "t": "Body Talk",
       "a": "Robyn",
       "r": null,
-      "img": "albums-body-talk-2025-02-05-8f5383.jpg",
+      "img": "albums-body-talk-2025-02-05-8f5383.png",
       "src": "music 🎧",
       "blurb": null
     },
@@ -626,19 +685,19 @@
       "t": "Hurry Up Tomorrow",
       "a": "The Weeknd",
       "r": null,
-      "img": "albums-hurry-up-tomorrow-2025-02-05-81e9a1.jpg",
+      "img": "albums-hurry-up-tomorrow-2025-02-05-81e9a1.png",
       "src": "music 🎧",
       "blurb": null
     },
     {
-      "i": "books-the-psychology-of-money-2025-01-18-45a9e9",
+      "i": "books-the-psychology-of-money-timeless-lessons-on-wealth-greed-and-happiness-202-8fd53c",
       "d": "2025-01-18",
       "c": "books",
-      "t": "The Psychology of Money",
+      "t": "The Psychology of Money: Timeless Lessons on Wealth, Greed, and Happiness",
       "a": "Morgan Housel",
       "r": null,
-      "img": "books-the-psychology-of-money-2025-01-18-45a9e9.jpg",
-      "src": "books 📚",
+      "img": "books-the-psychology-of-money-timeless-lessons-on-wealth-greed-and-happiness-202-8fd53c.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -648,7 +707,7 @@
       "t": "Dyed",
       "a": "The Maine",
       "r": null,
-      "img": "albums-dyed-2025-01-16-2a9bff.jpg",
+      "img": "albums-dyed-2025-01-16-2a9bff.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -659,7 +718,7 @@
       "t": "Continuum",
       "a": "John Mayer",
       "r": null,
-      "img": "albums-continuum-2025-01-10-ee6a16.jpg",
+      "img": "albums-continuum-2025-01-10-ee6a16.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -670,7 +729,7 @@
       "t": "Heavier Things",
       "a": "John Mayer",
       "r": null,
-      "img": "albums-heavier-things-2025-01-10-a0324b.jpg",
+      "img": "albums-heavier-things-2025-01-10-a0324b.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -681,7 +740,7 @@
       "t": "We the Kings",
       "a": "We the Kings",
       "r": null,
-      "img": "albums-we-the-kings-2025-01-06-ff7f8d.jpg",
+      "img": "albums-we-the-kings-2025-01-06-ff7f8d.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -692,19 +751,19 @@
       "t": "Squid Game S2",
       "a": null,
       "r": null,
-      "img": "shows-squid-game-s2-2025-01-05-f59384.jpg",
+      "img": "shows-squid-game-s2-2025-01-05-f59384.jpeg",
       "src": "tv 📺",
       "blurb": null
     },
     {
-      "i": "books-supercommunicators-2024-12-28-09cfab",
+      "i": "books-supercommunicators-how-to-unlock-the-secret-language-of-connection-2024-12-53fce8",
       "d": "2024-12-28",
       "c": "books",
-      "t": "Supercommunicators",
+      "t": "Supercommunicators: How to Unlock the Secret Language of Connection",
       "a": "Charles Duhigg",
       "r": null,
-      "img": "books-supercommunicators-2024-12-28-09cfab.jpg",
-      "src": "books 📚",
+      "img": "books-supercommunicators-how-to-unlock-the-secret-language-of-connection-2024-12-53fce8.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -714,7 +773,7 @@
       "t": "Sonic 3",
       "a": null,
       "r": null,
-      "img": "movies-sonic-3-2024-12-23-4a552c.jpg",
+      "img": "movies-sonic-3-2024-12-23-4a552c.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -725,19 +784,19 @@
       "t": "Moana 2",
       "a": null,
       "r": null,
-      "img": "movies-moana-2-2024-12-21-210a40.jpg",
+      "img": "movies-moana-2-2024-12-21-210a40.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
     {
-      "i": "books-creative-selection-2024-12-17-110ca9",
+      "i": "books-creative-selection-inside-apple-s-design-process-during-the-golden-age-of--6d4c3a",
       "d": "2024-12-17",
       "c": "books",
-      "t": "Creative Selection",
+      "t": "Creative Selection: Inside Apple's Design Process During the Golden Age of Steve Jobs",
       "a": "Ken Kocienda",
       "r": null,
-      "img": "books-creative-selection-2024-12-17-110ca9.jpg",
-      "src": "books 📚",
+      "img": "books-creative-selection-inside-apple-s-design-process-during-the-golden-age-of--6d4c3a.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -747,30 +806,30 @@
       "t": "Oracular Spectacular",
       "a": "MGMT",
       "r": null,
-      "img": "albums-oracular-spectacular-2024-12-06-6755a8.jpg",
+      "img": "albums-oracular-spectacular-2024-12-06-6755a8.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
     {
-      "i": "books-how-i-built-this-2024-11-25-6e68fe",
-      "d": "2024-11-25",
+      "i": "books-how-i-built-this-the-unexpected-paths-to-success-from-the-world-s-most-ins-8de09d",
+      "d": "2024-11-24",
       "c": "books",
-      "t": "How I Built This",
+      "t": "How I Built This: The Unexpected Paths to Success from the World’s Most Inspiring Entrepreneurs",
       "a": "Guy Raz",
       "r": null,
-      "img": "books-how-i-built-this-2024-11-25-6e68fe.jpg",
-      "src": "books 📚",
+      "img": "books-how-i-built-this-the-unexpected-paths-to-success-from-the-world-s-most-ins-8de09d.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
-      "i": "books-raising-good-humans-2024-11-21-40f1cf",
+      "i": "books-raising-good-humans-a-mindful-guide-to-breaking-the-cycle-of-reactive-pare-da391d",
       "d": "2024-11-21",
       "c": "books",
-      "t": "Raising Good Humans",
-      "a": "Hunter Clarke-Field",
+      "t": "Raising Good Humans: A Mindful Guide to Breaking the Cycle of Reactive Parenting and Raising Kind, Confident Kids",
+      "a": "Hunter Clarke-Fields",
       "r": null,
-      "img": "books-raising-good-humans-2024-11-21-40f1cf.jpg",
-      "src": "books 📚",
+      "img": "books-raising-good-humans-a-mindful-guide-to-breaking-the-cycle-of-reactive-pare-da391d.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -780,30 +839,30 @@
       "t": "From Zero",
       "a": "Linkin Park",
       "r": null,
-      "img": "albums-from-zero-2024-11-15-4e3874.jpg",
+      "img": "albums-from-zero-2024-11-15-4e3874.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
     {
-      "i": "books-raising-girls-who-like-themselves-2024-11-12-63c7e9",
+      "i": "books-raising-girls-who-like-themselves-2024-11-12-b1e2ee",
       "d": "2024-11-12",
       "c": "books",
       "t": "Raising Girls Who Like Themselves",
       "a": "Kasey Edwards",
       "r": null,
-      "img": "books-raising-girls-who-like-themselves-2024-11-12-63c7e9.jpg",
-      "src": "books 📚",
+      "img": "books-raising-girls-who-like-themselves-2024-11-12-b1e2ee.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
-      "i": "books-antifragile-2024-11-03-fe85f4",
+      "i": "books-antifragile-things-that-gain-from-disorder-2024-11-03-845e1d",
       "d": "2024-11-03",
       "c": "books",
-      "t": "Antifragile",
-      "a": "Nassim Taleb",
+      "t": "Antifragile: Things That Gain from Disorder",
+      "a": "Nassim Nicholas Taleb",
       "r": null,
-      "img": "books-antifragile-2024-11-03-fe85f4.jpg",
-      "src": "books 📚",
+      "img": "books-antifragile-things-that-gain-from-disorder-2024-11-03-845e1d.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -813,7 +872,7 @@
       "t": "Secret & Whisper",
       "a": "Great White Whale",
       "r": null,
-      "img": "albums-secret-whisper-2024-10-31-6ae001.jpg",
+      "img": "albums-secret-whisper-2024-10-31-6ae001.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -824,7 +883,7 @@
       "t": "Promises for the Imperfect",
       "a": "Number One Gun",
       "r": null,
-      "img": "albums-promises-for-the-imperfect-2024-10-30-5dbef0.jpg",
+      "img": "albums-promises-for-the-imperfect-2024-10-30-5dbef0.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -835,19 +894,19 @@
       "t": "The Comeback",
       "a": null,
       "r": null,
-      "img": "shows-the-comeback-2024-10-25-85057d.jpg",
+      "img": "shows-the-comeback-2024-10-25-85057d.jpeg",
       "src": "tv 📺",
       "blurb": null
     },
     {
-      "i": "books-be-water-my-friend-2024-10-24-ee37ce",
+      "i": "books-be-water-my-friend-the-teachings-of-bruce-lee-2024-10-24-42b6b1",
       "d": "2024-10-24",
       "c": "books",
-      "t": "Be Water, My Friend",
+      "t": "Be Water, My Friend: The Teachings of Bruce Lee",
       "a": "Shannon Lee",
       "r": null,
-      "img": "books-be-water-my-friend-2024-10-24-ee37ce.jpg",
-      "src": "books 📚",
+      "img": "books-be-water-my-friend-the-teachings-of-bruce-lee-2024-10-24-42b6b1.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -857,19 +916,19 @@
       "t": "The Other Side of Life: Piano Ballads",
       "a": "Beach Fossils",
       "r": null,
-      "img": "albums-the-other-side-of-life-piano-ballads-2024-10-16-c88fe4.jpg",
+      "img": "albums-the-other-side-of-life-piano-ballads-2024-10-16-c88fe4.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
     {
-      "i": "books-the-anxious-generation-2024-10-14-aa4197",
+      "i": "books-the-anxious-generation-how-the-great-rewiring-of-childhood-caused-an-epide-89b175",
       "d": "2024-10-14",
       "c": "books",
-      "t": "The Anxious Generation",
+      "t": "The Anxious Generation: How the Great Rewiring of Childhood Caused an Epidemic of Mental Illness",
       "a": "Jonathan Haidt",
       "r": null,
-      "img": "books-the-anxious-generation-2024-10-14-aa4197.jpg",
-      "src": "books 📚",
+      "img": "books-the-anxious-generation-how-the-great-rewiring-of-childhood-caused-an-epide-89b175.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -879,7 +938,7 @@
       "t": "Wellness",
       "a": "Last Dinosaurs",
       "r": null,
-      "img": "albums-wellness-2024-10-11-fc7f79.jpg",
+      "img": "albums-wellness-2024-10-11-fc7f79.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -890,7 +949,7 @@
       "t": "War For the Planet of the Apes",
       "a": null,
       "r": null,
-      "img": "movies-war-for-the-planet-of-the-apes-2024-10-08-fe5a09.jpg",
+      "img": "movies-war-for-the-planet-of-the-apes-2024-10-08-fe5a09.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -901,7 +960,7 @@
       "t": "Dawn of the Planet of the Apes",
       "a": null,
       "r": null,
-      "img": "movies-dawn-of-the-planet-of-the-apes-2024-10-05-2a8194.jpg",
+      "img": "movies-dawn-of-the-planet-of-the-apes-2024-10-05-2a8194.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -912,7 +971,7 @@
       "t": "Feeling Not Found",
       "a": "Origami Angel",
       "r": null,
-      "img": "albums-feeling-not-found-2024-10-05-5b5371.jpg",
+      "img": "albums-feeling-not-found-2024-10-05-5b5371.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -923,7 +982,7 @@
       "t": "Rise of the Planet of the Apes",
       "a": null,
       "r": null,
-      "img": "movies-rise-of-the-planet-of-the-apes-2024-10-04-95095f.jpg",
+      "img": "movies-rise-of-the-planet-of-the-apes-2024-10-04-95095f.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -934,7 +993,7 @@
       "t": "Cloud Nine",
       "a": "Kygo",
       "r": null,
-      "img": "albums-cloud-nine-2024-10-03-bc4d13.jpg",
+      "img": "albums-cloud-nine-2024-10-03-bc4d13.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -945,7 +1004,7 @@
       "t": "Coming Home (Deluxe)",
       "a": "The Dangerous Summer",
       "r": null,
-      "img": "albums-coming-home-deluxe-2024-10-03-426787.jpg",
+      "img": "albums-coming-home-deluxe-2024-10-03-426787.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -956,7 +1015,7 @@
       "t": "The Forever Sessions Vol. 1",
       "a": "All Time Low",
       "r": null,
-      "img": "albums-the-forever-sessions-vol-1-2024-09-14-8d430a.jpg",
+      "img": "albums-the-forever-sessions-vol-1-2024-09-14-8d430a.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -967,7 +1026,7 @@
       "t": "A Whole New Sound",
       "a": "Disney",
       "r": null,
-      "img": "albums-a-whole-new-sound-2024-09-14-3ec144.jpg",
+      "img": "albums-a-whole-new-sound-2024-09-14-3ec144.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -978,19 +1037,19 @@
       "t": "Reanimation",
       "a": "Linkin Park",
       "r": null,
-      "img": "albums-reanimation-2024-09-12-933121.jpg",
+      "img": "albums-reanimation-2024-09-12-933121.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
     {
-      "i": "books-the-5-resets-2024-09-03-e254dc",
+      "i": "books-the-5-resets-rewire-your-brain-and-body-for-less-stress-and-more-resilienc-564976",
       "d": "2024-09-03",
       "c": "books",
-      "t": "The 5 Resets",
+      "t": "The 5 Resets: Rewire Your Brain and Body for Less Stress and More Resilience",
       "a": "Aditi Nerurkar",
       "r": null,
-      "img": "books-the-5-resets-2024-09-03-e254dc.jpg",
-      "src": "books 📚",
+      "img": "books-the-5-resets-rewire-your-brain-and-body-for-less-stress-and-more-resilienc-564976.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -1000,7 +1059,7 @@
       "t": "The Rain Museum",
       "a": "Armor For Sleep",
       "r": null,
-      "img": "albums-the-rain-museum-2024-08-27-93c98f.jpg",
+      "img": "albums-the-rain-museum-2024-08-27-93c98f.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1011,7 +1070,7 @@
       "t": "Surviving",
       "a": "Jimmy Eat World",
       "r": null,
-      "img": "albums-surviving-2024-08-27-78ae03.jpg",
+      "img": "albums-surviving-2024-08-27-78ae03.png",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1022,19 +1081,19 @@
       "t": "Tetris",
       "a": null,
       "r": null,
-      "img": "movies-tetris-2024-08-23-f00f16.jpg",
+      "img": "movies-tetris-2024-08-23-f00f16.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
     {
-      "i": "books-the-body-keeps-the-score-2024-08-21-01142e",
+      "i": "books-the-body-keeps-the-score-brain-mind-and-body-in-the-healing-of-trauma-2024-c461c0",
       "d": "2024-08-21",
       "c": "books",
-      "t": "The Body Keeps The Score",
+      "t": "The Body Keeps the Score: Brain, Mind, and Body in the Healing of Trauma",
       "a": "Bessel van der Kolk",
       "r": null,
-      "img": "books-the-body-keeps-the-score-2024-08-21-01142e.jpg",
-      "src": "books 📚",
+      "img": "books-the-body-keeps-the-score-brain-mind-and-body-in-the-healing-of-trauma-2024-c461c0.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -1044,7 +1103,7 @@
       "t": "Sentio",
       "a": "Martin Garrix",
       "r": null,
-      "img": "albums-sentio-2024-08-18-13dfff.jpg",
+      "img": "albums-sentio-2024-08-18-13dfff.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1055,7 +1114,7 @@
       "t": "Deadpool X Wolverine",
       "a": null,
       "r": null,
-      "img": "movies-deadpool-x-wolverine-2024-08-17-b7b33a.jpg",
+      "img": "movies-deadpool-x-wolverine-2024-08-17-b7b33a.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -1066,7 +1125,7 @@
       "t": "American Idiot 20th Anniversary",
       "a": "Green Day",
       "r": null,
-      "img": "albums-american-idiot-20th-anniversary-2024-08-15-b4a3c9.jpg",
+      "img": "albums-american-idiot-20th-anniversary-2024-08-15-b4a3c9.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1077,7 +1136,7 @@
       "t": "Bolt",
       "a": null,
       "r": null,
-      "img": "movies-bolt-2024-08-09-071de5.jpg",
+      "img": "movies-bolt-2024-08-09-071de5.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -1088,7 +1147,7 @@
       "t": "Wall-E",
       "a": null,
       "r": null,
-      "img": "movies-wall-e-2024-08-09-d9ffe7.jpg",
+      "img": "movies-wall-e-2024-08-09-d9ffe7.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -1099,7 +1158,7 @@
       "t": "Vega",
       "a": "Anberlin",
       "r": null,
-      "img": "albums-vega-2024-08-09-6a467e.jpg",
+      "img": "albums-vega-2024-08-09-6a467e.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1110,7 +1169,7 @@
       "t": "The Death of Slim Shady",
       "a": "Eminem",
       "r": null,
-      "img": "albums-the-death-of-slim-shady-2024-07-25-3a8436.jpg",
+      "img": "albums-the-death-of-slim-shady-2024-07-25-3a8436.png",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1121,7 +1180,7 @@
       "t": "Yellowcard",
       "a": "Yellowcard",
       "r": null,
-      "img": "albums-yellowcard-2024-07-22-4f5226.jpg",
+      "img": "albums-yellowcard-2024-07-22-4f5226.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1132,7 +1191,7 @@
       "t": "Satellite",
       "a": "P.O.D.",
       "r": null,
-      "img": "albums-satellite-2024-07-21-043213.jpg",
+      "img": "albums-satellite-2024-07-21-043213.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1143,7 +1202,7 @@
       "t": "Saosin",
       "a": "Saosin",
       "r": null,
-      "img": "albums-saosin-2024-07-18-0cf560.jpg",
+      "img": "albums-saosin-2024-07-18-0cf560.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1154,19 +1213,19 @@
       "t": "Monarch S1",
       "a": null,
       "r": null,
-      "img": "shows-monarch-s1-2024-07-17-d3fd4c.jpg",
+      "img": "shows-monarch-s1-2024-07-17-d3fd4c.jpeg",
       "src": "tv 📺",
       "blurb": null
     },
     {
-      "i": "books-useful-not-true-2024-07-12-2a5c1a",
+      "i": "books-useful-not-true-2024-07-12-eccc6e",
       "d": "2024-07-12",
       "c": "books",
       "t": "Useful Not True",
       "a": "Derek Sivers",
       "r": null,
-      "img": "books-useful-not-true-2024-07-12-2a5c1a.jpg",
-      "src": "books 📚",
+      "img": "books-useful-not-true-2024-07-12-eccc6e.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -1176,7 +1235,7 @@
       "t": "The Bear S3",
       "a": null,
       "r": null,
-      "img": "shows-the-bear-s3-2024-07-12-12c87a.jpg",
+      "img": "shows-the-bear-s3-2024-07-12-12c87a.jpeg",
       "src": "tv 📺",
       "blurb": null
     },
@@ -1187,19 +1246,19 @@
       "t": "Gravity",
       "a": "The Dangerous Summer",
       "r": null,
-      "img": "albums-gravity-2024-07-11-e241b7.jpg",
+      "img": "albums-gravity-2024-07-11-e241b7.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
     {
-      "i": "books-the-power-of-now-2024-07-10-261edb",
-      "d": "2024-07-10",
+      "i": "books-the-power-of-now-a-guide-to-spiritual-enlightenment-2024-07-09-b24a0a",
+      "d": "2024-07-09",
       "c": "books",
-      "t": "The Power of Now",
+      "t": "The Power of Now: A Guide to Spiritual Enlightenment",
       "a": "Eckhart Tolle",
       "r": null,
-      "img": "books-the-power-of-now-2024-07-10-261edb.jpg",
-      "src": "books 📚",
+      "img": "books-the-power-of-now-a-guide-to-spiritual-enlightenment-2024-07-09-b24a0a.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -1209,7 +1268,7 @@
       "t": "The New Empire",
       "a": "Godzilla x Kong",
       "r": null,
-      "img": "albums-the-new-empire-2024-07-06-0ef0ad.jpg",
+      "img": "albums-the-new-empire-2024-07-06-0ef0ad.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1220,8 +1279,19 @@
       "t": "Decemberunderground",
       "a": "AFI",
       "r": null,
-      "img": "albums-decemberunderground-2024-07-01-788d4d.jpg",
+      "img": "albums-decemberunderground-2024-07-01-788d4d.jpeg",
       "src": "music 🎧",
+      "blurb": null
+    },
+    {
+      "i": "books-right-thing-right-now-justice-in-an-unjust-world-2024-06-20-5e9f69",
+      "d": "2024-06-20",
+      "c": "books",
+      "t": "Right Thing, Right Now: Justice in an Unjust World",
+      "a": "Ryan Holiday",
+      "r": null,
+      "img": "books-right-thing-right-now-justice-in-an-unjust-world-2024-06-20-5e9f69.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -1231,7 +1301,7 @@
       "t": "Ryan Holiday",
       "a": "Right Thing Right Now",
       "r": null,
-      "img": "books-ryan-holiday-2024-06-20-c9b9ea.jpg",
+      "img": "books-ryan-holiday-2024-06-20-c9b9ea.jpeg",
       "src": "books 📚",
       "blurb": null
     },
@@ -1242,7 +1312,7 @@
       "t": "Black & White",
       "a": "The Maine",
       "r": null,
-      "img": "albums-black-white-2024-06-17-94355e.jpg",
+      "img": "albums-black-white-2024-06-17-94355e.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1253,7 +1323,7 @@
       "t": "Shudder",
       "a": "Bayside",
       "r": null,
-      "img": "albums-shudder-2024-06-11-0b0340.jpg",
+      "img": "albums-shudder-2024-06-11-0b0340.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1264,7 +1334,7 @@
       "t": "Minutes to Midnight",
       "a": "Linkin Park",
       "r": null,
-      "img": "albums-minutes-to-midnight-2024-06-10-2db77e.jpg",
+      "img": "albums-minutes-to-midnight-2024-06-10-2db77e.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1275,7 +1345,7 @@
       "t": "Can’t Stop Won’t Stop",
       "a": "The Maine",
       "r": null,
-      "img": "albums-can-t-stop-won-t-stop-2024-06-09-177a77.jpg",
+      "img": "albums-can-t-stop-won-t-stop-2024-06-09-177a77.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1286,7 +1356,7 @@
       "t": "The Blue Angels",
       "a": null,
       "r": null,
-      "img": "movies-the-blue-angels-2024-06-07-87b637.jpg",
+      "img": "movies-the-blue-angels-2024-06-07-87b637.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -1297,7 +1367,7 @@
       "t": "Fallen Idols: Nick and Aaron Carter",
       "a": null,
       "r": null,
-      "img": "movies-fallen-idols-nick-and-aaron-carter-2024-06-04-caa985.jpg",
+      "img": "movies-fallen-idols-nick-and-aaron-carter-2024-06-04-caa985.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -1308,7 +1378,7 @@
       "t": "From Mexico With Love",
       "a": "Last Dinosaurs",
       "r": null,
-      "img": "albums-from-mexico-with-love-2024-06-02-ee0a7b.jpg",
+      "img": "albums-from-mexico-with-love-2024-06-02-ee0a7b.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1319,7 +1389,7 @@
       "t": "KYORYU",
       "a": "Last Dinosaurs",
       "r": null,
-      "img": "albums-kyoryu-2024-06-02-873d26.jpg",
+      "img": "albums-kyoryu-2024-06-02-873d26.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1330,41 +1400,41 @@
       "t": "Lovely Little Lonely",
       "a": "The Maine",
       "r": null,
-      "img": "albums-lovely-little-lonely-2024-05-23-d6012d.jpg",
+      "img": "albums-lovely-little-lonely-2024-05-23-d6012d.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
     {
-      "i": "books-ego-is-the-enemy-2024-05-22-7b5b9a",
-      "d": "2024-05-22",
+      "i": "books-ego-is-the-enemy-2024-05-21-6f6c0f",
+      "d": "2024-05-21",
       "c": "books",
-      "t": "Ego Is The Enemy",
+      "t": "Ego Is the Enemy",
       "a": "Ryan Holiday",
       "r": null,
-      "img": "books-ego-is-the-enemy-2024-05-22-7b5b9a.jpg",
-      "src": "books 📚",
+      "img": "books-ego-is-the-enemy-2024-05-21-6f6c0f.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
-      "i": "books-outlive-2024-05-10-a0fdc4",
-      "d": "2024-05-10",
+      "i": "books-outlive-the-science-art-of-longevity-2024-05-09-77fa6d",
+      "d": "2024-05-09",
       "c": "books",
-      "t": "Outlive",
+      "t": "Outlive: The Science & Art of Longevity",
       "a": "Peter Attia",
       "r": null,
-      "img": "books-outlive-2024-05-10-a0fdc4.jpg",
-      "src": "books 📚",
+      "img": "books-outlive-the-science-art-of-longevity-2024-05-09-77fa6d.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
-      "i": "books-unscripted-the-great-rat-race-escape-2024-05-01-04327b",
+      "i": "books-unscripted-the-great-rat-race-escape-from-wage-slavery-to-wealth-how-to-st-c33bfc",
       "d": "2024-05-01",
       "c": "books",
-      "t": "Unscripted: The Great Rat Race Escape",
-      "a": "MJ DeMarco",
+      "t": "Unscripted - The Great Rat-Race Escape: From Wage Slavery to Wealth: How to Start a Purpose Driven Business and Win Financial Freedom for a Lifetime",
+      "a": "M.J. DeMarco",
       "r": null,
-      "img": "books-unscripted-the-great-rat-race-escape-2024-05-01-04327b.jpg",
-      "src": "books 📚",
+      "img": "books-unscripted-the-great-rat-race-escape-from-wage-slavery-to-wealth-how-to-st-c33bfc.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -1374,52 +1444,52 @@
       "t": "Light Grenades",
       "a": "Incubus",
       "r": null,
-      "img": "albums-light-grenades-2024-04-25-92c055.jpg",
+      "img": "albums-light-grenades-2024-04-25-92c055.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
     {
-      "i": "books-ikigai-2024-04-01-487c23",
-      "d": "2024-04-01",
+      "i": "books-ikigai-the-japanese-secret-to-a-long-and-happy-life-2024-03-31-e61e6e",
+      "d": "2024-03-31",
       "c": "books",
-      "t": "Ikigai",
-      "a": "Hector Garcia",
+      "t": "Ikigai: The Japanese Secret to a Long and Happy Life",
+      "a": "Héctor García",
       "r": null,
-      "img": "books-ikigai-2024-04-01-487c23.jpg",
-      "src": "books 📚",
+      "img": "books-ikigai-the-japanese-secret-to-a-long-and-happy-life-2024-03-31-e61e6e.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
-      "i": "books-extreme-ownership-2024-03-20-5c9cef",
+      "i": "books-extreme-ownership-how-u-s-navy-seals-lead-and-win-2024-03-20-ada409",
       "d": "2024-03-20",
       "c": "books",
-      "t": "Extreme Ownership",
-      "a": "Jocko Willink & Leif Babin",
+      "t": "Extreme Ownership: How U.S. Navy SEALs Lead and Win",
+      "a": "Jocko Willink",
       "r": null,
-      "img": "books-extreme-ownership-2024-03-20-5c9cef.jpg",
-      "src": "books 📚",
+      "img": "books-extreme-ownership-how-u-s-navy-seals-lead-and-win-2024-03-20-ada409.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
-      "i": "books-the-bitcoin-standard-2024-03-20-aded7f",
+      "i": "books-the-bitcoin-standard-the-decentralized-alternative-to-central-banking-2024-ff282a",
       "d": "2024-03-20",
       "c": "books",
-      "t": "The Bitcoin Standard",
+      "t": "The Bitcoin Standard: The Decentralized Alternative to Central Banking",
       "a": "Saifedean Ammous",
       "r": null,
-      "img": "books-the-bitcoin-standard-2024-03-20-aded7f.jpg",
-      "src": "books 📚",
+      "img": "books-the-bitcoin-standard-the-decentralized-alternative-to-central-banking-2024-ff282a.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
-      "i": "books-breaking-the-habit-of-being-yourself-2024-02-22-c74091",
+      "i": "books-breaking-the-habit-of-being-yourself-how-to-lose-your-mind-and-create-a-ne-a9d9bb",
       "d": "2024-02-22",
       "c": "books",
-      "t": "Breaking the Habit of Being Yourself",
-      "a": "Dr. Joe Dispenza",
+      "t": "Breaking the Habit of Being Yourself: How to Lose Your Mind and Create a New One",
+      "a": "Joe Dispenza",
       "r": null,
-      "img": "books-breaking-the-habit-of-being-yourself-2024-02-22-c74091.jpg",
-      "src": "books 📚",
+      "img": "books-breaking-the-habit-of-being-yourself-how-to-lose-your-mind-and-create-a-ne-a9d9bb.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -1429,7 +1499,7 @@
       "t": "Lights and Sounds",
       "a": "Yellowcard",
       "r": null,
-      "img": "albums-lights-and-sounds-2024-02-18-c226b7.jpg",
+      "img": "albums-lights-and-sounds-2024-02-18-c226b7.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1440,7 +1510,7 @@
       "t": "Mommy Dead and Dearest",
       "a": null,
       "r": null,
-      "img": "movies-mommy-dead-and-dearest-2024-02-15-7b5991.jpg",
+      "img": "movies-mommy-dead-and-dearest-2024-02-15-7b5991.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -1451,7 +1521,7 @@
       "t": "John Lennon: Murder Without A Trial",
       "a": null,
       "r": null,
-      "img": "shows-john-lennon-murder-without-a-trial-2024-02-12-f345f6.jpg",
+      "img": "shows-john-lennon-murder-without-a-trial-2024-02-12-f345f6.jpeg",
       "src": "documentaries 🎞️",
       "blurb": null
     },
@@ -1462,19 +1532,8 @@
       "t": "A Hopeful Sign",
       "a": "Yellowcard",
       "r": null,
-      "img": "albums-a-hopeful-sign-2024-02-09-df9713.jpg",
+      "img": "albums-a-hopeful-sign-2024-02-09-df9713.jpeg",
       "src": "music 🎧",
-      "blurb": null
-    },
-    {
-      "i": "books-effortless-2024-01-26-515daa",
-      "d": "2024-01-26",
-      "c": "books",
-      "t": "Effortless",
-      "a": "Greg McKeown",
-      "r": null,
-      "img": "books-effortless-2024-01-26-515daa.jpg",
-      "src": "books 📚",
       "blurb": null
     },
     {
@@ -1484,8 +1543,19 @@
       "t": "Still: A Michael J. Fox Movie",
       "a": null,
       "r": null,
-      "img": "shows-still-a-michael-j-fox-movie-2024-01-26-9e8da8.jpg",
+      "img": "shows-still-a-michael-j-fox-movie-2024-01-26-9e8da8.jpeg",
       "src": "documentaries 🎞️",
+      "blurb": null
+    },
+    {
+      "i": "books-effortless-make-it-easier-to-do-what-matters-most-2024-01-25-e3fac2",
+      "d": "2024-01-25",
+      "c": "books",
+      "t": "Effortless: Make It Easier to Do What Matters Most",
+      "a": "Greg McKeown",
+      "r": null,
+      "img": "books-effortless-make-it-easier-to-do-what-matters-most-2024-01-25-e3fac2.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -1495,7 +1565,7 @@
       "t": "The Reason (20th Anniversary)",
       "a": "Hoobastank",
       "r": null,
-      "img": "albums-the-reason-20th-anniversary-2024-01-20-b657f6.jpg",
+      "img": "albums-the-reason-20th-anniversary-2024-01-20-b657f6.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1506,7 +1576,7 @@
       "t": "No Pads, No Helmets... Just Balls (15th Anniversary Tour Edition)**",
       "a": "**Simple Plan",
       "r": null,
-      "img": "albums-no-pads-no-helmets-just-balls-15th-anniversary-tour-edition-2024-01-14-053452.jpg",
+      "img": "albums-no-pads-no-helmets-just-balls-15th-anniversary-tour-edition-2024-01-14-053452.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1517,7 +1587,7 @@
       "t": "Love Has Won: The Cult of Mother God",
       "a": null,
       "r": null,
-      "img": "movies-love-has-won-the-cult-of-mother-god-2024-01-09-ce0646.jpg",
+      "img": "movies-love-has-won-the-cult-of-mother-god-2024-01-09-ce0646.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -1528,7 +1598,7 @@
       "t": "RYU",
       "a": "Last Dinosaurs",
       "r": null,
-      "img": "albums-ryu-2024-01-07-db7a51.jpg",
+      "img": "albums-ryu-2024-01-07-db7a51.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1539,7 +1609,7 @@
       "t": "Godzilla Minus One",
       "a": null,
       "r": null,
-      "img": "movies-godzilla-minus-one-2024-01-06-12b5c3.jpg",
+      "img": "movies-godzilla-minus-one-2024-01-06-12b5c3.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -1550,30 +1620,30 @@
       "t": "Barbie",
       "a": null,
       "r": null,
-      "img": "movies-barbie-2023-12-15-0d95f4.jpg",
+      "img": "movies-barbie-2023-12-15-0d95f4.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
     {
-      "i": "books-courage-is-calling-2023-12-14-989c7c",
+      "i": "books-courage-is-calling-fortune-favors-the-brave-2023-12-14-2ac5c2",
       "d": "2023-12-14",
       "c": "books",
-      "t": "Courage is Calling",
+      "t": "Courage Is Calling: Fortune Favors the Brave",
       "a": "Ryan Holiday",
       "r": null,
-      "img": "books-courage-is-calling-2023-12-14-989c7c.jpg",
-      "src": "books 📚",
+      "img": "books-courage-is-calling-fortune-favors-the-brave-2023-12-14-2ac5c2.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
-      "i": "books-the-things-you-can-see-only-when-you-slow-down-2023-12-12-1a20c1",
+      "i": "books-the-things-you-can-see-only-when-you-slow-down-how-to-be-calm-in-a-busy-wo-f37d1a",
       "d": "2023-12-12",
       "c": "books",
-      "t": "The Things You Can See Only When You Slow Down",
+      "t": "The Things You Can See Only When You Slow Down: How to Be Calm in a Busy World",
       "a": "Haemin Sunim",
       "r": null,
-      "img": "books-the-things-you-can-see-only-when-you-slow-down-2023-12-12-1a20c1.jpg",
-      "src": "books 📚",
+      "img": "books-the-things-you-can-see-only-when-you-slow-down-how-to-be-calm-in-a-busy-wo-f37d1a.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -1583,7 +1653,7 @@
       "t": "Ballads of Hyrule Piano Reflections",
       "a": "Rozen",
       "r": null,
-      "img": "albums-ballads-of-hyrule-piano-reflections-2023-12-11-38777d.jpg",
+      "img": "albums-ballads-of-hyrule-piano-reflections-2023-12-11-38777d.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1594,7 +1664,7 @@
       "t": "The Crowded Room",
       "a": null,
       "r": null,
-      "img": "shows-the-crowded-room-2023-12-05-57a858.jpg",
+      "img": "shows-the-crowded-room-2023-12-05-57a858.jpeg",
       "src": "tv 📺",
       "blurb": null
     },
@@ -1605,7 +1675,7 @@
       "t": "Hijack",
       "a": null,
       "r": null,
-      "img": "shows-hijack-2023-11-27-3a12f9.jpg",
+      "img": "shows-hijack-2023-11-27-3a12f9.jpeg",
       "src": "tv 📺",
       "blurb": null
     },
@@ -1616,7 +1686,7 @@
       "t": "Last Young Renegade",
       "a": "All Time Low",
       "r": null,
-      "img": "albums-last-young-renegade-2023-11-22-0e791c.jpg",
+      "img": "albums-last-young-renegade-2023-11-22-0e791c.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1627,7 +1697,7 @@
       "t": "14 Peaks: Nothing is Impossible",
       "a": null,
       "r": null,
-      "img": "shows-14-peaks-nothing-is-impossible-2023-11-21-0b9392.jpg",
+      "img": "shows-14-peaks-nothing-is-impossible-2023-11-21-0b9392.jpeg",
       "src": "documentaries 🎞️",
       "blurb": null
     },
@@ -1638,19 +1708,19 @@
       "t": "Goosebumps (2023) S1",
       "a": null,
       "r": null,
-      "img": "shows-goosebumps-2023-s1-2023-11-17-75109a.jpg",
+      "img": "shows-goosebumps-2023-s1-2023-11-17-75109a.jpeg",
       "src": "tv 📺",
       "blurb": null
     },
     {
-      "i": "books-the-highly-sensitive-parent-2023-11-08-610359",
-      "d": "2023-11-08",
+      "i": "books-the-highly-sensitive-parent-be-brilliant-in-your-role-even-when-the-world--7fca94",
+      "d": "2023-11-07",
       "c": "books",
-      "t": "The Highly Sensitive Parent",
-      "a": "Elaine Aron",
+      "t": "The Highly Sensitive Parent: Be Brilliant in Your Role, Even When the World Overwhelms You",
+      "a": "Elaine N. Aron",
       "r": null,
-      "img": "books-the-highly-sensitive-parent-2023-11-08-610359.jpg",
-      "src": "books 📚",
+      "img": "books-the-highly-sensitive-parent-be-brilliant-in-your-role-even-when-the-world--7fca94.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -1660,7 +1730,7 @@
       "t": "TMNT Mutant Mayhem",
       "a": null,
       "r": null,
-      "img": "movies-tmnt-mutant-mayhem-2023-11-05-cf0819.jpg",
+      "img": "movies-tmnt-mutant-mayhem-2023-11-05-cf0819.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -1671,7 +1741,7 @@
       "t": "Chase This Light",
       "a": "Jimmy Eat World",
       "r": null,
-      "img": "albums-chase-this-light-2023-11-03-38dee8.jpg",
+      "img": "albums-chase-this-light-2023-11-03-38dee8.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1682,7 +1752,7 @@
       "t": "I Only Want to Live Once",
       "a": "John The Ghost",
       "r": null,
-      "img": "albums-i-only-want-to-live-once-2023-11-02-00e176.jpg",
+      "img": "albums-i-only-want-to-live-once-2023-11-02-00e176.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1693,7 +1763,7 @@
       "t": "One More Time",
       "a": "Blink-182",
       "r": null,
-      "img": "albums-one-more-time-2023-11-01-bdb90e.jpg",
+      "img": "albums-one-more-time-2023-11-01-bdb90e.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1704,41 +1774,41 @@
       "t": "152",
       "a": "Taking Back Sunday",
       "r": null,
-      "img": "albums-152-2023-10-30-3c8771.jpg",
+      "img": "albums-152-2023-10-30-3c8771.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
     {
-      "i": "books-discipline-is-destiny-2023-10-25-9d97a8",
+      "i": "books-discipline-is-destiny-the-power-of-self-control-2023-10-25-b46067",
       "d": "2023-10-25",
       "c": "books",
-      "t": "Discipline is Destiny",
+      "t": "Discipline Is Destiny: The Power of Self-Control",
       "a": "Ryan Holiday",
       "r": null,
-      "img": "books-discipline-is-destiny-2023-10-25-9d97a8.jpg",
-      "src": "books 📚",
+      "img": "books-discipline-is-destiny-the-power-of-self-control-2023-10-25-b46067.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
-      "i": "books-elon-musk-2023-10-18-31d365",
+      "i": "books-elon-musk-2023-10-18-1cd6cf",
       "d": "2023-10-18",
       "c": "books",
       "t": "Elon Musk",
       "a": "Walter Isaacson",
       "r": null,
-      "img": "books-elon-musk-2023-10-18-31d365.jpg",
-      "src": "books 📚",
+      "img": "books-elon-musk-2023-10-18-1cd6cf.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
-      "i": "books-you-can-heal-your-life-2023-09-19-18646d",
+      "i": "books-you-can-heal-your-life-2023-09-19-655bd1",
       "d": "2023-09-19",
       "c": "books",
       "t": "You Can Heal Your Life",
-      "a": "Louise Hay",
+      "a": "Louise L. Hay",
       "r": null,
-      "img": "books-you-can-heal-your-life-2023-09-19-18646d.jpg",
-      "src": "books 📚",
+      "img": "books-you-can-heal-your-life-2023-09-19-655bd1.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -1748,7 +1818,7 @@
       "t": "Tell All Your Friends 20th Anniversary Edition",
       "a": "Taking Back Sunday",
       "r": null,
-      "img": "albums-tell-all-your-friends-20th-anniversary-edition-2023-08-31-ef47b8.jpg",
+      "img": "albums-tell-all-your-friends-20th-anniversary-edition-2023-08-31-ef47b8.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1759,19 +1829,19 @@
       "t": "BlackBerry",
       "a": null,
       "r": null,
-      "img": "shows-blackberry-2023-08-26-897a45.jpg",
+      "img": "shows-blackberry-2023-08-26-897a45.jpeg",
       "src": "tv 📺",
       "blurb": null
     },
     {
-      "i": "books-steve-jobs-2023-08-24-2b4796",
+      "i": "books-steve-jobs-2023-08-24-97579c",
       "d": "2023-08-24",
       "c": "books",
       "t": "Steve Jobs",
       "a": "Walter Isaacson",
       "r": null,
-      "img": "books-steve-jobs-2023-08-24-2b4796.jpg",
-      "src": "books 📚",
+      "img": "books-steve-jobs-2023-08-24-97579c.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -1781,7 +1851,7 @@
       "t": "The Maine",
       "a": "The Maine",
       "r": null,
-      "img": "albums-the-maine-2023-08-14-b29214.jpg",
+      "img": "albums-the-maine-2023-08-14-b29214.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1792,7 +1862,7 @@
       "t": "Childhood Eyes EP",
       "a": "Yellowcard",
       "r": null,
-      "img": "albums-childhood-eyes-ep-2023-07-27-d196a5.jpg",
+      "img": "albums-childhood-eyes-ep-2023-07-27-d196a5.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1803,19 +1873,19 @@
       "t": "Mission Impossible: Dead Reckoning Part 1",
       "a": null,
       "r": null,
-      "img": "movies-mission-impossible-dead-reckoning-part-1-2023-07-22-ceb9a7.jpg",
+      "img": "movies-mission-impossible-dead-reckoning-part-1-2023-07-22-ceb9a7.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
     {
-      "i": "books-shoe-dog-2023-06-26-1389ab",
+      "i": "books-shoe-dog-a-memoir-by-the-creator-of-nike-2023-06-26-c4e129",
       "d": "2023-06-26",
       "c": "books",
-      "t": "Shoe Dog",
+      "t": "Shoe Dog: A Memoir by the Creator of Nike",
       "a": "Phil Knight",
       "r": null,
-      "img": "books-shoe-dog-2023-06-26-1389ab.jpg",
-      "src": "books 📚",
+      "img": "books-shoe-dog-a-memoir-by-the-creator-of-nike-2023-06-26-c4e129.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -1825,7 +1895,7 @@
       "t": "The Brightest Days",
       "a": "Origami Angel",
       "r": null,
-      "img": "albums-the-brightest-days-2023-06-26-03b149.jpg",
+      "img": "albums-the-brightest-days-2023-06-26-03b149.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1836,7 +1906,7 @@
       "t": "Where The Light Goes",
       "a": "Matchbox Twenty",
       "r": null,
-      "img": "albums-where-the-light-goes-2023-05-31-bdda1f.jpg",
+      "img": "albums-where-the-light-goes-2023-05-31-bdda1f.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1847,7 +1917,7 @@
       "t": "SHADOWKASTERS",
       "a": "The Rocket Summer",
       "r": null,
-      "img": "albums-shadowkasters-2023-05-15-83e6ce.jpg",
+      "img": "albums-shadowkasters-2023-05-15-83e6ce.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1858,7 +1928,7 @@
       "t": "Dookie",
       "a": "Green Day",
       "r": null,
-      "img": "albums-dookie-2023-04-27-53aabc.jpg",
+      "img": "albums-dookie-2023-04-27-53aabc.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1869,7 +1939,7 @@
       "t": "Drive",
       "a": "Tiesto",
       "r": null,
-      "img": "albums-drive-2023-04-27-1b8bec.jpg",
+      "img": "albums-drive-2023-04-27-1b8bec.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1880,7 +1950,7 @@
       "t": "Ballads of Hyrule II",
       "a": "Rozen",
       "r": null,
-      "img": "albums-ballads-of-hyrule-ii-2023-04-24-5a401a.jpg",
+      "img": "albums-ballads-of-hyrule-ii-2023-04-24-5a401a.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1891,7 +1961,7 @@
       "t": "Children of Termina",
       "a": "Rozen",
       "r": null,
-      "img": "albums-children-of-termina-2023-04-24-bd6da2.jpg",
+      "img": "albums-children-of-termina-2023-04-24-bd6da2.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1902,7 +1972,7 @@
       "t": "Sins of Hyrule",
       "a": "Rozen",
       "r": null,
-      "img": "albums-sins-of-hyrule-2023-04-24-2b1144.jpg",
+      "img": "albums-sins-of-hyrule-2023-04-24-2b1144.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1913,7 +1983,7 @@
       "t": "Ballads of Hyrule",
       "a": "Rozen",
       "r": null,
-      "img": "albums-ballads-of-hyrule-2023-04-21-aee66c.jpg",
+      "img": "albums-ballads-of-hyrule-2023-04-21-aee66c.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1924,7 +1994,7 @@
       "t": "Random Access Memories 10th Anniversary Edition",
       "a": "Daft Punk",
       "r": null,
-      "img": "albums-random-access-memories-10th-anniversary-edition-2023-04-19-dd4d84.jpg",
+      "img": "albums-random-access-memories-10th-anniversary-edition-2023-04-19-dd4d84.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1935,7 +2005,7 @@
       "t": "72 Seasons",
       "a": "Metallica",
       "r": null,
-      "img": "albums-72-seasons-2023-04-14-bb162a.jpg",
+      "img": "albums-72-seasons-2023-04-14-bb162a.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1946,7 +2016,7 @@
       "t": "Quiet Hours",
       "a": "Origami Angel",
       "r": null,
-      "img": "albums-quiet-hours-2023-04-12-77d3d5.jpg",
+      "img": "albums-quiet-hours-2023-04-12-77d3d5.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1957,7 +2027,7 @@
       "t": "Somewhere City",
       "a": "Origami Angel",
       "r": null,
-      "img": "albums-somewhere-city-2023-04-12-0c7efd.jpg",
+      "img": "albums-somewhere-city-2023-04-12-0c7efd.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1968,7 +2038,7 @@
       "t": "Higher than Heaven",
       "a": "Ellie Goulding",
       "r": null,
-      "img": "albums-higher-than-heaven-2023-04-11-c90261.jpg",
+      "img": "albums-higher-than-heaven-2023-04-11-c90261.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -1979,7 +2049,7 @@
       "t": "The Super Mario Bros Movie",
       "a": null,
       "r": null,
-      "img": "movies-the-super-mario-bros-movie-2023-04-08-d1aef9.jpg",
+      "img": "movies-the-super-mario-bros-movie-2023-04-08-d1aef9.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -1990,7 +2060,7 @@
       "t": "Nope",
       "a": null,
       "r": null,
-      "img": "movies-nope-2023-04-07-97737f.jpg",
+      "img": "movies-nope-2023-04-07-97737f.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -2001,7 +2071,7 @@
       "t": "Continue as a Guest",
       "a": "The New Pornographers",
       "r": null,
-      "img": "albums-continue-as-a-guest-2023-04-03-a36672.jpg",
+      "img": "albums-continue-as-a-guest-2023-04-03-a36672.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2012,7 +2082,7 @@
       "t": "Tilt At The Wind No More",
       "a": "Andrew McMahon in the Wilderness",
       "r": null,
-      "img": "albums-tilt-at-the-wind-no-more-2023-03-31-cdfce6.jpg",
+      "img": "albums-tilt-at-the-wind-no-more-2023-03-31-cdfce6.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2023,7 +2093,7 @@
       "t": "Reach For The Sun",
       "a": "The Dangerous Summer",
       "r": null,
-      "img": "albums-reach-for-the-sun-2023-03-30-127197.jpg",
+      "img": "albums-reach-for-the-sun-2023-03-30-127197.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2034,30 +2104,30 @@
       "t": "Lights Out",
       "a": "Sugarcult",
       "r": null,
-      "img": "albums-lights-out-2023-03-29-7053f7.jpg",
+      "img": "albums-lights-out-2023-03-29-7053f7.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
     {
-      "i": "books-steal-like-an-artist-2023-03-28-2c17bf",
+      "i": "books-steal-like-an-artist-10-things-nobody-told-you-about-being-creative-2023-0-46c404",
       "d": "2023-03-28",
       "c": "books",
-      "t": "Steal Like An Artist",
+      "t": "Steal Like an Artist: 10 Things Nobody Told You About Being Creative",
       "a": "Austin Kleon",
       "r": null,
-      "img": "books-steal-like-an-artist-2023-03-28-2c17bf.jpg",
-      "src": "books 📚",
+      "img": "books-steal-like-an-artist-10-things-nobody-told-you-about-being-creative-2023-0-46c404.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
-      "i": "books-show-your-work-2023-03-27-f0a83f",
+      "i": "books-show-your-work-10-ways-to-share-your-creativity-and-get-discovered-2023-03-f4ca97",
       "d": "2023-03-27",
       "c": "books",
-      "t": "Show Your Work!",
+      "t": "Show Your Work!: 10 Ways to Share Your Creativity and Get Discovered",
       "a": "Austin Kleon",
       "r": null,
-      "img": "books-show-your-work-2023-03-27-f0a83f.jpg",
-      "src": "books 📚",
+      "img": "books-show-your-work-10-ways-to-share-your-creativity-and-get-discovered-2023-03-f4ca97.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -2067,7 +2137,7 @@
       "t": "So Much (for) Stardust",
       "a": "Fall Out Boy",
       "r": null,
-      "img": "albums-so-much-for-stardust-2023-03-27-0f8703.jpg",
+      "img": "albums-so-much-for-stardust-2023-03-27-0f8703.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2078,7 +2148,7 @@
       "t": "Calendar Days",
       "a": "The Rocket Summer",
       "r": null,
-      "img": "albums-calendar-days-2023-03-23-6dcfab.jpg",
+      "img": "albums-calendar-days-2023-03-23-6dcfab.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2089,7 +2159,7 @@
       "t": "Apparently, I’m Nothing",
       "a": "State Champs",
       "r": null,
-      "img": "albums-apparently-i-m-nothing-2023-03-22-fd322c.jpg",
+      "img": "albums-apparently-i-m-nothing-2023-03-22-fd322c.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2100,7 +2170,7 @@
       "t": "If You Could Only Keep Me Alive",
       "a": "The Dangerous Summer",
       "r": null,
-      "img": "albums-if-you-could-only-keep-me-alive-2023-03-22-2d5203.jpg",
+      "img": "albums-if-you-could-only-keep-me-alive-2023-03-22-2d5203.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2111,7 +2181,7 @@
       "t": "Sweet Shivers",
       "a": "The Rocket Summer",
       "r": null,
-      "img": "albums-sweet-shivers-2023-03-22-4a348b.jpg",
+      "img": "albums-sweet-shivers-2023-03-22-4a348b.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2122,7 +2192,7 @@
       "t": "Tell Me I’m Alive",
       "a": "All Time Low",
       "r": null,
-      "img": "albums-tell-me-i-m-alive-2023-03-17-9530de.jpg",
+      "img": "albums-tell-me-i-m-alive-2023-03-17-9530de.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2133,19 +2203,19 @@
       "t": "In A Millions Years 10 Year Anniversary Edition",
       "a": "Last Dinosaurs",
       "r": null,
-      "img": "albums-in-a-millions-years-10-year-anniversary-edition-2023-03-13-60b8ea.jpg",
+      "img": "albums-in-a-millions-years-10-year-anniversary-edition-2023-03-13-60b8ea.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
     {
-      "i": "books-the-great-gatsby-2023-03-06-a5677c",
+      "i": "books-the-great-gatsby-2023-03-06-97d741",
       "d": "2023-03-06",
       "c": "books",
       "t": "The Great Gatsby",
       "a": "F. Scott Fitzgerald",
       "r": null,
-      "img": "books-the-great-gatsby-2023-03-06-a5677c.jpg",
-      "src": "books 📚",
+      "img": "books-the-great-gatsby-2023-03-06-97d741.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -2155,19 +2225,19 @@
       "t": "American Idiot",
       "a": "Green Day",
       "r": null,
-      "img": "albums-american-idiot-2023-03-03-f1cdd5.jpg",
+      "img": "albums-american-idiot-2023-03-03-f1cdd5.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
     {
-      "i": "books-the-whole-brain-child-2023-03-01-5ea477",
-      "d": "2023-03-01",
+      "i": "books-the-whole-brain-child-revolutionary-strategies-to-nurture-your-child-s-dev-b16d17",
+      "d": "2023-02-28",
       "c": "books",
-      "t": "The Whole-Brain Child",
-      "a": "Daniel J. Siegel & Tina Payne Bryson",
+      "t": "The Whole-Brain Child: Revolutionary Strategies to Nurture Your Child's Developing Mind",
+      "a": "Daniel J. Siegel",
       "r": null,
-      "img": "books-the-whole-brain-child-2023-03-01-5ea477.jpg",
-      "src": "books 📚",
+      "img": "books-the-whole-brain-child-revolutionary-strategies-to-nurture-your-child-s-dev-b16d17.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -2177,7 +2247,7 @@
       "t": "Say It Like You Mean It",
       "a": "The Starting Line",
       "r": null,
-      "img": "albums-say-it-like-you-mean-it-2023-02-26-e68c33.jpg",
+      "img": "albums-say-it-like-you-mean-it-2023-02-26-e68c33.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2188,7 +2258,7 @@
       "t": "Andrew McMahon in the Wilderness",
       "a": null,
       "r": null,
-      "img": "movies-andrew-mcmahon-in-the-wilderness-2023-02-24-fff382.jpg",
+      "img": "movies-andrew-mcmahon-in-the-wilderness-2023-02-24-fff382.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -2199,7 +2269,7 @@
       "t": "Futures",
       "a": "Jimmy Eat World",
       "r": null,
-      "img": "albums-futures-2023-02-13-72f280.jpg",
+      "img": "albums-futures-2023-02-13-72f280.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2210,7 +2280,7 @@
       "t": "Because The Internet",
       "a": "Childish Gambino",
       "r": null,
-      "img": "albums-because-the-internet-2023-02-09-e72971.jpg",
+      "img": "albums-because-the-internet-2023-02-09-e72971.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2221,7 +2291,7 @@
       "t": "Harry’s House",
       "a": "Harry Styles",
       "r": null,
-      "img": "albums-harry-s-house-2023-02-06-8cacdc.jpg",
+      "img": "albums-harry-s-house-2023-02-06-8cacdc.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2232,8 +2302,19 @@
       "t": "Fast Times At Barrington High",
       "a": "The Academy Is",
       "r": null,
-      "img": "albums-fast-times-at-barrington-high-2023-02-01-c6c39e.jpg",
+      "img": "albums-fast-times-at-barrington-high-2023-02-01-c6c39e.jpeg",
       "src": "music 🎧",
+      "blurb": null
+    },
+    {
+      "i": "books-you-are-home-the-catana-comic-collection-2023-01-20-df6549",
+      "d": "2023-01-20",
+      "c": "books",
+      "t": "You Are Home (The Catana Comic Collection)",
+      "a": "Catana Chetwynd",
+      "r": null,
+      "img": "books-you-are-home-the-catana-comic-collection-2023-01-20-df6549.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -2243,7 +2324,7 @@
       "t": "You Are Home",
       "a": "Catana Chetwynd",
       "r": null,
-      "img": "books-you-are-home-2023-01-20-027b13.jpg",
+      "img": "books-you-are-home-2023-01-20-027b13.jpeg",
       "src": "books 📚",
       "blurb": null
     },
@@ -2254,7 +2335,7 @@
       "t": "Electroman",
       "a": "Benny Benassi",
       "r": null,
-      "img": "albums-electroman-2023-01-18-0c2fd0.jpg",
+      "img": "albums-electroman-2023-01-18-0c2fd0.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2265,7 +2346,7 @@
       "t": "Catalyst",
       "a": "New Found Glory",
       "r": null,
-      "img": "albums-catalyst-2023-01-18-5d685d.jpg",
+      "img": "albums-catalyst-2023-01-18-5d685d.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2276,30 +2357,30 @@
       "t": "A Fever You Can’t Sweat Out",
       "a": "Panic! At The Disco",
       "r": null,
-      "img": "albums-a-fever-you-can-t-sweat-out-2023-01-18-c6ed61.jpg",
+      "img": "albums-a-fever-you-can-t-sweat-out-2023-01-18-c6ed61.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
     {
-      "i": "books-anything-you-want-2023-01-15-cebe42",
-      "d": "2023-01-15",
+      "i": "books-anything-you-want-40-lessons-for-a-new-kind-of-entrepreneur-2023-01-14-aa398d",
+      "d": "2023-01-14",
       "c": "books",
-      "t": "Anything You Want",
+      "t": "Anything You Want: 40 Lessons for a New Kind of Entrepreneur",
       "a": "Derek Sivers",
       "r": null,
-      "img": "books-anything-you-want-2023-01-15-cebe42.jpg",
-      "src": "books 📚",
+      "img": "books-anything-you-want-40-lessons-for-a-new-kind-of-entrepreneur-2023-01-14-aa398d.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
-      "i": "books-personal-socrates-2023-01-13-5eb813",
+      "i": "books-personal-socrates-questions-that-will-upgrade-your-life-from-legends-world-5b4ef9",
       "d": "2023-01-13",
       "c": "books",
-      "t": "Personal Socrates",
+      "t": "Personal Socrates: Questions That Will Upgrade Your Life from Legends & World-Class Performers",
       "a": "Marc Champagne",
       "r": null,
-      "img": "books-personal-socrates-2023-01-13-5eb813.jpg",
-      "src": "books 📚",
+      "img": "books-personal-socrates-questions-that-will-upgrade-your-life-from-legends-world-5b4ef9.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -2309,7 +2390,7 @@
       "t": "Avatar - The Way of Water",
       "a": null,
       "r": "★★★★★",
-      "img": "movies-avatar-the-way-of-water-2023-01-08-acc51e.jpg",
+      "img": "movies-avatar-the-way-of-water-2023-01-08-acc51e.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -2320,7 +2401,7 @@
       "t": "It Won’t Be Soon Before Long",
       "a": "Maroon 5",
       "r": null,
-      "img": "albums-it-won-t-be-soon-before-long-2023-01-06-510950.jpg",
+      "img": "albums-it-won-t-be-soon-before-long-2023-01-06-510950.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2331,7 +2412,7 @@
       "t": "Hybrid Theory 20th Anniversary Edition",
       "a": "Linkin Park",
       "r": null,
-      "img": "albums-hybrid-theory-20th-anniversary-edition-2023-01-05-9b242b.jpg",
+      "img": "albums-hybrid-theory-20th-anniversary-edition-2023-01-05-9b242b.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2342,7 +2423,7 @@
       "t": "Singularity",
       "a": "Mae",
       "r": null,
-      "img": "albums-singularity-2023-01-05-87da73.jpg",
+      "img": "albums-singularity-2023-01-05-87da73.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2353,7 +2434,7 @@
       "t": "Bodies",
       "a": "AFI",
       "r": null,
-      "img": "albums-bodies-2022-12-30-2c881a.jpg",
+      "img": "albums-bodies-2022-12-30-2c881a.png",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2364,7 +2445,7 @@
       "t": "Christmas",
       "a": "Michael Buble",
       "r": null,
-      "img": "albums-christmas-2022-12-13-58ce70.jpg",
+      "img": "albums-christmas-2022-12-13-58ce70.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2375,7 +2456,7 @@
       "t": "Plans",
       "a": "Death Cab for Cutie",
       "r": null,
-      "img": "albums-plans-2022-12-09-d264aa.jpg",
+      "img": "albums-plans-2022-12-09-d264aa.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2386,7 +2467,7 @@
       "t": "Meteora",
       "a": "Linkin Park",
       "r": null,
-      "img": "albums-meteora-2022-12-09-73da5a.jpg",
+      "img": "albums-meteora-2022-12-09-73da5a.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2397,7 +2478,7 @@
       "t": "Shadows of Hyrule",
       "a": "Rozen",
       "r": null,
-      "img": "albums-shadows-of-hyrule-2022-12-09-7d3c68.jpg",
+      "img": "albums-shadows-of-hyrule-2022-12-09-7d3c68.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2408,7 +2489,7 @@
       "t": "Midnights",
       "a": "Taylor Swift",
       "r": null,
-      "img": "albums-midnights-2022-12-09-079c11.jpg",
+      "img": "albums-midnights-2022-12-09-079c11.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2419,7 +2500,7 @@
       "t": "**Emily the Criminal | ★★☆☆☆**",
       "a": null,
       "r": null,
-      "img": "movies-emily-the-criminal-2022-10-14-b7cc7d.jpg",
+      "img": "movies-emily-the-criminal-2022-10-14-b7cc7d.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -2430,7 +2511,7 @@
       "t": "**Dahmer**",
       "a": null,
       "r": null,
-      "img": "movies-dahmer-2022-10-12-9c93a4.jpg",
+      "img": "movies-dahmer-2022-10-12-9c93a4.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -2441,7 +2522,7 @@
       "t": "Kamikaze",
       "a": "Twista",
       "r": null,
-      "img": "albums-kamikaze-2022-09-13-b8d9bd.jpg",
+      "img": "albums-kamikaze-2022-09-13-b8d9bd.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2452,7 +2533,7 @@
       "t": "Fly or Die",
       "a": "N.E.R.D",
       "r": null,
-      "img": "albums-fly-or-die-2022-07-07-7684df.jpg",
+      "img": "albums-fly-or-die-2022-07-07-7684df.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2463,7 +2544,7 @@
       "t": "Stadium Arcadium",
       "a": "Red Hot Chili Peppers",
       "r": null,
-      "img": "albums-stadium-arcadium-2022-07-06-cbbcf0.jpg",
+      "img": "albums-stadium-arcadium-2022-07-06-cbbcf0.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2474,7 +2555,7 @@
       "t": "Life Is Yours",
       "a": "Foals",
       "r": null,
-      "img": "albums-life-is-yours-2022-06-23-ea51bf.jpg",
+      "img": "albums-life-is-yours-2022-06-23-ea51bf.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2485,7 +2566,7 @@
       "t": "Sonic 2",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-sonic-2-2022-06-20-228c44.jpg",
+      "img": "movies-sonic-2-2022-06-20-228c44.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -2496,7 +2577,7 @@
       "t": "The Slow Rush",
       "a": "Tame Impala",
       "r": null,
-      "img": "albums-the-slow-rush-2022-06-20-90775d.jpg",
+      "img": "albums-the-slow-rush-2022-06-20-90775d.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2507,7 +2588,7 @@
       "t": "Human After All",
       "a": "Daft Punk",
       "r": null,
-      "img": "albums-human-after-all-2022-06-16-8023f1.jpg",
+      "img": "albums-human-after-all-2022-06-16-8023f1.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2518,7 +2599,7 @@
       "t": "Move Along",
       "a": "The All-American Rejects",
       "r": null,
-      "img": "albums-move-along-2022-06-16-e1bef8.jpg",
+      "img": "albums-move-along-2022-06-16-e1bef8.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2529,7 +2610,7 @@
       "t": "Dark Is The Way, Light Is A Place",
       "a": "Anberlin",
       "r": null,
-      "img": "albums-dark-is-the-way-light-is-a-place-2022-06-15-d3462e.jpg",
+      "img": "albums-dark-is-the-way-light-is-a-place-2022-06-15-d3462e.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2540,7 +2621,7 @@
       "t": "Still Searching",
       "a": "Senses Fail",
       "r": null,
-      "img": "albums-still-searching-2022-06-14-7f05c9.jpg",
+      "img": "albums-still-searching-2022-06-14-7f05c9.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2551,7 +2632,7 @@
       "t": "Leaving Through The Window",
       "a": "Something Corporate",
       "r": null,
-      "img": "albums-leaving-through-the-window-2022-06-13-db7ed4.jpg",
+      "img": "albums-leaving-through-the-window-2022-06-13-db7ed4.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2562,7 +2643,7 @@
       "t": "Soundtrack To Your Life",
       "a": "Ashley Parker Angel",
       "r": null,
-      "img": "albums-soundtrack-to-your-life-2022-06-10-4387e6.jpg",
+      "img": "albums-soundtrack-to-your-life-2022-06-10-4387e6.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2573,7 +2654,7 @@
       "t": "Blueprints For The Black Market",
       "a": "Anberlin",
       "r": null,
-      "img": "albums-blueprints-for-the-black-market-2022-06-09-88c2e3.jpg",
+      "img": "albums-blueprints-for-the-black-market-2022-06-09-88c2e3.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2584,7 +2665,7 @@
       "t": "The College Dropout",
       "a": "Kanye West",
       "r": null,
-      "img": "albums-the-college-dropout-2022-06-09-4652b4.jpg",
+      "img": "albums-the-college-dropout-2022-06-09-4652b4.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2595,7 +2676,7 @@
       "t": "Everything in Transit (10th Anniversary Edition)",
       "a": "Jack’s Mannequin",
       "r": null,
-      "img": "albums-everything-in-transit-10th-anniversary-edition-2022-06-02-779e82.jpg",
+      "img": "albums-everything-in-transit-10th-anniversary-edition-2022-06-02-779e82.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2606,30 +2687,19 @@
       "t": "Uncharted",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-uncharted-2022-06-01-e28bd4.jpg",
+      "img": "movies-uncharted-2022-06-01-e28bd4.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
     {
-      "i": "movies-avatar-2022-05-31-b755eb",
-      "d": "2022-05-31",
-      "c": "movies",
-      "t": "Avatar",
-      "a": null,
-      "r": "★★★★☆",
-      "img": "movies-avatar-2022-05-31-b755eb.jpg",
-      "src": "movies 🍿",
-      "blurb": null
-    },
-    {
-      "i": "books-the-millionaire-fastlane-2022-05-29-be41e1",
+      "i": "books-the-millionaire-fastlane-crack-the-code-to-wealth-and-live-rich-for-a-life-fa94e9",
       "d": "2022-05-29",
       "c": "books",
-      "t": "The Millionaire Fastlane",
-      "a": "MJ DeMarco",
+      "t": "The Millionaire Fastlane: Crack the Code to Wealth and Live Rich for a Lifetime!",
+      "a": "M.J. DeMarco",
       "r": null,
-      "img": "books-the-millionaire-fastlane-2022-05-29-be41e1.jpg",
-      "src": "books 📚",
+      "img": "books-the-millionaire-fastlane-crack-the-code-to-wealth-and-live-rich-for-a-life-fa94e9.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -2639,7 +2709,7 @@
       "t": "Rooney",
       "a": "Rooney",
       "r": null,
-      "img": "albums-rooney-2022-05-13-c86856.jpg",
+      "img": "albums-rooney-2022-05-13-c86856.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2650,7 +2720,7 @@
       "t": "WeCrashed",
       "a": null,
       "r": null,
-      "img": "shows-wecrashed-2022-04-21-1ccb36.jpg",
+      "img": "shows-wecrashed-2022-04-21-1ccb36.jpeg",
       "src": "tv 📺",
       "blurb": null
     },
@@ -2661,7 +2731,7 @@
       "t": "Brooklyn Nine Nine",
       "a": null,
       "r": null,
-      "img": "shows-brooklyn-nine-nine-2022-04-20-58b3b1.jpg",
+      "img": "shows-brooklyn-nine-nine-2022-04-20-58b3b1.jpeg",
       "src": "tv 📺",
       "blurb": null
     },
@@ -2672,7 +2742,7 @@
       "t": "Almost Here",
       "a": "The Academy Is...",
       "r": null,
-      "img": "albums-almost-here-2022-04-06-67868e.jpg",
+      "img": "albums-almost-here-2022-04-06-67868e.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2683,7 +2753,7 @@
       "t": "The Dropout",
       "a": null,
       "r": null,
-      "img": "shows-the-dropout-2022-04-06-b3f166.jpg",
+      "img": "shows-the-dropout-2022-04-06-b3f166.jpeg",
       "src": "tv 📺",
       "blurb": null
     },
@@ -2694,7 +2764,7 @@
       "t": "Gami Gang",
       "a": "Origami Angel",
       "r": null,
-      "img": "albums-gami-gang-2022-03-28-d0e176.jpg",
+      "img": "albums-gami-gang-2022-03-28-d0e176.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2705,7 +2775,7 @@
       "t": "Yumeno Garden",
       "a": "Last Dinosaurs",
       "r": null,
-      "img": "albums-yumeno-garden-2022-03-20-6bd313.jpg",
+      "img": "albums-yumeno-garden-2022-03-20-6bd313.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2716,7 +2786,7 @@
       "t": "Page Avenue: Ten Years and Counting",
       "a": "Story of the Year",
       "r": null,
-      "img": "albums-page-avenue-ten-years-and-counting-2022-03-20-8bfa36.jpg",
+      "img": "albums-page-avenue-ten-years-and-counting-2022-03-20-8bfa36.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2727,7 +2797,7 @@
       "t": "Turning Red",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-turning-red-2022-03-11-4c946e.jpg",
+      "img": "movies-turning-red-2022-03-11-4c946e.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -2738,7 +2808,7 @@
       "t": "Cities",
       "a": "Anberlin",
       "r": null,
-      "img": "albums-cities-2022-03-11-e1b992.jpg",
+      "img": "albums-cities-2022-03-11-e1b992.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2749,7 +2819,7 @@
       "t": "Millennium",
       "a": "Backstreet Boys",
       "r": null,
-      "img": "albums-millennium-2022-03-11-7db0b0.jpg",
+      "img": "albums-millennium-2022-03-11-7db0b0.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2760,7 +2830,7 @@
       "t": "Tell All Your Friends",
       "a": "Taking Back Sunday",
       "r": null,
-      "img": "albums-tell-all-your-friends-2022-03-07-29a02f.jpg",
+      "img": "albums-tell-all-your-friends-2022-03-07-29a02f.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2771,7 +2841,7 @@
       "t": "Where You Want To Be",
       "a": "Taking Back Sunday",
       "r": null,
-      "img": "albums-where-you-want-to-be-2022-03-07-e835e3.jpg",
+      "img": "albums-where-you-want-to-be-2022-03-07-e835e3.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2782,7 +2852,7 @@
       "t": "Don’t Panic: It’s Longer Now",
       "a": "All Time Low",
       "r": null,
-      "img": "albums-don-t-panic-it-s-longer-now-2022-03-04-5897ab.jpg",
+      "img": "albums-don-t-panic-it-s-longer-now-2022-03-04-5897ab.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2793,7 +2863,7 @@
       "t": "Letters to the President",
       "a": "Hawk Nelson",
       "r": null,
-      "img": "albums-letters-to-the-president-2022-03-04-566811.jpg",
+      "img": "albums-letters-to-the-president-2022-03-04-566811.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2804,7 +2874,7 @@
       "t": "Flight",
       "a": "Search The City",
       "r": null,
-      "img": "albums-flight-2022-03-04-42164e.jpg",
+      "img": "albums-flight-2022-03-04-42164e.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2815,7 +2885,7 @@
       "t": "All The Truth That I Can Tell",
       "a": "Dashboard Confessional",
       "r": null,
-      "img": "albums-all-the-truth-that-i-can-tell-2022-03-01-ddb645.jpg",
+      "img": "albums-all-the-truth-that-i-can-tell-2022-03-01-ddb645.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2826,7 +2896,7 @@
       "t": "The Tipping Point",
       "a": "Tears for Fears",
       "r": null,
-      "img": "albums-the-tipping-point-2022-03-01-98306d.jpg",
+      "img": "albums-the-tipping-point-2022-03-01-98306d.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2837,7 +2907,7 @@
       "t": "What To Do When You Are Dead",
       "a": "Armor for Sleep",
       "r": null,
-      "img": "albums-what-to-do-when-you-are-dead-2022-02-27-a5c4a9.jpg",
+      "img": "albums-what-to-do-when-you-are-dead-2022-02-27-a5c4a9.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2848,7 +2918,7 @@
       "t": "Inventing Anna",
       "a": null,
       "r": null,
-      "img": "shows-inventing-anna-2022-02-27-9c3a29.jpg",
+      "img": "shows-inventing-anna-2022-02-27-9c3a29.jpeg",
       "src": "tv 📺",
       "blurb": null
     },
@@ -2859,7 +2929,7 @@
       "t": "The Stranger",
       "a": "Billy Joel",
       "r": null,
-      "img": "albums-the-stranger-2022-02-12-1fe449.jpg",
+      "img": "albums-the-stranger-2022-02-12-1fe449.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2870,7 +2940,7 @@
       "t": "Bleed American",
       "a": "Jimmy Eat World",
       "r": null,
-      "img": "albums-bleed-american-2022-02-07-89ab21.jpg",
+      "img": "albums-bleed-american-2022-02-07-89ab21.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2881,7 +2951,7 @@
       "t": "Wake Up Sunshine",
       "a": "All Time Low",
       "r": null,
-      "img": "albums-wake-up-sunshine-2022-02-04-9c292c.jpg",
+      "img": "albums-wake-up-sunshine-2022-02-04-9c292c.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2892,7 +2962,7 @@
       "t": "The Woman In The House Across The Street From The Girl In The Window",
       "a": null,
       "r": null,
-      "img": "shows-the-woman-in-the-house-across-the-street-from-the-girl-in-the-window-2022--a7348b.jpg",
+      "img": "shows-the-woman-in-the-house-across-the-street-from-the-girl-in-the-window-2022--a7348b.jpeg",
       "src": "tv 📺",
       "blurb": null
     },
@@ -2903,7 +2973,7 @@
       "t": "The Book of Manning",
       "a": null,
       "r": null,
-      "img": "shows-the-book-of-manning-2022-01-28-595822.jpg",
+      "img": "shows-the-book-of-manning-2022-01-28-595822.jpeg",
       "src": "documentaries 🎞️",
       "blurb": null
     },
@@ -2914,7 +2984,7 @@
       "t": "Cuphead",
       "a": null,
       "r": null,
-      "img": "games-cuphead-2022-01-28-d8e239.jpg",
+      "img": "games-cuphead-2022-01-28-d8e239.jpeg",
       "src": "games 🎮",
       "blurb": null
     },
@@ -2925,7 +2995,7 @@
       "t": "Hoobastank",
       "a": "Hoobastank",
       "r": null,
-      "img": "albums-hoobastank-2022-01-28-a1bdd2.jpg",
+      "img": "albums-hoobastank-2022-01-28-a1bdd2.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2936,7 +3006,7 @@
       "t": "Make Yourself",
       "a": "Incubus",
       "r": null,
-      "img": "albums-make-yourself-2022-01-27-9ca988.jpg",
+      "img": "albums-make-yourself-2022-01-27-9ca988.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2947,7 +3017,7 @@
       "t": "A Fire So Big The Heavens Can See It",
       "a": "Search The City",
       "r": null,
-      "img": "albums-a-fire-so-big-the-heavens-can-see-it-2022-01-25-64876f.jpg",
+      "img": "albums-a-fire-so-big-the-heavens-can-see-it-2022-01-25-64876f.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2958,7 +3028,7 @@
       "t": "Hotel Transylvania 4",
       "a": null,
       "r": "★★☆☆☆",
-      "img": "movies-hotel-transylvania-4-2022-01-22-7c6bc7.jpg",
+      "img": "movies-hotel-transylvania-4-2022-01-22-7c6bc7.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -2969,7 +3039,7 @@
       "t": "Bright Lights",
       "a": "Ellie Goulding",
       "r": null,
-      "img": "albums-bright-lights-2022-01-21-c21043.jpg",
+      "img": "albums-bright-lights-2022-01-21-c21043.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2980,7 +3050,7 @@
       "t": "The Used",
       "a": "The Used",
       "r": null,
-      "img": "albums-the-used-2022-01-20-724521.jpg",
+      "img": "albums-the-used-2022-01-20-724521.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -2991,7 +3061,7 @@
       "t": "Room for Squares",
       "a": "John Mayer",
       "r": null,
-      "img": "albums-room-for-squares-2022-01-19-c5d1a9.jpg",
+      "img": "albums-room-for-squares-2022-01-19-c5d1a9.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -3002,7 +3072,7 @@
       "t": "It’s Still Nothing Personal: A Ten Year Tribute",
       "a": "All Time Low",
       "r": null,
-      "img": "albums-it-s-still-nothing-personal-a-ten-year-tribute-2022-01-17-fb1fa4.jpg",
+      "img": "albums-it-s-still-nothing-personal-a-ten-year-tribute-2022-01-17-fb1fa4.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -3013,7 +3083,7 @@
       "t": "One For The Kids 20th Anniversary",
       "a": "Yellowcard",
       "r": null,
-      "img": "albums-one-for-the-kids-20th-anniversary-2022-01-14-6a3a23.jpg",
+      "img": "albums-one-for-the-kids-20th-anniversary-2022-01-14-6a3a23.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -3024,7 +3094,7 @@
       "t": "When You’re Through Thinking, Say Yes",
       "a": "Yellowcard",
       "r": null,
-      "img": "albums-when-you-re-through-thinking-say-yes-2022-01-12-1b02e6.jpg",
+      "img": "albums-when-you-re-through-thinking-say-yes-2022-01-12-1b02e6.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -3035,7 +3105,7 @@
       "t": "Never Take Friendship Personal",
       "a": "Anberlin",
       "r": null,
-      "img": "albums-never-take-friendship-personal-2022-01-11-61e5fc.jpg",
+      "img": "albums-never-take-friendship-personal-2022-01-11-61e5fc.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -3046,7 +3116,7 @@
       "t": "Dawn FM",
       "a": "The Weeknd",
       "r": null,
-      "img": "albums-dawn-fm-2022-01-10-2ee68a.jpg",
+      "img": "albums-dawn-fm-2022-01-10-2ee68a.png",
       "src": "music 🎧",
       "blurb": null
     },
@@ -3057,7 +3127,7 @@
       "t": "From Under The Cork Tree",
       "a": "Fall Out Boy",
       "r": null,
-      "img": "albums-from-under-the-cork-tree-2022-01-09-bdfedf.jpg",
+      "img": "albums-from-under-the-cork-tree-2022-01-09-bdfedf.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -3068,7 +3138,7 @@
       "t": "Collision Course",
       "a": "Linkin Park & Jay-Z",
       "r": null,
-      "img": "albums-collision-course-2022-01-08-3fbc1d.jpg",
+      "img": "albums-collision-course-2022-01-08-3fbc1d.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -3079,7 +3149,7 @@
       "t": "Dead Man’s Switch",
       "a": null,
       "r": "★★☆☆☆",
-      "img": "movies-dead-man-s-switch-2022-01-04-771436.jpg",
+      "img": "movies-dead-man-s-switch-2022-01-04-771436.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3090,7 +3160,7 @@
       "t": "Return to Hogwarts",
       "a": null,
       "r": "★★★★★",
-      "img": "movies-return-to-hogwarts-2022-01-01-1b0c35.jpg",
+      "img": "movies-return-to-hogwarts-2022-01-01-1b0c35.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3101,7 +3171,7 @@
       "t": "Super Mario 3D World",
       "a": null,
       "r": null,
-      "img": "games-super-mario-3d-world-2021-12-28-75e909.jpg",
+      "img": "games-super-mario-3d-world-2021-12-28-75e909.jpeg",
       "src": "games 🎮",
       "blurb": null
     },
@@ -3112,7 +3182,7 @@
       "t": "The Matrix",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-the-matrix-2021-12-28-1cd03c.jpg",
+      "img": "movies-the-matrix-2021-12-28-1cd03c.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3123,19 +3193,19 @@
       "t": "The Matrix Resurrections",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-the-matrix-resurrections-2021-12-24-06ec8b.jpg",
+      "img": "movies-the-matrix-resurrections-2021-12-24-06ec8b.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
     {
-      "i": "books-the-untethered-soul-2021-12-16-250f93",
+      "i": "books-the-untethered-soul-the-journey-beyond-yourself-2021-12-16-cb887b",
       "d": "2021-12-16",
       "c": "books",
-      "t": "The Untethered Soul",
+      "t": "The Untethered Soul: The Journey Beyond Yourself",
       "a": "Michael A. Singer",
       "r": null,
-      "img": "books-the-untethered-soul-2021-12-16-250f93.jpg",
-      "src": "books 📚",
+      "img": "books-the-untethered-soul-the-journey-beyond-yourself-2021-12-16-cb887b.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -3145,7 +3215,7 @@
       "t": "8 Bit Christmas",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-8-bit-christmas-2021-12-12-551265.jpg",
+      "img": "movies-8-bit-christmas-2021-12-12-551265.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3156,7 +3226,7 @@
       "t": "Shrek",
       "a": null,
       "r": "★★☆☆☆",
-      "img": "movies-shrek-2021-11-23-7b6586.jpg",
+      "img": "movies-shrek-2021-11-23-7b6586.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3167,7 +3237,7 @@
       "t": "Jungle Cruise",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-jungle-cruise-2021-11-14-c24fa8.jpg",
+      "img": "movies-jungle-cruise-2021-11-14-c24fa8.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3178,19 +3248,19 @@
       "t": "Shang-Chi",
       "a": null,
       "r": "★★★★★",
-      "img": "movies-shang-chi-2021-11-12-6c84ce.jpg",
+      "img": "movies-shang-chi-2021-11-12-6c84ce.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
     {
-      "i": "books-greenlights-2021-10-26-c9ea4a",
+      "i": "books-greenlights-2021-10-26-ac3a65",
       "d": "2021-10-26",
       "c": "books",
       "t": "Greenlights",
       "a": "Matthew McConaughey",
       "r": null,
-      "img": "books-greenlights-2021-10-26-c9ea4a.jpg",
-      "src": "books 📚",
+      "img": "books-greenlights-2021-10-26-ac3a65.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -3200,7 +3270,7 @@
       "t": "Midsommar",
       "a": null,
       "r": "★★☆☆☆",
-      "img": "movies-midsommar-2021-10-16-af3a59.jpg",
+      "img": "movies-midsommar-2021-10-16-af3a59.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3211,7 +3281,7 @@
       "t": "Freaky",
       "a": null,
       "r": "★★☆☆☆",
-      "img": "movies-freaky-2021-10-15-66a828.jpg",
+      "img": "movies-freaky-2021-10-15-66a828.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3222,7 +3292,7 @@
       "t": "Squid Game",
       "a": null,
       "r": "★★★★★",
-      "img": "shows-squid-game-2021-10-10-55f8f3.jpg",
+      "img": "shows-squid-game-2021-10-10-55f8f3.jpeg",
       "src": "tv 📺",
       "blurb": null
     },
@@ -3233,7 +3303,7 @@
       "t": "Midnight Mass",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-midnight-mass-2021-10-04-910e53.jpg",
+      "img": "movies-midnight-mass-2021-10-04-910e53.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3244,30 +3314,30 @@
       "t": "Cruella",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-cruella-2021-09-10-866e8d.jpg",
+      "img": "movies-cruella-2021-09-10-866e8d.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
     {
-      "i": "books-the-ride-of-a-lifetime-2021-08-06-b2b10f",
+      "i": "books-the-ride-of-a-lifetime-lessons-learned-from-15-years-as-ceo-of-the-walt-di-c01b3a",
       "d": "2021-08-06",
       "c": "books",
-      "t": "The Ride of a Lifetime",
-      "a": "Bob Iger",
+      "t": "The Ride of a Lifetime: Lessons Learned from 15 Years as CEO of the Walt Disney Company",
+      "a": "Robert Iger",
       "r": null,
-      "img": "books-the-ride-of-a-lifetime-2021-08-06-b2b10f.jpg",
-      "src": "books 📚",
+      "img": "books-the-ride-of-a-lifetime-lessons-learned-from-15-years-as-ceo-of-the-walt-di-c01b3a.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
-      "i": "books-think-like-a-monk-2021-08-04-63adf1",
+      "i": "books-think-like-a-monk-train-your-mind-for-peace-and-purpose-every-day-2021-08--90926b",
       "d": "2021-08-04",
       "c": "books",
-      "t": "Think Like A Monk",
+      "t": "Think Like a Monk: Train Your Mind for Peace and Purpose Every Day",
       "a": "Jay Shetty",
       "r": null,
-      "img": "books-think-like-a-monk-2021-08-04-63adf1.jpg",
-      "src": "books 📚",
+      "img": "books-think-like-a-monk-train-your-mind-for-peace-and-purpose-every-day-2021-08--90926b.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -3277,7 +3347,7 @@
       "t": "Sob Rock",
       "a": "John Mayer",
       "r": null,
-      "img": "albums-sob-rock-2021-07-24-a6fda2.jpg",
+      "img": "albums-sob-rock-2021-07-24-a6fda2.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -3288,7 +3358,7 @@
       "t": "Ocean Avenue",
       "a": "Yellowcard",
       "r": null,
-      "img": "albums-ocean-avenue-2021-07-19-26bb63.jpg",
+      "img": "albums-ocean-avenue-2021-07-19-26bb63.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -3299,7 +3369,7 @@
       "t": "Future Hearts",
       "a": "All Time Low",
       "r": null,
-      "img": "albums-future-hearts-2021-07-18-bbd9ee.jpg",
+      "img": "albums-future-hearts-2021-07-18-bbd9ee.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -3310,7 +3380,7 @@
       "t": "Louder Now",
       "a": "Taking Back Sunday",
       "r": null,
-      "img": "albums-louder-now-2021-07-18-62ac6a.jpg",
+      "img": "albums-louder-now-2021-07-18-62ac6a.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -3321,7 +3391,7 @@
       "t": "Space Jam: A New Legacy",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-space-jam-a-new-legacy-2021-07-16-caa7f9.jpg",
+      "img": "movies-space-jam-a-new-legacy-2021-07-16-caa7f9.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3332,7 +3402,7 @@
       "t": "Hybrid Theory",
       "a": "Linkin Park",
       "r": null,
-      "img": "albums-hybrid-theory-2021-07-12-a954b0.jpg",
+      "img": "albums-hybrid-theory-2021-07-12-a954b0.jpeg",
       "src": "music 🎧",
       "blurb": null
     },
@@ -3343,19 +3413,19 @@
       "t": "Jeffrey Epstein: Filthy Rich",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-jeffrey-epstein-filthy-rich-2021-06-27-5852c1.jpg",
+      "img": "movies-jeffrey-epstein-filthy-rich-2021-06-27-5852c1.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
     {
-      "i": "books-your-music-and-people-2021-06-25-3e214c",
-      "d": "2021-06-25",
+      "i": "books-your-music-and-people-creative-and-considerate-fame-2021-06-24-5a9b95",
+      "d": "2021-06-24",
       "c": "books",
-      "t": "Your Music and People",
+      "t": "Your Music and People: creative and considerate fame",
       "a": "Derek Sivers",
       "r": null,
-      "img": "books-your-music-and-people-2021-06-25-3e214c.jpg",
-      "src": "books 📚",
+      "img": "books-your-music-and-people-creative-and-considerate-fame-2021-06-24-5a9b95.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -3365,7 +3435,7 @@
       "t": "Luca",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-luca-2021-06-18-ec143e.jpg",
+      "img": "movies-luca-2021-06-18-ec143e.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3376,7 +3446,7 @@
       "t": "Doctor Sleep",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-doctor-sleep-2021-06-11-cc3bd0.jpg",
+      "img": "movies-doctor-sleep-2021-06-11-cc3bd0.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3387,19 +3457,19 @@
       "t": "Rush Hour",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-rush-hour-2021-06-09-68e746.jpg",
+      "img": "movies-rush-hour-2021-06-09-68e746.png",
       "src": "movies 🍿",
       "blurb": null
     },
     {
-      "i": "books-how-to-live-2021-06-08-56244d",
-      "d": "2021-06-08",
+      "i": "books-how-to-live-27-conflicting-answers-and-one-weird-conclusion-2021-06-07-f0ccc4",
+      "d": "2021-06-07",
       "c": "books",
-      "t": "How to Live",
+      "t": "How to Live: 27 conflicting answers and one weird conclusion",
       "a": "Derek Sivers",
       "r": null,
-      "img": "books-how-to-live-2021-06-08-56244d.jpg",
-      "src": "books 📚",
+      "img": "books-how-to-live-27-conflicting-answers-and-one-weird-conclusion-2021-06-07-f0ccc4.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -3409,7 +3479,7 @@
       "t": "Mortal Kombat",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-mortal-kombat-2021-04-24-a721bb.jpg",
+      "img": "movies-mortal-kombat-2021-04-24-a721bb.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3420,19 +3490,8 @@
       "t": "Free Solo",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-free-solo-2021-04-22-42b5f8.jpg",
+      "img": "movies-free-solo-2021-04-22-42b5f8.jpeg",
       "src": "movies 🍿",
-      "blurb": null
-    },
-    {
-      "i": "games-the-legend-of-zelda-link-s-awakening-2021-04-05-ef3e7f",
-      "d": "2021-04-05",
-      "c": "games",
-      "t": "The Legend of Zelda: Link’s Awakening",
-      "a": null,
-      "r": null,
-      "img": "games-the-legend-of-zelda-link-s-awakening-2021-04-05-ef3e7f.jpg",
-      "src": "games 🎮",
       "blurb": null
     },
     {
@@ -3442,7 +3501,7 @@
       "t": "WeWork",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-wework-2021-04-02-33d624.jpg",
+      "img": "movies-wework-2021-04-02-33d624.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3453,7 +3512,7 @@
       "t": "Harry and the Henderson’s",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-harry-and-the-henderson-s-2021-03-16-e12455.jpg",
+      "img": "movies-harry-and-the-henderson-s-2021-03-16-e12455.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3464,7 +3523,7 @@
       "t": "Artemis Fowl",
       "a": null,
       "r": "★☆☆☆☆",
-      "img": "movies-artemis-fowl-2021-03-13-752a99.jpg",
+      "img": "movies-artemis-fowl-2021-03-13-752a99.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3475,7 +3534,7 @@
       "t": "Raya and the Last Dragon",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-raya-and-the-last-dragon-2021-03-07-375280.jpg",
+      "img": "movies-raya-and-the-last-dragon-2021-03-07-375280.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3486,7 +3545,7 @@
       "t": "69: The Saga of Danny Hernandez",
       "a": null,
       "r": "★★☆☆☆",
-      "img": "movies-69-the-saga-of-danny-hernandez-2021-02-27-51ae25.jpg",
+      "img": "movies-69-the-saga-of-danny-hernandez-2021-02-27-51ae25.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3497,7 +3556,7 @@
       "t": "Night Stalker",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-night-stalker-2021-02-26-10c17a.jpg",
+      "img": "movies-night-stalker-2021-02-26-10c17a.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3508,7 +3567,7 @@
       "t": "Liar Liar",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-liar-liar-2021-02-20-6dfb6f.jpg",
+      "img": "movies-liar-liar-2021-02-20-6dfb6f.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3519,7 +3578,7 @@
       "t": "Zombies 2",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-zombies-2-2021-02-20-fae0e7.jpg",
+      "img": "movies-zombies-2-2021-02-20-fae0e7.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3530,7 +3589,7 @@
       "t": "Zombies",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-zombies-2021-02-19-eae729.jpg",
+      "img": "movies-zombies-2021-02-19-eae729.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3541,7 +3600,7 @@
       "t": "Crime Scene: The Vanishing at The Cecil Hotel",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-crime-scene-the-vanishing-at-the-cecil-hotel-2021-02-14-465976.jpg",
+      "img": "movies-crime-scene-the-vanishing-at-the-cecil-hotel-2021-02-14-465976.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3552,7 +3611,7 @@
       "t": "The Little Things",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-the-little-things-2021-02-06-f36c37.jpg",
+      "img": "movies-the-little-things-2021-02-06-f36c37.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3563,7 +3622,7 @@
       "t": "Fake Famous",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-fake-famous-2021-02-05-b59e15.jpg",
+      "img": "movies-fake-famous-2021-02-05-b59e15.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3574,7 +3633,7 @@
       "t": "Waco: The Inside Story",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-waco-the-inside-story-2021-02-03-1cb59c.jpg",
+      "img": "movies-waco-the-inside-story-2021-02-03-1cb59c.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3585,19 +3644,19 @@
       "t": "50 First Dates",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-50-first-dates-2021-01-26-7b01e7.jpg",
+      "img": "movies-50-first-dates-2021-01-26-7b01e7.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
     {
-      "i": "books-hell-yeah-or-no-2021-01-24-bd243a",
-      "d": "2021-01-24",
+      "i": "books-hell-yeah-or-no-what-s-worth-doing-2021-01-25-7d363d",
+      "d": "2021-01-25",
       "c": "books",
-      "t": "Hell Yeah or No",
+      "t": "Hell Yeah or No: What's Worth Doing",
       "a": "Derek Sivers",
       "r": null,
-      "img": "books-hell-yeah-or-no-2021-01-24-bd243a.jpg",
-      "src": "books 📚",
+      "img": "books-hell-yeah-or-no-what-s-worth-doing-2021-01-25-7d363d.jpg",
+      "src": "books-page",
       "blurb": null
     },
     {
@@ -3607,7 +3666,7 @@
       "t": "Extreme Everest",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-extreme-everest-2021-01-24-9c3e3a.jpg",
+      "img": "movies-extreme-everest-2021-01-24-9c3e3a.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3618,7 +3677,7 @@
       "t": "Tiger",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-tiger-2021-01-18-2aae81.jpg",
+      "img": "movies-tiger-2021-01-18-2aae81.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3629,7 +3688,7 @@
       "t": "Gone Girl",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-gone-girl-2021-01-10-73d951.jpg",
+      "img": "movies-gone-girl-2021-01-10-73d951.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3640,7 +3699,7 @@
       "t": "Over the Moon",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-over-the-moon-2021-01-10-73425e.jpg",
+      "img": "movies-over-the-moon-2021-01-10-73425e.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3651,7 +3710,7 @@
       "t": "BTK: Chasing a Serial Killer",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-btk-chasing-a-serial-killer-2021-01-09-d41d68.jpg",
+      "img": "movies-btk-chasing-a-serial-killer-2021-01-09-d41d68.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3662,7 +3721,7 @@
       "t": "Soul",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-soul-2021-01-02-664069.jpg",
+      "img": "movies-soul-2021-01-02-664069.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3673,7 +3732,7 @@
       "t": "The Minimalists: Less is Now",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-the-minimalists-less-is-now-2021-01-01-0e6737.jpg",
+      "img": "movies-the-minimalists-less-is-now-2021-01-01-0e6737.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3684,7 +3743,7 @@
       "t": "Death to 2020",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-death-to-2020-2020-12-29-c8023b.jpg",
+      "img": "movies-death-to-2020-2020-12-29-c8023b.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3695,7 +3754,7 @@
       "t": "Tenet",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-tenet-2020-12-16-910a69.jpg",
+      "img": "movies-tenet-2020-12-16-910a69.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3706,7 +3765,7 @@
       "t": "The Santa Clause 2",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-the-santa-clause-2-2020-12-08-9c266c.jpg",
+      "img": "movies-the-santa-clause-2-2020-12-08-9c266c.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3717,7 +3776,7 @@
       "t": "Mulan (2020)",
       "a": null,
       "r": "★★☆☆☆",
-      "img": "movies-mulan-2020-2020-12-05-bdbf74.jpg",
+      "img": "movies-mulan-2020-2020-12-05-bdbf74.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3728,7 +3787,7 @@
       "t": "Just Friends",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-just-friends-2020-11-21-2517c6.jpg",
+      "img": "movies-just-friends-2020-11-21-2517c6.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3739,7 +3798,7 @@
       "t": "The Vow (S1)",
       "a": null,
       "r": "★★★☆☆",
-      "img": "shows-the-vow-s1-2020-11-20-575a07.jpg",
+      "img": "shows-the-vow-s1-2020-11-20-575a07.jpeg",
       "src": "tv 📺",
       "blurb": null
     },
@@ -3750,7 +3809,7 @@
       "t": "Scary Movie",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-scary-movie-2020-10-29-7da518.jpg",
+      "img": "movies-scary-movie-2020-10-29-7da518.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3761,7 +3820,7 @@
       "t": "Child’s Play (2019)",
       "a": null,
       "r": "★★☆☆☆",
-      "img": "movies-child-s-play-2019-2020-10-28-ceb3ec.jpg",
+      "img": "movies-child-s-play-2019-2020-10-28-ceb3ec.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3772,7 +3831,7 @@
       "t": "Borat Subsequent Movie Film",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-borat-subsequent-movie-film-2020-10-24-999f20.jpg",
+      "img": "movies-borat-subsequent-movie-film-2020-10-24-999f20.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3783,7 +3842,7 @@
       "t": "Mindhunter S2",
       "a": null,
       "r": "★★★★☆",
-      "img": "shows-mindhunter-s2-2020-10-23-aed851.jpg",
+      "img": "shows-mindhunter-s2-2020-10-23-aed851.jpeg",
       "src": "tv 📺",
       "blurb": null
     },
@@ -3794,7 +3853,7 @@
       "t": "The Silence of the Lambs",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-the-silence-of-the-lambs-2020-10-14-9632af.jpg",
+      "img": "movies-the-silence-of-the-lambs-2020-10-14-9632af.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3805,7 +3864,7 @@
       "t": "Hubie Halloween",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-hubie-halloween-2020-10-11-69c2fd.jpg",
+      "img": "movies-hubie-halloween-2020-10-11-69c2fd.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3816,7 +3875,7 @@
       "t": "American Murder: The Family Next Door",
       "a": null,
       "r": "★☆☆☆☆",
-      "img": "movies-american-murder-the-family-next-door-2020-10-07-f90808.jpg",
+      "img": "movies-american-murder-the-family-next-door-2020-10-07-f90808.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3827,7 +3886,7 @@
       "t": "The Social Dilemma",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-the-social-dilemma-2020-10-03-ac4077.jpg",
+      "img": "movies-the-social-dilemma-2020-10-03-ac4077.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3838,7 +3897,7 @@
       "t": "Spies in Disguise",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-spies-in-disguise-2020-07-12-1d88b7.jpg",
+      "img": "movies-spies-in-disguise-2020-07-12-1d88b7.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3849,7 +3908,7 @@
       "t": "Community (Complete Series)",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-community-complete-series-2020-06-24-e97efd.jpg",
+      "img": "movies-community-complete-series-2020-06-24-e97efd.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3860,7 +3919,7 @@
       "t": "American Pie 2",
       "a": null,
       "r": "★★☆☆☆",
-      "img": "movies-american-pie-2-2020-05-24-762fe2.jpg",
+      "img": "movies-american-pie-2-2020-05-24-762fe2.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3871,7 +3930,7 @@
       "t": "Parasite",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-parasite-2020-05-23-b9c904.jpg",
+      "img": "movies-parasite-2020-05-23-b9c904.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3882,7 +3941,7 @@
       "t": "The Last Dance",
       "a": null,
       "r": "★★★★★",
-      "img": "movies-the-last-dance-2020-05-22-4f0b9e.jpg",
+      "img": "movies-the-last-dance-2020-05-22-4f0b9e.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3893,7 +3952,7 @@
       "t": "SONIC The Hedgehog",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-sonic-the-hedgehog-2020-05-17-bc4a68.jpg",
+      "img": "movies-sonic-the-hedgehog-2020-05-17-bc4a68.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3904,7 +3963,7 @@
       "t": "National Treasure",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-national-treasure-2020-04-26-3aa405.jpg",
+      "img": "movies-national-treasure-2020-04-26-3aa405.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3915,7 +3974,7 @@
       "t": "Pirates of the Caribbean: At World’s End",
       "a": null,
       "r": "★★☆☆☆",
-      "img": "movies-pirates-of-the-caribbean-at-world-s-end-2020-04-25-d6c96b.jpg",
+      "img": "movies-pirates-of-the-caribbean-at-world-s-end-2020-04-25-d6c96b.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3926,29 +3985,7 @@
       "t": "American Pie",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-american-pie-2020-04-19-529f58.jpg",
-      "src": "movies 🍿",
-      "blurb": null
-    },
-    {
-      "i": "movies-pirates-of-the-caribbean-dead-man-s-chest-2020-04-13-b5de05",
-      "d": "2020-04-13",
-      "c": "movies",
-      "t": "Pirates of the Caribbean: Dead Man’s Chest",
-      "a": null,
-      "r": "★★☆☆☆",
-      "img": "movies-pirates-of-the-caribbean-dead-man-s-chest-2020-04-13-b5de05.jpg",
-      "src": "movies 🍿",
-      "blurb": null
-    },
-    {
-      "i": "movies-pirates-of-the-caribbean-the-curse-of-the-black-pearl-2020-04-12-7d392c",
-      "d": "2020-04-12",
-      "c": "movies",
-      "t": "Pirates of the Caribbean: The Curse of the Black Pearl",
-      "a": null,
-      "r": "★★★☆☆",
-      "img": "movies-pirates-of-the-caribbean-the-curse-of-the-black-pearl-2020-04-12-7d392c.jpg",
+      "img": "movies-american-pie-2020-04-19-529f58.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3959,7 +3996,7 @@
       "t": "Onward",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-onward-2020-04-11-c49c77.jpg",
+      "img": "movies-onward-2020-04-11-c49c77.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3970,7 +4007,7 @@
       "t": "Harry Potter and the Deathly Hallows Part 1",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-harry-potter-and-the-deathly-hallows-part-1-2020-04-10-d620a1.jpg",
+      "img": "movies-harry-potter-and-the-deathly-hallows-part-1-2020-04-10-d620a1.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3981,7 +4018,7 @@
       "t": "Harry Potter and the Deathly Hallows Part 2",
       "a": null,
       "r": "★★★★★",
-      "img": "movies-harry-potter-and-the-deathly-hallows-part-2-2020-04-10-e196c9.jpg",
+      "img": "movies-harry-potter-and-the-deathly-hallows-part-2-2020-04-10-e196c9.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -3992,7 +4029,7 @@
       "t": "Joker",
       "a": null,
       "r": "★★★★★",
-      "img": "movies-joker-2020-04-04-90f4c0.jpg",
+      "img": "movies-joker-2020-04-04-90f4c0.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4003,7 +4040,7 @@
       "t": "Tiger King",
       "a": null,
       "r": "★★★★★",
-      "img": "movies-tiger-king-2020-04-03-60d7f5.jpg",
+      "img": "movies-tiger-king-2020-04-03-60d7f5.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4014,7 +4051,7 @@
       "t": "Harry Potter and the Half-Blood Prince",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-harry-potter-and-the-half-blood-prince-2020-03-30-938fb3.jpg",
+      "img": "movies-harry-potter-and-the-half-blood-prince-2020-03-30-938fb3.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4025,7 +4062,7 @@
       "t": "Harry Potter and the Order of the Phoenix",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-harry-potter-and-the-order-of-the-phoenix-2020-03-29-609b9c.jpg",
+      "img": "movies-harry-potter-and-the-order-of-the-phoenix-2020-03-29-609b9c.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4036,7 +4073,7 @@
       "t": "Harry Potter and the Goblet of Fire",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-harry-potter-and-the-goblet-of-fire-2020-03-27-dbb2c5.jpg",
+      "img": "movies-harry-potter-and-the-goblet-of-fire-2020-03-27-dbb2c5.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4047,7 +4084,7 @@
       "t": "Harry Potter and the Prisoner of Azkaban",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-harry-potter-and-the-prisoner-of-azkaban-2020-03-24-1f06f5.jpg",
+      "img": "movies-harry-potter-and-the-prisoner-of-azkaban-2020-03-24-1f06f5.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4058,7 +4095,7 @@
       "t": "Harold & Kumar Go To White Castle",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-harold-kumar-go-to-white-castle-2020-03-19-04531c.jpg",
+      "img": "movies-harold-kumar-go-to-white-castle-2020-03-19-04531c.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4069,7 +4106,7 @@
       "t": "Harry Potter and the Chamber of Secrets",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-harry-potter-and-the-chamber-of-secrets-2020-03-17-679ed4.jpg",
+      "img": "movies-harry-potter-and-the-chamber-of-secrets-2020-03-17-679ed4.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4080,7 +4117,7 @@
       "t": "Harry Potter and the Sorcerer’s Stone",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-harry-potter-and-the-sorcerer-s-stone-2020-03-16-9217e9.jpg",
+      "img": "movies-harry-potter-and-the-sorcerer-s-stone-2020-03-16-9217e9.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4091,7 +4128,7 @@
       "t": "McMillions",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-mcmillions-2020-03-14-c40052.jpg",
+      "img": "movies-mcmillions-2020-03-14-c40052.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4102,7 +4139,7 @@
       "t": "Semi-Pro",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-semi-pro-2020-03-14-b93336.jpg",
+      "img": "movies-semi-pro-2020-03-14-b93336.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4113,7 +4150,7 @@
       "t": "Knives Out",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-knives-out-2020-03-08-7f0226.jpg",
+      "img": "movies-knives-out-2020-03-08-7f0226.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4124,7 +4161,7 @@
       "t": "The Lion King (2019)",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-the-lion-king-2019-2020-03-07-8cf9b0.jpg",
+      "img": "movies-the-lion-king-2019-2020-03-07-8cf9b0.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4135,7 +4172,7 @@
       "t": "Jojo Rabbit",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-jojo-rabbit-2020-02-19-488fb4.jpg",
+      "img": "movies-jojo-rabbit-2020-02-19-488fb4.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4146,7 +4183,7 @@
       "t": "Toy Story",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-toy-story-2020-02-15-f4cbde.jpg",
+      "img": "movies-toy-story-2020-02-15-f4cbde.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4157,7 +4194,7 @@
       "t": "Toy Story 4",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-toy-story-4-2020-02-14-830ffd.jpg",
+      "img": "movies-toy-story-4-2020-02-14-830ffd.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4168,7 +4205,7 @@
       "t": "Click",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-click-2020-02-13-3c6388.jpg",
+      "img": "movies-click-2020-02-13-3c6388.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4179,7 +4216,7 @@
       "t": "Aziz Ansari: Right Now",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-aziz-ansari-right-now-2020-02-12-9482c6.jpg",
+      "img": "movies-aziz-ansari-right-now-2020-02-12-9482c6.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4190,7 +4227,7 @@
       "t": "Blade Runner 2049",
       "a": null,
       "r": "★★☆☆☆",
-      "img": "movies-blade-runner-2049-2020-02-09-308070.jpg",
+      "img": "movies-blade-runner-2049-2020-02-09-308070.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4201,7 +4238,7 @@
       "t": "The Office (Complete Series)",
       "a": null,
       "r": "★★★★★",
-      "img": "movies-the-office-complete-series-2020-02-08-5a39a4.jpg",
+      "img": "movies-the-office-complete-series-2020-02-08-5a39a4.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4212,7 +4249,7 @@
       "t": "Wonder Woman",
       "a": null,
       "r": "★★☆☆☆",
-      "img": "movies-wonder-woman-2020-02-08-c81827.jpg",
+      "img": "movies-wonder-woman-2020-02-08-c81827.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4223,7 +4260,7 @@
       "t": "Hustlers",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-hustlers-2020-02-07-b9ed03.jpg",
+      "img": "movies-hustlers-2020-02-07-b9ed03.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4234,7 +4271,7 @@
       "t": "Kevin Hart - Don’t F\\\\*\\\\*k This Up",
       "a": null,
       "r": "★★★★☆",
-      "img": "shows-kevin-hart-don-t-f-k-this-up-2020-01-31-f16f7d.jpg",
+      "img": "shows-kevin-hart-don-t-f-k-this-up-2020-01-31-f16f7d.png",
       "src": "comedy 🎤",
       "blurb": null
     },
@@ -4245,7 +4282,7 @@
       "t": "Watchmen (S1)",
       "a": null,
       "r": "★★★☆☆",
-      "img": "shows-watchmen-s1-2020-01-30-bf69ad.jpg",
+      "img": "shows-watchmen-s1-2020-01-30-bf69ad.jpeg",
       "src": "tv 📺",
       "blurb": null
     },
@@ -4256,7 +4293,7 @@
       "t": "Dirty John",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-dirty-john-2020-01-22-e5fa28.jpg",
+      "img": "movies-dirty-john-2020-01-22-e5fa28.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4267,7 +4304,7 @@
       "t": "Killer Inside: The Mind of Aaron Hernandez",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-killer-inside-the-mind-of-aaron-hernandez-2020-01-18-251a3b.jpg",
+      "img": "movies-killer-inside-the-mind-of-aaron-hernandez-2020-01-18-251a3b.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4278,7 +4315,7 @@
       "t": "Rocketman",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-rocketman-2020-01-10-3ed9e0.jpg",
+      "img": "movies-rocketman-2020-01-10-3ed9e0.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4289,7 +4326,7 @@
       "t": "007: Quantum of Solace",
       "a": null,
       "r": "★★☆☆☆",
-      "img": "movies-007-quantum-of-solace-2020-01-09-8c4fe9.jpg",
+      "img": "movies-007-quantum-of-solace-2020-01-09-8c4fe9.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4300,7 +4337,7 @@
       "t": "The People vs O.J. Simpson",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-the-people-vs-o-j-simpson-2020-01-08-1ae762.jpg",
+      "img": "movies-the-people-vs-o-j-simpson-2020-01-08-1ae762.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4311,7 +4348,7 @@
       "t": "Smart House",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-smart-house-2020-01-01-bf5b18.jpg",
+      "img": "movies-smart-house-2020-01-01-bf5b18.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4322,7 +4359,7 @@
       "t": "Jumanji: Next Level",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-jumanji-next-level-2019-12-30-0c20fe.jpg",
+      "img": "movies-jumanji-next-level-2019-12-30-0c20fe.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4333,7 +4370,7 @@
       "t": "The Grinch (2018)",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-the-grinch-2018-2019-12-25-3a7d48.jpg",
+      "img": "movies-the-grinch-2018-2019-12-25-3a7d48.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4344,7 +4381,7 @@
       "t": "Star Wars Ep. IX: The Rise of Skywalker",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-star-wars-ep-ix-the-rise-of-skywalker-2019-12-19-56202c.jpg",
+      "img": "movies-star-wars-ep-ix-the-rise-of-skywalker-2019-12-19-56202c.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4355,7 +4392,7 @@
       "t": "Star Wars Ep. III: Revenge of the Sith",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-star-wars-ep-iii-revenge-of-the-sith-2019-12-18-b423f9.jpg",
+      "img": "movies-star-wars-ep-iii-revenge-of-the-sith-2019-12-18-b423f9.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4366,7 +4403,7 @@
       "t": "Star Wars Ep. II: Attack of the Clones",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-star-wars-ep-ii-attack-of-the-clones-2019-12-17-43cfbf.jpg",
+      "img": "movies-star-wars-ep-ii-attack-of-the-clones-2019-12-17-43cfbf.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4377,7 +4414,7 @@
       "t": "Star Wars Ep. I: The Phantom Menace",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-star-wars-ep-i-the-phantom-menace-2019-12-15-8016c2.jpg",
+      "img": "movies-star-wars-ep-i-the-phantom-menace-2019-12-15-8016c2.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4388,7 +4425,7 @@
       "t": "Home Alone",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-home-alone-2019-11-25-244b43.jpg",
+      "img": "movies-home-alone-2019-11-25-244b43.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4399,7 +4436,7 @@
       "t": "Titanic: 20 Years Later with James Cameron",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-titanic-20-years-later-with-james-cameron-2019-11-22-27cdca.jpg",
+      "img": "movies-titanic-20-years-later-with-james-cameron-2019-11-22-27cdca.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4410,7 +4447,7 @@
       "t": "101 Dalmatians (1996)",
       "a": null,
       "r": "★★☆☆☆",
-      "img": "movies-101-dalmatians-1996-2019-11-20-fe9e45.jpg",
+      "img": "movies-101-dalmatians-1996-2019-11-20-fe9e45.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4421,7 +4458,7 @@
       "t": "Beetlejuice",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-beetlejuice-2019-11-19-277e2c.jpg",
+      "img": "movies-beetlejuice-2019-11-19-277e2c.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4432,7 +4469,7 @@
       "t": "101 Dalmatians (1961)",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-101-dalmatians-1961-2019-11-17-5c90ae.jpg",
+      "img": "movies-101-dalmatians-1961-2019-11-17-5c90ae.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4443,7 +4480,7 @@
       "t": "Hexaflip",
       "a": null,
       "r": null,
-      "img": "games-hexaflip-2019-10-17-41616a.jpg",
+      "img": "games-hexaflip-2019-10-17-41616a.jpeg",
       "src": "games 🎮",
       "blurb": null
     },
@@ -4454,7 +4491,7 @@
       "t": "Geometry Wars 3: Dimensions",
       "a": null,
       "r": null,
-      "img": "games-geometry-wars-3-dimensions-2019-10-07-fd2344.jpg",
+      "img": "games-geometry-wars-3-dimensions-2019-10-07-fd2344.jpeg",
       "src": "games 🎮",
       "blurb": null
     },
@@ -4465,7 +4502,7 @@
       "t": "Batman - Arkham Asylum",
       "a": null,
       "r": null,
-      "img": "games-batman-arkham-asylum-2019-09-21-b52894.jpg",
+      "img": "games-batman-arkham-asylum-2019-09-21-b52894.jpeg",
       "src": "games 🎮",
       "blurb": null
     },
@@ -4476,7 +4513,7 @@
       "t": "Shazam!",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-shazam-2019-09-21-493d05.jpg",
+      "img": "movies-shazam-2019-09-21-493d05.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4487,7 +4524,7 @@
       "t": "Astro Boy",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-astro-boy-2019-09-16-6827d6.jpg",
+      "img": "movies-astro-boy-2019-09-16-6827d6.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4498,7 +4535,7 @@
       "t": "It Chapter Two",
       "a": null,
       "r": "★★☆☆☆",
-      "img": "movies-it-chapter-two-2019-09-07-3c2d35.jpg",
+      "img": "movies-it-chapter-two-2019-09-07-3c2d35.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4509,7 +4546,7 @@
       "t": "School of Rock",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-school-of-rock-2019-08-23-82f558.jpg",
+      "img": "movies-school-of-rock-2019-08-23-82f558.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4520,19 +4557,8 @@
       "t": "Godzilla: King of the Monsters",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-godzilla-king-of-the-monsters-2019-08-20-6d40e4.jpg",
+      "img": "movies-godzilla-king-of-the-monsters-2019-08-20-6d40e4.png",
       "src": "movies 🍿",
-      "blurb": null
-    },
-    {
-      "i": "shows-jo-koy-live-in-seattle-2019-08-17-a692c9",
-      "d": "2019-08-17",
-      "c": "shows",
-      "t": "Jo Koy: Live in Seattle",
-      "a": null,
-      "r": "★★★★☆",
-      "img": "shows-jo-koy-live-in-seattle-2019-08-17-a692c9.jpg",
-      "src": "comedy 🎤",
       "blurb": null
     },
     {
@@ -4542,7 +4568,7 @@
       "t": "Inception",
       "a": null,
       "r": "★★★★★",
-      "img": "movies-inception-2019-08-16-04e2eb.jpg",
+      "img": "movies-inception-2019-08-16-04e2eb.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4553,7 +4579,7 @@
       "t": "Aquaman",
       "a": null,
       "r": "★★☆☆☆",
-      "img": "movies-aquaman-2019-08-11-889a7f.jpg",
+      "img": "movies-aquaman-2019-08-11-889a7f.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4564,7 +4590,7 @@
       "t": "Chronicles of Narnia 1",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-chronicles-of-narnia-1-2019-08-10-77f636.jpg",
+      "img": "movies-chronicles-of-narnia-1-2019-08-10-77f636.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4575,7 +4601,7 @@
       "t": "Spider-Man: Far From Home",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-spider-man-far-from-home-2019-08-04-7409f0.jpg",
+      "img": "movies-spider-man-far-from-home-2019-08-04-7409f0.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4586,7 +4612,7 @@
       "t": "Jo Koy: Comin’ in Hot",
       "a": null,
       "r": "★★★☆☆",
-      "img": "shows-jo-koy-comin-in-hot-2019-08-01-a80789.jpg",
+      "img": "shows-jo-koy-comin-in-hot-2019-08-01-a80789.jpeg",
       "src": "comedy 🎤",
       "blurb": null
     },
@@ -4597,7 +4623,7 @@
       "t": "I Love You, Now Die",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-i-love-you-now-die-2019-07-17-d3cc8e.jpg",
+      "img": "movies-i-love-you-now-die-2019-07-17-d3cc8e.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4608,7 +4634,7 @@
       "t": "Scott Pilgrim vs The World",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-scott-pilgrim-vs-the-world-2019-06-29-c1ae0a.jpg",
+      "img": "movies-scott-pilgrim-vs-the-world-2019-06-29-c1ae0a.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4619,7 +4645,7 @@
       "t": "The Pest",
       "a": null,
       "r": "★☆☆☆☆",
-      "img": "movies-the-pest-2019-06-29-6def77.jpg",
+      "img": "movies-the-pest-2019-06-29-6def77.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4630,7 +4656,7 @@
       "t": "The Dark Knight Rises",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-the-dark-knight-rises-2019-06-28-50198d.jpg",
+      "img": "movies-the-dark-knight-rises-2019-06-28-50198d.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4641,7 +4667,7 @@
       "t": "The Wolf of Wall Street",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-the-wolf-of-wall-street-2019-06-25-246cbd.jpg",
+      "img": "movies-the-wolf-of-wall-street-2019-06-25-246cbd.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4652,7 +4678,7 @@
       "t": "The Dark Knight",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-the-dark-knight-2019-06-24-24534e.jpg",
+      "img": "movies-the-dark-knight-2019-06-24-24534e.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4663,7 +4689,7 @@
       "t": "Batman Begins",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-batman-begins-2019-06-23-993f13.jpg",
+      "img": "movies-batman-begins-2019-06-23-993f13.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4674,7 +4700,7 @@
       "t": "Aladdin (2019)",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-aladdin-2019-2019-06-08-67b83c.jpg",
+      "img": "movies-aladdin-2019-2019-06-08-67b83c.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4685,7 +4711,7 @@
       "t": "Ocean’s Eleven",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-ocean-s-eleven-2019-06-02-118e86.jpg",
+      "img": "movies-ocean-s-eleven-2019-06-02-118e86.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4696,7 +4722,7 @@
       "t": "John Wick 3",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-john-wick-3-2019-05-31-e7a2ca.jpg",
+      "img": "movies-john-wick-3-2019-05-31-e7a2ca.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4707,7 +4733,7 @@
       "t": "Game of Thrones",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-game-of-thrones-2019-05-19-18b707.jpg",
+      "img": "movies-game-of-thrones-2019-05-19-18b707.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4718,7 +4744,7 @@
       "t": "Detective Pikachu",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-detective-pikachu-2019-05-17-4ae347.jpg",
+      "img": "movies-detective-pikachu-2019-05-17-4ae347.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4729,7 +4755,7 @@
       "t": "Avengers: Endgame",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-avengers-endgame-2019-05-05-314c71.jpg",
+      "img": "movies-avengers-endgame-2019-05-05-314c71.png",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4740,7 +4766,7 @@
       "t": "Us",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-us-2019-03-31-940316.jpg",
+      "img": "movies-us-2019-03-31-940316.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4751,7 +4777,7 @@
       "t": "Ant-Man and The Wasp",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-ant-man-and-the-wasp-2019-02-22-13b152.jpg",
+      "img": "movies-ant-man-and-the-wasp-2019-02-22-13b152.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4762,7 +4788,7 @@
       "t": "FYRE (Netflix)",
       "a": null,
       "r": "★★★★☆",
-      "img": "shows-fyre-netflix-2019-01-24-33d283.jpg",
+      "img": "shows-fyre-netflix-2019-01-24-33d283.jpeg",
       "src": "documentaries 🎞️",
       "blurb": null
     },
@@ -4773,7 +4799,7 @@
       "t": "Glass",
       "a": null,
       "r": "★★☆☆☆",
-      "img": "movies-glass-2019-01-08-412793.jpg",
+      "img": "movies-glass-2019-01-08-412793.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4784,7 +4810,7 @@
       "t": "Bird Box",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-bird-box-2018-12-31-95f6ce.jpg",
+      "img": "movies-bird-box-2018-12-31-95f6ce.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4795,19 +4821,8 @@
       "t": "The Legend of Zelda: Breath of The Wild",
       "a": null,
       "r": null,
-      "img": "games-the-legend-of-zelda-breath-of-the-wild-2018-12-27-d1b552.jpg",
+      "img": "games-the-legend-of-zelda-breath-of-the-wild-2018-12-27-d1b552.jpeg",
       "src": "games 🎮",
-      "blurb": null
-    },
-    {
-      "i": "movies-spider-man-into-the-spider-verse-2018-12-23-092619",
-      "d": "2018-12-23",
-      "c": "movies",
-      "t": "Spider-Man: Into the Spider-Verse",
-      "a": null,
-      "r": "★★★★☆",
-      "img": "movies-spider-man-into-the-spider-verse-2018-12-23-092619.jpg",
-      "src": "movies 🍿",
       "blurb": null
     },
     {
@@ -4817,7 +4832,7 @@
       "t": "Mission: Impossible - Fallout",
       "a": null,
       "r": "★★★★★",
-      "img": "movies-mission-impossible-fallout-2018-08-19-799c30.jpg",
+      "img": "movies-mission-impossible-fallout-2018-08-19-799c30.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4828,7 +4843,7 @@
       "t": "Jurassic World: Fallen Kingdom",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-jurassic-world-fallen-kingdom-2018-06-30-1189eb.jpg",
+      "img": "movies-jurassic-world-fallen-kingdom-2018-06-30-1189eb.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4839,7 +4854,7 @@
       "t": "Solo: A Star Wars Story",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-solo-a-star-wars-story-2018-05-28-7baac4.jpg",
+      "img": "movies-solo-a-star-wars-story-2018-05-28-7baac4.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4850,7 +4865,7 @@
       "t": "Deadpool 2",
       "a": null,
       "r": "★★☆☆☆",
-      "img": "movies-deadpool-2-2018-05-25-e526eb.jpg",
+      "img": "movies-deadpool-2-2018-05-25-e526eb.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4861,7 +4876,7 @@
       "t": "Ready Player One",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-ready-player-one-2018-04-07-08a7ad.jpg",
+      "img": "movies-ready-player-one-2018-04-07-08a7ad.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4872,7 +4887,7 @@
       "t": "Star Wars Episode VIII: The Last Jedi",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-star-wars-episode-viii-the-last-jedi-2017-12-31-c11906.jpg",
+      "img": "movies-star-wars-episode-viii-the-last-jedi-2017-12-31-c11906.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4883,7 +4898,7 @@
       "t": "It",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-it-2017-09-09-842cd2.jpg",
+      "img": "movies-it-2017-09-09-842cd2.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4894,7 +4909,7 @@
       "t": "Despicable Me 3",
       "a": null,
       "r": "★★★☆☆",
-      "img": "movies-despicable-me-3-2017-07-01-5cc9c0.jpg",
+      "img": "movies-despicable-me-3-2017-07-01-5cc9c0.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4905,7 +4920,7 @@
       "t": "Rogue One: A Star Wars Story",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-rogue-one-a-star-wars-story-2016-12-18-767077.jpg",
+      "img": "movies-rogue-one-a-star-wars-story-2016-12-18-767077.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4916,9 +4931,573 @@
       "t": "Star Wars Episode VII: The Force Awakens",
       "a": null,
       "r": "★★★★☆",
-      "img": "movies-star-wars-episode-vii-the-force-awakens-2016-01-03-bf0d60.jpg",
+      "img": "movies-star-wars-episode-vii-the-force-awakens-2016-01-03-bf0d60.jpeg",
       "src": "movies 🍿",
       "blurb": null
+    },
+    {
+      "i": "books-atomic-habits-2015-2020-f26f01",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Atomic Habits",
+      "a": "James Clear",
+      "r": null,
+      "img": "books-atomic-habits-2015-2020-f26f01.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-think-and-grow-rich-2015-2020-b1d919",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Think and Grow Rich",
+      "a": "Napoleon Hill",
+      "r": null,
+      "img": "books-think-and-grow-rich-2015-2020-b1d919.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-delivering-happiness-2015-2020-3cab45",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Delivering Happiness",
+      "a": "Tony Hsieh",
+      "r": null,
+      "img": "books-delivering-happiness-2015-2020-3cab45.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-deep-work-2015-2020-b6bda7",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Deep Work",
+      "a": "Cal Newport",
+      "r": null,
+      "img": "books-deep-work-2015-2020-b6bda7.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-the-obstacle-is-the-way-2015-2020-65c76b",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "The Obstacle Is the Way",
+      "a": "Ryan Holiday",
+      "r": null,
+      "img": "books-the-obstacle-is-the-way-2015-2020-65c76b.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-awaken-the-giant-within-2015-2020-6b1c10",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Awaken the Giant Within",
+      "a": "Tony Robbins",
+      "r": null,
+      "img": "books-awaken-the-giant-within-2015-2020-6b1c10.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-the-4-hour-body-2015-2020-102920",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "The 4-Hour Body",
+      "a": "Tim Ferriss",
+      "r": null,
+      "img": "books-the-4-hour-body-2015-2020-102920.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-the-magic-of-thinking-big-2015-2020-b4706c",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "The Magic of Thinking Big",
+      "a": "David Schwartz",
+      "r": null,
+      "img": "books-the-magic-of-thinking-big-2015-2020-b4706c.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-the-hard-thing-about-hard-things-2015-2020-9ce6bd",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "The Hard Thing About Hard Things",
+      "a": "Ben Horowitz",
+      "r": null,
+      "img": "books-the-hard-thing-about-hard-things-2015-2020-9ce6bd.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-the-4-hour-workweek-2015-2020-e4a86c",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "The 4-Hour Workweek",
+      "a": "Tim Ferriss",
+      "r": null,
+      "img": "books-the-4-hour-workweek-2015-2020-e4a86c.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-the-changing-of-the-world-order-2015-2020-47e09d",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "The Changing of the World Order",
+      "a": "Ray Dalio",
+      "r": null,
+      "img": "books-the-changing-of-the-world-order-2015-2020-47e09d.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-the-tipping-point-how-little-things-can-make-a-big-difference-2015-2020-f6a2dd",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "The Tipping Point: How Little Things Can Make a Big Difference",
+      "a": "Malcolm Gladwell",
+      "r": null,
+      "img": "books-the-tipping-point-how-little-things-can-make-a-big-difference-2015-2020-f6a2dd.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-start-with-why-2015-2020-7830c1",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Start with Why",
+      "a": "Simon Sinek",
+      "r": null,
+      "img": "books-start-with-why-2015-2020-7830c1.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-switch-2015-2020-ef745a",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Switch",
+      "a": "Chip Heath & Dan Heath",
+      "r": null,
+      "img": "books-switch-2015-2020-ef745a.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-radical-candor-2015-2020-9aef99",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Radical Candor",
+      "a": "Kim Scott",
+      "r": null,
+      "img": "books-radical-candor-2015-2020-9aef99.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-find-your-why-2015-2020-05c09f",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Find Your Why",
+      "a": "Simon Sinek",
+      "r": null,
+      "img": "books-find-your-why-2015-2020-05c09f.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-barking-up-the-wrong-tree-2015-2020-98ad0a",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Barking Up the Wrong Tree",
+      "a": "Eric Barker",
+      "r": null,
+      "img": "books-barking-up-the-wrong-tree-2015-2020-98ad0a.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-principles-2015-2020-650606",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Principles",
+      "a": "Ray Dalio",
+      "r": null,
+      "img": "books-principles-2015-2020-650606.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-drive-2015-2020-771de5",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Drive",
+      "a": "Daniel Pink",
+      "r": null,
+      "img": "books-drive-2015-2020-771de5.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-mindset-2015-2020-f9964e",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Mindset",
+      "a": "Carol Dweck",
+      "r": null,
+      "img": "books-mindset-2015-2020-f9964e.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-what-got-you-here-won-t-get-you-there-2015-2020-23dd3f",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "What Got You Here Won't Get You There",
+      "a": "Marshall Goldsmith",
+      "r": null,
+      "img": "books-what-got-you-here-won-t-get-you-there-2015-2020-23dd3f.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-quiet-the-power-of-introverts-2015-2020-903056",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Quiet: The Power of Introverts",
+      "a": "Susan Cain",
+      "r": null,
+      "img": "books-quiet-the-power-of-introverts-2015-2020-903056.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-i-will-teach-you-to-be-rich-2nd-edition-2015-2020-71a310",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "I Will Teach You to Be Rich, 2nd Edition",
+      "a": "Ramit Sethi",
+      "r": null,
+      "img": "books-i-will-teach-you-to-be-rich-2nd-edition-2015-2020-71a310.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-thinking-fast-slow-2015-2020-f7847c",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Thinking, Fast & Slow",
+      "a": "Daniel Kahneman",
+      "r": null,
+      "img": "books-thinking-fast-slow-2015-2020-f7847c.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-the-millionaire-next-door-2015-2020-0eb757",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "The Millionaire Next Door",
+      "a": "Thomas J. Stanley & William D. Danko",
+      "r": null,
+      "img": "books-the-millionaire-next-door-2015-2020-0eb757.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-the-happiness-advantage-2015-2020-be419b",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "The Happiness Advantage",
+      "a": "Shawn Achor",
+      "r": null,
+      "img": "books-the-happiness-advantage-2015-2020-be419b.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-outliers-2015-2020-5dd461",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Outliers",
+      "a": "Malcolm Gladwell",
+      "r": null,
+      "img": "books-outliers-2015-2020-5dd461.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-12-rules-for-life-2015-2020-ed4915",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "12 Rules for Life",
+      "a": "Jordan B. Peterson",
+      "r": null,
+      "img": "books-12-rules-for-life-2015-2020-ed4915.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-essentialism-2015-2020-9ffca0",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Essentialism",
+      "a": "Greg McKeown",
+      "r": null,
+      "img": "books-essentialism-2015-2020-9ffca0.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-the-subtle-art-of-not-giving-a-f-ck-2015-2020-bb3291",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "The Subtle Art of Not Giving a F*ck",
+      "a": "Mark Manson",
+      "r": null,
+      "img": "books-the-subtle-art-of-not-giving-a-f-ck-2015-2020-bb3291.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-dare-to-lead-2015-2020-702cdb",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Dare to Lead",
+      "a": "Brené Brown",
+      "r": null,
+      "img": "books-dare-to-lead-2015-2020-702cdb.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-the-10x-rule-2015-2020-964765",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "The 10X Rule",
+      "a": "Grant Cardone",
+      "r": null,
+      "img": "books-the-10x-rule-2015-2020-964765.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-made-to-stick-2015-2020-ae6e0f",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Made to Stick",
+      "a": "Chip Heath & Dan Heath",
+      "r": null,
+      "img": "books-made-to-stick-2015-2020-ae6e0f.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-creativity-inc-2015-2020-c7c487",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Creativity, Inc.",
+      "a": "Ed Catmull",
+      "r": null,
+      "img": "books-creativity-inc-2015-2020-c7c487.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-blink-2015-2020-b4dcaa",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Blink",
+      "a": "Malcolm Gladwell",
+      "r": null,
+      "img": "books-blink-2015-2020-b4dcaa.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-mastery-2015-2020-c6370e",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Mastery",
+      "a": "Robert Greene",
+      "r": null,
+      "img": "books-mastery-2015-2020-c6370e.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-good-to-great-2015-2020-40e67f",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Good to Great",
+      "a": "Jim Collins",
+      "r": null,
+      "img": "books-good-to-great-2015-2020-40e67f.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-man-s-search-for-meaning-2015-2020-5171f0",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Man's Search for Meaning",
+      "a": "Viktor Frankl",
+      "r": null,
+      "img": "books-man-s-search-for-meaning-2015-2020-5171f0.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-never-split-the-difference-2015-2020-78392b",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Never Split the Difference",
+      "a": "Chris Voss",
+      "r": null,
+      "img": "books-never-split-the-difference-2015-2020-78392b.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-how-to-win-friends-influence-people-2015-2020-32861d",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "How to Win Friends & Influence People",
+      "a": "Dale Carnegie",
+      "r": null,
+      "img": "books-how-to-win-friends-influence-people-2015-2020-32861d.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-so-good-they-can-t-ignore-you-2015-2020-250074",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "So Good They Can't Ignore You",
+      "a": "Cal Newport",
+      "r": null,
+      "img": "books-so-good-they-can-t-ignore-you-2015-2020-250074.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-growth-hacker-marketing-2015-2020-2c706d",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Growth Hacker Marketing",
+      "a": "Ryan Holiday",
+      "r": null,
+      "img": "books-growth-hacker-marketing-2015-2020-2c706d.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-unfuck-yourself-2015-2020-1b5fb8",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Unfuck Yourself",
+      "a": "Gary John Bishop",
+      "r": null,
+      "img": "books-unfuck-yourself-2015-2020-1b5fb8.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-the-mountain-is-you-2015-2020-c5484c",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "The Mountain Is You",
+      "a": "Brianna Wiest",
+      "r": null,
+      "img": "books-the-mountain-is-you-2015-2020-c5484c.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-i-will-teach-you-to-be-rich-2015-2020-194eac",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "I Will Teach You to Be Rich",
+      "a": "Ramit Sethi",
+      "r": null,
+      "img": "books-i-will-teach-you-to-be-rich-2015-2020-194eac.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-sell-or-be-sold-2015-2020-3746e7",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Sell or Be Sold",
+      "a": "Grant Cardone",
+      "r": null,
+      "img": "books-sell-or-be-sold-2015-2020-3746e7.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-the-7-habits-of-highly-effective-people-2015-2020-0e5d1c",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "The 7 Habits of Highly Effective People",
+      "a": "Stephen R. Covey",
+      "r": null,
+      "img": "books-the-7-habits-of-highly-effective-people-2015-2020-0e5d1c.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-the-talent-code-2015-2020-d51c64",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "The Talent Code",
+      "a": "Daniel Coyle",
+      "r": null,
+      "img": "books-the-talent-code-2015-2020-d51c64.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-in-n-out-burger-2015-2020-c03e8d",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "In-N-Out Burger",
+      "a": "Stacy Perman",
+      "r": null,
+      "img": "books-in-n-out-burger-2015-2020-c03e8d.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-rich-dad-poor-dad-2015-2020-ae357d",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "Rich Dad Poor Dad",
+      "a": "Robert Kiyosaki",
+      "r": null,
+      "img": "books-rich-dad-poor-dad-2015-2020-ae357d.jpg",
+      "src": "books-page",
+      "blurb": null
+    },
+    {
+      "i": "books-the-compound-effect-2015-2020-3d30ad",
+      "d": "2015-2020",
+      "c": "books",
+      "t": "The Compound Effect",
+      "a": "Darren Hardy",
+      "r": null,
+      "img": "books-the-compound-effect-2015-2020-3d30ad.jpg",
+      "src": "books-page",
+      "blurb": null
     }
-  ]
+  ],
+  "bucketLabel": {
+    "2015-2020": "2015 - 2020"
+  }
 }

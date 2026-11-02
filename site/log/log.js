@@ -14,9 +14,20 @@
   let data = null;
   let selected = 'all';
 
+  function groupKey(item) {
+    const day = String(item.d || '');
+    if (/^\d{4}-\d{2}-\d{2}$/.test(day)) return day.slice(0, 7);
+    return day;
+  }
+
   function monthName(key) {
+    const labels = (data && data.bucketLabel) || {};
+    if (labels[key]) return labels[key];
+    const range = /^(\d{4})-(\d{4})$/.exec(key);
+    if (range) return range[1] + ' - ' + range[2];
     const [year, month] = String(key || '').split('-');
-    return (NAMES[(+month || 1) - 1] || month || key) + ' ' + (year || '');
+    if (/^\d{4}$/.test(year) && /^\d{2}$/.test(month)) return (NAMES[(+month || 1) - 1] || month) + ' ' + year;
+    return key;
   }
 
   function ratio(cat) {
@@ -88,7 +99,7 @@
   function groups(items) {
     const by = new Map();
     items.forEach((item) => {
-      const key = String(item.d || '').slice(0, 7);
+      const key = groupKey(item);
       if (!by.has(key)) by.set(key, []);
       by.get(key).push(item);
     });
