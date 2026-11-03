@@ -1,4 +1,4 @@
-# Lightroom sync, four times a day on the Chicago clock.
+# Lightroom sync, once daily at midnight Chicago.
 # Frost JPEGs for photos dated 2026-11-01 or later are baked on the same run,
 # except asset ids in scripts/snaps_clear.json, which stay sharp. The Pages
 # deploy is what stops serving sharp Adobe URLs for the frosted rows.
@@ -7,19 +7,10 @@ name: Sync snaps
 
 on:
   schedule:
-    # America/Chicago wall clock, every day: 6:00am, noon, 6:00pm, midnight.
-    # Actions cron is UTC only. Each local hour is listed twice, CDT (UTC-5) and CST (UTC-6).
-    # Both fire. The gate keeps the cron that matches the current Chicago offset for that hour,
+    # America/Chicago wall clock, once daily at midnight.
+    # Actions cron is UTC only. Midnight is listed twice, CDT (UTC-5) and CST (UTC-6).
+    # Both fire. The gate keeps the cron that matches the current Chicago offset,
     # even if GitHub delivers the run hours late. A manual dispatch always runs.
-    # 6:00am  — CDT 11:00 UTC, CST 12:00 UTC
-    - cron: '0 11 * * *'
-    - cron: '0 12 * * *'
-    # 12:00pm — CDT 17:00 UTC, CST 18:00 UTC
-    - cron: '0 17 * * *'
-    - cron: '0 18 * * *'
-    # 6:00pm  — CDT 23:00 UTC, CST 00:00 UTC
-    - cron: '0 23 * * *'
-    - cron: '0 0 * * *'
     # 12:00am — CDT 05:00 UTC, CST 06:00 UTC
     - cron: '0 5 * * *'
     - cron: '0 6 * * *'
@@ -37,7 +28,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Only the four Chicago slots
+      - name: Only the midnight Chicago slot
         id: chicago
         run: |
           if [ "${{ github.event_name }}" != "schedule" ]; then
@@ -46,23 +37,21 @@ jobs:
             exit 0
           fi
           # The cron that queued this run, not the clock. A delivery hours late still
-          # carries that cron. CDT is UTC-5 and CST is UTC-6. Each local hour has one
+          # carries that cron. CDT is UTC-5 and CST is UTC-6. Midnight has one
           # cron per offset; the other offset skips, including across DST.
-          #   6:00am  CDT 0 11 * * *   CST 0 12 * * *
-          #   12:00pm CDT 0 17 * * *   CST 0 18 * * *
-          #   6:00pm  CDT 0 23 * * *   CST 0 0 * * *
+          # Once daily at midnight Chicago.
           #   12:00am CDT 0 5 * * *    CST 0 6 * * *
           slot="${{ github.event.schedule }}"
           zone=$(TZ=America/Chicago date +%Z)
           case "$zone:$slot" in
-            "CDT:0 11 * * *"|"CDT:0 17 * * *"|"CDT:0 23 * * *"|"CDT:0 5 * * *")
+            "CDT:0 5 * * *")
               echo "run=true" >> "$GITHUB_OUTPUT"
-              echo "Chicago is ${zone}; cron '${slot}' is a Chicago slot; running"
+              echo "Chicago is ${zone}; cron '${slot}' is the midnight Chicago slot; running"
               exit 0
               ;;
-            "CST:0 12 * * *"|"CST:0 18 * * *"|"CST:0 0 * * *"|"CST:0 6 * * *")
+            "CST:0 6 * * *")
               echo "run=true" >> "$GITHUB_OUTPUT"
-              echo "Chicago is ${zone}; cron '${slot}' is a Chicago slot; running"
+              echo "Chicago is ${zone}; cron '${slot}' is the midnight Chicago slot; running"
               exit 0
               ;;
           esac
