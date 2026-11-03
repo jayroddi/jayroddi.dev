@@ -19,12 +19,12 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=6">
 <link rel="manifest" href="/site.webmanifest?v=6">
 <link rel="canonical" href="https://jayroddi.dev/grind/">
-<meta name="description" content="a year of habits // code, fitness, faith, and sleep // the squares fill in">
+<meta name="description" content="a year of habits // code, bots, fitness, faith, and sleep // the squares fill in">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="jayroddi.dev">
 <meta property="og:url" content="https://jayroddi.dev/grind/">
 <meta property="og:title" content="grind">
-<meta property="og:description" content="a year of habits // code, fitness, faith, and sleep // the squares fill in">
+<meta property="og:description" content="a year of habits // code, bots, fitness, faith, and sleep // the squares fill in">
 <meta property="og:image" content="https://jayroddi.dev/og-card.png?v=4.0">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -34,7 +34,7 @@
 <meta name="twitter:site" content="@jayroddi">
 <meta name="twitter:url" content="https://jayroddi.dev/grind/">
 <meta name="twitter:title" content="grind">
-<meta name="twitter:description" content="a year of habits // code, fitness, faith, and sleep // the squares fill in">
+<meta name="twitter:description" content="a year of habits // code, bots, fitness, faith, and sleep // the squares fill in">
 <meta name="twitter:image" content="https://jayroddi.dev/og-card.png?v=4.0">
 <meta name="twitter:image:alt" content="jayroddi.dev ✌️🤟🤙 🇺🇸🇯🇵🇳🇿">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"grind","url":"https://jayroddi.dev/grind/","isPartOf":{"@type":"WebSite","name":"jayroddi.dev","url":"https://jayroddi.dev/"}}</script>
@@ -46,6 +46,25 @@
     <div class="trackers" id="grids">
       <section class="tracker" data-id="cursor" data-unit="contribution" data-src="/habits/cursor.json" aria-label="code">
         <h2 class="kicker"><span class="kt">code</span></h2>
+        <div class="fit">
+          <div class="graph">
+            <div class="months"></div>
+            <div class="dow" aria-hidden="true"><span>mon</span><span></span><span>wed</span><span></span><span>fri</span><span></span><span></span></div>
+            <div class="weeks"></div>
+          </div>
+          <p class="legend"><span>less</span><span class="swatches" aria-hidden="true"><i data-lv="0"></i><i data-lv="1"></i><i data-lv="2"></i><i data-lv="3"></i><i data-lv="4"></i><i data-lv="5"></i></span><span>more</span></p>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="sl">year</span><b class="sv" data-k="total">0</b></div>
+          <div class="stat"><span class="sl">most active month</span><b class="sv" data-k="month">—</b></div>
+          <div class="stat"><span class="sl">most active day</span><b class="sv" data-k="day">—</b></div>
+          <div class="stat"><span class="sl">longest streak</span><b class="sv" data-k="longest">0d</b></div>
+          <div class="stat"><span class="sl">current streak</span><b class="sv" data-k="current">0d</b></div>
+        </div>
+      </section>
+      <!-- bots is a GitHub cloud-agent / known-bot commit proxy, not Cursor line edits. site/habits/bots.json says how a day is counted. -->
+      <section class="tracker" data-id="bots" data-unit="commit" data-src="/habits/bots.json" aria-label="bots">
+        <h2 class="kicker"><span class="kt">bots</span></h2>
         <div class="fit">
           <div class="graph">
             <div class="months"></div>
@@ -158,7 +177,7 @@
     </div>
   </div>
 </main>
-<script src="/habits/habits.js?v=2.66" defer></script>
+<script src="/habits/habits.js?v=2.67" defer></script>
 <script src="/assets/shell.js?v=13" defer></script>
 </body>
 </html>

@@ -58,6 +58,17 @@ function noteLine(n, iso, day){
   if (jarvis > 0) return when + ': ' + n + ' journal ' + unitWord(n, 'entry');
   return when + ': ' + n + ' ' + unitWord(n, 'note');
 }
+function botsLine(n, iso, day){
+  const when = LONG[+iso.slice(5, 7) - 1] + ' ' + ordinal(+iso.slice(8));
+  if (!n) return '0 commits on ' + when + '.';
+  const agent = (day && day.agent) || 0;
+  const automation = (day && day.automation) || 0;
+  const bits = [];
+  if (agent) bits.push(agent + ' agent');
+  if (automation) bits.push(automation + ' automation');
+  const tail = bits.length ? ' · ' + bits.join(', ') : '';
+  return n + ' ' + unitWord(n, 'commit') + tail + ' on ' + when + '.';
+}
 function sleepLine(iso, score, mins){
   const h = Math.floor(mins / 60);
   const m = mins % 60;
@@ -139,7 +150,8 @@ function build(section, model){
 /* code cuts after rides became one per 10 ride minutes (v2.57). last 365 days have 101 active days,
    44 of them a single thinking or workout session. nonzero p50 3, p60 9, p75 16, p90 26.
    the steps are 1–2, 3–8, 9–14, 15–24, 25+, which puts them at 48, 9, 16, 15, 13.
-   a 45 minute ride is 5 (step 2), a two hour ride 12 (step 3). */
+   a 45 minute ride is 5 (step 2), a two hour ride 12 (step 3).
+   bots uses the same cuts. its total is a github agent/bot commit count, not line edits. */
 const CODE_CUTS = [2, 8, 14, 24];
 /* steps: fixed cuts, not the window's percentiles. 1 is 1–2,500, 2 to 5,000, 3 to 7,500, 4 to 10,000, 5 is more. */
 const STEPS_CUTS = [2500, 5000, 7500, 10000];
@@ -400,7 +412,7 @@ function apply(section, days, meta){
   } else if (ex){
     const edges = meta.intensity && meta.intensity.edges;
     scale = Array.isArray(edges) && edges.length === 4 ? edges : [14, 29, 59, 89];
-  } else if (section.dataset.id !== 'cursor'){
+  } else if (section.dataset.id !== 'cursor' && section.dataset.id !== 'bots'){
     const samples = [];
     dates.forEach(iso => {
       if (iso >= start && iso <= today) samples.push(measure(days[iso]));
@@ -429,7 +441,10 @@ function apply(section, days, meta){
     }
     const minutes = metric === 'minutes' ? amount : null;
     final.set(cell, {lv: level(amount, scale), n, minutes});
-    labelCell(cell, kind === 'journal' ? noteLine(n, iso, day) : sentence(n, iso, unit, ex ? null : minutes, ex ? amount : null));
+    const text = section.dataset.id === 'bots'
+      ? botsLine(n, iso, day)
+      : (kind === 'journal' ? noteLine(n, iso, day) : sentence(n, iso, unit, ex ? null : minutes, ex ? amount : null));
+    labelCell(cell, text);
   });
   if (kind === 'sleep') fillSleepStats(section, computeSleepStats(days, start, today));
   else if (kind === 'steps') fillStats(section, computeStats(days, start, today));

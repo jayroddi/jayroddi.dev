@@ -1,0 +1,191 @@
+{
+  "id": "bots",
+  "label": "bots",
+  "timezone": "America/Chicago",
+  "generated": "2026-11-03T18:16:44Z",
+  "through": "2026-11-03",
+  "login": "jayroddi",
+  "repos_counted": 2,
+  "repos_skipped": 0,
+  "repo_source": "public",
+  "proxy": "github-agent-commits",
+  "counting": "Proxy, not Cursor line edits. total = non-merge commits on the default branch whose author or Co-authored-by trailer is a cloud agent (Cursor Agent, cursor[bot]) or a known automation bot (github-actions[bot], dependabot[bot], renovate[bot]). Author dates are America/Chicago. Merge commits are skipped, same as the code grid. agent is the cloud-agent count. automation is the other bots. A commit is one or the other. Intensity is that commit count, on the same colour steps as code (2 / 8 / 14 / 24). This is not lines added, and it is not Cursor's personal AI line-edits export. Ultra accounts cannot download that export. Swap this file for it later if it exists. The Pages workflow refreshes this file with cursor.json.",
+  "days": {
+    "2026-09-29": {
+      "total": 21,
+      "commits": 21,
+      "agent": 21
+    },
+    "2026-09-30": {
+      "total": 15,
+      "commits": 15,
+      "agent": 15
+    },
+    "2026-10-01": {
+      "total": 10,
+      "commits": 10,
+      "agent": 10
+    },
+    "2026-10-02": {
+      "total": 18,
+      "commits": 18,
+      "agent": 18
+    },
+    "2026-10-03": {
+      "total": 11,
+      "commits": 11,
+      "agent": 11
+    },
+    "2026-10-04": {
+      "total": 1,
+      "commits": 1,
+      "agent": 1
+    },
+    "2026-10-05": {
+      "total": 5,
+      "commits": 5,
+      "agent": 5
+    },
+    "2026-10-07": {
+      "total": 7,
+      "commits": 7,
+      "agent": 7
+    },
+    "2026-10-08": {
+      "total": 7,
+      "commits": 7,
+      "agent": 7
+    },
+    "2026-10-09": {
+      "total": 6,
+      "commits": 6,
+      "agent": 6
+    },
+    "2026-10-10": {
+      "total": 16,
+      "commits": 16,
+      "agent": 16
+    },
+    "2026-10-11": {
+      "total": 4,
+      "commits": 4,
+      "agent": 4
+    },
+    "2026-10-12": {
+      "total": 16,
+      "commits": 16,
+      "agent": 16
+    },
+    "2026-10-13": {
+      "total": 27,
+      "commits": 27,
+      "agent": 26,
+      "automation": 1
+    },
+    "2026-10-14": {
+      "total": 12,
+      "commits": 12,
+      "agent": 11,
+      "automation": 1
+    },
+    "2026-10-15": {
+      "total": 1,
+      "commits": 1,
+      "agent": 1
+    },
+    "2026-10-16": {
+      "total": 1,
+      "commits": 1,
+      "automation": 1
+    },
+    "2026-10-20": {
+      "total": 2,
+      "commits": 2,
+      "agent": 1,
+      "automation": 1
+    },
+    "2026-10-21": {
+      "total": 6,
+      "commits": 6,
+      "agent": 5,
+      "automation": 1
+    },
+    "2026-10-22": {
+      "total": 10,
+      "commits": 10,
+      "agent": 10
+    },
+    "2026-10-23": {
+      "total": 17,
+      "commits": 17,
+      "agent": 16,
+      "automation": 1
+    },
+    "2026-10-24": {
+      "total": 15,
+      "commits": 15,
+      "agent": 14,
+      "automation": 1
+    },
+    "2026-10-25": {
+      "total": 6,
+      "commits": 6,
+      "agent": 4,
+      "automation": 2
+    },
+    "2026-10-26": {
+      "total": 6,
+      "commits": 6,
+      "agent": 4,
+      "automation": 2
+    },
+    "2026-10-27": {
+      "total": 4,
+      "commits": 4,
+      "agent": 2,
+      "automation": 2
+    },
+    "2026-10-28": {
+      "total": 9,
+      "commits": 9,
+      "agent": 5,
+      "automation": 4
+    },
+    "2026-10-29": {
+      "total": 8,
+      "commits": 8,
+      "agent": 6,
+      "automation": 2
+    },
+    "2026-10-30": {
+      "total": 28,
+      "commits": 28,
+      "agent": 24,
+      "automation": 4
+    },
+    "2026-10-31": {
+      "total": 23,
+      "commits": 23,
+      "agent": 17,
+      "automation": 6
+    },
+    "2026-11-01": {
+      "total": 30,
+      "commits": 30,
+      "agent": 26,
+      "automation": 4
+    },
+    "2026-11-02": {
+      "total": 36,
+      "commits": 36,
+      "agent": 31,
+      "automation": 5
+    },
+    "2026-11-03": {
+      "total": 3,
+      "commits": 3,
+      "agent": 2,
+      "automation": 1
+    }
+  }
+}
