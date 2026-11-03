@@ -1,4 +1,4 @@
 {
-  "note": "Optional AI line edits, keyed by America/Chicago date (YYYY-MM-DD). A number, or {\"ai_lines\": N}. scripts/habits.py adds these into cursor.json on the next run. Leave days empty until there is a real count.",
+  "note": "Optional AI line edits, keyed by America/Chicago date (YYYY-MM-DD). A number, or {\"ai_lines\": N}. scripts/habits.py adds these into cursor.json on the next run. Leave days empty until there is a real count. This is not filled from Cursor's personal line-edits API. The bots grid (bots.json) is a separate GitHub commit proxy for cloud agents and known bots.",
   "days": {}
 }

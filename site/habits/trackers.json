@@ -38,6 +38,24 @@
       ]
     },
     {
+      "id": "bots",
+      "label": "bots",
+      "enabled": true,
+      "unit": "commit",
+      "data": "/habits/bots.json",
+      "proxy": "github-agent-commits",
+      "sources": [
+        {
+          "key": "agent",
+          "label": "cloud agent commits"
+        },
+        {
+          "key": "automation",
+          "label": "automation bot commits"
+        }
+      ]
+    },
+    {
       "id": "workouts",
       "label": "workouts",
       "enabled": true,

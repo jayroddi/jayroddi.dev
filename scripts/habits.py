@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Rebuild the cursor habit graph. Day pages stay redirects to /.
 
-  python3 scripts/habits.py all      # fetch github, merge cursor-lines.json. day urls stay redirects
-  python3 scripts/habits.py fetch    # cursor.json only
+  python3 scripts/habits.py all      # fetch github, merge cursor-lines.json, refresh bots.json
+  python3 scripts/habits.py fetch    # cursor.json and bots.json
+  python3 scripts/habits.py bots     # bots.json only (does not touch cursor.json)
   python3 scripts/habits.py pages    # refresh ride counts and keep the redirects
   python3 scripts/habits.py check    # schema only, no network
   python3 scripts/habits.py workouts <merged.json> [activity_export.json]
@@ -22,7 +23,13 @@ token only sees this public repo. A repo the token cannot see is listed in
 cursor.json as a repos_skipped count (names stay in the run log only). Counts are never invented.
 
 cursor-lines.json maps a date to a number (or {"ai_lines": N}). Empty means no
-AI edits. `workouts` rebuilds site/habits/workouts.json from a merged Health and
+AI edits. That file is not a Cursor line-edits export. bots.json is a separate
+GitHub proxy: non-merge commits on the default branch whose author or
+Co-authored-by trailer is a cloud agent (Cursor Agent, cursor[bot]) or a known
+automation bot (github-actions, dependabot, renovate). Intensity is the day's
+commit count, on the same colour steps as code. It is not Cursor's personal AI
+line-edits API (Ultra has no personal export). `bots` rebuilds that file alone.
+`workouts` rebuilds site/habits/workouts.json from a merged Health and
 Strava export. When that file, or the optional companion export, includes
 activity_summary, it also rebuilds the exercise map from Apple exercise minutes
 through the new `through` date. A day with 0 minutes is left out, same as
@@ -48,6 +55,7 @@ ROOT = Path(__file__).resolve().parents[1]
 HABITS = ROOT / "site" / "habits"
 TRACKERS = HABITS / "trackers.json"
 CURSOR = HABITS / "cursor.json"
+BOTS = HABITS / "bots.json"
 WORKOUTS = HABITS / "workouts.json"
 JOURNAL = HABITS / "journal.json"
 JARVIS = HABITS / "journal-jarvis.json"
@@ -85,6 +93,18 @@ RIDE_TYPES = {
     "hkworkoutactivitytypecycling",
     "strava:ride",
 }
+# Exact identities only. A human commit counts when a trailer names one of these.
+AGENT_EMAILS = {"cursoragent@cursor.com"}
+AGENT_LOGINS = {"cursor[bot]", "cursoragent"}
+AGENT_NAMES = {"cursor agent", "cursor[bot]", "cursoragent"}
+AUTO_LOGINS = {
+    "github-actions[bot]",
+    "dependabot[bot]",
+    "dependabot",
+    "renovate[bot]",
+    "renovate",
+}
+CO_AUTHOR_RE = re.compile(r"^co-authored-by:\s*(.*?)\s*<([^>]+)>", re.IGNORECASE | re.MULTILINE)
 
 
 def day_pages_enabled() -> bool:
@@ -358,25 +378,35 @@ def finalize_day(day: dict) -> dict:
     )
 
 
-def fetch_repo(repo: str, tok: str, since_iso: str, login: str, cutoff: str) -> tuple[list, list, str | None]:
+def fetch_commits(repo: str, tok: str, since_iso: str, author: str | None = None) -> tuple[list, str | None]:
+    """Default-branch commits since a UTC timestamp, newest page first.
+
+    Pass author (login or email) to filter. The bots grid omits it: GitHub's author
+    filter does not match github-actions[bot] by login, only by the noreply email.
+    """
     commits: list = []
     page = 1
     while page <= 30:
-        qs = urllib.parse.urlencode({
-            "author": login,
-            "since": since_iso,
-            "per_page": 100,
-            "page": page,
-        })
+        params = {"since": since_iso, "per_page": 100, "page": page}
+        if author:
+            params["author"] = author
+        qs = urllib.parse.urlencode(params)
         batch, err = api(f"https://api.github.com/repos/{repo}/commits?{qs}", tok)
         if err:
-            return [], [], err
+            return [], err
         if not batch:
             break
         commits.extend(batch)
         if len(batch) < 100:
             break
         page += 1
+    return commits, None
+
+
+def fetch_repo(repo: str, tok: str, since_iso: str, login: str, cutoff: str) -> tuple[list, list, str | None]:
+    commits, err = fetch_commits(repo, tok, since_iso, login)
+    if err:
+        return [], [], err
 
     pulls: list = []
     page = 1
@@ -422,6 +452,235 @@ def list_repos(cfg: dict, tok: str) -> list[str]:
             break
         page += 1
     return sorted(set(out))
+
+
+def _noreply_login(email: str) -> str:
+    local = (email or "").strip().lower().split("@", 1)[0]
+    if "+" in local:
+        return local.split("+", 1)[1]
+    return local
+
+
+def bot_identity_kind(name: str, email: str) -> str | None:
+    """'agent', 'automation', or None. Exact login, name, or email. Not a substring hunt."""
+    name_l = (name or "").strip().lower()
+    email_l = (email or "").strip().lower()
+    if email_l in AGENT_EMAILS or name_l in AGENT_NAMES:
+        return "agent"
+    for login in (name_l, _noreply_login(email_l)):
+        if not login:
+            continue
+        if login in AGENT_LOGINS or login in AGENT_NAMES:
+            return "agent"
+        if login in AUTO_LOGINS:
+            return "automation"
+    if "cursor[bot]" in email_l:
+        return "agent"
+    return None
+
+
+def commit_bot_kind(commit: dict) -> str | None:
+    """Cloud agent wins over automation when a commit carries both."""
+    gh_user = commit.get("author") or {}
+    author = ((commit.get("commit") or {}).get("author") or {})
+    kinds = [
+        bot_identity_kind(gh_user.get("login") or "", ""),
+        bot_identity_kind(author.get("name") or "", author.get("email") or ""),
+    ]
+    message = ((commit.get("commit") or {}).get("message") or "")
+    for match in CO_AUTHOR_RE.finditer(message):
+        kinds.append(bot_identity_kind(match.group(1), match.group(2)))
+    if "agent" in kinds:
+        return "agent"
+    if "automation" in kinds:
+        return "automation"
+    return None
+
+
+def bot_commit_kind(commit: dict) -> str | None:
+    """Kind for a commit that should count. Merge commits are skipped, same as code."""
+    if len(commit.get("parents") or []) > 1:
+        return None
+    return commit_bot_kind(commit)
+
+
+def bots_counting_text() -> str:
+    return (
+        "Proxy, not Cursor line edits. total = non-merge commits on the default branch "
+        "whose author or Co-authored-by trailer is a cloud agent (Cursor Agent, cursor[bot]) "
+        "or a known automation bot (github-actions[bot], dependabot[bot], renovate[bot]). "
+        "Author dates are America/Chicago. Merge commits are skipped, same as the code grid. "
+        "agent is the cloud-agent count. automation is the other bots. A commit is one or the other. "
+        "Intensity is that commit count, on the same colour steps as code (2 / 8 / 14 / 24). "
+        "This is not lines added, and it is not Cursor's personal AI line-edits export. "
+        "Ultra accounts cannot download that export. Swap this file for it later if it exists. "
+        "The Pages workflow refreshes this file with cursor.json."
+    )
+
+
+def list_public_repos(login: str, tok: str) -> list[str]:
+    """Public owner repos. Used only when the authenticated repo listing is empty."""
+    out: list[str] = []
+    page = 1
+    while page <= 10:
+        qs = urllib.parse.urlencode({"type": "owner", "per_page": 100, "page": page})
+        batch, err = api(f"https://api.github.com/users/{urllib.parse.quote(login)}/repos?{qs}", tok)
+        if err or not batch:
+            if err:
+                print(f"habits: public repo listing failed: {err}", file=sys.stderr)
+            break
+        out += [r["full_name"] for r in batch if not r.get("fork")]
+        if len(batch) < 100:
+            break
+        page += 1
+    return sorted(set(out))
+
+
+def bot_repo_list(cfg: dict, tok: str) -> tuple[list[str], str]:
+    repos = list_repos(cfg, tok)
+    if repos:
+        return repos, "authenticated"
+    return list_public_repos(cfg["login"], tok), "public"
+
+
+def build_bots(cfg: dict, today: date) -> tuple[dict, str]:
+    """Return (payload, status). status is ok, empty, or error. Counts only: no names, shas, or messages."""
+    login = cfg["login"]
+    _start, grid_start, _grid_end = window(today)
+    since = datetime(grid_start.year, grid_start.month, grid_start.day, tzinfo=TZ).astimezone(timezone.utc)
+    since_iso = since.strftime("%Y-%m-%dT%H:%M:%SZ")
+    cutoff = grid_start.isoformat()
+    today_s = today.isoformat()
+    tok = token()
+    repos, source = bot_repo_list(cfg, tok)
+    if not repos:
+        print("habits: no repos visible for bots", file=sys.stderr)
+        return {}, "error"
+    days: dict[str, dict] = {}
+    seen: set[str] = set()
+    skipped = 0
+    for repo in repos:
+        commits, err = fetch_commits(repo, tok, since_iso)
+        if err:
+            skipped += 1
+            print(f"habits: bots commit list failed: {err}", file=sys.stderr)
+            continue
+        for commit in commits:
+            sha = commit.get("sha") or ""
+            if sha and sha in seen:
+                continue
+            author_info = (commit.get("commit") or {}).get("author") or {}
+            if not author_info.get("date"):
+                continue
+            day_key = ct_day(author_info["date"])
+            if day_key < cutoff or day_key > today_s:
+                continue
+            kind = bot_commit_kind(commit)
+            if not kind:
+                continue
+            if sha:
+                seen.add(sha)
+            row = days.setdefault(day_key, {"agent": 0, "automation": 0})
+            row[kind] += 1
+    if skipped == len(repos):
+        return {}, "error"
+    cleaned: dict[str, dict] = {}
+    for key in sorted(days):
+        agent = int(days[key]["agent"])
+        automation = int(days[key]["automation"])
+        total = agent + automation
+        if total <= 0:
+            continue
+        entry = {"total": total, "commits": total}
+        if agent:
+            entry["agent"] = agent
+        if automation:
+            entry["automation"] = automation
+        cleaned[key] = entry
+    data = {
+        "id": "bots",
+        "label": "bots",
+        "timezone": "America/Chicago",
+        "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "through": today_s,
+        "login": login,
+        "repos_counted": len(repos) - skipped,
+        "repos_skipped": skipped,
+        "repo_source": source,
+        "proxy": "github-agent-commits",
+        "counting": bots_counting_text(),
+        "days": cleaned,
+    }
+    return data, "ok"
+
+
+def write_bots(cfg: dict, today: date) -> dict:
+    data, status = build_bots(cfg, today)
+    if status != "ok":
+        if BOTS.exists():
+            print("habits: bots fetch produced nothing; leaving bots.json as it is", file=sys.stderr)
+            return load_json(BOTS)
+        raise SystemExit("habits: bots fetch failed and bots.json does not exist")
+    dump_json(BOTS, data)
+    active = len(data["days"])
+    total = sum(day["total"] for day in data["days"].values())
+    print(
+        f"habits: wrote {BOTS.relative_to(ROOT)} "
+        f"({active} active days, total {total}, source {data['repo_source']})"
+    )
+    return data
+
+
+def self_check_bot_kind() -> None:
+    """Classification only. No network."""
+    agent = {
+        "parents": [{}],
+        "author": {"login": "jayroddi"},
+        "commit": {
+            "author": {"name": "jay", "email": "jay@jaytha.ninja"},
+            "message": "Landed\n\nCo-authored-by: Cursor Agent <cursoragent@cursor.com>\n",
+        },
+    }
+    actions = {
+        "parents": [{}],
+        "author": {"login": "github-actions[bot]"},
+        "commit": {
+            "author": {
+                "name": "github-actions[bot]",
+                "email": "41898282+github-actions[bot]@users.noreply.github.com",
+            },
+            "message": "Sync Lightroom snaps.",
+        },
+    }
+    human = {
+        "parents": [{}],
+        "author": {"login": "jayroddi"},
+        "commit": {"author": {"name": "jay", "email": "jay@jaytha.ninja"}, "message": "Quote for today"},
+    }
+    merged = {
+        "parents": [{}, {}],
+        "author": {"login": "cursor[bot]"},
+        "commit": {
+            "author": {
+                "name": "cursor[bot]",
+                "email": "206951365+cursor[bot]@users.noreply.github.com",
+            },
+            "message": "Merge pull request #1",
+        },
+    }
+    direct = {
+        "parents": [{}],
+        "author": {"login": "cursoragent"},
+        "commit": {
+            "author": {"name": "Cursor Agent", "email": "cursoragent@cursor.com"},
+            "message": "Center the quotes chevrons.",
+        },
+    }
+    expect = ((agent, "agent"), (actions, "automation"), (human, None), (merged, None), (direct, "agent"))
+    for commit, kind in expect:
+        got = bot_commit_kind(commit)
+        if got != kind:
+            raise SystemExit(f"habits: bot kind {got!r} != {kind!r}")
 
 
 def write_cursor(cfg: dict, today: date) -> dict:
@@ -1118,9 +1377,52 @@ def check_exercise(workouts: dict) -> None:
             raise SystemExit(f"habits: exercise {key} = {val!r} is not 1..1440 minutes")
 
 
+def check_bots() -> None:
+    self_check_bot_kind()
+    if not BOTS.exists():
+        raise SystemExit("habits: bots.json is missing")
+    data = load_json(BOTS)
+    if data.get("id") != "bots" or data.get("label") != "bots":
+        raise SystemExit("habits: bots.json id and label must be bots")
+    if data.get("proxy") != "github-agent-commits":
+        raise SystemExit("habits: bots.json proxy must be github-agent-commits")
+    counting = data.get("counting") or ""
+    if "not Cursor" not in counting or "line edit" not in counting.lower():
+        raise SystemExit("habits: bots.json counting must say this is not Cursor line edits")
+    if data.get("repo_source") not in {"authenticated", "public"}:
+        raise SystemExit("habits: bots.json repo_source must be authenticated or public")
+    days = data.get("days")
+    if not isinstance(days, dict) or not days:
+        raise SystemExit("habits: bots.json days must be a non-empty object")
+    for key, day in days.items():
+        if not DATE_RE.fullmatch(key):
+            raise SystemExit(f"habits: bad bots date {key}")
+        if not isinstance(day, dict):
+            raise SystemExit(f"habits: {key} bots day must be an object")
+        agent = day.get("agent", 0)
+        automation = day.get("automation", 0)
+        for label, value in (("agent", agent), ("automation", automation), ("total", day.get("total")), ("commits", day.get("commits"))):
+            if isinstance(value, bool) or not isinstance(value, int) or value < 0:
+                raise SystemExit(f"habits: {key} bots {label} {value!r} is not a count")
+        if agent == 0 and "agent" in day:
+            raise SystemExit(f"habits: {key} has a zero agent key; omit it")
+        if automation == 0 and "automation" in day:
+            raise SystemExit(f"habits: {key} has a zero automation key; omit it")
+        if day["total"] != agent + automation or day["commits"] != agent + automation:
+            raise SystemExit(f"habits: {key} bots total {day.get('total')} != {agent} agent + {automation} automation")
+        allowed = {"total", "commits"}
+        if agent:
+            allowed.add("agent")
+        if automation:
+            allowed.add("automation")
+        if set(day) != allowed:
+            raise SystemExit(f"habits: {key} bots keys {sorted(day)} != {sorted(allowed)}")
+
+
 def check() -> None:
     cfg = load_json(TRACKERS)
     check_index(cfg)
+    check_bots()
     cursor = load_json(CURSOR)
     workouts = load_json(WORKOUTS)
     if not isinstance(workouts.get("days"), dict):
@@ -1239,15 +1541,15 @@ def check() -> None:
     print(
         f"habits: check ok. cursor active {len(days)}, total {total}, year {year_total}, "
         f"longest {longest}, current {current}, best month {best_mo} ({best_mo_n}), best day {best_day} ({best_n}); "
-        f"workouts {len(wdays)} days; {pages}"
+        f"workouts {len(wdays)} days; bots {len(load_json(BOTS).get('days') or {})} days; {pages}"
     )
 
 
 def main(argv: list[str]) -> None:
     cmd = argv[1] if len(argv) > 1 else "all"
-    if cmd not in {"all", "fetch", "pages", "check", "workouts", "exercise"}:
+    if cmd not in {"all", "fetch", "bots", "pages", "check", "workouts", "exercise"}:
         raise SystemExit(
-            "usage: habits.py [all|fetch|pages|check|workouts <merged.json> [activity_export.json]|exercise <export.json>]"
+            "usage: habits.py [all|fetch|bots|pages|check|workouts <merged.json> [activity_export.json]|exercise <export.json>]"
         )
     if cmd == "exercise":
         if len(argv) < 3:
@@ -1275,12 +1577,27 @@ def main(argv: list[str]) -> None:
                 raise SystemExit(1) from err
             if cmd == "fetch":
                 raise SystemExit(1) from err
+    if cmd in {"all", "fetch", "bots"}:
+        try:
+            write_bots(cfg, today)
+        except SystemExit:
+            raise
+        except Exception as err:  # noqa: BLE001 — keep the seed; cursor.json is already written
+            print(f"habits: bots fetch failed ({err})", file=sys.stderr)
+            if not BOTS.exists() or cmd == "bots":
+                raise SystemExit(1) from err
     if cmd in {"all", "pages"}:
         check_index(cfg)
         publish_counts()
         refresh_rides()
         write_redirects()
-    if cmd == "check" or cmd == "all":
+    if cmd == "bots":
+        check_bots()
+        data = load_json(BOTS)
+        days = data.get("days") or {}
+        total = sum(int(day["total"]) for day in days.values())
+        print(f"habits: bots check ok. {len(days)} days, total {total}, source {data.get('repo_source')}")
+    if cmd in {"check", "all"}:
         check()
 
 
