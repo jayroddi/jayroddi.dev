@@ -518,8 +518,17 @@ function build(data, positions) {
   });
 
   const right = new THREE.Vector3();
+  /* orbit's wheel listener calls preventDefault, which kills the page bounce.
+     a plain vertical wheel is left alone so the document can rubber-band.
+     pinch-zoom (ctrl/meta wheel) still zooms the sphere. a sideways wheel pans it. */
+  renderer.domElement.removeEventListener('wheel', controls._onMouseWheel);
   renderer.domElement.addEventListener('wheel', (event) => {
+    if (event.ctrlKey || event.metaKey) {
+      controls._onMouseWheel(event);
+      return;
+    }
     if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+    event.preventDefault();
     const distance = camera.position.distanceTo(controls.target);
     const world = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) * distance;
     const step = event.deltaX * (world / renderer.domElement.clientHeight) * 0.85;
@@ -528,16 +537,51 @@ function build(data, positions) {
     controls.target.add(right);
   }, { passive: false });
 
+  /* a one-finger vertical pull belongs to the page. orbit captures the pointer
+     on touch-down, which stops that bounce. sideways drags, mouse drags, and
+     two-finger pinch or pan still move the sphere. */
+  renderer.domElement.style.setProperty('touch-action', 'pan-y', 'important');
+  renderer.domElement.removeEventListener('pointerdown', controls._onPointerDown);
+  const pendingTouch = new Map();
+  const handTouchToSphere = (event) => {
+    const pending = pendingTouch.get(event.pointerId);
+    pendingTouch.delete(event.pointerId);
+    controls._onPointerDown(pending ? pending.event : event);
+  };
+  renderer.domElement.addEventListener('pointerdown', (event) => {
+    if (event.pointerType !== 'touch') {
+      controls._onPointerDown(event);
+      return;
+    }
+    if (pendingTouch.size > 0 || controls._pointers.length > 0) {
+      pendingTouch.forEach((pending) => controls._onPointerDown(pending.event));
+      pendingTouch.clear();
+      controls._onPointerDown(event);
+      return;
+    }
+    pendingTouch.set(event.pointerId, { x: event.clientX, y: event.clientY, event });
+  });
+  renderer.domElement.addEventListener('pointermove', (event) => {
+    const pending = pendingTouch.get(event.pointerId);
+    if (!pending) return;
+    const dx = event.clientX - pending.x;
+    const dy = event.clientY - pending.y;
+    if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+    if (Math.abs(dy) >= Math.abs(dx)) {
+      pendingTouch.delete(event.pointerId);
+      return;
+    }
+    handTouchToSphere(event);
+    controls._onPointerMove(event);
+  });
+  const dropPendingTouch = (event) => pendingTouch.delete(event.pointerId);
+  renderer.domElement.addEventListener('pointerup', dropPendingTouch);
+  renderer.domElement.addEventListener('pointercancel', dropPendingTouch);
+
   renderer.domElement.addEventListener('pointerdown', (event) => {
     controls.mouseButtons.LEFT = event.shiftKey ? THREE.MOUSE.PAN : THREE.MOUSE.ROTATE;
   }, true);
   renderer.domElement.addEventListener('contextmenu', (event) => event.preventDefault());
-  const holdPage = (event) => {
-    if (event.target && event.target.closest && event.target.closest('.nav-stack, .social-dock')) return;
-    event.preventDefault();
-  };
-  window.addEventListener('wheel', holdPage, { passive: false });
-  window.addEventListener('touchmove', holdPage, { passive: false });
 
   const still = new URLSearchParams(location.search).get('still');
   const stillTime = still == null || still === '' || Number.isNaN(Number(still)) ? null : Number(still);

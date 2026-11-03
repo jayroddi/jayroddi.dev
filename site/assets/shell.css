@@ -1,8 +1,26 @@
-/* live shell. the homepage splash, the pill, and the square field. */
+/* live shell. the homepage splash, the pill, and the square field.
+   quotes keeps the viewport lock so a sideways swipe does not scroll the page.
+   home does not: a locked 100svh box cannot rubber-band. one extra pixel makes
+   the document a scroller, which is what iOS and desktop use to bounce. */
 body.is-welcome {
   background: #000;
   overflow: hidden;
   height: 100svh;
+}
+body.is-welcome:not(.quotes) {
+  height: auto;
+  min-height: calc(100svh + 1px);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+html:has(body.is-welcome:not(.quotes)) {
+  overscroll-behavior-y: auto;
+  scrollbar-width: none;
+}
+html:has(body.is-welcome:not(.quotes))::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 #rain { display: none !important; }
 
@@ -236,6 +254,11 @@ body.is-welcome .welcome {
   height: 100svh;
   padding: 20px;
   overflow: hidden;
+}
+body.is-welcome:not(.quotes) .welcome {
+  height: auto;
+  min-height: 100svh;
+  overflow: visible;
 }
 .hero { width: min(880px, 100%); text-align: center; }
 .hero-copy { --intro-blank: 29px; }

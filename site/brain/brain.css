@@ -1,15 +1,10 @@
-/* mock only. locks the viewport. the pill and the social dock stay on top. */
+/* the sphere sits on the page. the document stays a normal scroller so a
+   vertical pull can rubber-band. the pill and the social dock stay on top. */
 
 html {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
   background: #000 !important;
   color-scheme: dark;
-  overflow: hidden !important;
-  overscroll-behavior: none;
-  touch-action: none;
+  overscroll-behavior-y: auto;
   scrollbar-width: none;
 }
 
@@ -21,15 +16,14 @@ body::-webkit-scrollbar {
 }
 
 body.board.is-brain {
-  position: fixed;
-  inset: 0;
   width: 100%;
-  height: 100% !important;
-  min-height: 0 !important;
-  max-height: 100% !important;
+  height: auto !important;
+  min-height: calc(100svh + 1px) !important;
+  max-height: none !important;
   margin: 0;
-  overflow: hidden !important;
-  overscroll-behavior: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: auto;
   background: #000 !important;
   user-select: none;
   scrollbar-width: none;
@@ -38,18 +32,19 @@ body.board.is-brain {
 body.is-brain .habit-bg { display: none !important; }
 
 #graph {
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: 1;
   background: #000;
-  overflow: hidden;
+  /* hidden would swallow wheel and PageDown before they reach the document */
+  overflow: visible;
 }
 
 #graph canvas {
   display: block;
   width: 100%;
   height: 100%;
-  touch-action: none;
+  touch-action: pan-y;
   cursor: grab;
   background: #000;
 }
