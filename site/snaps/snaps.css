@@ -1,4 +1,7 @@
-/* v2.44: frost is the photos only. no password field.
+/* v2.48: lightbox close is a 72px target. the disc is darker, with a light
+   ring, and sits below the safe area. a vertical drag moves the photo and
+   fades the scrim; the snap-back and the dismiss are the only transitions.
+   v2.44: frost is the photos only. no password field.
    v2.33: three columns under 900px, six from 900px. flex columns share one top edge.
    the lightbox is the full viewport. the photo box is the aspect ratio, contained. */
 body.snaps .stage{flex-direction:column;align-items:center;width:100%}
@@ -26,10 +29,17 @@ body.snaps .backlog + .gallery .month:first-child h2{margin-top:0}
 .note{margin:12px 0 0;text-align:center;font-size:12px;line-height:1.4;font-weight:500;color:var(--ink-3)}
 html.light-open,html.light-open body{overflow:hidden;height:100%}
 .light:not([open]){display:none}
-.light{--cap:28px}
+.light{--cap:28px;--drag:0px;--scrim:.9}
 .light[open]{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:transparent;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;overflow:hidden;box-sizing:border-box;touch-action:none;overscroll-behavior:none;user-select:none}
 .light:focus{outline:0}
-.light::backdrop{background:rgba(0,0,0,.9)}
+.light::backdrop{background:rgba(0,0,0,var(--scrim,.9))}
+.light .frame,.light .cap{transform:translate3d(0,var(--drag),0)}
+.light.settle .frame,.light.settle .cap,.light.leave .frame,.light.leave .cap{transition:transform .2s ease-out}
+.light.settle::backdrop,.light.leave::backdrop{transition:background-color .2s ease-out}
+@media (prefers-reduced-motion:reduce){
+  .light.settle .frame,.light.settle .cap,.light.leave .frame,.light.leave .cap,
+  .light.settle::backdrop,.light.leave::backdrop{transition:none}
+}
 .frame{position:relative;z-index:1;flex:none;min-width:0;min-height:0;--w:1;--h:1;aspect-ratio:var(--w)/var(--h);width:min(calc(95vw - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)),calc((92vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - var(--cap))*var(--w)/var(--h)));max-height:calc(92vh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - var(--cap));height:auto;background:#111;pointer-events:none}
 @supports (height:100dvh){
   .frame{width:min(calc(95vw - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px)),calc((92dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - var(--cap))*var(--w)/var(--h)));max-height:calc(92dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - var(--cap))}
@@ -53,8 +63,8 @@ html.light-open,html.light-open body{overflow:hidden;height:100%}
 .light .nav.off svg{opacity:.28}
 .light .nav:focus{outline:0}
 .light .nav:focus-visible svg,.light .x:focus-visible{outline:2px solid var(--c);outline-offset:3px}
-.light .x{position:absolute;z-index:3;top:max(10px,env(safe-area-inset-top,0px));right:max(10px,env(safe-area-inset-right,0px));width:44px;height:44px}
-.light .x svg{width:18px;height:18px;padding:13px}
+.light .x{position:absolute;z-index:3;top:calc(env(safe-area-inset-top,0px) + 8px);right:calc(env(safe-area-inset-right,0px) + 8px);width:72px;height:72px;display:flex;align-items:center;justify-content:center}
+.light .x svg{width:24px;height:24px;padding:14px;background:rgba(0,0,0,.82);box-shadow:0 0 0 1px rgba(255,255,255,.45)}
 @media (max-width:760px){
   body.snaps .gallery{width:min(1100px,calc(100vw - 24px))}
 }

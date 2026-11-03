@@ -1,4 +1,8 @@
-/* v2.63: clear-listed asset ids (scripts/snaps_clear.json) are published
+/* v2.64: the lightbox close control is a larger, higher-contrast target under
+   the safe area. a vertical swipe follows the finger and dismisses back to
+   the mosaic; left and right still change photos. the gesture locks to one
+   axis so a diagonal flick does not both advance and dismiss.
+   v2.63: clear-listed asset ids (scripts/snaps_clear.json) are published
    without f, so they stay the sharp Lightroom rendition. the soft recipe
    is unchanged for every other new snap.
    v2.62: frost is per photo. a row with f loads /snaps/f/{id}.jpg and
@@ -22,6 +26,11 @@ const NAMES = ['january','february','march','april','may','june','july','august'
 const FIRST = 1;
 const COL_BREAK = 900;
 const SWIPE = 48;
+const AXIS = 16;
+const AXIS_BIAS = 1.3;
+const DISMISS = 108;
+const FLICK_V = 0.4;
+const FLICK_MIN = 48;
 const columnCount = () => (innerWidth >= COL_BREAK ? 6 : 3);
 const SIZES = '(min-width: 900px) 200px, 30vw';
 const gallery = document.getElementById('gallery');
@@ -46,8 +55,10 @@ let savedY = 0;
 let locked = false;
 let gesture = null;
 let pinch = false;
-let dragged = false;
 let eatClick = false;
+let dragTimer = 0;
+let leaving = false;
+let swallowUntil = 0;
 let stepping = false;
 let held = [];
 
@@ -325,7 +336,96 @@ function shut() {
   if (light.open) light.close();
 }
 
+function lockAxis(g, dx, dy) {
+  if (g.axis) return g.axis;
+  const ax = Math.abs(dx);
+  const ay = Math.abs(dy);
+  if (ax < AXIS && ay < AXIS) return null;
+  if (ay >= ax * AXIS_BIAS && ay >= AXIS) g.axis = 'y';
+  else if (ax >= ay * AXIS_BIAS && ax >= AXIS) g.axis = 'x';
+  return g.axis;
+}
+
+function paintDrag(dy) {
+  const span = Math.max(1, (light.clientHeight || innerHeight) * 0.45);
+  const fade = Math.min(1, Math.abs(dy) / span);
+  light.style.setProperty('--drag', dy + 'px');
+  light.style.setProperty('--scrim', (0.9 * (1 - fade)).toFixed(3));
+}
+
+function resetDrag() {
+  clearTimeout(dragTimer);
+  dragTimer = 0;
+  leaving = false;
+  light.classList.remove('settle', 'leave');
+  light.style.setProperty('--drag', '0px');
+  light.style.setProperty('--scrim', '.9');
+}
+
+function noteVelocity(g, x, y, time) {
+  g.pts.push({ x, y, t: time });
+  const cutoff = time - 100;
+  while (g.pts.length > 1 && g.pts[0].t < cutoff) g.pts.shift();
+  const origin = g.pts[0];
+  const dt = time - origin.t;
+  if (dt >= 8) g.vy = (y - origin.y) / dt;
+  g.t = time;
+}
+
+function snapDrag() {
+  clearTimeout(dragTimer);
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    resetDrag();
+    return;
+  }
+  light.classList.remove('leave');
+  light.classList.add('settle');
+  light.style.setProperty('--drag', '0px');
+  light.style.setProperty('--scrim', '.9');
+  dragTimer = setTimeout(() => light.classList.remove('settle'), 240);
+}
+
+function commitDrag(dy) {
+  clearTimeout(dragTimer);
+  leaving = true;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    shut();
+    return;
+  }
+  const dir = dy < 0 ? -1 : 1;
+  const view = light.clientHeight || innerHeight;
+  const travel = Math.max(Math.round(view * 0.92), Math.abs(dy) + 160);
+  if (!light.style.getPropertyValue('--drag') || light.style.getPropertyValue('--drag') === '0px') {
+    light.classList.remove('leave', 'settle');
+    paintDrag(dy);
+    void frame.offsetWidth;
+  }
+  light.classList.remove('settle');
+  light.classList.add('leave');
+  light.style.setProperty('--drag', (dir * travel) + 'px');
+  light.style.setProperty('--scrim', '0');
+  dragTimer = setTimeout(() => {
+    dragTimer = 0;
+    if (light.open) shut();
+  }, 220);
+}
+
+function armClick(locked) {
+  eatClick = true;
+  swallowUntil = performance.now() + (locked ? 500 : 350);
+  setTimeout(() => { eatClick = false; }, 0);
+}
+
 light.addEventListener('close', () => {
+  clearTimeout(dragTimer);
+  dragTimer = 0;
+  leaving = false;
+  gesture = null;
+  requestAnimationFrame(() => {
+    light.classList.remove('settle', 'leave');
+    light.style.setProperty('--drag', '0px');
+    light.style.setProperty('--scrim', '.9');
+  });
   token++;
   hi.onload = null;
   hi.onerror = null;
@@ -384,44 +484,138 @@ function more() {
 }
 
 light.addEventListener('touchstart', event => {
-  if (event.touches.length > 1) { pinch = true; gesture = null; }
+  if (event.touches.length > 1) {
+    pinch = true;
+    if (gesture && gesture.axis === 'y') snapDrag();
+    gesture = null;
+  }
 }, {passive: true});
 light.addEventListener('touchend', event => {
   if (!event.touches.length) pinch = false;
-}, {passive: true});
+  if (gesture && event.changedTouches.length) {
+    const touch = event.changedTouches[0];
+    finishGesture({
+      pointerId: gesture.id,
+      pointerType: 'touch',
+      clientX: touch.clientX,
+      clientY: touch.clientY,
+      timeStamp: event.timeStamp,
+      stopPropagation() {}
+    });
+  }
+  if (performance.now() < swallowUntil) event.preventDefault();
+}, {passive: false});
 light.addEventListener('touchmove', event => {
   if (event.touches.length !== 1) return;
-  dragged = true;
   event.preventDefault();
 }, {passive: false});
 light.addEventListener('pointerdown', event => {
   event.stopPropagation();
+  if (leaving) return;
+  if (event.target.closest('.x')) { gesture = null; return; }
   if (!event.isPrimary || pinch) { gesture = null; return; }
-  gesture = {id: event.pointerId, x: event.clientX, y: event.clientY};
+  if (light.classList.contains('settle')) {
+    clearTimeout(dragTimer);
+    light.classList.remove('settle');
+    light.style.setProperty('--drag', '0px');
+    light.style.setProperty('--scrim', '.9');
+  }
+  gesture = {
+    id: event.pointerId,
+    type: event.pointerType,
+    x: event.clientX,
+    y: event.clientY,
+    t: event.timeStamp,
+    vy: 0,
+    pts: [{ x: event.clientX, y: event.clientY, t: event.timeStamp }],
+    axis: null,
+    cap: false
+  };
+  try { light.setPointerCapture(event.pointerId); } catch (err) {}
 });
-light.addEventListener('pointerup', event => {
-  event.stopPropagation();
-  if (!gesture || gesture.id !== event.pointerId) return;
+function finishGesture(event) {
+  if (!gesture || leaving) return;
+  if (event.pointerType === 'touch' && event.pointerId !== gesture.id) return;
+  if (event.stopPropagation) event.stopPropagation();
   const dx = event.clientX - gesture.x;
   const dy = event.clientY - gesture.y;
+  const since = event.timeStamp - gesture.t;
+  const vy = since > 120 ? 0 : gesture.vy;
+  lockAxis(gesture, dx, dy);
+  const axis = gesture.axis;
   gesture = null;
-  const moved = dragged;
-  dragged = false;
-  if (pinch) return;
-  if (Math.hypot(dx, dy) > 12 && !moved) {
-    eatClick = true;
-    setTimeout(() => { eatClick = false; }, 0);
+  if (pinch) {
+    if (axis === 'y') snapDrag();
+    return;
   }
-  if (Math.abs(dx) >= SWIPE && Math.abs(dx) > Math.abs(dy) * 1.3) {
+  if (axis || Math.hypot(dx, dy) > 12) armClick(!!axis);
+  if (axis === 'y') {
+    const pulled = Math.abs(dy) >= DISMISS;
+    const flicked = Math.abs(dy) >= FLICK_MIN && Math.abs(vy) >= FLICK_V && dy !== 0 && Math.sign(vy) === Math.sign(dy);
+    if (pulled || flicked) commitDrag(dy);
+    else snapDrag();
+    return;
+  }
+  if (axis === 'x' && Math.abs(dx) >= SWIPE) {
     if (dx < 0) older();
     else newer();
   }
+}
+
+light.addEventListener('pointermove', event => {
+  if (!gesture || gesture.id !== event.pointerId || pinch || leaving) return;
+  if (event.buttons === 0 && event.pointerType !== 'touch') {
+    finishGesture(event);
+    return;
+  }
+  noteVelocity(gesture, event.clientX, event.clientY, event.timeStamp);
+  const dx = event.clientX - gesture.x;
+  const dy = event.clientY - gesture.y;
+  const axis = lockAxis(gesture, dx, dy);
+  if (!axis) return;
+  if (!gesture.cap) {
+    gesture.cap = true;
+    try { light.setPointerCapture(event.pointerId); } catch (err) {}
+  }
+  if (axis === 'y') paintDrag(dy);
 });
-light.addEventListener('pointercancel', () => { gesture = null; dragged = false; });
+addEventListener('pointerup', finishGesture, true);
+addEventListener('mouseup', event => {
+  if (!gesture || gesture.type === 'touch') return;
+  finishGesture({
+    pointerId: gesture.id,
+    pointerType: 'mouse',
+    clientX: event.clientX,
+    clientY: event.clientY,
+    timeStamp: event.timeStamp,
+    stopPropagation() { event.stopPropagation(); }
+  });
+}, true);
+addEventListener('pointercancel', event => {
+  if (!gesture || event.pointerId !== gesture.id) return;
+  if (gesture.axis === 'y') snapDrag();
+  gesture = null;
+}, true);
+light.addEventListener('lostpointercapture', event => {
+  if (!gesture || gesture.type === 'touch' || event.pointerId !== gesture.id) return;
+  const last = gesture.pts[gesture.pts.length - 1] || gesture;
+  finishGesture({
+    pointerId: gesture.id,
+    pointerType: 'mouse',
+    clientX: last.x,
+    clientY: last.y,
+    timeStamp: event.timeStamp || last.t,
+    stopPropagation() {}
+  });
+});
 light.addEventListener('wheel', event => event.preventDefault(), {passive: false});
 
 light.addEventListener('click', event => {
-  if (eatClick) { eatClick = false; event.preventDefault(); return; }
+  if (leaving || eatClick || performance.now() < swallowUntil) {
+    eatClick = false;
+    event.preventDefault();
+    return;
+  }
   if (event.target.closest('.x')) { shut(); return; }
   const box = frame.getBoundingClientRect();
   const x = event.clientX;
@@ -433,6 +627,10 @@ light.addEventListener('click', event => {
 });
 
 light.addEventListener('keydown', event => {
+  if (leaving) {
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') event.preventDefault();
+    return;
+  }
   if (event.key === 'ArrowLeft') { event.preventDefault(); newer(); }
   else if (event.key === 'ArrowRight') { event.preventDefault(); older(); }
 });
