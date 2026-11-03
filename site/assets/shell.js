@@ -34,7 +34,7 @@
   const titles = {
     '/grind/': 'we fall to the level of our habits',
     '/snaps/': 'you can see everythi',
-    '/log/': 'we are what we eat',
+    '/log/': 'consuming when not creating',
     '/quotes/': "be so good they can't ignore you"
   };
   if (titles[here]) {
