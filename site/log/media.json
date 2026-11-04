@@ -3,17 +3,17 @@
     {
       "c": "all",
       "e": "all",
-      "n": 462
+      "n": 469
     },
     {
       "c": "movies",
       "e": "🍿",
-      "n": 171
+      "n": 175
     },
     {
       "c": "shows",
       "e": "📺",
-      "n": 26
+      "n": 27
     },
     {
       "c": "books",
@@ -23,18 +23,18 @@
     {
       "c": "albums",
       "e": "💿",
-      "n": 148
+      "n": 149
     },
     {
       "c": "games",
       "e": "🎮",
-      "n": 7
+      "n": 8
     }
   ],
   "months": [
     {
       "m": "2026",
-      "n": 11
+      "n": 12
     },
     {
       "m": "2025",
@@ -50,23 +50,23 @@
     },
     {
       "m": "2022",
-      "n": 67
+      "n": 68
     },
     {
       "m": "2021",
-      "n": 52
+      "n": 53
     },
     {
       "m": "2020",
-      "n": 56
+      "n": 58
     },
     {
       "m": "2019",
-      "n": 41
+      "n": 42
     },
     {
       "m": "2018",
-      "n": 7
+      "n": 8
     },
     {
       "m": "2017",
@@ -83,6 +83,17 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "albums-in-rainbows-2026-11-02-dd7b78",
+      "d": "2026-11-02",
+      "c": "albums",
+      "t": "In Rainbows",
+      "a": "Radiohead",
+      "r": null,
+      "img": "albums-in-rainbows-2026-11-02-dd7b78.jpeg",
+      "src": "music 🎧",
+      "blurb": null
+    },
     {
       "i": "books-you-can-t-please-everyone-2026-10-30-023aeb",
       "d": "2026-10-30",
@@ -2362,6 +2373,17 @@
       "blurb": null
     },
     {
+      "i": "movies-avatar-2022-05-31-5d7c31",
+      "d": "2022-05-31",
+      "c": "movies",
+      "t": "Avatar",
+      "a": null,
+      "r": "★★★★☆",
+      "img": "movies-avatar-2022-05-31-5d7c31.jpeg",
+      "src": "movies 🍿",
+      "blurb": null
+    },
+    {
       "i": "books-the-millionaire-fastlane-crack-the-code-to-wealth-and-live-rich-for-a-life-fa94e9",
       "d": "2022-05-29",
       "c": "books",
@@ -3165,6 +3187,17 @@
       "blurb": null
     },
     {
+      "i": "games-the-legend-of-zelda-links-awakening-2021-04-05-47c94d",
+      "d": "2021-04-05",
+      "c": "games",
+      "t": "The Legend of Zelda: Link’s Awakening",
+      "a": null,
+      "r": null,
+      "img": "games-the-legend-of-zelda-links-awakening-2021-04-05-47c94d.jpeg",
+      "src": "games 🎮",
+      "blurb": null
+    },
+    {
       "i": "movies-wework-2021-04-02-33d624",
       "d": "2021-04-02",
       "c": "movies",
@@ -3656,6 +3689,28 @@
       "a": null,
       "r": "★★★☆☆",
       "img": "movies-american-pie-2020-04-19-529f58.jpeg",
+      "src": "movies 🍿",
+      "blurb": null
+    },
+    {
+      "i": "movies-pirates-of-the-caribbean-dead-mans-chest-2020-04-13-947e61",
+      "d": "2020-04-13",
+      "c": "movies",
+      "t": "Pirates of the Caribbean: Dead Man’s Chest",
+      "a": null,
+      "r": "★★☆☆☆",
+      "img": "movies-pirates-of-the-caribbean-dead-mans-chest-2020-04-13-947e61.jpeg",
+      "src": "movies 🍿",
+      "blurb": null
+    },
+    {
+      "i": "movies-pirates-of-the-caribbean-the-curse-of-the-black-pearl-2020-04-12-cde117",
+      "d": "2020-04-12",
+      "c": "movies",
+      "t": "Pirates of the Caribbean: The Curse of the Black Pearl",
+      "a": null,
+      "r": "★★★☆☆",
+      "img": "movies-pirates-of-the-caribbean-the-curse-of-the-black-pearl-2020-04-12-cde117.jpeg",
       "src": "movies 🍿",
       "blurb": null
     },
@@ -4232,6 +4287,17 @@
       "blurb": null
     },
     {
+      "i": "shows-jo-koy-live-in-seattle-2019-08-17-04f9ae",
+      "d": "2019-08-17",
+      "c": "shows",
+      "t": "Jo Koy: Live in Seattle",
+      "a": null,
+      "r": "★★★★☆",
+      "img": "shows-jo-koy-live-in-seattle-2019-08-17-04f9ae.jpeg",
+      "src": "comedy 🎤",
+      "blurb": null
+    },
+    {
       "i": "movies-inception-2019-08-16-04e2eb",
       "d": "2019-08-16",
       "c": "movies",
@@ -4493,6 +4559,17 @@
       "r": null,
       "img": "games-the-legend-of-zelda-breath-of-the-wild-2018-12-27-d1b552.jpeg",
       "src": "games 🎮",
+      "blurb": null
+    },
+    {
+      "i": "movies-spider-man-into-the-spider-verse-2018-12-23-148cb4",
+      "d": "2018-12-23",
+      "c": "movies",
+      "t": "Spider-Man: Into the Spider-Verse",
+      "a": null,
+      "r": "★★★★☆",
+      "img": "movies-spider-man-into-the-spider-verse-2018-12-23-148cb4.jpeg",
+      "src": "movies 🍿",
       "blurb": null
     },
     {

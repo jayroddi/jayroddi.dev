@@ -2,7 +2,7 @@
 
 Media log. `/music/` and `/books/` forward here.
 
-`media.json` and `covers/` are the 2026-11-02 export with the two untitled book twins removed, the swapped Ryan Holiday note for Right Thing, Right Now removed, and Fighting for Your Marriage While Separated by Linda Rooks removed. 462 notes. A cover is only an embedded `![[…]]` image. A note with no embed has `img: null` and the tile shows the title, not a nearby file. Snaps stay photos on `/snaps`. Moments that are not media notes are not in this file.
+`media.json` and `covers/` are the 2026-11-02 export with the two untitled book twins removed, the swapped Ryan Holiday note for Right Thing, Right Now removed, and Fighting for Your Marriage While Separated by Linda Rooks removed, plus the 2026-11-04 midnight vault sync (In Rainbows by Radiohead, and six older vault notes the first export missed: Avatar, both early Pirates of the Caribbean films, Spider-Man: Into the Spider-Verse, Jo Koy: Live in Seattle, and The Legend of Zelda: Link’s Awakening). 469 notes. A cover is only an embedded `![[…]]` image. A note with no embed has `img: null` and the tile shows the title, not a nearby file. Snaps stay photos on `/snaps`. Moments that are not media notes are not in this file.
 
 ## What the page reads
 
@@ -10,12 +10,12 @@ Media log. `/music/` and `/books/` forward here.
 
 | c | chip | n in this export |
 |---|---|---|
-| all | all | 462 |
-| movies | 🍿 | 171 |
-| shows | 📺 | 26 (tv + documentaries + comedy, already one bucket) |
+| all | all | 469 |
+| movies | 🍿 | 175 |
+| shows | 📺 | 27 (tv + documentaries + comedy, already one bucket) |
 | books | 📚 | 110 |
-| albums | 💿 | 148 |
-| games | 🎮 | 7 |
+| albums | 💿 | 149 |
+| games | 🎮 | 8 |
 
 `groupBy` is `year`. `months` is newest first (`m` is a year such as `2026`, or the undated key `2015-2020`; `n` is how many notes). Sections are built from each note: a full date uses `d.slice(0, 4)`, and any other `d` (the undated books) stays as that literal key. `months` only orders keys it still lists. A year heading is the year (`2026`). `bucketLabel` maps `2015-2020` to the heading `2015 - 2020`. Notes inside a year stay newest first.
 
