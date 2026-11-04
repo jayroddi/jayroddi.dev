@@ -35,6 +35,8 @@
   top: 0;
 }
 .deck .slide.settle { transition: transform .42s ease; }
+/* vertical pull stays with the document so the page can rubber-band.
+   a sideways drag is not a pan, so the deck can follow the finger. */
 body.quotes { touch-action: pan-y; }
 .deck, .deck .slide {
   user-select: none;
