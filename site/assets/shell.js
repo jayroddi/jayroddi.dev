@@ -1,11 +1,11 @@
-/* live shell. pill nav, square field, today's quote on the homepage. no audio. */
+/* live shell. pill nav, square field, quote list on the homepage. no audio.
+   the pill is 👋, grind, log, snaps, 🧠. quotes live on the homepage, under the splash. */
 (() => {
   const pages = [
     ['/', '👋'],
     ['/grind/', 'grind'],
-    ['/snaps/', 'snaps'],
     ['/log/', 'log'],
-    ['/quotes/', 'quotes'],
+    ['/snaps/', 'snaps'],
     ['/brain/', '🧠']
   ];
   const here = (() => {
@@ -34,8 +34,7 @@
   const titles = {
     '/grind/': 'we fall to the level of our habits',
     '/snaps/': 'you can see everythi',
-    '/log/': 'consuming when not creating',
-    '/quotes/': "be so good they can't ignore you"
+    '/log/': 'consuming when not creating'
   };
   if (titles[here]) {
     const line = document.createElement('p');
@@ -95,7 +94,7 @@
     pushBox(blocked, nav, 8);
     if (getComputedStyle(dock).display !== 'none') pushBox(blocked, dock, 8);
     document.querySelectorAll([
-      '.hands', '.hero-title', '.hero-sub', '.splash-quote', '.heart',
+      '.hands', '.hero-title', '.hero-sub', '.splash-quote', '.heart', '.scroll-hint',
       '.subhead', '.kicker', '.stat', '.legend', '.months', '.dow',
       '.quotes .d', '.quotes .q', '.quotes .by',
       '.month h2', '.socials a', '.socials p'
@@ -178,6 +177,123 @@
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(buildBg, 120);
   });
+
+  function mountHomeQuotes() {
+    const section = document.getElementById('quotes');
+    const listEl = section && section.querySelector('ol.quotes');
+    if (!section || !listEl || !document.body.classList.contains('is-welcome')) return;
+
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let shown = false;
+    let ready = false;
+    let pending = false;
+
+    const reveal = () => {
+      pending = true;
+      if (!ready || shown) return;
+      shown = true;
+      section.removeAttribute('aria-hidden');
+      const go = () => section.classList.add('is-in');
+      if (reduce) go();
+      else requestAnimationFrame(() => requestAnimationFrame(go));
+    };
+
+    const scrolled = () => window.scrollY > 12;
+    const alignQuotes = () => {
+      if (location.hash !== '#quotes') return;
+      const root = document.documentElement;
+      const prev = root.style.scrollBehavior;
+      root.style.scrollBehavior = 'auto';
+      section.scrollIntoView({ block: 'start' });
+      root.style.scrollBehavior = prev;
+    };
+    addEventListener('scroll', () => { if (scrolled()) reveal(); }, { passive: true });
+    addEventListener('hashchange', () => {
+      if (location.hash !== '#quotes') return;
+      reveal();
+      alignQuotes();
+    });
+    const hint = document.querySelector('a.scroll-hint');
+    if (hint) hint.addEventListener('click', () => reveal());
+    if (location.hash === '#quotes' || scrolled()) reveal();
+    if (window.IntersectionObserver) {
+      const watch = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && (scrolled() || location.hash === '#quotes')) reveal();
+        });
+      }, { threshold: 0.08 });
+      watch.observe(section);
+    }
+
+    const chicago = () => new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit'
+    }).format(new Date());
+    const dots = (day) => day.replace(/-/g, '.');
+    const paint = (rows) => {
+      const day = chicago();
+      const list = rows.filter((entry) => entry && /^\d{4}-\d{2}-\d{2}$/.test(entry.date) && entry.date <= day && (entry.text || entry.quote) && entry.author)
+        .map((entry) => ({
+          date: entry.date,
+          text: String(entry.text || entry.quote).trim(),
+          author: String(entry.author).replace(/^\s*[-–—]\s*/, '').trim()
+        }))
+        .sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0);
+      const frag = document.createDocumentFragment();
+      list.forEach((entry) => {
+        const li = document.createElement('li');
+        const date = document.createElement('p');
+        date.className = 'd';
+        const time = document.createElement('time');
+        time.dateTime = entry.date;
+        time.textContent = dots(entry.date);
+        date.append(time);
+        const words = document.createElement('blockquote');
+        words.className = 'q';
+        words.textContent = entry.text;
+        const by = document.createElement('p');
+        by.className = 'by';
+        by.textContent = entry.author;
+        li.append(date, words, by);
+        frag.append(li);
+      });
+      listEl.replaceChildren(frag);
+      ready = list.length > 0;
+      placeBlinkers();
+      if (pending || location.hash === '#quotes' || scrolled()) reveal();
+      if (location.hash === '#quotes') alignQuotes();
+    };
+    const load = () => {
+      fetch('/quote-of-the-day/quotes.json', { cache: 'no-cache' })
+        .then((res) => res.ok ? res.json() : Promise.reject())
+        .then((rows) => { if (Array.isArray(rows)) paint(rows); })
+        .catch(() => {});
+    };
+    load();
+
+    let dayStamp = chicago();
+    let dayTimer = 0;
+    const untilMidnight = () => {
+      const n = new Date();
+      const p = {};
+      new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Chicago', hourCycle: 'h23', hour: '2-digit', minute: '2-digit', second: '2-digit'
+      }).formatToParts(n).forEach((part) => { p[part.type] = +part.value; });
+      const hour = p.hour === 24 ? 0 : p.hour;
+      return ((23 - hour) * 3600 + (59 - p.minute) * 60 + (60 - p.second)) * 1000 - n.getMilliseconds();
+    };
+    const watchDay = () => {
+      const next = chicago();
+      if (next !== dayStamp) {
+        dayStamp = next;
+        load();
+      }
+      clearTimeout(dayTimer);
+      dayTimer = setTimeout(watchDay, Math.max(200, Math.min(untilMidnight() + 200, 60000)));
+    };
+    watchDay();
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) watchDay(); });
+  }
+  mountHomeQuotes();
 
   const todayHost = document.getElementById('today-quote');
   if (!todayHost) return;

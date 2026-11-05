@@ -13,6 +13,7 @@ body.is-welcome {
 html:has(body.is-welcome) {
   overscroll-behavior-y: auto;
   scrollbar-width: none;
+  scroll-behavior: smooth;
 }
 html:has(body.is-welcome)::-webkit-scrollbar {
   display: none;
@@ -93,6 +94,7 @@ body:not(.is-welcome):not(.no-veil) .habit-bg {
 }
 @media (prefers-reduced-motion: reduce) {
   .habit-bg i.blink { animation: none; opacity: 1; }
+  html:has(body.is-welcome) { scroll-behavior: auto; }
 }
 /* grind uses the same loud field as home and quotes. the column panel keeps the grids readable. */
 body.board.is-grind .habit-bg {
@@ -344,4 +346,111 @@ body.is-welcome .soft { padding-top: 22px; padding-bottom: 22px; }
 @media (max-width: 480px) {
   .hero-sub { font-size: 11px; letter-spacing: -0.03em; }
   .splash-quote { font-size: 12px; line-height: 1.45; }
+}
+
+/* scroll hint under the splash. the first screen stays one viewport; the
+   arrow sits above the social pill and pulses so the page reads as scrollable.
+   the quotes sheet below is the same black card as the splash. it stays
+   invisible until a scroll (or a jump to #quotes), then the whole sheet fades. */
+.scroll-hint {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  color: #1AADB3;
+  text-decoration: none;
+  transform: translateX(-50%);
+  -webkit-tap-highlight-color: transparent;
+  animation: home-scroll-hint 2.6s ease-in-out infinite;
+}
+.scroll-hint svg { display: block; width: 26px; height: 26px; }
+.scroll-hint:focus-visible { outline: 2px solid #1AADB3; outline-offset: 3px; border-radius: 999px; }
+@keyframes home-scroll-hint {
+  0%, 100% {
+    opacity: .62;
+    filter: drop-shadow(0 0 3px rgba(26, 173, 179, .4));
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 8px rgba(26, 173, 179, .7));
+    transform: translateX(-50%) translateY(3px);
+  }
+}
+.home-quotes {
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  width: min(880px, calc(100% - 40px));
+  margin: 0 auto;
+  padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px));
+  scroll-margin-top: var(--shell-nav, 88px);
+  opacity: 0;
+}
+.home-quotes.is-in {
+  opacity: 1;
+  transition: opacity .4s ease;
+}
+.home-quotes .soft {
+  width: 100%;
+  margin-top: 0;
+  padding: 28px 22px 32px;
+}
+.home-quotes .quotes { margin: 0; width: 100%; }
+.home-quotes .quotes li {
+  max-width: 40em;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* the chronological list: date and words on the left, name on the right, teal.
+   italic so it sits with the splash. colors stay on the black card in light mode. */
+body.board .home-quotes .quotes .d,
+body.board .home-quotes .quotes .q,
+body.board .home-quotes .quotes .by {
+  font-style: italic;
+}
+body.board .home-quotes .quotes .d {
+  color: rgba(26, 173, 179, .8);
+  text-align: left;
+}
+body.board .home-quotes .quotes .q {
+  color: rgba(244, 239, 230, .78);
+  text-align: left;
+}
+body.board .home-quotes .quotes .by {
+  color: #1AADB3;
+  text-align: right;
+}
+/* the fixed social pill is translucent, so a long list would read through it.
+   this band is black across the pill and fades out just under the scroll arrow. */
+body.is-welcome::after {
+  content: "";
+  position: fixed;
+  z-index: 35;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(72px + env(safe-area-inset-bottom, 0px));
+  pointer-events: none;
+  background: linear-gradient(to top, #000 58px, transparent);
+}
+@media (max-width: 720px) {
+  .home-quotes { width: min(880px, calc(100% - 32px)); }
+  .home-quotes .soft { margin-top: 0; padding: 22px 16px 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hint {
+    animation: none;
+    opacity: .75;
+    filter: none;
+    transform: translateX(-50%);
+  }
+  .home-quotes.is-in { transition: none; }
 }
