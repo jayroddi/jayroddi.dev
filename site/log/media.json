@@ -3,12 +3,12 @@
     {
       "c": "all",
       "e": "all",
-      "n": 469
+      "n": 472
     },
     {
       "c": "movies",
       "e": "🍿",
-      "n": 175
+      "n": 176
     },
     {
       "c": "shows",
@@ -23,7 +23,7 @@
     {
       "c": "albums",
       "e": "💿",
-      "n": 149
+      "n": 151
     },
     {
       "c": "games",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 12
+      "n": 15
     },
     {
       "m": "2025",
@@ -83,6 +83,39 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "movies-godzilla-minus-zero-2026-11-05-2f5ba7",
+      "d": "2026-11-05",
+      "c": "movies",
+      "t": "Godzilla Minus Zero",
+      "a": null,
+      "r": null,
+      "img": "movies-godzilla-minus-zero-2026-11-05-2f5ba7.jpg",
+      "src": "movies 🍿",
+      "blurb": "it's incredible"
+    },
+    {
+      "i": "albums-backstreet-boys-2026-11-04-1bd910",
+      "d": "2026-11-04",
+      "c": "albums",
+      "t": "Backstreet Boys",
+      "a": "Backstreet Boys",
+      "r": null,
+      "img": "albums-backstreet-boys-2026-11-04-1bd910.jpeg",
+      "src": "music 🎧",
+      "blurb": null
+    },
+    {
+      "i": "albums-mirrors-edge-original-videogame-score-2026-11-03-ed8b76",
+      "d": "2026-11-03",
+      "c": "albums",
+      "t": "Mirror's Edge (Original Videogame Score)",
+      "a": "Solar Fields",
+      "r": null,
+      "img": "albums-mirrors-edge-original-videogame-score-2026-11-03-ed8b76.jpeg",
+      "src": "music 🎧",
+      "blurb": null
+    },
     {
       "i": "albums-in-rainbows-2026-11-02-dd7b78",
       "d": "2026-11-02",
