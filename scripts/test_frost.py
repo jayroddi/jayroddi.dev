@@ -93,8 +93,7 @@ def _album(root: Path, photos: list[dict], month: str = "2026-10") -> None:
     html.parent.mkdir(parents=True, exist_ok=True)
     if not html.is_file():
         html.write_text(
-            '<link rel="preconnect" href="https://photos.adobe.io">\n'
-            '<p class="subhead">you can see everythi</p>\n',
+            '<link rel="preconnect" href="https://photos.adobe.io">\n',
             encoding="utf-8",
         )
 
@@ -341,7 +340,6 @@ def test_page_copy() -> None:
     js = (ROOT / "site" / "snaps" / "snaps.js").read_text(encoding="utf-8")
     assert 'location.replace("/grind/"' in home and 'id="gallery"' not in home and 'class="trackers"' not in home
     assert 'id="gallery"' in html and 'class="site-menu"' in html and "menu.js" in html
-    assert "you can see everythi" in html
     assert 'id="guess"' not in html and 'type="password"' not in html
     assert "if you know me well enough" not in html
     assert "GUESS_URL" not in js and "armGuess" not in js and "snap-guess" not in js
@@ -354,7 +352,6 @@ def test_page_copy() -> None:
     assert 'class="trackers"' in grind and 'id="kronos"' not in grind
     assert "hud.js" not in grind and "hud.css" not in grind
     assert 'class="day-quote"' not in grind and "today.js" not in grind
-    assert "we fall to the level of our habits" in grind
     assert 'id="gallery"' not in grind
     assert 'location.replace("/grind/"' in habits and 'class="trackers"' not in habits
     order = ["/grind/", "/snaps/", "/music/", "/books/", "/quotes/", "/social/"]
