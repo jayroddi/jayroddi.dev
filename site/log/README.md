@@ -35,6 +35,8 @@ Each item:
 
 `all` is selected on load and shows every note. Tapping the selected category chip returns to `all`. Tapping `all` while it is selected stays on `all`. `#movies`, `#shows`, `#books`, `#albums`, and `#games` open that filter. An empty hash is `all`.
 
+Search is hidden and takes no space. A downward pull at the top of the page, the same gesture as a refresh pull, reveals one pill under the chips. It is centered, the same height, border, background, and type as a chip, and as wide as the chip row including the gaps. A magnifying glass sits inside the right edge. The placeholder is `search`. It matches titles and authors as you type, ignoring case, and keeps the selected chip and the year groups. Clearing it shows that chip again. No match says `nothing here`. The pull does not focus the field. Tab reaches it, and Escape clears it, then closes it.
+
 The same title and author render once. Punctuation and spacing fold together (`Right Thing, Right Now` and `Right Thing Right Now`). On books, a subtitle after a colon folds into that short title, and a note that swaps the title and the author folds into the real entry. The fuller title stays. A rating, glow, or cover on the dropped note is kept when the one that stays is missing it. Chip counts follow the folded list. Sequels, editions, remasters, and both 101 Dalmatians stay, because the leftover words are not just punctuation. Fighting for Your Marriage While Separated by Linda Rooks stays out, including a swapped title and author or a subtitle after a colon.
 
 Chips, year headings, cover rows, and a note with no cover are centered. A short year sits in the middle of the row. Three columns under 900px, six from 900px.
