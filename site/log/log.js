@@ -1,4 +1,4 @@
-/* log.js v7. media log from site/log/media.json.
+/* log.js v8. media log from site/log/media.json.
    the all chip is selected on load and shows every note, newest year first.
    tapping the selected category chip returns to all. tapping all while it is selected stays on all.
    a note with no embedded cover draws the title only. no stand-in image.
@@ -7,7 +7,9 @@
    swaps the title and the author folds into the real entry. the fuller title stays.
    fighting for your marriage while separated by linda rooks stays out. the note was deleted.
    albums are square. everything else is a 2:3 poster. three columns under 900px, six from there.
-   a rating, when the note has one, sits quiet on the tile. */
+   a rating, when the note has one, sits quiet on the tile.
+   search stays hidden until a pull down at the top of the page. it sits under the chips.
+   the pull does not focus the field. */
 (() => {
   const NAMES = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
   const WORDS = { all: 'all', movies: 'movies', shows: 'shows', books: 'books', albums: 'albums', games: 'games' };
@@ -17,6 +19,12 @@
 
   let data = null;
   let selected = 'all';
+  let query = '';
+  let searchForm = null;
+  let searchInput = null;
+  let searchOpen = false;
+  let pulling = false;
+  let blockFocus = false;
 
   function fold(value) {
     return String(value || '')
@@ -141,6 +149,14 @@
     return Object.assign({}, source, { items, filters });
   }
 
+  function matchesQuery(item, query) {
+    const needle = fold(query);
+    if (!needle) return true;
+    const hay = fold(item && item.t) + ' ' + fold(item && item.a);
+    const tight = hay.replace(/ /g, '');
+    return needle.split(' ').every((word) => word && (hay.includes(word) || tight.includes(word)));
+  }
+
   function groupKey(item) {
     const day = String(item.d || '');
     if (/^\d{4}-\d{2}-\d{2}$/.test(day)) return day.slice(0, 4);
@@ -253,7 +269,9 @@
   }
 
   function render() {
-    const items = (data.items || []).filter((item) => selected === 'all' || item.c === selected);
+    const items = (data.items || []).filter((item) => {
+      return (selected === 'all' || item.c === selected) && matchesQuery(item, query);
+    });
     gallery.replaceChildren();
     if (!items.length) {
       const note = document.createElement('p');
@@ -337,7 +355,296 @@
       bar.append(button);
     });
     nav.append(bar);
+    mountSearch(nav);
   }
+
+  function magnifier() {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'log-search-icon');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', '10.5');
+    circle.setAttribute('cy', '10.5');
+    circle.setAttribute('r', '6.25');
+    circle.setAttribute('fill', 'none');
+    circle.setAttribute('stroke', 'currentColor');
+    circle.setAttribute('stroke-width', '2');
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M15.2 15.2 20.5 20.5');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', 'currentColor');
+    path.setAttribute('stroke-width', '2');
+    path.setAttribute('stroke-linecap', 'round');
+    svg.append(circle, path);
+    return svg;
+  }
+
+  function searchHeight() {
+    const filters = document.querySelector('.log-filters');
+    if (!filters) return 29;
+    return Math.round(filters.getBoundingClientRect().height) || 29;
+  }
+
+  function syncSearchMetrics() {
+    const filters = document.querySelector('.log-filters');
+    if (!filters || !searchForm) return;
+    const width = Math.round(filters.getBoundingClientRect().width);
+    const height = searchHeight();
+    const nextW = width + 'px';
+    const nextH = height + 'px';
+    if (searchForm.style.getPropertyValue('--log-search-w') !== nextW) searchForm.style.setProperty('--log-search-w', nextW);
+    if (searchForm.style.getPropertyValue('--log-search-h') !== nextH) searchForm.style.setProperty('--log-search-h', nextH);
+  }
+
+  function clearPullStyles() {
+    if (!searchForm) return;
+    searchForm.style.height = '';
+    searchForm.style.marginTop = '';
+    searchForm.style.opacity = '';
+    searchForm.style.borderWidth = '';
+  }
+
+  function settleFollow() {
+    gallery.style.transition = 'transform .28s cubic-bezier(.2, .8, .2, 1)';
+    gallery.style.transform = '';
+  }
+
+  function openSearch() {
+    if (!searchForm || searchOpen) return;
+    searchOpen = true;
+    searchForm.classList.remove('is-pulling');
+    clearPullStyles();
+    searchForm.classList.add('is-open');
+    syncSearchMetrics();
+    pad();
+    requestAnimationFrame(pad);
+  }
+
+  function closeSearch() {
+    if (!searchForm || !searchOpen) return;
+    searchOpen = false;
+    searchForm.classList.remove('is-open', 'is-pulling');
+    clearPullStyles();
+    if (query) {
+      query = '';
+      if (searchInput) searchInput.value = '';
+      if (data) render();
+    }
+    if (searchInput && document.activeElement === searchInput) searchInput.blur();
+    pad();
+    requestAnimationFrame(pad);
+  }
+
+  function paintPull(dy) {
+    if (!searchForm) return;
+    const full = searchHeight();
+    const shown = Math.min(full, Math.max(0, dy) * 0.55);
+    const p = full ? shown / full : 0;
+    searchForm.classList.add('is-pulling');
+    searchForm.style.height = shown + 'px';
+    searchForm.style.marginTop = (8 * p) + 'px';
+    searchForm.style.opacity = String(p);
+    searchForm.style.borderWidth = (p > 0.08 ? 1 : 0) + 'px';
+    const extra = Math.max(0, dy * 0.55 - full);
+    gallery.style.transition = 'none';
+    gallery.style.transform = extra > 0.5 ? 'translateY(' + Math.min(extra, 16) + 'px)' : '';
+    pad();
+  }
+
+  function releasePull(dy) {
+    if (!searchForm) return;
+    const open = dy >= 56;
+    searchForm.classList.remove('is-pulling');
+    void searchForm.offsetWidth;
+    if (open) {
+      searchOpen = true;
+      searchForm.classList.add('is-open');
+      clearPullStyles();
+      syncSearchMetrics();
+    } else {
+      searchForm.style.height = '0px';
+      searchForm.style.marginTop = '0px';
+      searchForm.style.opacity = '0';
+      searchForm.style.borderWidth = '0px';
+      searchForm.addEventListener('transitionend', () => {
+        if (searchOpen) return;
+        clearPullStyles();
+        pad();
+      }, { once: true });
+    }
+    settleFollow();
+    pad();
+    requestAnimationFrame(pad);
+  }
+
+  function mountSearch(nav) {
+    if (!nav || searchForm) return;
+    const form = document.createElement('form');
+    form.className = 'log-search';
+    form.setAttribute('role', 'search');
+    form.addEventListener('submit', (event) => event.preventDefault());
+    const label = document.createElement('label');
+    label.className = 'log-search-label';
+    label.htmlFor = 'log-search-input';
+    label.textContent = 'search titles and authors';
+    const input = document.createElement('input');
+    input.id = 'log-search-input';
+    input.type = 'search';
+    input.placeholder = 'search';
+    input.autocomplete = 'off';
+    input.autocapitalize = 'off';
+    input.spellcheck = false;
+    input.enterKeyHint = 'search';
+    input.readOnly = true;
+    input.setAttribute('aria-label', 'search titles and authors');
+    input.addEventListener('pointerdown', () => {
+      blockFocus = false;
+      input.readOnly = false;
+    });
+    input.addEventListener('focus', () => {
+      if (blockFocus || pulling) {
+        input.readOnly = true;
+        input.blur();
+        return;
+      }
+      input.readOnly = false;
+      if (!searchOpen) openSearch();
+    });
+    input.addEventListener('input', () => {
+      query = input.value;
+      if (!data) return;
+      render();
+      scrollTo(0, 0);
+    });
+    form.append(label, input, magnifier());
+    nav.append(form);
+    searchForm = form;
+    searchInput = input;
+    syncSearchMetrics();
+    if (window.ResizeObserver) {
+      const observer = new ResizeObserver(() => {
+        syncSearchMetrics();
+        pad();
+      });
+      observer.observe(nav);
+      const filters = nav.querySelector('.log-filters');
+      if (filters) observer.observe(filters);
+    }
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncSearchMetrics);
+  }
+
+  const PULL_SLOP = 10;
+  let pullTracking = false;
+  let pullActive = false;
+  let pullStartX = 0;
+  let pullStartY = 0;
+  let pullLastDy = 0;
+  let wheelAcc = 0;
+  let wheelTimer = 0;
+
+  document.addEventListener('touchstart', (event) => {
+    pullTracking = false;
+    pullActive = false;
+    if (searchOpen || pulling || event.touches.length !== 1) return;
+    if (window.scrollY > 0) return;
+    const target = event.target;
+    if (target && target.closest && target.closest('.nav-stack, a, input, textarea, select')) return;
+    const touch = event.touches[0];
+    pullStartX = touch.clientX;
+    pullStartY = touch.clientY;
+    pullLastDy = 0;
+    pullTracking = true;
+  }, { passive: true });
+
+  document.addEventListener('touchmove', (event) => {
+    if (!pullTracking || event.touches.length !== 1) return;
+    if (window.scrollY > 0) {
+      pullTracking = false;
+      if (pullActive) {
+        pullActive = false;
+        pulling = false;
+        releasePull(0);
+      }
+      return;
+    }
+    const touch = event.touches[0];
+    const dy = touch.clientY - pullStartY;
+    const dx = touch.clientX - pullStartX;
+    if (!pullActive) {
+      if (dy < PULL_SLOP) return;
+      if (Math.abs(dx) > dy) {
+        pullTracking = false;
+        return;
+      }
+      pullActive = true;
+      pulling = true;
+      blockFocus = true;
+    }
+    pullLastDy = dy;
+    if (dy <= 0) {
+      paintPull(0);
+      return;
+    }
+    event.preventDefault();
+    paintPull(dy);
+  }, { passive: false });
+
+  function endPullTouch(cancel) {
+    if (!pullTracking && !pullActive) return;
+    const dy = cancel ? 0 : pullLastDy;
+    const wasPull = pullActive;
+    pullTracking = false;
+    pullActive = false;
+    pulling = false;
+    if (!wasPull) return;
+    blockFocus = true;
+    releasePull(dy);
+  }
+
+  document.addEventListener('touchend', () => endPullTouch(false));
+  document.addEventListener('touchcancel', () => endPullTouch(true));
+
+  window.addEventListener('wheel', (event) => {
+    if (event.ctrlKey) return;
+    if (searchOpen || pulling || pullActive) {
+      wheelAcc = 0;
+      return;
+    }
+    if (window.scrollY > 0) {
+      wheelAcc = 0;
+      return;
+    }
+    const scale = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
+    const dy = event.deltaY * scale;
+    if (Math.abs(event.deltaX * scale) > Math.abs(dy)) return;
+    if (dy >= 0) {
+      wheelAcc = 0;
+      return;
+    }
+    wheelAcc += -dy;
+    clearTimeout(wheelTimer);
+    wheelTimer = setTimeout(() => { wheelAcc = 0; }, 280);
+    if (wheelAcc < 72) return;
+    wheelAcc = 0;
+    event.preventDefault();
+    openSearch();
+  }, { passive: false });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Tab') blockFocus = false;
+    if (event.key !== 'Escape') return;
+    if (!searchOpen && !query) return;
+    event.preventDefault();
+    if (query) {
+      query = '';
+      if (searchInput) searchInput.value = '';
+      if (data) render();
+      return;
+    }
+    closeSearch();
+  });
 
   function pad() {
     const nav = document.querySelector('.nav-stack');
@@ -372,6 +679,7 @@
   let lastW = innerWidth;
   let resizeTimer;
   addEventListener('resize', () => {
+    syncSearchMetrics();
     if (innerWidth === lastW) {
       pad();
       return;

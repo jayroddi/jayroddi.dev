@@ -1,4 +1,5 @@
-/* log.css v1. media log. filter bubbles sit under the pill, outside it.
+/* log.css v2. media log. filter bubbles sit under the pill, outside it.
+   search is a matching pill under the bubbles. it stays out of the layout until a pull.
    year headings match snaps. covers are a 3-column tile grid on a phone and 6 from 900px.
    albums stay square. posters stay 2:3. the square field is the shell. the page line sits under the pill. */
 body.board.log:not(.is-welcome) .stage {
@@ -64,6 +65,95 @@ body.log .log-filters button:focus-visible { outline: 2px solid var(--c); outlin
   body.log .log-filters { gap: 4px; }
   body.log .log-filters button { padding: 4px 7px; }
   body.log .log-filters button .n { font-size: 9px; }
+}
+
+html:has(body.log),
+body.log { overscroll-behavior-y: contain; }
+
+body.log .log-search {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex: none;
+  align-self: center;
+  width: var(--log-search-w, 0px);
+  max-width: calc(100vw - 16px);
+  height: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0 solid rgba(244, 239, 230, .22);
+  border-radius: 999px;
+  background: rgba(12, 12, 12, .28);
+  color: rgba(244, 239, 230, .78);
+  opacity: 0;
+  pointer-events: none;
+  transition: height .26s cubic-bezier(.2, .85, .2, 1), margin-top .26s cubic-bezier(.2, .85, .2, 1), opacity .18s linear, border-width .26s linear;
+}
+body.log .log-search.is-pulling { transition: none; }
+body.log .log-search.is-open {
+  height: var(--log-search-h, 29px);
+  margin-top: 8px;
+  border-width: 1px;
+  opacity: 1;
+  pointer-events: auto;
+}
+body.log .log-search-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+body.log .log-search input {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0 30px 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  caret-color: currentColor;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1;
+  letter-spacing: normal;
+  appearance: none;
+  -webkit-appearance: none;
+}
+body.log .log-search input:focus { outline: none; }
+body.log .log-search input::placeholder { color: rgba(244, 239, 230, .42); opacity: 1; }
+body.log .log-search input::-webkit-search-decoration,
+body.log .log-search input::-webkit-search-cancel-button,
+body.log .log-search input::-webkit-search-results-button { display: none; appearance: none; }
+body.log .log-search.is-open:focus-within { outline: 2px solid var(--c); outline-offset: 2px; }
+body.log .log-search-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 14px;
+  height: 14px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+@media (max-width: 720px) {
+  body.log .log-search input { padding: 0 26px 0 8px; }
+  body.log .log-search-icon { right: 8px; width: 13px; height: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.log .log-search { transition: none; }
 }
 
 body.log .gallery {

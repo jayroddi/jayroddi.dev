@@ -6,8 +6,8 @@ const src = fs.readFileSync(new URL('../site/log/log.js', import.meta.url), 'utf
 const start = src.indexOf('function fold(');
 const end = src.indexOf('function groupKey(');
 assert.ok(start > 0 && end > start, 'dedupe functions are in log.js');
-const api = new Function(src.slice(start, end) + '\nreturn { fold, dedupeItems, dedupeLog };')();
-const { dedupeItems, dedupeLog } = api;
+const api = new Function(src.slice(start, end) + '\nreturn { fold, dedupeItems, dedupeLog, matchesQuery };')();
+const { dedupeItems, dedupeLog, matchesQuery } = api;
 
 function book(t, a, extra = {}) {
   return Object.assign({ c: 'books', t, a, d: '2024-06-20', r: null, img: 'cover.jpg', blurb: null }, extra);
@@ -95,5 +95,18 @@ for (const title of [
   assert.ok(once.items.some((item) => item.t === title && item.a === 'Ryan Holiday'), title);
 }
 assert.equal(keptIds.size, once.items.length);
+
+const raised = { t: 'The Boy Who Was Raised as a Dog', a: 'Bruce D. Perry & Maia Szalavitz' };
+assert.equal(matchesQuery(raised, 'DOG'), true);
+assert.equal(matchesQuery(raised, 'perry'), true);
+assert.equal(matchesQuery(raised, 'szalavitz'), true);
+assert.equal(matchesQuery(raised, 'boy dog'), true);
+assert.equal(matchesQuery(raised, 'godzilla'), false);
+assert.equal(matchesQuery({ t: "You Can't Please Everyone", a: 'Vex King' }, 'cant'), true);
+assert.equal(matchesQuery({ t: 'Godzilla Minus Zero', a: null, blurb: "it's incredible" }, 'incredible'), false);
+assert.equal(matchesQuery({ t: 'Godzilla Minus Zero', a: null }, ''), true);
+assert.equal(matchesQuery({ t: 'Godzilla Minus Zero', a: null }, '   '), true);
+assert.equal(once.items.length, 473);
+assert.equal(once.items[0].t, 'The Boy Who Was Raised as a Dog');
 
 console.log('log dedupe ok');
