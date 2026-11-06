@@ -284,7 +284,9 @@ body.is-welcome .welcome {
   line-height: 1.55;
   color: rgba(244, 239, 230, .72);
   text-shadow: 0 2px 12px rgba(0, 0, 0, .7);
+  text-transform: lowercase;
 }
+.splash-quote:empty { margin: 0; }
 .splash-quote p {
   margin: 0;
   font-style: italic;

@@ -1,5 +1,6 @@
 /* live shell. pill nav, square field, quote list on the homepage. no audio.
-   the pill is 👋, grind, log, snaps, 🧠. quotes live on the homepage, under the splash. */
+   the pill is 👋, grind, log, snaps, 🧠. today's quote is the splash. older
+   quotes live under it and fade in on scroll. */
 (() => {
   const pages = [
     ['/', '👋'],
@@ -218,6 +219,21 @@
       timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit'
     }).format(new Date());
     const dots = (day) => day.replace(/-/g, '.');
+    const splash = document.querySelector('.splash-quote');
+    const paintSplash = (entry) => {
+      if (!splash) return;
+      if (!entry) {
+        splash.replaceChildren();
+        return;
+      }
+      const words = document.createElement('p');
+      const bare = entry.text.replace(/^["“”]+|["“”]+$/g, '').trim();
+      words.textContent = '"' + bare + '"';
+      const by = document.createElement('p');
+      by.className = 'by';
+      by.textContent = '— ' + entry.author;
+      splash.replaceChildren(words, by);
+    };
     const paint = (rows) => {
       const day = chicago();
       const list = rows.filter((entry) => entry && /^\d{4}-\d{2}-\d{2}$/.test(entry.date) && entry.date <= day && (entry.text || entry.quote) && entry.author)
@@ -227,8 +243,11 @@
           author: String(entry.author).replace(/^\s*[-–—]\s*/, '').trim()
         }))
         .sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0);
+      const featured = list[0] || null;
+      paintSplash(featured);
+      const archive = featured ? list.slice(1) : list;
       const frag = document.createDocumentFragment();
-      list.forEach((entry) => {
+      archive.forEach((entry) => {
         const li = document.createElement('li');
         const date = document.createElement('p');
         date.className = 'd';
@@ -246,7 +265,7 @@
         frag.append(li);
       });
       listEl.replaceChildren(frag);
-      ready = list.length > 0;
+      ready = archive.length > 0;
       placeBlinkers();
       if (pending || location.hash === '#quotes' || scrolled()) reveal();
       if (location.hash === '#quotes') alignQuotes();
@@ -283,40 +302,4 @@
     document.addEventListener('visibilitychange', () => { if (!document.hidden) watchDay(); });
   }
   mountHomeQuotes();
-
-  const todayHost = document.getElementById('today-quote');
-  if (!todayHost) return;
-  const chicago = () => new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit'
-  }).format(new Date());
-  const dots = (day) => day.replace(/-/g, '.');
-  fetch('/quote-of-the-day/quotes.json', { cache: 'no-cache' }).then((res) => res.json()).then((rows) => {
-    if (!Array.isArray(rows)) return;
-    const day = chicago();
-    const list = rows.filter((entry) => entry && /^\d{4}-\d{2}-\d{2}$/.test(entry.date) && entry.date <= day && (entry.text || entry.quote) && entry.author)
-      .map((entry) => ({
-        date: entry.date,
-        text: String(entry.text || entry.quote).trim(),
-        author: String(entry.author).replace(/^\s*[-–—]\s*/, '').trim()
-      }))
-      .sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0);
-    const today = list.find((entry) => entry.date === day) || list[0];
-    if (!today) return;
-    const li = document.createElement('li');
-    const date = document.createElement('p');
-    date.className = 'd';
-    const time = document.createElement('time');
-    time.dateTime = today.date;
-    time.textContent = dots(today.date);
-    date.append(time);
-    const words = document.createElement('blockquote');
-    words.className = 'q';
-    words.textContent = today.text;
-    const by = document.createElement('p');
-    by.className = 'by';
-    by.textContent = today.author;
-    li.append(date, words, by);
-    todayHost.replaceChildren(li);
-    placeBlinkers();
-  }).catch(() => {});
 })();
