@@ -364,23 +364,23 @@ body.is-welcome .soft { padding-top: 22px; padding-bottom: 22px; }
   height: 44px;
   margin: 0;
   padding: 0;
-  color: #1AADB3;
+  color: var(--f, #FF4D1A);
   text-decoration: none;
   transform: translateX(-50%);
   -webkit-tap-highlight-color: transparent;
   animation: home-scroll-hint 2.6s ease-in-out infinite;
 }
 .scroll-hint svg { display: block; width: 26px; height: 26px; }
-.scroll-hint:focus-visible { outline: 2px solid #1AADB3; outline-offset: 3px; border-radius: 999px; }
+.scroll-hint:focus-visible { outline: 2px solid var(--f, #FF4D1A); outline-offset: 3px; border-radius: 999px; }
 @keyframes home-scroll-hint {
   0%, 100% {
     opacity: .62;
-    filter: drop-shadow(0 0 3px rgba(26, 173, 179, .4));
+    filter: drop-shadow(0 0 3px rgba(var(--f-rgb), .4));
     transform: translateX(-50%) translateY(0);
   }
   50% {
     opacity: 1;
-    filter: drop-shadow(0 0 8px rgba(26, 173, 179, .7));
+    filter: drop-shadow(0 0 8px rgba(var(--f-rgb), .7));
     transform: translateX(-50%) translateY(3px);
   }
 }
