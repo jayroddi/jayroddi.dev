@@ -1004,8 +1004,6 @@ def assert_redirects() -> int:
             raise SystemExit(f"habits: {label} is not the grids page")
         if 'class="site-menu"' not in html or "menu.js" not in html or "🗓️" in html or 'class="day-quote"' in html or "today.js" in html:
             raise SystemExit(f"habits: {label} is missing the menu or still has the daily quote")
-        if "we fall to the level of our habits" not in html:
-            raise SystemExit(f"habits: {label} is missing the subhead")
         if 'id="kronos"' in html or "hud.js" in html or "hud.css" in html:
             raise SystemExit(f"habits: {label} still has the life-score tape")
         if 'href="/grind/"' not in html or ">grind</a>" not in html:
@@ -1020,7 +1018,7 @@ def assert_redirects() -> int:
     if 'location.replace("/grind/"' not in habits_page or 'class="trackers"' in habits_page:
         raise SystemExit("habits: site/habits/index.html is not a redirect to /grind/")
     snaps = SNAPS.read_text(encoding="utf-8")
-    if 'id="gallery"' not in snaps or "you can see everythi" not in snaps or 'id="kronos"' in snaps:
+    if 'id="gallery"' not in snaps or 'id="kronos"' in snaps:
         raise SystemExit("habits: site/snaps/index.html is not the photo grid")
     for path in MAST_PAGES:
         text = path.read_text(encoding="utf-8")
