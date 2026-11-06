@@ -3,7 +3,7 @@
     {
       "c": "all",
       "e": "all",
-      "n": 472
+      "n": 473
     },
     {
       "c": "movies",
@@ -18,7 +18,7 @@
     {
       "c": "books",
       "e": "📚",
-      "n": 110
+      "n": 111
     },
     {
       "c": "albums",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 15
+      "n": 16
     },
     {
       "m": "2025",
@@ -83,6 +83,17 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "books-the-boy-who-was-raised-as-a-dog-2026-11-06-f2e6d7",
+      "d": "2026-11-06",
+      "c": "books",
+      "t": "The Boy Who Was Raised as a Dog",
+      "a": "Bruce D. Perry & Maia Szalavitz",
+      "r": null,
+      "img": "books-the-boy-who-was-raised-as-a-dog-2026-11-06-f2e6d7.jpg",
+      "src": "books 📚",
+      "blurb": null
+    },
     {
       "i": "movies-godzilla-minus-zero-2026-11-05-2f5ba7",
       "d": "2026-11-05",
