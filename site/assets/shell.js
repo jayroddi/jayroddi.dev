@@ -1,12 +1,12 @@
 /* live shell. pill nav, square field, quote list on the homepage. no audio.
-   the pill is 👋, grind, log, snaps, 🧠. today's quote is the splash. older
+   the pill is 👋, snaps, log, grind, 🧠. today's quote is the splash. older
    quotes live under it and fade in on scroll. */
 (() => {
   const pages = [
     ['/', '👋'],
-    ['/grind/', 'grind'],
-    ['/log/', 'log'],
     ['/snaps/', 'snaps'],
+    ['/log/', 'log'],
+    ['/grind/', 'grind'],
     ['/brain/', '🧠']
   ];
   const here = (() => {

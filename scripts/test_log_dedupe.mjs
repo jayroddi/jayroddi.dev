@@ -48,15 +48,24 @@ assert.equal(sequels.length, 6);
 const media = JSON.parse(fs.readFileSync(new URL('../site/log/media.json', import.meta.url), 'utf8'));
 const once = dedupeLog(media);
 assert.equal(once.items.length, media.items.length);
-assert.equal(once.items.filter((item) => item.c === 'books').length, 110);
+assert.equal(once.items.filter((item) => item.c === 'books').length, 111);
 assert.equal(once.items.some((item) => /rooks/i.test(item.a || '') || /fighting for your marriage/i.test(item.t || '')), false);
 const holiday = once.items.filter((item) => /right thing/i.test(item.t) || /right thing/i.test(item.a || ''));
 assert.equal(holiday.length, 1);
 assert.equal(holiday[0].t, 'Right Thing, Right Now: Justice in an Unjust World');
 assert.equal(holiday[0].a, 'Ryan Holiday');
 const booksChip = once.filters.find((filter) => filter.c === 'books');
-assert.equal(booksChip.n, 110);
-assert.equal(once.filters.find((filter) => filter.c === 'all').n, 462);
+assert.equal(booksChip.n, 111);
+assert.equal(once.filters.find((filter) => filter.c === 'all').n, 473);
+const boy = once.items.filter((item) => item.t === 'The Boy Who Was Raised as a Dog');
+assert.equal(boy.length, 1);
+assert.equal(boy[0].a, 'Bruce D. Perry & Maia Szalavitz');
+assert.equal(boy[0].d, '2026-11-06');
+assert.equal(boy[0].c, 'books');
+assert.equal(boy[0].r, null);
+assert.equal(boy[0].blurb, null);
+assert.equal(once.items[0].i, 'books-the-boy-who-was-raised-as-a-dog-2026-11-06-f2e6d7');
+assert.equal(once.items[1].t, 'Godzilla Minus Zero');
 
 const withTwin = dedupeLog({
   filters: media.filters,
@@ -65,7 +74,7 @@ const withTwin = dedupeLog({
 assert.equal(withTwin.items.length, media.items.length);
 assert.equal(withTwin.items.filter((item) => item.i === 'swapped').length, 0);
 assert.equal(withTwin.items.filter((item) => /right thing/i.test(item.t)).length, 1);
-assert.equal(withTwin.filters.find((filter) => filter.c === 'books').n, 110);
+assert.equal(withTwin.filters.find((filter) => filter.c === 'books').n, 111);
 
 const rooks = dedupeItems([
   book('Fighting For Your Marriage While Separated', 'Linda Rooks', { i: 'rooks' }),
