@@ -105,7 +105,7 @@ body.board.is-grind .habit-bg {
   mask-composite: add;
 }
 body.is-grind .copy {
-  background: rgba(0, 0, 0, .9);
+  background: rgba(0, 0, 0, .94);
   border-radius: 18px;
   box-shadow: 0 0 40px 24px rgba(0, 0, 0, .8);
 }
