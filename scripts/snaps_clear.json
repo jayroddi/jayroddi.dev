@@ -1,7 +1,7 @@
 {
   "note": "Asset ids that stay sharp (no f) across syncs. On the 1st America/Chicago, run publish_snaps.py --clear-month YYYY-MM for the prior month, then commit. The current month stays frosted except these pins.",
   "ids": [
-    "0dee4b68d6554ae0bc2e7a5f87005d6c",
+    "633b89294c7240c8b586b7c24614f250",
     "d997f7830d2044719fe89f8414379f8c",
     "8812192cdd784ccc8a0967b30f3a1ea7",
     "2ba7f5b5c6274684a0ddcb569675dad0",
