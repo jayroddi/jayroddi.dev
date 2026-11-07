@@ -3,12 +3,12 @@
     {
       "c": "all",
       "e": "all",
-      "n": 473
+      "n": 477
     },
     {
       "c": "movies",
       "e": "🍿",
-      "n": 176
+      "n": 177
     },
     {
       "c": "shows",
@@ -23,7 +23,7 @@
     {
       "c": "albums",
       "e": "💿",
-      "n": 151
+      "n": 154
     },
     {
       "c": "games",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 16
+      "n": 20
     },
     {
       "m": "2025",
@@ -83,6 +83,50 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "movies-the-only-living-pickpocket-in-new-york-2026-11-06-dec1d6",
+      "d": "2026-11-06",
+      "c": "movies",
+      "t": "The Only Living Pickpocket in New York",
+      "a": "Noah Segan",
+      "r": null,
+      "img": "movies-the-only-living-pickpocket-in-new-york-2026-11-06-dec1d6.jpg",
+      "src": "movies 🍿",
+      "blurb": null
+    },
+    {
+      "i": "albums-unshatter-film-soundtrack-live-in-sao-paulo-2026-11-06-f1d211",
+      "d": "2026-11-06",
+      "c": "albums",
+      "t": "Unshatter Film Soundtrack (Live in São Paulo)",
+      "a": "Linkin Park",
+      "r": null,
+      "img": "albums-unshatter-film-soundtrack-live-in-sao-paulo-2026-11-06-f1d211.jpg",
+      "src": "music 🎧",
+      "blurb": null
+    },
+    {
+      "i": "albums-a-thousand-suns-2026-11-06-243980",
+      "d": "2026-11-06",
+      "c": "albums",
+      "t": "A Thousand Suns",
+      "a": "Linkin Park",
+      "r": null,
+      "img": "albums-a-thousand-suns-2026-11-06-243980.jpg",
+      "src": "music 🎧",
+      "blurb": null
+    },
+    {
+      "i": "albums-greetings-from-california-deluxe-2026-11-06-8144a9",
+      "d": "2026-11-06",
+      "c": "albums",
+      "t": "Greetings From California (Deluxe)",
+      "a": "Good Charlotte & The Madden Brothers",
+      "r": null,
+      "img": "albums-greetings-from-california-deluxe-2026-11-06-8144a9.jpg",
+      "src": "music 🎧",
+      "blurb": null
+    },
     {
       "i": "books-the-boy-who-was-raised-as-a-dog-2026-11-06-f2e6d7",
       "d": "2026-11-06",
