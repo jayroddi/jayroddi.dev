@@ -188,6 +188,20 @@ export function revealAllowed(phase, intent) {
   return phase === 'open' && (intent === 'scroll' || intent === 'arrow');
 }
 
+/* Drag orbit only while the sequence is idle. Zoom is never a graph gesture. */
+export function gesturesAllowed(run) {
+  return !!run && run.phase === 'idle';
+}
+
+export function graphZoomAllowed() {
+  return false;
+}
+
+/* The symbol burst plays once, only when Start completes the sequence. */
+export function shouldCelebrate(result, already) {
+  return result === 'start' && already !== true;
+}
+
 /* A finished node is the gold color. A pulse added on top would paint over it. */
 export function paintedColor(base, gold, pulse, goldColor) {
   const amount = Math.max(0, Math.min(1, gold));

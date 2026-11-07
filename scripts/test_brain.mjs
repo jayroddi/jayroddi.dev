@@ -2,9 +2,9 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {
-  CODE, SPEED_RAD_S, WAVE_MS, advanceWave, controlView, createPad, goldAmount,
-  keyboardPress, padTone, paintedColor, pressPad, releasePad, revealAllowed,
-  speedOf, turnAxis, waveDuration
+  CODE, SPEED_RAD_S, WAVE_MS, advanceWave, controlView, createPad, gesturesAllowed,
+  goldAmount, graphZoomAllowed, keyboardPress, padTone, paintedColor, pressPad,
+  releasePad, revealAllowed, shouldCelebrate, speedOf, turnAxis, waveDuration
 } from '../site/brain/gate.js';
 import {
   CLASS_HEX, CLASS_RGB, GOLD_RGB, PERIPHERY, TEAL, assignClasses, colorForNode,
@@ -453,5 +453,36 @@ assert.match(brainCss, /body\.is-brain button\.scroll-hint \{[^}]*color: #FFD700
 assert.match(brainHint, /rgba\(255, 215, 0/);
 assert.match(brainHint, /#FFE066/);
 assert.doesNotMatch(brainHint, /#FF4D1A/);
+
+assert.equal(gesturesAllowed(createPad().run), true);
+assert.equal(graphZoomAllowed(), false);
+let gesturePad = createPad();
+gesturePad = pressPad(gesturePad, 'up', 1, 'button', false).pad;
+assert.equal(gesturePad.run.phase, 'go');
+assert.equal(gesturesAllowed(gesturePad.run), false);
+gesturePad = pressPad(gesturePad, 'down', 2, 'button', false).pad;
+assert.equal(gesturePad.run.phase, 'idle');
+assert.equal(gesturesAllowed(gesturePad.run), true);
+const started = CODE.reduce((state, key, i) => pressPad(state, key, i, 'button', false).pad, createPad());
+assert.equal(started.run.phase, 'wave');
+assert.equal(gesturesAllowed(started.run), false);
+assert.equal(gesturesAllowed(advanceWave(started.run, started.run.startAt + 5000, 5000)), false);
+assert.equal(shouldCelebrate('start', false), true);
+assert.equal(shouldCelebrate('start', true), false);
+assert.equal(shouldCelebrate('advance', false), false);
+assert.equal(shouldCelebrate('reset', false), false);
+assert.equal(shouldCelebrate('ignore', false), false);
+assert.doesNotMatch(brainJs, /enableZoom|zoomSpeed|DOLLY/);
+assert.match(brainJs, /shouldCelebrate/);
+assert.doesNotMatch(brainHtml, /<h[12][^>]*>\s*now\s*<\/h[12]>/i);
+assert.doesNotMatch(nowHtml, /<h[12][^>]*>\s*now\s*<\/h[12]>/i);
+assert.doesNotMatch(brainHtml, />\/now\/</);
+assert.match(brainHtml, /drag to turn the brain/);
+assert.doesNotMatch(brainHtml, /does not drag/);
+assert.match(read('site/now/now.css'), /body\.is-brain\.is-gold[\s\S]*#FFD700/);
+assert.match(read('site/now/now.css'), /body\.is-now[\s\S]*#FFD700/);
+assert.doesNotMatch(read('site/index.html'), /is-gold|now\.css/);
+assert.doesNotMatch(read('site/grind/index.html'), /is-gold|now\.css/);
+assert.match(nowHtml, /class="board is-now is-gold"/);
 
 console.log('brain tests ok');
