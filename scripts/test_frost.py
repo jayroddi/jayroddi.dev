@@ -300,18 +300,38 @@ def test_clear_month_flag_and_policy() -> None:
 
 
 def test_committed_clear_list_matches_album() -> None:
-    ids = snaps_clear.load_clear_ids(ROOT)
-    assert ids == {
+    sign = "633b89294c7240c8b586b7c24614f250"
+    hotdog = "0dee4b68d6554ae0bc2e7a5f87005d6c"
+    older = [
+        "d997f7830d2044719fe89f8414379f8c",
+        "8812192cdd784ccc8a0967b30f3a1ea7",
+        "2ba7f5b5c6274684a0ddcb569675dad0",
+        "264de4928a8448d1898de48617fd2d03",
+        "7e9f8be40b3c46898d550d1ef2c2d0bc",
         "925fd7fec8e040f5adcaab7ec847e21c",
         "f535b7a5b2494dd0a69f5a2f207b12c6",
-    }
+    ]
+    ids = snaps_clear.load_clear_ids(ROOT)
+    assert ids == set(older) | {sign}
+    assert hotdog not in ids
     found = {}
     november = json.loads((ROOT / "site" / "snaps" / "m" / "2026-11.json").read_text(encoding="utf-8"))
     for path in (ROOT / "site" / "snaps" / "m").glob("*.json"):
         for row in json.loads(path.read_text(encoding="utf-8")):
-            if row.get("i") in ids:
+            if row.get("i") in ids or row.get("i") == hotdog:
                 found[row["i"]] = row
-    assert set(found) == ids
+    def pins_ok(rows: dict) -> None:
+        assert set(older) <= set(rows)
+        assert hotdog in rows
+        assert set(rows) <= set(older) | {hotdog, sign}
+        if sign in rows:
+            real = rows[sign]
+            assert frost.dated_for_frost(real)
+            assert not snaps_clear.should_frost(real, ids)
+    pins_ok(found)
+    imported = dict(found)
+    imported[sign] = {"i": sign, "d": "2026-11-06", "a": "2026-11-06T18:34:47-06:00"}
+    pins_ok(imported)
     pin = found["925fd7fec8e040f5adcaab7ec847e21c"]
     assert pin["d"] == "2026-11-02"
     assert pin["a"] == "2026-11-02T08:45:21-06:00"
@@ -323,11 +343,19 @@ def test_committed_clear_list_matches_album() -> None:
     for row in (pin, court):
         assert frost.dated_for_frost(row)
         assert not snaps_clear.should_frost(row, ids)
+    dog = found[hotdog]
+    assert dog["d"] == "2026-11-06"
+    assert dog["a"] == "2026-11-06T17:35:59-06:00"
+    assert frost.dated_for_frost(dog)
+    assert snaps_clear.should_frost(dog, ids)
+    taproom = {"i": sign, "d": "2026-11-06", "a": "2026-11-06T18:34:47-06:00"}
+    assert frost.dated_for_frost(taproom)
+    assert not snaps_clear.should_frost(taproom, ids)
     for row in november:
         if row["i"] not in ids:
             assert snaps_clear.should_frost(row, ids)
     saved = json.loads((ROOT / "scripts" / "snaps_clear.json").read_text(encoding="utf-8"))
-    assert saved["ids"] == sorted(ids)
+    assert saved["ids"] == [sign, *older]
     assert saved["note"] == snaps_clear.NOTE
 
 
