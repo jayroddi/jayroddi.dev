@@ -7,8 +7,10 @@ import {
   speedOf, turnAxis, waveDuration
 } from '../site/brain/gate.js';
 import {
-  CLASS_HEX, CLASS_RGB, GOLD_RGB, TEAL, assignClasses, colorForNode, nodeClass, sanitizeColors
+  CLASS_HEX, CLASS_RGB, GOLD_RGB, PERIPHERY, TEAL, assignClasses, colorForNode,
+  nodeClass, presentClasses, sanitizeColors
 } from '../site/brain/palette.js';
+import { layout } from '../site/brain/layout.js';
 import {
   UNLOCK_ENABLED, buildClientPing, coarseClient, disclosureNeeded, maybeNotify, sanitizeReferrer
 } from '../site/brain/unlock-client.js';
@@ -50,9 +52,9 @@ assert.deepEqual(groups, [1591, 2929, 767, 372]);
 for (const link of graph.links) assert.deepEqual(Object.keys(link).sort(), ['s', 't']);
 
 assert.equal(CLASS_HEX.teal, '#1AADB3');
-assert.equal(CLASS_HEX.orange, '#FF4D1A');
-assert.equal(CLASS_HEX.purple, '#B24BFF');
-assert.equal(CLASS_HEX.pink, '#FF4D9A');
+assert.equal(CLASS_HEX.orange, '#EC5B32');
+assert.equal(CLASS_HEX.purple, '#6E2BFF');
+assert.equal(CLASS_HEX.pink, '#EA33E3');
 assert.deepEqual(CLASS_RGB.teal, TEAL);
 assert.equal(Math.round(TEAL[0] * 255), 26);
 assert.equal(Math.round(TEAL[1] * 255), 173);
@@ -69,17 +71,42 @@ assert.deepEqual(
 for (const value of colorValues) assert.match(value, /^(purple|pink|orange|teal)$/);
 const graphIds = new Set(graph.nodes.map((node) => String(node.id)));
 assert.deepEqual(new Set(Object.keys(colors)), graphIds);
-const paint = assignClasses(graph.nodes, colors);
-assert.equal(paint.rendered, 5659);
-assert.equal(paint.classes.length, graph.nodes.length);
-assert.deepEqual(paint.counts, { purple: 1556, pink: 2919, orange: 945, teal: 239 });
-const purpleInBucket = graph.nodes.find((node) => node.g === 0 && colors[String(node.id)] === 'purple');
-const tealInBucket = graph.nodes.find((node) => node.g === 0 && colors[String(node.id)] === 'teal');
-assert.equal(nodeClass(purpleInBucket.id, colors), 'purple');
-assert.equal(nodeClass(tealInBucket.id, colors), 'teal');
-assert.notDeepEqual(colorForNode(purpleInBucket.id, colors), colorForNode(tealInBucket.id, colors));
-assert.equal(graph.nodes.some((node) => node.g === 2 && colors[String(node.id)] === 'orange'), true);
-assert.equal(graph.nodes.some((node) => node.g === 3 && colors[String(node.id)] === 'orange'), true);
+const sourcePaint = assignClasses(graph.nodes, colors);
+assert.equal(sourcePaint.rendered, 5659);
+assert.deepEqual(sourcePaint.counts, { purple: 1556, pink: 2919, orange: 945, teal: 239 });
+const positions = layout(graph.nodes, graph.links);
+const shown = presentClasses(graph.nodes, positions);
+assert.equal(shown.rendered, 5659);
+assert.equal(shown.classes.length, graph.nodes.length);
+const shownTotal = shown.counts.teal + shown.counts.pink + shown.counts.purple + shown.counts.orange;
+assert.equal(shownTotal, 5659);
+assert.ok(shown.counts.teal > shown.counts.pink + shown.counts.purple + shown.counts.orange);
+assert.ok(shown.counts.pink > 0 && shown.counts.purple > 0 && shown.counts.orange > 0);
+assert.ok(shown.counts.orange < shown.counts.pink && shown.counts.orange < shown.counts.purple);
+let maxR = 0;
+const radius = graph.nodes.map((_, i) => {
+  const value = Math.hypot(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
+  if (value > maxR) maxR = value;
+  return value;
+});
+for (let i = 0; i < graph.nodes.length; i++) {
+  if (radius[i] > PERIPHERY * maxR) assert.equal(shown.classes[i], 'teal');
+}
+const mean = (name) => {
+  let sum = 0;
+  let count = 0;
+  for (let i = 0; i < shown.classes.length; i++) {
+    if (shown.classes[i] !== name) continue;
+    sum += radius[i];
+    count += 1;
+  }
+  return sum / count;
+};
+assert.ok(mean('pink') < mean('teal') && mean('purple') < mean('teal') && mean('orange') < mean('teal'));
+assert.notDeepEqual(shown.counts, sourcePaint.counts);
+const missing = presentClasses([{ id: 1, g: 0 }, { id: 2 }], null);
+assert.deepEqual(missing.classes, ['teal', 'teal']);
+assert.equal(missing.rendered, 2);
 assert.equal(nodeClass(1, { 1: 'nope' }), 'teal');
 assert.equal(nodeClass(2, {}), 'teal');
 assert.equal(nodeClass(9, sanitizeColors({ 9: 'purple', note: 'secret', 10: 'blue' })), 'purple');
@@ -380,11 +407,10 @@ const brainJs = read('site/brain/brain.js');
 const brainHtml = read('site/brain/index.html');
 const nowHtml = read('site/now/index.html');
 const client = read('site/brain/unlock-client.js');
-assert.equal(brainJs.split('fetch(').length, 3);
+assert.equal(brainJs.split('fetch(').length, 2);
 assert.match(brainJs, /fetch\('graph\.json'/);
-assert.match(brainJs, /fetch\('colors\.json'/);
-assert.match(brainJs, /colorForNode/);
-assert.doesNotMatch(brainJs, /GROUP_RGB|OrbitControls|graph\.synthetic|enableDamping/);
+assert.match(brainJs, /presentClasses/);
+assert.doesNotMatch(brainJs, /GROUP_RGB|colorForNode|OrbitControls|graph\.synthetic|enableDamping/);
 assert.doesNotMatch(client, /fetch\(/);
 assert.equal(UNLOCK_ENABLED, false);
 for (const file of ['site/brain/brain.js', 'site/brain/index.html', 'site/brain/gate.js', 'site/brain/unlock-client.js', 'site/brain/palette.js', 'site/now/index.html', 'site/now/now.css']) {

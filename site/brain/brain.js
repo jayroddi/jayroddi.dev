@@ -2,7 +2,7 @@
    The camera does not orbit, zoom, or pan. Spin comes from the keys below. */
 
 import * as THREE from 'three';
-import { GOLD_RGB, assignClasses, colorForNode, sanitizeColors } from './palette.js';
+import { CLASS_RGB, GOLD_RGB, presentClasses } from './palette.js';
 import {
   advanceWave, controlView, createPad, keyboardPress, padTone, pressPad,
   releasePad, revealAllowed, speedOf, turnAxis, waveDuration, waveFrame
@@ -474,7 +474,7 @@ motionQuery.addEventListener('change', () => {
 });
 sync();
 
-function build(data, positions, table) {
+function build(data, positions) {
   const nodes = data.nodes;
   const links = data.links;
   const n = nodes.length;
@@ -487,6 +487,7 @@ function build(data, positions, table) {
   }
 
   const groupOf = nodes.map((node) => (node.g == null ? 2 : node.g));
+  const paint = presentClasses(nodes, positions);
   const haloColor = new Float32Array(n * 3);
   const coreColor = new Float32Array(n * 3);
   const haloSize = new Float32Array(n);
@@ -501,7 +502,7 @@ function build(data, positions, table) {
   for (let i = 0; i < n; i++) {
     const shell = Math.hypot(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]) > maxR * 0.985;
     const hub = Math.min(1, Math.sqrt(degree[i]) / 7);
-    const rgb = colorForNode(nodes[i].id, table);
+    const rgb = CLASS_RGB[paint.classes[i]];
     const base = linear(rgb);
     const hot = linear(towardWhite(rgb, shell ? 0.28 : 0.5));
     haloColor.set(base, i * 3);
@@ -547,8 +548,9 @@ function build(data, positions, table) {
     const bx = positions[b * 3];
     const by = positions[b * 3 + 1];
     const bz = positions[b * 3 + 2];
-    const ca = linear(towardWhite(colorForNode(nodes[a].id, table), 0.42));
-    const cb = linear(towardWhite(colorForNode(nodes[b].id, table), 0.42));
+    const accent = paint.classes[a] !== 'teal' && paint.classes[a] === paint.classes[b] ? paint.classes[a] : 'teal';
+    const ca = linear(towardWhite(CLASS_RGB[accent], 0.42));
+    const cb = ca;
     const ph = phase(i + 17);
     const span = Math.hypot(bx - ax, by - ay, bz - az);
     const gain = 0.36 / (1 + span / 34);
@@ -615,7 +617,7 @@ function build(data, positions, table) {
   const hubs = chooseHubs(positions, degree, groupOf);
   hubs.forEach((hubIndex, nHub) => {
     hubPos[nHub].set(positions[hubIndex * 3], positions[hubIndex * 3 + 1], positions[hubIndex * 3 + 2]);
-    const rgb = linear(colorForNode(nodes[hubIndex].id, table));
+    const rgb = linear(CLASS_RGB[paint.classes[hubIndex]]);
     hubColor[nHub].set(rgb[0], rgb[1], rgb[2]);
     hubTravel[nHub] = HUB_TRAVEL[nHub];
     const period = HUB_TRAVEL[nHub] + HUB_REST;
@@ -749,7 +751,6 @@ function build(data, positions, table) {
   };
   frame(performance.now());
 
-  const paint = assignClasses(nodes, table);
   host.dataset.ready = '1';
   host.dataset.nodes = String(n);
   host.dataset.painted = String(paint.rendered);
@@ -761,20 +762,17 @@ function build(data, positions, table) {
   sync();
 }
 
-Promise.all([
-  fetch('graph.json', { cache: 'no-cache' }).then((res) => {
+fetch('graph.json', { cache: 'no-cache' })
+  .then((res) => {
     if (!res.ok) refuse();
     return res.json();
-  }),
-  fetch('colors.json', { cache: 'no-cache' }).then((res) => (res.ok ? res.json() : {}))
-])
-  .then(([data, colors]) => {
+  })
+  .then((data) => {
     assertGraph(data);
-    const table = sanitizeColors(colors);
     const worker = new Worker(new URL('./layout-worker.js', import.meta.url), { type: 'module' });
     worker.onmessage = (event) => {
       worker.terminate();
-      build(data, event.data, table);
+      build(data, event.data);
     };
     worker.onerror = () => {
       worker.terminate();
