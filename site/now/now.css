@@ -82,6 +82,34 @@ body.board.is-now {
 
 body.is-now .habit-bg { display: none !important; }
 
+/* Gold only after the brain unlock, and on the direct now page.
+   Home, grind, log, and snaps do not load this file. */
+body.is-brain.is-gold .tabs a,
+body.is-now .tabs a,
+body.is-brain.is-gold .social-dock a,
+body.is-now .social-dock a,
+body.is-brain.is-gold .now-preview,
+body.is-now .now-preview {
+  color: #FFD700;
+}
+body.is-brain.is-gold .tabs a[aria-current="page"],
+body.is-brain.is-gold .tabs a[aria-current="page"]:hover,
+body.is-now .tabs a[aria-current="page"],
+body.is-now .tabs a[aria-current="page"]:hover,
+body.is-brain.is-gold .social-dock a[aria-current="page"],
+body.is-brain.is-gold .social-dock a[aria-current="page"]:hover,
+body.is-now .social-dock a[aria-current="page"],
+body.is-now .social-dock a[aria-current="page"]:hover {
+  background: #FFD700;
+  color: #111;
+}
+body.is-brain.is-gold .tabs a:focus-visible,
+body.is-now .tabs a:focus-visible,
+body.is-brain.is-gold .social-dock a:focus-visible,
+body.is-now .social-dock a:focus-visible {
+  outline-color: #FFD700;
+}
+
 body.board.is-now .stage.now-page {
   padding-top: calc(var(--shell-nav, 88px) + 12px);
   padding-bottom: 0;

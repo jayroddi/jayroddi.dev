@@ -4,8 +4,8 @@
 import * as THREE from 'three';
 import { CLASS_RGB, GOLD_RGB, presentClasses } from './palette.js';
 import {
-  advanceWave, controlView, createPad, keyboardPress, padTone, pressPad,
-  releasePad, revealAllowed, speedOf, turnAxis, waveDuration, waveFrame
+  advanceWave, controlView, createPad, gesturesAllowed, keyboardPress, padTone, pressPad,
+  releasePad, revealAllowed, shouldCelebrate, speedOf, turnAxis, waveDuration, waveFrame
 } from './gate.js';
 import {
   DISCLOSURE, UNLOCK_ENABLED, buildClientPing, disclosureNeeded, maybeNotify
@@ -30,6 +30,7 @@ let pad = createPad();
 let revealed = false;
 let opened = false;
 let noted = false;
+let celebrated = false;
 let scrollBase = 0;
 let badTimer = 0;
 
@@ -365,6 +366,8 @@ function sync() {
   if (arrowEl) arrowEl.hidden = !view.arrow;
   if (view.nowReady && nowEl) nowEl.hidden = false;
   document.body.dataset.brain = revealed ? 'now' : (pad.bad ? 'bad' : pad.run.phase);
+  document.body.dataset.gestures = gesturesAllowed(pad.run) ? '1' : '0';
+  if (pad.run.phase === 'wave' || pad.run.phase === 'open') document.body.classList.add('is-gold');
   if (!host) return;
   host.dataset.phase = pad.run.phase;
   host.dataset.prefix = String(pad.run.prefix);
@@ -398,13 +401,48 @@ function showNow(intent) {
   else requestAnimationFrame(() => requestAnimationFrame(go));
   sync();
   if (intent === 'arrow') {
-    const heading = document.getElementById('now-title');
+    const intro = nowEl.querySelector('p.now-preview');
     nowEl.scrollIntoView({ block: 'start', behavior: reduceMotion ? 'auto' : 'smooth' });
-    if (heading) {
-      heading.tabIndex = -1;
-      heading.focus({ preventScroll: true });
+    if (intro) {
+      intro.tabIndex = -1;
+      intro.focus({ preventScroll: true });
     }
   }
+}
+
+function burstSymbols() {
+  if (!padEl || !shouldCelebrate('start', celebrated)) return;
+  celebrated = true;
+  if (host) host.dataset.burst = '1';
+  const layer = document.createElement('div');
+  layer.className = 'pad-burst';
+  layer.setAttribute('aria-hidden', 'true');
+  const controls = padEl.parentElement;
+  const hostBox = controls ? controls.getBoundingClientRect() : null;
+  const buttons = [...padEl.querySelectorAll('button')];
+  const mid = (buttons.length - 1) / 2;
+  buttons.forEach((btn, i) => {
+    const clone = btn.cloneNode(true);
+    clone.classList.remove('hit');
+    clone.classList.add('burst-bit');
+    const spread = i - mid;
+    const angle = -Math.PI / 2 + spread * 0.42;
+    const dist = reduceMotion ? 0 : 56;
+    clone.style.setProperty('--bx', (Math.cos(angle) * dist).toFixed(1) + 'px');
+    clone.style.setProperty('--by', (Math.sin(angle) * dist).toFixed(1) + 'px');
+    if (hostBox) {
+      const rect = btn.getBoundingClientRect();
+      clone.style.left = (rect.left - hostBox.left) + 'px';
+      clone.style.top = (rect.top - hostBox.top) + 'px';
+      clone.style.width = rect.width + 'px';
+      clone.style.height = rect.height + 'px';
+    }
+    layer.append(clone);
+  });
+  if (controls) controls.append(layer);
+  const done = () => { if (layer.isConnected) layer.remove(); };
+  if (reduceMotion) setTimeout(done, 480);
+  else layer.addEventListener('animationend', done, { once: true });
 }
 
 function markOpen() {
@@ -426,6 +464,7 @@ function onPress(key, source) {
   const out = pressPad(pad, key, now, source, reduceMotion);
   pad = out.pad;
   if (out.result === 'advance' || out.result === 'start') bump(key === 'enter' ? 'start' : key);
+  if (shouldCelebrate(out.result, celebrated)) burstSymbols();
   if (out.result === 'reset') {
     if (statusEl) statusEl.textContent = 'again';
     clearTimeout(badTimer);
@@ -680,18 +719,36 @@ function build(data, positions) {
   const camRight = new THREE.Vector3();
   const camUp = new THREE.Vector3();
   const camForward = new THREE.Vector3();
+  let framed = 0;
+  let orbitTheta = 0;
+  let orbitPhi = 1;
+  let orbitReady = false;
+  const applyOrbit = () => {
+    const pose = new THREE.Spherical(framed, orbitPhi, orbitTheta);
+    camera.position.setFromSpherical(pose).add(focus);
+    camera.lookAt(focus);
+    host.dataset.radius = framed.toFixed(2);
+    host.dataset.theta = orbitTheta.toFixed(3);
+  };
   const place = () => {
     const box = boxSize();
     const aspect = box.width / box.height;
     const vFov = THREE.MathUtils.degToRad(camera.fov);
     const hFov = 2 * Math.atan(Math.tan(vFov / 2) * aspect);
     const limit = Math.min(vFov, hFov);
-    const dist = (maxR * 1.16) / Math.sin(limit / 2);
+    framed = (maxR * 1.16) / Math.sin(limit / 2);
     camera.aspect = aspect;
-    camera.position.copy(focus).addScaledVector(eye, dist);
-    camera.near = Math.max(0.1, dist / 80);
-    camera.far = dist + maxR * 8;
-    camera.lookAt(focus);
+    camera.near = Math.max(0.1, framed / 80);
+    camera.far = framed + maxR * 8;
+    if (!orbitReady) {
+      camera.position.copy(focus).addScaledVector(eye, framed);
+      camera.lookAt(focus);
+      const spherical = new THREE.Spherical().setFromVector3(camera.position.clone().sub(focus));
+      orbitTheta = spherical.theta;
+      orbitPhi = spherical.phi;
+      orbitReady = true;
+    }
+    applyOrbit();
     camera.updateProjectionMatrix();
     pointUniforms.uScale.value = pointScale(box.width, box.height);
     linkUniforms.uWidth.value = box.width < 760 ? 0.62 : 0.85;
@@ -701,6 +758,42 @@ function build(data, positions) {
   place();
   if (window.ResizeObserver) new ResizeObserver(() => place()).observe(host);
   window.addEventListener('resize', place);
+
+  /* Idle drag orbits at a fixed distance. Wheel, pinch, and pan do not move the graph. */
+  const pointers = new Set();
+  let drag = null;
+  const canvas = renderer.domElement;
+  canvas.addEventListener('pointerdown', (event) => {
+    pointers.add(event.pointerId);
+    if (pointers.size > 1) {
+      drag = null;
+      return;
+    }
+    if (!gesturesAllowed(pad.run)) return;
+    drag = { id: event.pointerId, x: event.clientX, y: event.clientY };
+  });
+  window.addEventListener('pointermove', (event) => {
+    if (!drag || event.pointerId !== drag.id || pointers.size > 1) return;
+    if (!gesturesAllowed(pad.run)) {
+      drag = null;
+      return;
+    }
+    const dx = event.clientX - drag.x;
+    const dy = event.clientY - drag.y;
+    drag.x = event.clientX;
+    drag.y = event.clientY;
+    orbitTheta -= dx * 0.005;
+    orbitPhi -= dy * 0.005;
+    const edge = 0.22;
+    orbitPhi = Math.max(edge, Math.min(Math.PI - edge, orbitPhi));
+    applyOrbit();
+  });
+  const releasePointer = (event) => {
+    pointers.delete(event.pointerId);
+    if (drag && drag.id === event.pointerId) drag = null;
+  };
+  window.addEventListener('pointerup', releasePointer);
+  window.addEventListener('pointercancel', releasePointer);
 
   const applyGold = (frame) => {
     ripple.uGoldFront.value = frame.front;
@@ -725,7 +818,7 @@ function build(data, positions) {
     cloud.scale.setScalar(breath);
     time.value = t;
     motion.value = reduceMotion || stillTime != null ? 0 : 1;
-    if (!reduceMotion && stillTime == null) {
+    if (!reduceMotion && stillTime == null && !gesturesAllowed(pad.run)) {
       const speed = speedOf(pad.run, false);
       const turn = turnAxis(pad.run.direction);
       camera.updateMatrixWorld();

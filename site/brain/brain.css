@@ -63,9 +63,16 @@ body.is-brain .now-sheet * { user-select: text; }
   width: 100%;
   height: 100%;
   pointer-events: none;
-  touch-action: pan-x pan-y pinch-zoom;
+  touch-action: pinch-zoom;
   cursor: default;
   background: #000;
+}
+body.is-brain[data-gestures="1"] #graph canvas {
+  pointer-events: auto;
+  cursor: grab;
+}
+body.is-brain[data-gestures="1"] #graph canvas:active {
+  cursor: grabbing;
 }
 
 .brain-controls {
@@ -77,6 +84,38 @@ body.is-brain .now-sheet * { user-select: text; }
   align-items: center;
   min-height: 44px;
   pointer-events: auto;
+}
+.pad-burst {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  z-index: 4;
+}
+.pad-burst .burst-bit {
+  position: absolute;
+  color: #FFD700;
+  animation: symbol-burst 780ms ease-out forwards;
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, .8));
+}
+@keyframes symbol-burst {
+  0% { opacity: 1; transform: translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: translate(var(--bx), var(--by)) scale(1.4); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pad-burst .burst-bit {
+    animation: symbol-burst-still 480ms ease-out forwards;
+  }
+}
+@keyframes symbol-burst-still {
+  0% { opacity: 0; transform: none; }
+  35% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: none; }
 }
 
 .brain-disclosure {
