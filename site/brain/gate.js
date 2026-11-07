@@ -176,12 +176,25 @@ export function advanceWave(run, nowMs, durationMs) {
   };
 }
 
+/* The symbol burst is one shot. These match the CSS durations. */
+export const BURST_MS = 780;
+export const BURST_REDUCED_MS = 480;
+
 export function controlView(phase) {
   return {
-    pad: phase === 'idle' || phase === 'go' || phase === 'wave',
+    pad: phase === 'idle' || phase === 'go',
     arrow: phase === 'open',
     nowReady: phase === 'open'
   };
+}
+
+/* The pad stays through the burst, then the slot is empty until the wave locks. */
+export function padVisible(phase, elapsedMs, reduced) {
+  if (phase === 'idle' || phase === 'go') return true;
+  if (phase !== 'wave') return false;
+  const limit = reduced ? BURST_REDUCED_MS : BURST_MS;
+  const elapsed = Number.isFinite(elapsedMs) ? elapsedMs : 0;
+  return elapsed < limit;
 }
 
 export function revealAllowed(phase, intent) {

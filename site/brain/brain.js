@@ -4,8 +4,9 @@
 import * as THREE from 'three';
 import { CLASS_RGB, GOLD_RGB, presentClasses } from './palette.js';
 import {
-  advanceWave, controlView, createPad, gesturesAllowed, keyboardPress, padTone, pressPad,
-  releasePad, revealAllowed, shouldCelebrate, speedOf, turnAxis, waveDuration, waveFrame
+  BURST_MS, BURST_REDUCED_MS, advanceWave, controlView, createPad, gesturesAllowed,
+  keyboardPress, padTone, padVisible, pressPad, releasePad, revealAllowed, shouldCelebrate,
+  speedOf, turnAxis, waveDuration, waveFrame
 } from './gate.js';
 import {
   DISCLOSURE, UNLOCK_ENABLED, buildClientPing, disclosureNeeded, maybeNotify
@@ -31,8 +32,10 @@ let revealed = false;
 let opened = false;
 let noted = false;
 let celebrated = false;
+let controlsGone = false;
 let scrollBase = 0;
 let badTimer = 0;
+let retireTimer = 0;
 
 function refuse() {
   throw new Error('graph.json has a field this mock will not draw');
@@ -351,17 +354,30 @@ function noteUnlock() {
   } catch (e) {}
 }
 
+function waveElapsed() {
+  if (pad.run.phase !== 'wave' || pad.run.startAt == null) return 0;
+  return performance.now() - pad.run.startAt;
+}
+
 function sync() {
   const view = controlView(pad.run.phase);
   const tone = padTone(pad.run.phase, pad.bad);
   const turn = turnAxis(pad.run.direction);
+  const showPad = !controlsGone && padVisible(pad.run.phase, waveElapsed(), reduceMotion);
   if (padEl) {
-    padEl.hidden = !view.pad;
+    padEl.hidden = !showPad;
+    padEl.inert = !showPad;
+    if (showPad) padEl.removeAttribute('aria-hidden');
+    else padEl.setAttribute('aria-hidden', 'true');
+    if (!showPad) {
+      const active = document.activeElement;
+      if (active && padEl.contains(active)) active.blur();
+    }
     padEl.classList.toggle('go', pad.run.phase === 'go' || pad.run.phase === 'wave');
     padEl.classList.toggle('bad', pad.bad);
     padEl.style.setProperty('--pad-k', String(Math.min(11, pad.run.prefix)));
     padEl.dataset.step = String(Math.min(11, pad.run.prefix));
-    padEl.setAttribute('aria-disabled', pad.run.phase === 'wave' ? 'true' : 'false');
+    padEl.setAttribute('aria-disabled', showPad && pad.run.phase === 'wave' ? 'true' : 'false');
   }
   if (arrowEl) arrowEl.hidden = !view.arrow;
   if (view.nowReady && nowEl) nowEl.hidden = false;
@@ -375,6 +391,7 @@ function sync() {
   host.dataset.direction = pad.run.direction || '';
   host.dataset.tone = tone;
   host.dataset.arrow = view.arrow ? '1' : '0';
+  host.dataset.controls = showPad ? '1' : '0';
   host.dataset.now = revealed ? '1' : '0';
   host.dataset.reduced = reduceMotion ? '1' : '0';
   host.dataset.turn = (turn.idle ? 'idle' : turn.axis) + ':' + String(turn.sign);
@@ -440,9 +457,28 @@ function burstSymbols() {
     layer.append(clone);
   });
   if (controls) controls.append(layer);
-  const done = () => { if (layer.isConnected) layer.remove(); };
-  if (reduceMotion) setTimeout(done, 480);
+  const done = () => {
+    if (layer.isConnected) layer.remove();
+    retireControls();
+  };
+  const life = reduceMotion ? BURST_REDUCED_MS : BURST_MS;
+  if (reduceMotion) setTimeout(done, life);
   else layer.addEventListener('animationend', done, { once: true });
+  setTimeout(done, life);
+}
+
+function retireControls() {
+  if (pad.run.phase !== 'wave' && pad.run.phase !== 'open') return;
+  controlsGone = true;
+  sync();
+}
+
+function armRetire() {
+  clearTimeout(retireTimer);
+  if (pad.run.phase !== 'wave' || pad.run.startAt == null || controlsGone) return;
+  const limit = reduceMotion ? BURST_REDUCED_MS : BURST_MS;
+  const wait = Math.max(0, limit - (performance.now() - pad.run.startAt));
+  retireTimer = setTimeout(retireControls, wait);
 }
 
 function markOpen() {
@@ -464,7 +500,10 @@ function onPress(key, source) {
   const out = pressPad(pad, key, now, source, reduceMotion);
   pad = out.pad;
   if (out.result === 'advance' || out.result === 'start') bump(key === 'enter' ? 'start' : key);
-  if (shouldCelebrate(out.result, celebrated)) burstSymbols();
+  if (shouldCelebrate(out.result, celebrated)) {
+    burstSymbols();
+    armRetire();
+  }
   if (out.result === 'reset') {
     if (statusEl) statusEl.textContent = 'again';
     clearTimeout(badTimer);
@@ -496,7 +535,7 @@ if (padEl) {
 }
 if (arrowEl) arrowEl.addEventListener('click', () => showNow('arrow'));
 addEventListener('keydown', (event) => {
-  if (pad.run.phase === 'open') return;
+  if (pad.run.phase === 'open' || controlsGone) return;
   if (event.target && event.target.closest && event.target.closest('.pad') && (event.key === 'Enter' || event.key === ' ')) return;
   const key = keyboardPress(event);
   if (!key) return;
@@ -509,6 +548,7 @@ addEventListener('scroll', () => {
 }, { passive: true });
 motionQuery.addEventListener('change', () => {
   reduceMotion = motionQuery.matches;
+  armRetire();
   sync();
 });
 sync();
