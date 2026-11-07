@@ -1,15 +1,16 @@
-/* the sphere sits on the page. the document stays a normal scroller so a
-   vertical pull can rubber-band. the pill and the social dock stay on top. */
+/* Fixed frame. The graph does not take drag, pinch, orbit, or zoom.
+   Browser zoom and page scroll stay on the document. */
 
-html {
+html:has(body.is-brain) {
   background: #000 !important;
   color-scheme: dark;
   overscroll-behavior-y: auto;
   scrollbar-width: none;
+  touch-action: pan-x pan-y pinch-zoom;
 }
 
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
+html:has(body.is-brain)::-webkit-scrollbar,
+body.is-brain::-webkit-scrollbar {
   display: none;
   width: 0;
   height: 0;
@@ -27,30 +28,169 @@ body.board.is-brain {
   background: #000 !important;
   user-select: none;
   scrollbar-width: none;
+  touch-action: pan-x pan-y pinch-zoom;
 }
 
 body.is-brain .habit-bg { display: none !important; }
 
+body.is-brain .now-sheet,
+body.is-brain .now-sheet * { user-select: text; }
+
+.brain-stage {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: 100svh;
+  min-height: 100svh;
+  padding-top: var(--shell-nav, 72px);
+  padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+}
+
 #graph {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 120px;
   z-index: 1;
   background: #000;
-  /* hidden would swallow wheel and PageDown before they reach the document */
-  overflow: visible;
+  overflow: hidden;
+  pointer-events: none;
 }
 
 #graph canvas {
   display: block;
   width: 100%;
   height: 100%;
-  touch-action: pan-y;
-  cursor: grab;
+  pointer-events: none;
+  touch-action: pan-x pan-y pinch-zoom;
+  cursor: default;
   background: #000;
 }
 
-#graph canvas:active {
-  cursor: grabbing;
+.brain-controls {
+  position: relative;
+  z-index: 3;
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 44px;
+  pointer-events: auto;
+}
+
+.brain-disclosure {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: calc(100% + 8px);
+  margin: 0;
+  font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.4;
+  text-align: center;
+  color: rgba(244, 239, 230, .72);
+}
+
+body.is-brain .pad {
+  --k: 1;
+  --pgap: 0;
+  width: auto;
+  max-width: calc(100% - 16px);
+  justify-content: center;
+  gap: 4px;
+  margin: 0 auto;
+  color: #1AADB3;
+}
+
+body.is-brain .pad button {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+body.is-brain .pad button[data-k="start"] {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 44px;
+}
+
+body.is-brain .pad.go { color: #FFD700; }
+body.is-brain .pad.go button {
+  animation: none;
+  color: #FFD700;
+  text-shadow: none;
+  filter: drop-shadow(0 0 6px rgba(255, 215, 0, .85));
+}
+
+body.is-brain .pad[hidden],
+body.is-brain .scroll-hint[hidden] { display: none !important; }
+
+@media (max-width: 420px) {
+  body.is-brain .pad { gap: 0; }
+  body.is-brain .pad button {
+    flex-basis: 40px;
+    width: 40px;
+    min-width: 36px;
+    height: 40px;
+  }
+}
+
+body.is-brain .pad button.hit[data-k="up"] { transform: translateY(-3px) scale(1.12); }
+body.is-brain .pad button.hit[data-k="down"] { transform: translateY(3px) scale(1.12); }
+body.is-brain .pad button.hit[data-k="left"] { transform: translateX(-3px) scale(1.12); }
+body.is-brain .pad button.hit[data-k="right"] { transform: translateX(3px) scale(1.12); }
+body.is-brain .pad button.hit[data-k="b"],
+body.is-brain .pad button.hit[data-k="a"],
+body.is-brain .pad button.hit[data-k="start"] { transform: scale(1.12); }
+
+body.is-brain button.scroll-hint {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transform: none;
+  animation: brain-scroll-hint 1.8s ease-in-out infinite;
+}
+
+@keyframes brain-scroll-hint {
+  0%, 100% {
+    opacity: .72;
+    filter: drop-shadow(0 0 2px rgba(255, 215, 0, .45));
+  }
+  50% {
+    color: #FFE066;
+    opacity: 1;
+    filter: drop-shadow(0 0 6px rgba(255, 215, 0, .8));
+  }
+}
+
+body.is-brain::after {
+  content: "";
+  position: fixed;
+  z-index: 35;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(72px + env(safe-area-inset-bottom, 0px));
+  pointer-events: none;
+  background: linear-gradient(to top, #000 58px, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.is-brain .pad button.hit { transform: none; }
+  body.is-brain button.scroll-hint {
+    animation: none;
+    opacity: .75;
+    filter: none;
+    transform: none;
+  }
 }
 
 .sr {
@@ -66,6 +206,4 @@ body.is-brain .habit-bg { display: none !important; }
 }
 
 .nav-stack,
-.social-dock {
-  touch-action: manipulation;
-}
+.social-dock { touch-action: manipulation; }

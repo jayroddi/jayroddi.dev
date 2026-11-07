@@ -1,21 +1,37 @@
-/* Full-viewport graph. Nodes are anonymous ids. Nothing in the file is labeled. */
+/* Fixed-frame graph. Nodes are anonymous ids. Nothing in the file is labeled.
+   The camera does not orbit, zoom, or pan. Spin comes from the keys below. */
 
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { GROUP_RGB, GOLD_RGB } from './palette.js';
+import {
+  advanceWave, controlView, createPad, keyboardPress, padTone, pressPad,
+  releasePad, revealAllowed, speedOf, turnAxis, waveDuration, waveFrame
+} from './gate.js';
+import {
+  DISCLOSURE, UNLOCK_ENABLED, buildClientPing, disclosureNeeded, maybeNotify
+} from './unlock-client.js';
 
 const ROOT = new Set(['v', 'nodes', 'links']);
 const NODE = new Set(['id', 'g']);
 const LINK = new Set(['s', 't']);
 
-const GROUPS = [
-  [0x1a, 0xad, 0xb3],
-  [0xff, 0x4d, 0x1a],
-  [0x9a, 0x84, 0x64],
-  [0x6a, 0x86, 0x90]
-].map((rgb) => rgb.map((channel) => channel / 255));
-
 const host = document.getElementById('graph');
-const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const padEl = document.querySelector('.pad');
+const arrowEl = document.querySelector('.brain-next');
+const nowEl = document.getElementById('now');
+const statusEl = document.getElementById('brain-status');
+const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
+let reduceMotion = motionQuery.matches;
+const waveMs = waveDuration(location.search);
+const stillParam = new URLSearchParams(location.search).get('still');
+const stillTime = stillParam == null || stillParam === '' || Number.isNaN(Number(stillParam)) ? null : Number(stillParam);
+
+let pad = createPad();
+let revealed = false;
+let opened = false;
+let noted = false;
+let scrollBase = 0;
+let badTimer = 0;
 
 function refuse() {
   throw new Error('graph.json has a field this mock will not draw');
@@ -149,6 +165,18 @@ vec3 rippleGlow(vec3 p) {
 }
 `;
 
+const GOLD_AT = `
+uniform float uGoldFront;
+uniform float uGoldBand;
+uniform float uGoldLock;
+float goldAt(vec3 p) {
+  if (uGoldLock > 0.5) return 1.0;
+  float rad = length(p);
+  float t = clamp((uGoldFront - rad) / max(uGoldBand, 0.001), 0.0, 1.0);
+  return t * t * (3.0 - 2.0 * t);
+}
+`;
+
 function pointMaterial(uniforms) {
   return new THREE.ShaderMaterial({
     glslVersion: THREE.GLSL3,
@@ -162,13 +190,18 @@ function pointMaterial(uniforms) {
       uniform float uScale;
       uniform float uTime;
       uniform float uMotion;
+      uniform vec3 uGoldColor;
       ${RIPPLE}
+      ${GOLD_AT}
       void main() {
+        float g = goldAt(position);
+        float alive = 1.0 - g;
         float wobble = sin(uTime * (0.48 + aHub * 0.4) + aPhase) * uMotion;
-        vec3 glow = rippleGlow(position) * uMotion;
+        vec3 glow = rippleGlow(position) * uMotion * alive;
         float wave = max(glow.r, max(glow.g, glow.b));
-        float pulse = 1.0 + (0.028 + aHub * 0.075) * wobble + wave * 1.55;
-        vColor = aColor * (0.94 + (0.06 + aHub * 0.1) * wobble) + glow;
+        float pulse = 1.0 + alive * ((0.028 + aHub * 0.075) * wobble + wave * 1.55);
+        vec3 tinted = aColor * (0.94 + alive * (0.06 + aHub * 0.1) * wobble) + glow;
+        vColor = g >= 1.0 ? uGoldColor : mix(tinted, uGoldColor, g);
         vec4 mv = modelViewMatrix * vec4(position, 1.0);
         gl_PointSize = clamp(aSize * pulse * uScale / -mv.z, 1.0, 64.0);
         gl_Position = projectionMatrix * mv;
@@ -208,9 +241,11 @@ function linkMaterial(uniforms) {
       out float vAlong;
       out float vPhase;
       out float vGain;
+      out float vGold;
       out vec3 vLocal;
       out vec3 vLocalOther;
       uniform float uWidth;
+      ${GOLD_AT}
       void main() {
         vec3 p = (modelViewMatrix * vec4(position, 1.0)).xyz;
         vec3 q = (modelViewMatrix * vec4(aOther, 1.0)).xyz;
@@ -228,6 +263,7 @@ function linkMaterial(uniforms) {
         vAlong = aAlong;
         vPhase = aPhase;
         vGain = aGain;
+        vGold = goldAt(position);
         vLocal = position;
         vLocalOther = aOther;
       }
@@ -239,24 +275,29 @@ function linkMaterial(uniforms) {
       in float vAlong;
       in float vPhase;
       in float vGain;
+      in float vGold;
       in vec3 vLocal;
       in vec3 vLocalOther;
       out vec4 fragColor;
       uniform float uTime;
       uniform float uMotion;
+      uniform vec3 uGoldColor;
       ${RIPPLE}
       void main() {
         float d = abs(vSide);
         float glow = smoothstep(1.0, 0.08, d);
         float core = smoothstep(0.28, 0.0, d);
+        float g = vGold;
+        float alive = 1.0 - g;
         float travel = sin(uTime * 0.42 + vAlong * 6.2 + vPhase);
         float breathe = sin(uTime * 0.31 + vPhase);
-        float life = 1.0 + uMotion * (0.1 * travel + 0.08 * breathe);
-        vec3 hubGlow = rippleGlow(mix(vLocal, vLocalOther, vAlong)) * uMotion;
+        float life = 1.0 + uMotion * alive * (0.1 * travel + 0.08 * breathe);
+        vec3 hubGlow = rippleGlow(mix(vLocal, vLocalOther, vAlong)) * uMotion * alive;
         float wave = max(hubGlow.r, max(hubGlow.g, hubGlow.b));
         float a = (glow * 0.07 + core * 0.28) * life * vGain;
         a *= 1.0 + wave * 2.4;
-        fragColor = vec4(vColor * a + hubGlow * (0.45 + core), a);
+        vec3 col = g >= 1.0 ? uGoldColor : mix(vColor, uGoldColor, g);
+        fragColor = vec4(col * a + hubGlow * (0.45 + core), a);
       }
     `,
     transparent: true,
@@ -267,6 +308,171 @@ function linkMaterial(uniforms) {
     toneMapped: false
   });
 }
+
+function rememberSession() {
+  const key = 'brain-session';
+  try {
+    const have = sessionStorage.getItem(key);
+    if (have) return have;
+    const id = crypto.randomUUID();
+    sessionStorage.setItem(key, id);
+    return id;
+  } catch (e) {
+    return crypto.randomUUID();
+  }
+}
+
+function noteUnlock() {
+  if (noted) return;
+  noted = true;
+  try {
+    const ping = buildClientPing({
+      sessionId: rememberSession(),
+      eventId: crypto.randomUUID(),
+      durationMs: pad.run.durationMs || 0,
+      lang: navigator.language || '',
+      tz: (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { return ''; } })(),
+      viewport: { w: Math.round(window.innerWidth), h: Math.round(window.innerHeight) },
+      referrer: document.referrer || '',
+      page: location.pathname || '/brain/',
+      ua: navigator.userAgent || ''
+    });
+    const store = {
+      get(key) { try { return sessionStorage.getItem(key); } catch (e) { return null; } },
+      set(key, value) { try { sessionStorage.setItem(key, value); } catch (e) {} }
+    };
+    maybeNotify(ping, {
+      enabled: UNLOCK_ENABLED,
+      transport: null,
+      store,
+      dedupeKey: 'brain-unlock-sent'
+    }).catch(() => {});
+  } catch (e) {}
+}
+
+function sync() {
+  const view = controlView(pad.run.phase);
+  const tone = padTone(pad.run.phase, pad.bad);
+  const turn = turnAxis(pad.run.direction);
+  if (padEl) {
+    padEl.hidden = !view.pad;
+    padEl.classList.toggle('go', pad.run.phase === 'go' || pad.run.phase === 'wave');
+    padEl.classList.toggle('bad', pad.bad);
+    padEl.style.setProperty('--pad-k', String(Math.min(11, pad.run.prefix)));
+    padEl.dataset.step = String(Math.min(11, pad.run.prefix));
+    padEl.setAttribute('aria-disabled', pad.run.phase === 'wave' ? 'true' : 'false');
+  }
+  if (arrowEl) arrowEl.hidden = !view.arrow;
+  if (view.nowReady && nowEl) nowEl.hidden = false;
+  document.body.dataset.brain = revealed ? 'now' : (pad.bad ? 'bad' : pad.run.phase);
+  if (!host) return;
+  host.dataset.phase = pad.run.phase;
+  host.dataset.prefix = String(pad.run.prefix);
+  host.dataset.speed = speedOf(pad.run, reduceMotion).toFixed(2);
+  host.dataset.direction = pad.run.direction || '';
+  host.dataset.tone = tone;
+  host.dataset.arrow = view.arrow ? '1' : '0';
+  host.dataset.now = revealed ? '1' : '0';
+  host.dataset.reduced = reduceMotion ? '1' : '0';
+  host.dataset.turn = (turn.idle ? 'idle' : turn.axis) + ':' + String(turn.sign);
+}
+
+function bump(key) {
+  if (!padEl) return;
+  const btn = padEl.querySelector('button[data-k="' + key + '"]');
+  if (!btn) return;
+  btn.classList.remove('hit');
+  void btn.offsetWidth;
+  btn.classList.add('hit');
+  setTimeout(() => btn.classList.remove('hit'), 250);
+}
+
+function showNow(intent) {
+  if (!revealAllowed(pad.run.phase, intent) || revealed || !nowEl) return;
+  revealed = true;
+  nowEl.hidden = false;
+  nowEl.removeAttribute('aria-hidden');
+  nowEl.inert = false;
+  const go = () => nowEl.classList.add('is-in');
+  if (reduceMotion) go();
+  else requestAnimationFrame(() => requestAnimationFrame(go));
+  sync();
+  if (intent === 'arrow') {
+    const heading = document.getElementById('now-title');
+    nowEl.scrollIntoView({ block: 'start', behavior: reduceMotion ? 'auto' : 'smooth' });
+    if (heading) {
+      heading.tabIndex = -1;
+      heading.focus({ preventScroll: true });
+    }
+  }
+}
+
+function markOpen() {
+  if (opened) return;
+  opened = true;
+  if (nowEl) {
+    nowEl.hidden = false;
+    nowEl.setAttribute('aria-hidden', 'true');
+    nowEl.inert = true;
+  }
+  scrollBase = window.scrollY;
+  if (statusEl) statusEl.textContent = 'now is below';
+  sync();
+  noteUnlock();
+}
+
+function onPress(key, source) {
+  const now = performance.now();
+  const out = pressPad(pad, key, now, source, reduceMotion);
+  pad = out.pad;
+  if (out.result === 'advance' || out.result === 'start') bump(key === 'enter' ? 'start' : key);
+  if (out.result === 'reset') {
+    if (statusEl) statusEl.textContent = 'again';
+    clearTimeout(badTimer);
+    const wait = Math.max(0, pad.lockedUntil - now);
+    badTimer = setTimeout(() => {
+      pad = releasePad(pad, performance.now());
+      sync();
+    }, wait);
+  } else if (out.result === 'advance' || out.result === 'start') {
+    if (statusEl) statusEl.textContent = '';
+  }
+  sync();
+}
+
+if (disclosureNeeded(UNLOCK_ENABLED)) {
+  const line = document.createElement('p');
+  line.className = 'brain-disclosure';
+  line.textContent = DISCLOSURE;
+  const controls = document.querySelector('.brain-controls');
+  if (controls) controls.prepend(line);
+}
+
+if (padEl) {
+  padEl.addEventListener('click', (event) => {
+    const btn = event.target.closest('button[data-k]');
+    if (!btn) return;
+    onPress(btn.dataset.k, 'button');
+  });
+}
+if (arrowEl) arrowEl.addEventListener('click', () => showNow('arrow'));
+addEventListener('keydown', (event) => {
+  if (pad.run.phase === 'open') return;
+  if (event.target && event.target.closest && event.target.closest('.pad') && (event.key === 'Enter' || event.key === ' ')) return;
+  const key = keyboardPress(event);
+  if (!key) return;
+  event.preventDefault();
+  onPress(key, 'keyboard');
+});
+addEventListener('scroll', () => {
+  if (pad.run.phase !== 'open' || revealed) return;
+  if (window.scrollY > scrollBase + 12) showNow('scroll');
+}, { passive: true });
+motionQuery.addEventListener('change', () => {
+  reduceMotion = motionQuery.matches;
+  sync();
+});
+sync();
 
 function build(data, positions) {
   const nodes = data.nodes;
@@ -295,8 +501,8 @@ function build(data, positions) {
   for (let i = 0; i < n; i++) {
     const shell = Math.hypot(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]) > maxR * 0.985;
     const hub = Math.min(1, Math.sqrt(degree[i]) / 7);
-    const base = linear(GROUPS[groupOf[i]]);
-    const hot = linear(towardWhite(GROUPS[groupOf[i]], shell ? 0.28 : 0.5));
+    const base = linear(GROUP_RGB[groupOf[i]]);
+    const hot = linear(towardWhite(GROUP_RGB[groupOf[i]], shell ? 0.28 : 0.5));
     haloColor.set(base, i * 3);
     coreColor.set(hot, i * 3);
     const size = shell ? 15 : 4.6 + hub * 6.5;
@@ -340,8 +546,8 @@ function build(data, positions) {
     const bx = positions[b * 3];
     const by = positions[b * 3 + 1];
     const bz = positions[b * 3 + 2];
-    const ca = linear(towardWhite(GROUPS[groupOf[a]], 0.42));
-    const cb = linear(towardWhite(GROUPS[groupOf[b]], 0.42));
+    const ca = linear(towardWhite(GROUP_RGB[groupOf[a]], 0.42));
+    const cb = linear(towardWhite(GROUP_RGB[groupOf[b]], 0.42));
     const ph = phase(i + 17);
     const span = Math.hypot(bx - ax, by - ay, bz - az);
     const gain = 0.36 / (1 + span / 34);
@@ -390,32 +596,12 @@ function build(data, positions) {
   renderer.setClearColor(0x000000, 1);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.NoToneMapping;
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.innerWidth < 760 ? 1.35 : 1.6));
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.domElement.setAttribute('aria-hidden', 'true');
   host.appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x000000);
-  const camera = new THREE.PerspectiveCamera(38, window.innerWidth / window.innerHeight, 0.1, 4000);
-  const controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-  controls.dampingFactor = 0.08;
-  controls.rotateSpeed = 0.55;
-  controls.zoomSpeed = 0.7;
-  controls.panSpeed = 0.6;
-  controls.screenSpacePanning = true;
-  controls.enablePan = true;
-  controls.autoRotate = !reduceMotion;
-  controls.autoRotateSpeed = 0.62;
-  controls.mouseButtons = {
-    LEFT: THREE.MOUSE.ROTATE,
-    MIDDLE: THREE.MOUSE.DOLLY,
-    RIGHT: THREE.MOUSE.PAN
-  };
-  controls.touches = {
-    ONE: THREE.TOUCH.ROTATE,
-    TWO: THREE.TOUCH.DOLLY_PAN
-  };
+  const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 4000);
 
   const time = { value: 0 };
   const motion = { value: reduceMotion ? 0 : 1 };
@@ -426,17 +612,18 @@ function build(data, positions) {
   const hubAmp = new Float32Array(8);
   const hubColor = Array.from({ length: 8 }, () => new THREE.Vector3());
   const hubs = chooseHubs(positions, degree, groupOf);
-  hubs.forEach((index, n) => {
-    hubPos[n].set(positions[index * 3], positions[index * 3 + 1], positions[index * 3 + 2]);
-    const rgb = linear(GROUPS[groupOf[index]]);
-    hubColor[n].set(rgb[0], rgb[1], rgb[2]);
-    hubTravel[n] = HUB_TRAVEL[n];
-    const period = HUB_TRAVEL[n] + HUB_REST;
-    hubOffset[n] = (n * 1.37) % period;
-    hubOn[n] = 1;
-    const weight = degree[index];
-    hubAmp[n] = weight >= 80 ? 1 : weight >= 12 ? 0.86 : 0.72;
+  hubs.forEach((hubIndex, nHub) => {
+    hubPos[nHub].set(positions[hubIndex * 3], positions[hubIndex * 3 + 1], positions[hubIndex * 3 + 2]);
+    const rgb = linear(GROUP_RGB[groupOf[hubIndex]]);
+    hubColor[nHub].set(rgb[0], rgb[1], rgb[2]);
+    hubTravel[nHub] = HUB_TRAVEL[nHub];
+    const period = HUB_TRAVEL[nHub] + HUB_REST;
+    hubOffset[nHub] = (nHub * 1.37) % period;
+    hubOn[nHub] = 1;
+    const weight = degree[hubIndex];
+    hubAmp[nHub] = weight >= 80 ? 1 : weight >= 12 ? 0.86 : 0.72;
   });
+  const goldLinear = linear(GOLD_RGB);
   const ripple = {
     uHubPos: { value: hubPos },
     uHubColor: { value: hubColor },
@@ -448,19 +635,27 @@ function build(data, positions) {
     uShell: { value: maxR },
     uRest: { value: HUB_REST },
     uTime: time,
-    uMotion: motion
+    uMotion: motion,
+    uGoldFront: { value: 0 },
+    uGoldBand: { value: Math.max(4, maxR * 0.08) },
+    uGoldLock: { value: 0 },
+    uGoldColor: { value: new THREE.Vector3(goldLinear[0], goldLinear[1], goldLinear[2]) }
   };
-  const pointScale = () => {
-    const short = Math.min(window.innerWidth, window.innerHeight);
-    return short * (window.innerWidth < 760 ? 1.55 : 0.58);
+  const pointScale = (width, height) => {
+    const short = Math.min(width, height);
+    return short * (width < 760 ? 1.55 : 0.58);
+  };
+  const boxSize = () => {
+    const rect = host.getBoundingClientRect();
+    return { width: Math.max(1, rect.width), height: Math.max(1, rect.height) };
   };
   const pointUniforms = {
     uTex: { value: glowTexture() },
-    uScale: { value: pointScale() },
+    uScale: { value: pointScale(boxSize().width, boxSize().height) },
     ...ripple
   };
   const linkUniforms = {
-    uWidth: { value: window.innerWidth < 760 ? 0.62 : 0.85 },
+    uWidth: { value: boxSize().width < 760 ? 0.62 : 0.85 },
     ...ripple
   };
   const haloMat = pointMaterial(pointUniforms);
@@ -478,8 +673,12 @@ function build(data, positions) {
 
   const focus = new THREE.Vector3();
   const eye = new THREE.Vector3(0.72, 0.38, 0.96).normalize();
+  const camRight = new THREE.Vector3();
+  const camUp = new THREE.Vector3();
+  const camForward = new THREE.Vector3();
   const place = () => {
-    const aspect = window.innerWidth / window.innerHeight;
+    const box = boxSize();
+    const aspect = box.width / box.height;
     const vFov = THREE.MathUtils.degToRad(camera.fov);
     const hFov = 2 * Math.atan(Math.tan(vFov / 2) * aspect);
     const limit = Math.min(vFov, hFov);
@@ -488,122 +687,74 @@ function build(data, positions) {
     camera.position.copy(focus).addScaledVector(eye, dist);
     camera.near = Math.max(0.1, dist / 80);
     camera.far = dist + maxR * 8;
+    camera.lookAt(focus);
     camera.updateProjectionMatrix();
-    controls.target.copy(focus);
-    controls.minDistance = dist * 0.28;
-    controls.maxDistance = dist * 3.4;
-    controls.update();
-    pointUniforms.uScale.value = pointScale();
-    linkUniforms.uWidth.value = window.innerWidth < 760 ? 0.62 : 0.85;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.innerWidth < 760 ? 1.35 : 1.6));
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    pointUniforms.uScale.value = pointScale(box.width, box.height);
+    linkUniforms.uWidth.value = box.width < 760 ? 0.62 : 0.85;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, box.width < 760 ? 1.35 : 1.6));
+    renderer.setSize(box.width, box.height, false);
   };
   place();
-  window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    pointUniforms.uScale.value = pointScale();
-    linkUniforms.uWidth.value = window.innerWidth < 760 ? 0.62 : 0.85;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.innerWidth < 760 ? 1.35 : 1.6));
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
+  if (window.ResizeObserver) new ResizeObserver(() => place()).observe(host);
+  window.addEventListener('resize', place);
 
-  let resumeAt = 0;
-  controls.addEventListener('start', () => {
-    controls.autoRotate = false;
-    resumeAt = Infinity;
-  });
-  controls.addEventListener('end', () => {
-    resumeAt = performance.now() + 2400;
-  });
-
-  const right = new THREE.Vector3();
-  /* orbit's wheel listener calls preventDefault, which kills the page bounce.
-     a plain vertical wheel is left alone so the document can rubber-band.
-     pinch-zoom (ctrl/meta wheel) still zooms the sphere. a sideways wheel pans it. */
-  renderer.domElement.removeEventListener('wheel', controls._onMouseWheel);
-  renderer.domElement.addEventListener('wheel', (event) => {
-    if (event.ctrlKey || event.metaKey) {
-      controls._onMouseWheel(event);
-      return;
+  const applyGold = (frame) => {
+    ripple.uGoldFront.value = frame.front;
+    ripple.uGoldBand.value = frame.band;
+    ripple.uGoldLock.value = frame.lock;
+    host.dataset.wave = frame.progress.toFixed(3);
+    host.dataset.gold = String(frame.lock);
+    if (frame.lock) {
+      for (let i = 0; i < hubOn.length; i++) hubOn[i] = 0;
     }
-    if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
-    event.preventDefault();
-    const distance = camera.position.distanceTo(controls.target);
-    const world = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) * distance;
-    const step = event.deltaX * (world / renderer.domElement.clientHeight) * 0.85;
-    right.setFromMatrixColumn(camera.matrixWorld, 0).multiplyScalar(-step);
-    camera.position.add(right);
-    controls.target.add(right);
-  }, { passive: false });
-
-  /* a one-finger vertical pull belongs to the page. orbit captures the pointer
-     on touch-down, which stops that bounce. sideways drags, mouse drags, and
-     two-finger pinch or pan still move the sphere. */
-  renderer.domElement.style.setProperty('touch-action', 'pan-y', 'important');
-  renderer.domElement.removeEventListener('pointerdown', controls._onPointerDown);
-  const pendingTouch = new Map();
-  const handTouchToSphere = (event) => {
-    const pending = pendingTouch.get(event.pointerId);
-    pendingTouch.delete(event.pointerId);
-    controls._onPointerDown(pending ? pending.event : event);
   };
-  renderer.domElement.addEventListener('pointerdown', (event) => {
-    if (event.pointerType !== 'touch') {
-      controls._onPointerDown(event);
-      return;
-    }
-    if (pendingTouch.size > 0 || controls._pointers.length > 0) {
-      pendingTouch.forEach((pending) => controls._onPointerDown(pending.event));
-      pendingTouch.clear();
-      controls._onPointerDown(event);
-      return;
-    }
-    pendingTouch.set(event.pointerId, { x: event.clientX, y: event.clientY, event });
-  });
-  renderer.domElement.addEventListener('pointermove', (event) => {
-    const pending = pendingTouch.get(event.pointerId);
-    if (!pending) return;
-    const dx = event.clientX - pending.x;
-    const dy = event.clientY - pending.y;
-    if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
-    if (Math.abs(dy) >= Math.abs(dx)) {
-      pendingTouch.delete(event.pointerId);
-      return;
-    }
-    handTouchToSphere(event);
-    controls._onPointerMove(event);
-  });
-  const dropPendingTouch = (event) => pendingTouch.delete(event.pointerId);
-  renderer.domElement.addEventListener('pointerup', dropPendingTouch);
-  renderer.domElement.addEventListener('pointercancel', dropPendingTouch);
 
-  renderer.domElement.addEventListener('pointerdown', (event) => {
-    controls.mouseButtons.LEFT = event.shiftKey ? THREE.MOUSE.PAN : THREE.MOUSE.ROTATE;
-  }, true);
-  renderer.domElement.addEventListener('contextmenu', (event) => event.preventDefault());
-
-  const still = new URLSearchParams(location.search).get('still');
-  const stillTime = still == null || still === '' || Number.isNaN(Number(still)) ? null : Number(still);
-  if (stillTime != null) controls.autoRotate = false;
   const clock = new THREE.Clock();
-  const frame = () => {
+  let last = performance.now();
+  const frame = (now) => {
     requestAnimationFrame(frame);
+    const dt = Math.min(0.05, Math.max(0, (now - last) / 1000));
+    last = now;
     if (document.hidden) return;
     const t = reduceMotion ? 0 : (stillTime != null ? stillTime : clock.getElapsedTime());
     const breath = reduceMotion ? 1 : 1 + Math.sin(t * 0.37) * 0.016;
     cloud.scale.setScalar(breath);
     time.value = t;
-    if (!reduceMotion && resumeAt !== Infinity && performance.now() >= resumeAt) controls.autoRotate = true;
-    controls.update();
+    motion.value = reduceMotion || stillTime != null ? 0 : 1;
+    if (!reduceMotion && stillTime == null) {
+      const speed = speedOf(pad.run, false);
+      const turn = turnAxis(pad.run.direction);
+      camera.updateMatrixWorld();
+      camera.matrixWorld.extractBasis(camRight, camUp, camForward);
+      const axis = turn.axis === 'right' ? camRight : camUp;
+      if (speed > 0) cloud.rotateOnWorldAxis(axis, turn.sign * speed * dt);
+    }
+    if (pad.run.phase === 'wave' && pad.run.startAt != null) {
+      /* a number on window.__waveElapsed holds the wave for a still. unset, the clock is real. */
+      const held = window.__waveElapsed;
+      const elapsed = typeof held === 'number' && Number.isFinite(held) ? held : performance.now() - pad.run.startAt;
+      const frameW = waveFrame(elapsed, maxR, waveMs);
+      applyGold(frameW);
+      const next = typeof held === 'number' ? pad.run : advanceWave(pad.run, pad.run.startAt + elapsed, waveMs);
+      if (next !== pad.run) {
+        pad = { run: next, lockedUntil: pad.lockedUntil, bad: false };
+        sync();
+        markOpen();
+      }
+    } else if (pad.run.phase === 'open') {
+      applyGold(waveFrame(waveMs, maxR, waveMs));
+    }
     renderer.render(scene, camera);
   };
-  frame();
+  frame(performance.now());
 
   host.dataset.ready = '1';
   host.dataset.nodes = String(n);
   host.dataset.links = String(links.length);
   host.dataset.hubs = String(hubs.length);
+  host.dataset.wave = '0.000';
+  host.dataset.gold = '0';
+  sync();
 }
 
 fetch('graph.json', { cache: 'no-cache' })
