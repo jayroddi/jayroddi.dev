@@ -320,8 +320,18 @@ def test_committed_clear_list_matches_album() -> None:
         for row in json.loads(path.read_text(encoding="utf-8")):
             if row.get("i") in ids or row.get("i") == hotdog:
                 found[row["i"]] = row
-    assert set(found) == set(older) | {hotdog}
-    assert sign not in found
+    def pins_ok(rows: dict) -> None:
+        assert set(older) <= set(rows)
+        assert hotdog in rows
+        assert set(rows) <= set(older) | {hotdog, sign}
+        if sign in rows:
+            real = rows[sign]
+            assert frost.dated_for_frost(real)
+            assert not snaps_clear.should_frost(real, ids)
+    pins_ok(found)
+    imported = dict(found)
+    imported[sign] = {"i": sign, "d": "2026-11-06", "a": "2026-11-06T18:34:47-06:00"}
+    pins_ok(imported)
     pin = found["925fd7fec8e040f5adcaab7ec847e21c"]
     assert pin["d"] == "2026-11-02"
     assert pin["a"] == "2026-11-02T08:45:21-06:00"
