@@ -154,6 +154,7 @@ body.is-brain button.scroll-hint {
   bottom: auto;
   border: 0;
   background: none;
+  color: #FFD700;
   cursor: pointer;
   transform: none;
   animation: brain-scroll-hint 1.8s ease-in-out infinite;

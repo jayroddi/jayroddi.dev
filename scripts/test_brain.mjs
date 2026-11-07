@@ -439,5 +439,17 @@ assert.equal((nowHtml.match(/<li>/g) || []).length, 3);
 assert.doesNotMatch(brainHtml, /coming soon|now writeup is not in the repo/i);
 assert.doesNotMatch(nowHtml, /coming soon|now writeup is not in the repo/i);
 assert.match(nowHtml, /noindex/);
+const shellCss = read('site/assets/shell.css');
+const brainCss = read('site/brain/brain.css');
+const homeHint = shellCss.slice(shellCss.indexOf('@keyframes home-scroll-hint'), shellCss.indexOf('.home-quotes'));
+assert.match(shellCss, /\.scroll-hint \{[^}]*color: #FF4D1A;/);
+assert.match(homeHint, /rgba\(255, 77, 26/);
+assert.match(homeHint, /#FF8A5E/);
+assert.doesNotMatch(homeHint, /#FFD700|#FFE066/);
+const brainHint = brainCss.slice(brainCss.indexOf('@keyframes brain-scroll-hint'), brainCss.indexOf('body.is-brain::after'));
+assert.match(brainCss, /body\.is-brain button\.scroll-hint \{[^}]*color: #FFD700;/);
+assert.match(brainHint, /rgba\(255, 215, 0/);
+assert.match(brainHint, /#FFE066/);
+assert.doesNotMatch(brainHint, /#FF4D1A/);
 
 console.log('brain tests ok');
