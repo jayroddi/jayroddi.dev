@@ -6,7 +6,9 @@ import {
   keyboardPress, padTone, paintedColor, pressPad, releasePad, revealAllowed,
   speedOf, turnAxis, waveDuration
 } from '../site/brain/gate.js';
-import { GROUP_RGB, TEAL } from '../site/brain/palette.js';
+import {
+  CLASS_HEX, CLASS_RGB, GOLD_RGB, TEAL, assignClasses, colorForNode, nodeClass, sanitizeColors
+} from '../site/brain/palette.js';
 import {
   UNLOCK_ENABLED, buildClientPing, coarseClient, disclosureNeeded, maybeNotify, sanitizeReferrer
 } from '../site/brain/unlock-client.js';
@@ -47,11 +49,44 @@ for (const node of graph.nodes) {
 assert.deepEqual(groups, [1591, 2929, 767, 372]);
 for (const link of graph.links) assert.deepEqual(Object.keys(link).sort(), ['s', 't']);
 
-assert.equal(GROUP_RGB.length, 4);
-for (const rgb of GROUP_RGB) assert.deepEqual(rgb, TEAL);
+assert.equal(CLASS_HEX.teal, '#1AADB3');
+assert.equal(CLASS_HEX.orange, '#FF4D1A');
+assert.equal(CLASS_HEX.purple, '#B24BFF');
+assert.equal(CLASS_HEX.pink, '#FF4D9A');
+assert.deepEqual(CLASS_RGB.teal, TEAL);
 assert.equal(Math.round(TEAL[0] * 255), 26);
 assert.equal(Math.round(TEAL[1] * 255), 173);
 assert.equal(Math.round(TEAL[2] * 255), 179);
+assert.doesNotMatch(read('site/brain/palette.js'), /obsidian hex|exact match/i);
+
+const colors = JSON.parse(read('site/brain/colors.json'));
+const colorValues = Object.values(colors);
+assert.equal(Object.keys(colors).length, 5659);
+assert.deepEqual(
+  colorValues.reduce((acc, name) => { acc[name] = (acc[name] || 0) + 1; return acc; }, {}),
+  { purple: 1556, pink: 2919, orange: 945, teal: 239 }
+);
+for (const value of colorValues) assert.match(value, /^(purple|pink|orange|teal)$/);
+const graphIds = new Set(graph.nodes.map((node) => String(node.id)));
+assert.deepEqual(new Set(Object.keys(colors)), graphIds);
+const paint = assignClasses(graph.nodes, colors);
+assert.equal(paint.rendered, 5659);
+assert.equal(paint.classes.length, graph.nodes.length);
+assert.deepEqual(paint.counts, { purple: 1556, pink: 2919, orange: 945, teal: 239 });
+const purpleInBucket = graph.nodes.find((node) => node.g === 0 && colors[String(node.id)] === 'purple');
+const tealInBucket = graph.nodes.find((node) => node.g === 0 && colors[String(node.id)] === 'teal');
+assert.equal(nodeClass(purpleInBucket.id, colors), 'purple');
+assert.equal(nodeClass(tealInBucket.id, colors), 'teal');
+assert.notDeepEqual(colorForNode(purpleInBucket.id, colors), colorForNode(tealInBucket.id, colors));
+assert.equal(graph.nodes.some((node) => node.g === 2 && colors[String(node.id)] === 'orange'), true);
+assert.equal(graph.nodes.some((node) => node.g === 3 && colors[String(node.id)] === 'orange'), true);
+assert.equal(nodeClass(1, { 1: 'nope' }), 'teal');
+assert.equal(nodeClass(2, {}), 'teal');
+assert.equal(nodeClass(9, sanitizeColors({ 9: 'purple', note: 'secret', 10: 'blue' })), 'purple');
+assert.deepEqual(sanitizeColors({ 10: 'blue', folder: 'pink' }), {});
+for (const name of ['purple', 'pink', 'orange', 'teal']) {
+  assert.deepEqual(paintedColor(CLASS_RGB[name], 1, [9, 8, 7], GOLD_RGB), [...GOLD_RGB]);
+}
 
 assert.equal(SPEED_RAD_S.length, 11);
 assert.deepEqual([...SPEED_RAD_S], [0.10, 0.18, 0.28, 0.40, 0.54, 0.70, 0.88, 1.08, 1.30, 1.52, 1.75]);
@@ -345,9 +380,11 @@ const brainJs = read('site/brain/brain.js');
 const brainHtml = read('site/brain/index.html');
 const nowHtml = read('site/now/index.html');
 const client = read('site/brain/unlock-client.js');
-assert.equal(brainJs.split('fetch(').length, 2);
+assert.equal(brainJs.split('fetch(').length, 3);
 assert.match(brainJs, /fetch\('graph\.json'/);
-assert.doesNotMatch(brainJs, /OrbitControls|graph\.synthetic|enableDamping/);
+assert.match(brainJs, /fetch\('colors\.json'/);
+assert.match(brainJs, /colorForNode/);
+assert.doesNotMatch(brainJs, /GROUP_RGB|OrbitControls|graph\.synthetic|enableDamping/);
 assert.doesNotMatch(client, /fetch\(/);
 assert.equal(UNLOCK_ENABLED, false);
 for (const file of ['site/brain/brain.js', 'site/brain/index.html', 'site/brain/gate.js', 'site/brain/unlock-client.js', 'site/brain/palette.js', 'site/now/index.html', 'site/now/now.css']) {
