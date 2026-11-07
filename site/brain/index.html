@@ -7,15 +7,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
+<script>document.documentElement.classList.add('js');if(location.hash==='#now'||location.hash==='#now/')history.replaceState(null,'',location.pathname+location.search);</script>
 <title>brain</title>
 <link rel="stylesheet" href="/habits/habits.css?v=3.49">
 <link rel="stylesheet" href="/assets/rain.css?v=2.64">
-<link rel="stylesheet" href="/assets/shell.css?v=16">
-<link rel="stylesheet" href="/brain/brain.css?v=2">
+<link rel="stylesheet" href="/assets/shell.css?v=24">
+<link rel="stylesheet" href="/brain/brain.css?v=5">
+<link rel="stylesheet" href="/now/now.css?v=2">
 <link rel="icon" href="/favicon.ico?v=6" sizes="any">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=6">
 <link rel="canonical" href="https://jayroddi.dev/brain/">
-<meta name="description" content="a synthetic sphere of anonymous nodes">
+<meta name="description" content="an anonymous graph">
 <script type="importmap">
 {
   "imports": {
@@ -26,9 +28,36 @@
 </script>
 </head>
 <body class="board is-brain">
-<div id="graph" role="img" aria-label="Synthetic three-dimensional graph of anonymous nodes"></div>
-<p class="sr">The graph turns slowly until you drag. Pinch to zoom. Right-drag, shift-drag, or two fingers to pan. A vertical pull bounces the page. Pulses start at busy nodes and fade before the edge. Nodes are anonymous.</p>
-<script type="module" src="/brain/brain.js?v=4"></script>
+<main class="brain-stage">
+  <div id="graph" role="img" aria-label="Anonymous three-dimensional graph"></div>
+  <div class="brain-controls">
+    <div class="pad in" role="group" aria-label="code">
+      <button type="button" data-k="up" aria-label="up"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 18V6M7 11l5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button type="button" data-k="down" aria-label="down"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 6v12M7 13l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button type="button" data-k="left" aria-label="left"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M18 12H6M11 7l-5 5 5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button type="button" data-k="right" aria-label="right"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 12h12M13 7l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button type="button" data-k="b" aria-label="b"><span>b</span></button>
+      <button type="button" data-k="a" aria-label="a"><span>a</span></button>
+      <button type="button" data-k="start" aria-label="start"><span>start</span></button>
+    </div>
+    <button type="button" class="scroll-hint brain-next" hidden aria-label="scroll for now"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 9.5 12 15l5.5-5.5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+</main>
+<section class="now-sheet" id="now" hidden aria-hidden="true" aria-labelledby="now-title">
+  <div class="soft">
+    <h2 id="now-title">now</h2>
+    <p class="now-preview">you found me! here's what i'm up to now:</p>
+    <ul class="now-preview">
+      <li>loving life - myself, my kids, all the authentic connections</li>
+      <li>building apps, companies, the future</li>
+      <li>getting rid of dad bod #2</li>
+    </ul>
+    <p class="now-canon"><a href="/now/">/now/</a></p>
+  </div>
+</section>
+<p class="sr" id="brain-status" aria-live="polite"></p>
+<p class="sr">Anonymous graph in a fixed frame. The graph does not drag, pinch, orbit, or zoom. Browser zoom and page scroll still work. Keys, in order: up, up, down, down, left, right, left, right, b, a, start. A wrong key starts over. After the gold wave, an arrow scrolls to the now note. The sequence and the note are in this page's source. They are not a lock.</p>
+<script type="module" src="/brain/brain.js?v=8"></script>
 <script src="/assets/shell.js?v=18" defer></script>
 </body>
 </html>

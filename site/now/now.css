@@ -1,0 +1,97 @@
+/* The now note. Black card, one fade for the whole section, same timing
+   as the homepage quotes. */
+
+.now-sheet {
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  width: min(880px, calc(100% - 40px));
+  margin: 0 auto;
+  padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px));
+  scroll-margin-top: var(--shell-nav, 88px);
+  opacity: 0;
+}
+
+.now-sheet.is-in {
+  opacity: 1;
+  transition: opacity .4s ease;
+}
+
+.now-sheet:not(.is-in) { pointer-events: none; }
+
+.now-sheet[hidden] { display: none !important; }
+
+.now-sheet .soft {
+  width: 100%;
+  margin-top: 0;
+  padding: 28px 22px 32px;
+}
+
+.now-sheet h1,
+.now-sheet h2 {
+  margin: 0 0 16px;
+  font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.4;
+  text-align: center;
+  color: #1AADB3;
+}
+
+.now-preview,
+.now-canon {
+  margin: 0 auto;
+  max-width: 40em;
+  font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.55;
+  text-align: center;
+  color: rgba(244, 239, 230, .78);
+}
+
+ul.now-preview {
+  width: max-content;
+  max-width: 100%;
+  margin: 16px auto 0;
+  padding: 0 0 0 1.2em;
+  list-style: disc;
+  text-align: left;
+}
+
+ul.now-preview li {
+  margin: 0;
+  font-style: italic;
+  font-weight: 500;
+}
+
+ul.now-preview li + li { margin-top: 8px; }
+
+.now-canon { margin-top: 16px; }
+
+.now-canon a {
+  color: #1AADB3;
+  font-style: italic;
+}
+
+body.board.is-now {
+  background: #000;
+}
+
+body.is-now .habit-bg { display: none !important; }
+
+body.board.is-now .stage.now-page {
+  padding-top: calc(var(--shell-nav, 88px) + 12px);
+  padding-bottom: 0;
+}
+
+@media (max-width: 720px) {
+  .now-sheet { width: min(880px, calc(100% - 32px)); }
+  .now-sheet .soft { padding: 22px 16px 26px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .now-sheet.is-in { transition: none; }
+}

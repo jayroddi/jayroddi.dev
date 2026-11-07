@@ -105,7 +105,7 @@ body.board.is-grind .habit-bg {
   mask-composite: add;
 }
 body.is-grind .copy {
-  background: rgba(0, 0, 0, .9);
+  background: rgba(0, 0, 0, .94);
   border-radius: 18px;
   box-shadow: 0 0 40px 24px rgba(0, 0, 0, .8);
 }
@@ -336,11 +336,11 @@ body.is-welcome .soft { padding-top: 22px; padding-bottom: 22px; }
 }
 
 /* scroll hint under the splash. the first screen stays one viewport; the
-   arrow sits above the social pill. it is the liftoff gold (--au, #FFD700)
+   arrow sits above the social pill. it is the site orange (#FF4D1A)
    and the glow breathes on the same 1.8s ease as the book gold pulse.
    it does not travel. the quotes sheet below is the same black card as the
    splash. it stays invisible until a scroll (or a jump to #quotes), then
-   the whole sheet fades. */
+   the whole sheet fades. the brain page keeps its own gold arrow. */
 .scroll-hint {
   position: absolute;
   z-index: 3;
@@ -353,24 +353,24 @@ body.is-welcome .soft { padding-top: 22px; padding-bottom: 22px; }
   height: 44px;
   margin: 0;
   padding: 0;
-  color: var(--au, #FFD700);
+  color: #FF4D1A;
   text-decoration: none;
   transform: translateX(-50%);
   -webkit-tap-highlight-color: transparent;
   animation: home-scroll-hint 1.8s ease-in-out infinite;
 }
 .scroll-hint svg { display: block; width: 26px; height: 26px; }
-.scroll-hint:focus-visible { outline: 2px solid var(--au, #FFD700); outline-offset: 3px; border-radius: 999px; }
+.scroll-hint:focus-visible { outline: 2px solid #FF4D1A; outline-offset: 3px; border-radius: 999px; }
 @keyframes home-scroll-hint {
   0%, 100% {
     opacity: .72;
-    filter: drop-shadow(0 0 2px rgba(var(--au-rgb, 255, 215, 0), .45));
+    filter: drop-shadow(0 0 2px rgba(255, 77, 26, .45));
     transform: translateX(-50%);
   }
   50% {
-    color: var(--au-lt, #FFE066);
+    color: #FF8A5E;
     opacity: 1;
-    filter: drop-shadow(0 0 6px rgba(var(--au-rgb, 255, 215, 0), .8));
+    filter: drop-shadow(0 0 6px rgba(255, 77, 26, .8));
     transform: translateX(-50%);
   }
 }
