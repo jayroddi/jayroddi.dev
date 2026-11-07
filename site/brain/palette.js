@@ -21,8 +21,8 @@ export const CLASS_HEX = Object.freeze({
 /* A node farther out than this share of the sphere is always teal.
    A community core is the ball around that community's own middle,
    not the shared center of the sphere. Reach is that ball's radius. */
-export const PERIPHERY = 0.82;
-export const CLUSTER_REACH = Object.freeze({ pink: 0.34, purple: 0.42, orange: 0.32 });
+export const PERIPHERY = 0.76;
+export const CLUSTER_REACH = Object.freeze({ pink: 0.58, purple: 0.58, orange: 0.46 });
 
 export const CLASS_RGB = Object.freeze({
   purple: PURPLE,

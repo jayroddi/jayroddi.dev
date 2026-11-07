@@ -80,8 +80,8 @@ assert.equal(shown.rendered, 5659);
 assert.equal(shown.classes.length, graph.nodes.length);
 const shownTotal = shown.counts.teal + shown.counts.pink + shown.counts.purple + shown.counts.orange;
 assert.equal(shownTotal, 5659);
-assert.ok(shown.counts.teal > shown.counts.pink + shown.counts.purple + shown.counts.orange);
-assert.ok(shown.counts.pink > 0 && shown.counts.purple > 0 && shown.counts.orange > 0);
+assert.ok(shown.counts.teal > 1200);
+assert.ok(shown.counts.pink > 400 && shown.counts.purple > 400 && shown.counts.orange > 80);
 assert.ok(shown.counts.orange < shown.counts.pink && shown.counts.orange < shown.counts.purple);
 let maxR = 0;
 const radius = graph.nodes.map((_, i) => {

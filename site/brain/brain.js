@@ -502,12 +502,13 @@ function build(data, positions) {
   for (let i = 0; i < n; i++) {
     const shell = Math.hypot(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]) > maxR * 0.985;
     const hub = Math.min(1, Math.sqrt(degree[i]) / 7);
+    const accent = paint.classes[i] !== 'teal';
     const rgb = CLASS_RGB[paint.classes[i]];
-    const base = linear(rgb);
-    const hot = linear(towardWhite(rgb, shell ? 0.28 : 0.5));
+    const base = linear(towardWhite(rgb, accent ? 0.42 : 0));
+    const hot = linear(towardWhite(rgb, accent ? 0.72 : (shell ? 0.28 : 0.5)));
     haloColor.set(base, i * 3);
     coreColor.set(hot, i * 3);
-    const size = shell ? 15 : 4.6 + hub * 6.5;
+    const size = (shell ? 15 : 4.6 + hub * 6.5) * (accent ? 1.28 : 1);
     haloSize[i] = size;
     coreSize[i] = size * (shell ? 0.42 : 0.38);
     nodePhase[i] = phase(nodes[i].id);
