@@ -398,9 +398,20 @@ assert.match(brainHtml, /data-k="start"/);
 assert.doesNotMatch(brainHtml, /location\.replace/);
 assert.match(nowHtml, /rel="canonical" href="https:\/\/jayroddi\.dev\/now\/"/);
 assert.doesNotMatch(nowHtml, /location\.replace/);
-const sentence = 'preview. a now writeup is not in the repo yet. this is not a personal status.';
-assert.equal(brainHtml.includes(sentence), true);
-assert.equal(nowHtml.includes(sentence), true);
+const nowLines = [
+  "you found me! here's what i'm up to now:",
+  'loving life - myself, my kids, all the authentic connections',
+  'building apps, companies, the future',
+  'getting rid of dad bod #2'
+];
+for (const line of nowLines) {
+  assert.equal(brainHtml.includes(line), true, line);
+  assert.equal(nowHtml.includes(line), true, line);
+}
+assert.equal((brainHtml.match(/<li>/g) || []).length, 3);
+assert.equal((nowHtml.match(/<li>/g) || []).length, 3);
+assert.doesNotMatch(brainHtml, /coming soon|now writeup is not in the repo/i);
+assert.doesNotMatch(nowHtml, /coming soon|now writeup is not in the repo/i);
 assert.match(nowHtml, /noindex/);
 
 console.log('brain tests ok');

@@ -52,6 +52,23 @@
   color: rgba(244, 239, 230, .78);
 }
 
+ul.now-preview {
+  width: max-content;
+  max-width: 100%;
+  margin: 16px auto 0;
+  padding: 0 0 0 1.2em;
+  list-style: disc;
+  text-align: left;
+}
+
+ul.now-preview li {
+  margin: 0;
+  font-style: italic;
+  font-weight: 500;
+}
+
+ul.now-preview li + li { margin-top: 8px; }
+
 .now-canon { margin-top: 16px; }
 
 .now-canon a {
