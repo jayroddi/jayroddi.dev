@@ -78,10 +78,11 @@ body.is-brain[data-gestures="1"] #graph canvas:active {
 .brain-controls {
   position: relative;
   z-index: 3;
-  flex: 0 0 auto;
+  flex: 0 0 44px;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 44px;
   min-height: 44px;
   pointer-events: auto;
 }

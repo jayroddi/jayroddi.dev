@@ -2,9 +2,10 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {
-  CODE, SPEED_RAD_S, WAVE_MS, advanceWave, controlView, createPad, gesturesAllowed,
-  goldAmount, graphZoomAllowed, keyboardPress, padTone, paintedColor, pressPad,
-  releasePad, revealAllowed, shouldCelebrate, speedOf, turnAxis, waveDuration
+  BURST_MS, BURST_REDUCED_MS, CODE, SPEED_RAD_S, WAVE_MS, advanceWave, controlView,
+  createPad, gesturesAllowed, goldAmount, graphZoomAllowed, keyboardPress, padTone,
+  padVisible, paintedColor, pressPad, releasePad, revealAllowed, shouldCelebrate,
+  speedOf, turnAxis, waveDuration
 } from '../site/brain/gate.js';
 import {
   CLASS_HEX, CLASS_RGB, GOLD_RGB, PERIPHERY, TEAL, assignClasses, colorForNode,
@@ -225,7 +226,8 @@ assert.deepEqual(paintedColor([0.2, 0.3, 0.4], 1, [9, 8, 7], [1, 0.84, 0]), [1, 
 const mid = advanceWave(pad.run, pad.run.startAt + 4999, 5000);
 assert.equal(mid.phase, 'wave');
 assert.equal(controlView(mid.phase).arrow, false);
-assert.equal(controlView(mid.phase).pad, true);
+assert.equal(controlView(mid.phase).pad, false);
+assert.equal(padVisible(mid.phase, 4999, false), false);
 assert.equal(revealAllowed(mid.phase, 'scroll'), false);
 assert.equal(revealAllowed(mid.phase, 'arrow'), false);
 assert.equal(revealAllowed(mid.phase, 'hash'), false);
@@ -484,5 +486,51 @@ assert.match(read('site/now/now.css'), /body\.is-now[\s\S]*#FFD700/);
 assert.doesNotMatch(read('site/index.html'), /is-gold|now\.css/);
 assert.doesNotMatch(read('site/grind/index.html'), /is-gold|now\.css/);
 assert.match(nowHtml, /class="board is-now is-gold"/);
+
+assert.equal(BURST_MS, 780);
+assert.equal(BURST_REDUCED_MS, 480);
+assert.ok(BURST_MS < WAVE_MS);
+assert.match(read('site/brain/brain.css'), /symbol-burst 780ms/);
+assert.match(read('site/brain/brain.css'), /symbol-burst-still 480ms/);
+assert.match(brainJs, /padVisible/);
+assert.match(brainJs, /retireControls/);
+assert.equal(padVisible('idle', 0, false), true);
+assert.equal(controlView('idle').arrow, false);
+assert.equal(padVisible('go', 9999, false), true);
+assert.equal(controlView('go').arrow, false);
+let timing = createPad();
+timing = pressPad(timing, 'up', 1, 'button', false).pad;
+assert.equal(padVisible(timing.run.phase, 0, false), true);
+const wrong = pressPad(timing, 'down', 2, 'button', false);
+assert.equal(wrong.result, 'reset');
+assert.equal(padVisible(wrong.pad.run.phase, 0, false), true);
+assert.equal(shouldCelebrate(wrong.result, false), false);
+const finished = CODE.reduce((state, key, i) => pressPad(state, key, 100 + i, 'button', false).pad, createPad());
+assert.equal(finished.run.phase, 'wave');
+assert.equal(shouldCelebrate('start', false), true);
+assert.equal(shouldCelebrate('start', true), false);
+assert.equal(padVisible('wave', 0, false), true);
+assert.equal(padVisible('wave', BURST_MS - 1, false), true);
+assert.equal(controlView('wave').arrow, false);
+assert.equal(padVisible('wave', BURST_MS, false), false);
+assert.equal(controlView('wave').arrow, false);
+assert.equal(revealAllowed('wave', 'arrow'), false);
+assert.equal(padVisible('wave', 2500, false), false);
+assert.equal(goldAmount(100, 2500, 100, WAVE_MS) < 1, true);
+assert.equal(controlView('wave').nowReady, false);
+const opened = advanceWave(finished.run, finished.run.startAt + WAVE_MS, WAVE_MS);
+assert.equal(opened.phase, 'open');
+assert.equal(padVisible(opened.phase, WAVE_MS, false), false);
+assert.equal(controlView(opened.phase).arrow, true);
+assert.equal(controlView(opened.phase).nowReady, true);
+assert.equal(goldAmount(100, WAVE_MS, 100, WAVE_MS), 1);
+assert.equal(padVisible('wave', BURST_REDUCED_MS - 1, true), true);
+assert.equal(padVisible('wave', BURST_REDUCED_MS, true), false);
+assert.equal(controlView('wave').arrow, false);
+assert.equal(speedOf(finished.run, true), 0);
+const repeated = pressPad(finished, 'start', finished.run.startAt + 10, 'button', false);
+assert.equal(repeated.result, 'locked');
+assert.equal(shouldCelebrate(repeated.result, true), false);
+assert.equal(padVisible(repeated.pad.run.phase, BURST_MS, false), false);
 
 console.log('brain tests ok');
