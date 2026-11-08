@@ -2,7 +2,7 @@
 
 Media log. `/music/` and `/books/` forward here.
 
-`media.json` and `covers/` are the 2026-11-02 export with the two untitled book twins removed, the swapped Ryan Holiday note for Right Thing, Right Now removed, and Fighting for Your Marriage While Separated by Linda Rooks removed, plus the 2026-11-04 midnight vault sync (In Rainbows by Radiohead, and six older vault notes the first export missed: Avatar, both early Pirates of the Caribbean films, Spider-Man: Into the Spider-Verse, Jo Koy: Live in Seattle, and The Legend of Zelda: Link’s Awakening). This sync added Godzilla Minus Zero (2026-11-05), Backstreet Boys (2026-11-04), and Mirror's Edge OST by Solar Fields (2026-11-03). The 2026-11-06 note is The Boy Who Was Raised as a Dog by Bruce D. Perry & Maia Szalavitz. The 2026-11-08 note is AMERICAN MOTOR SPORTS (420CC EDITION) by Bilmuri. 478 notes (was 477). A cover is only an embedded `![[…]]` image. A note with no embed has `img: null` and the tile shows the title, not a nearby file. Snaps stay photos on `/snaps`. Moments that are not media notes are not in this file.
+`media.json` and `covers/` are the 2026-11-02 export with the two untitled book twins removed, the swapped Ryan Holiday note for Right Thing, Right Now removed, and Fighting for Your Marriage While Separated by Linda Rooks removed, plus the 2026-11-04 midnight vault sync (In Rainbows by Radiohead, and six older vault notes the first export missed: Avatar, both early Pirates of the Caribbean films, Spider-Man: Into the Spider-Verse, Jo Koy: Live in Seattle, and The Legend of Zelda: Link’s Awakening). This sync added Godzilla Minus Zero (2026-11-05), Backstreet Boys (2026-11-04), and Mirror's Edge OST by Solar Fields (2026-11-03). The 2026-11-06 note is The Boy Who Was Raised as a Dog by Bruce D. Perry & Maia Szalavitz. The 2026-11-08 note is AMERICAN MOTOR SPORTS (420CC EDITION) by Bilmuri. The 2026-07-26 note is The Odyssey. Gold is on that film, You Can See Everything, and the Bilmuri album. 479 notes (was 478). A cover is only an embedded `![[…]]` image. A note with no embed has `img: null` and the tile shows the title, not a nearby file. Snaps stay photos on `/snaps`. Moments that are not media notes are not in this file.
 
 ## What the page reads
 
@@ -10,8 +10,8 @@ Media log. `/music/` and `/books/` forward here.
 
 | c | chip | n in this export |
 |---|---|---|
-| all | all | 478 |
-| movies | 🍿 | 177 |
+| all | all | 479 |
+| movies | 🍿 | 178 |
 | shows | 📺 | 27 (tv + documentaries + comedy, already one bucket) |
 | books | 📚 | 111 |
 | albums | 💿 | 155 |
