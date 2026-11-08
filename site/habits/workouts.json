@@ -3,7 +3,7 @@
   "label": "workouts",
   "timezone": "America/Chicago",
   "generated": "2026-11-04T15:34:58-06:00",
-  "through": "2026-11-04",
+  "through": "2026-11-08",
   "source": "Apple Health and Strava. exclude:true records are omitted. Empty months are real gaps.",
   "intensity": {
     "metric": "exercise_min",
@@ -905,6 +905,10 @@
     "2026-11-01": 13,
     "2026-11-02": 87,
     "2026-11-03": 58,
-    "2026-11-04": 114
+    "2026-11-04": 160,
+    "2026-11-05": 3,
+    "2026-11-06": 6,
+    "2026-11-07": 9,
+    "2026-11-08": 1
   }
 }
