@@ -3,11 +3,11 @@
 
 import * as THREE from 'three';
 import { layout } from './layout.js';
-import { CLASS_RGB, GOLD_RGB, presentClasses } from './palette.js';
+import { CLASS_RGB, GOLD_RGB, presentClasses, pulseHubs } from './palette.js';
 import {
   BURST_MS, BURST_REDUCED_MS, advanceWave, autoSpin, controlView, createPad, gesturesAllowed,
-  keyboardPress, padTone, padVisible, pressPad, releasePad, revealAllowed, shouldCelebrate,
-  speedOf, turnAxis, waveDuration, waveFrame
+  keyboardPress, padTone, padVisible, playDuration, playFrame, pointScaleFor, pressPad, releasePad,
+  revealAllowed, shouldCelebrate, speedOf, turnAxis
 } from './gate.js';
 import {
   DISCLOSURE, UNLOCK_ENABLED, buildClientPing, disclosureNeeded, maybeNotify
@@ -24,7 +24,6 @@ const nowEl = document.getElementById('now');
 const statusEl = document.getElementById('brain-status');
 const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
 let reduceMotion = motionQuery.matches;
-const waveMs = waveDuration(location.search);
 const stillParam = new URLSearchParams(location.search).get('still');
 const stillTime = stillParam == null || stillParam === '' || Number.isNaN(Number(stillParam)) ? null : Number(stillParam);
 
@@ -74,41 +73,9 @@ function towardWhite(rgb, amount) {
   return rgb.map((channel) => channel + (1 - channel) * amount);
 }
 
-const HUB_TRAVEL = [2.7, 3.15, 3.55, 2.9, 3.85, 3.3, 2.5, 3.65];
+const HUB_TRAVEL = [2.7, 3.15, 3.55, 2.9, 3.85, 3.3, 2.5, 3.65, 3.05];
 const HUB_REST = 1;
-
-function chooseHubs(positions, degree, groupOf) {
-  const n = degree.length;
-  const order = [];
-  for (let i = 0; i < n; i++) order.push(i);
-  order.sort((a, b) => degree[b] - degree[a] || a - b);
-  const picked = [];
-  const minSep = 14;
-  const radiusOf = (i) => Math.hypot(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
-  const tooClose = (i) => picked.some((j) => {
-    const dx = positions[i * 3] - positions[j * 3];
-    const dy = positions[i * 3 + 1] - positions[j * 3 + 1];
-    const dz = positions[i * 3 + 2] - positions[j * 3 + 2];
-    return dx * dx + dy * dy + dz * dz < minSep * minSep;
-  });
-  const take = (i) => {
-    if (picked.includes(i) || picked.length >= 8) return false;
-    if (radiusOf(i) > 55 || tooClose(i)) return false;
-    picked.push(i);
-    return true;
-  };
-  for (let g = 0; g < 4; g++) {
-    for (const i of order) {
-      if (groupOf[i] !== g) continue;
-      if (take(i)) break;
-    }
-  }
-  for (const i of order) {
-    if (picked.length >= 8 || degree[i] < 20) break;
-    take(i);
-  }
-  return picked;
-}
+const HUBS = 9;
 
 function phase(n) {
   let x = Math.imul(n + 1, 374761393);
@@ -136,7 +103,7 @@ function glowTexture() {
 }
 
 const RIPPLE = `
-const int HUBS = 8;
+const int HUBS = 9;
 uniform vec3 uHubPos[HUBS];
 uniform vec3 uHubColor[HUBS];
 uniform float uHubOffset[HUBS];
@@ -146,6 +113,8 @@ uniform float uHubAmp[HUBS];
 uniform float uReach;
 uniform float uShell;
 uniform float uRest;
+uniform highp float uGoldPulse;
+uniform highp vec3 uGoldColor;
 vec3 rippleGlow(vec3 p) {
   float radius = length(p);
   float shellFade = 1.0 - smoothstep(uShell * 0.66, uShell * 0.82, radius);
@@ -157,16 +126,35 @@ vec3 rippleGlow(vec3 p) {
     float firing = (1.0 - step(travelT, local)) * uHubOn[i] * uHubAmp[i];
     float u = clamp(local / travelT, 0.0, 1.0);
     float d = distance(p, uHubPos[i]);
-    float front = u * uReach;
-    float width = mix(3.2, 18.0, u);
-    float band = exp(-pow((d - front) / width, 2.0));
-    float nucleus = exp(-pow(d / 4.6, 2.0)) * (1.0 - smoothstep(0.0, 0.32, u));
-    float soften = 1.0 - smoothstep(0.18, 0.96, u);
-    float edge = 1.0 - smoothstep(uReach * 0.58, uReach * 0.94, d);
-    float amp = nucleus * 2.8 + band * soften * edge;
-    sum += uHubColor[i] * amp * firing;
+    float nucleus = exp(-pow(d / 4.6, 2.0)) * (1.0 - smoothstep(0.0, 0.45, u)) * 2.8;
+    float bloomR = mix(3.5, max(uReach, 3.5), u);
+    float bloom = exp(-pow(d / bloomR, 2.0)) * (1.0 - smoothstep(0.12, 1.0, u)) * 0.85;
+    vec3 fire = uGoldPulse > 0.5 ? uGoldColor : uHubColor[i];
+    sum += fire * (nucleus + bloom) * firing;
   }
   return sum * shellFade;
+}
+`;
+
+const STAGE = `
+uniform float uExplodeTime;
+uniform float uTravel;
+uniform float uRebuild;
+uniform float uAppearFront;
+uniform float uAppearBand;
+uniform float uExplodeDist;
+vec3 flown(vec3 home) {
+  if (uTravel < 0.001) return home;
+  vec3 dir = home / max(length(home), 0.001);
+  return home + dir * smoothstep(0.0, 1.0, uTravel) * uExplodeDist;
+}
+float shown(vec3 home) {
+  if (uRebuild < 0.5) {
+    if (uExplodeTime < 0.001) return 1.0;
+    return 1.0 - smoothstep(0.25, 0.92, uExplodeTime);
+  }
+  float t = clamp((uAppearFront - length(home)) / max(uAppearBand, 0.001), 0.0, 1.0);
+  return t * t * (3.0 - 2.0 * t);
 }
 `;
 
@@ -175,7 +163,7 @@ uniform float uGoldFront;
 uniform float uGoldBand;
 uniform float uGoldLock;
 float goldAt(vec3 p) {
-  if (uGoldLock > 0.5) return 1.0;
+  if (uGoldLock > 0.5 || uGoldPulse > 0.5) return 1.0;
   float rad = length(p);
   float t = clamp((uGoldFront - rad) / max(uGoldBand, 0.001), 0.0, 1.0);
   return t * t * (3.0 - 2.0 * t);
@@ -195,20 +183,23 @@ function pointMaterial(uniforms) {
       uniform float uScale;
       uniform float uTime;
       uniform float uMotion;
-      uniform vec3 uGoldColor;
+      out float vShow;
       ${RIPPLE}
       ${GOLD_AT}
+      ${STAGE}
       void main() {
         float g = goldAt(position);
-        float alive = 1.0 - g;
         float wobble = sin(uTime * (0.48 + aHub * 0.4) + aPhase) * uMotion;
-        vec3 glow = rippleGlow(position) * uMotion * alive;
+        vec3 glow = rippleGlow(position) * uMotion;
         float wave = max(glow.r, max(glow.g, glow.b));
-        float pulse = 1.0 + alive * ((0.028 + aHub * 0.075) * wobble + wave * 1.55);
-        vec3 tinted = aColor * (0.94 + alive * (0.06 + aHub * 0.1) * wobble) + glow;
-        vColor = g >= 1.0 ? uGoldColor : mix(tinted, uGoldColor, g);
-        vec4 mv = modelViewMatrix * vec4(position, 1.0);
-        gl_PointSize = clamp(aSize * pulse * uScale / -mv.z, 1.0, 64.0);
+        float pulse = 1.0 + ((0.028 + aHub * 0.075) * wobble + wave * 1.55);
+        vec3 tinted = aColor * (0.94 + (0.06 + aHub * 0.1) * wobble) + glow;
+        vColor = g >= 1.0 ? uGoldColor + glow : mix(tinted, uGoldColor, g);
+        float show = shown(position);
+        vShow = show;
+        vec4 mv = modelViewMatrix * vec4(flown(position), 1.0);
+        float size = aSize * pulse * uScale * show / -mv.z;
+        gl_PointSize = show < 0.02 ? 0.0 : clamp(size, 1.0, 64.0);
         gl_Position = projectionMatrix * mv;
       }
     `,
@@ -216,8 +207,10 @@ function pointMaterial(uniforms) {
       precision mediump float;
       uniform sampler2D uTex;
       in vec3 vColor;
+      in float vShow;
       out vec4 fragColor;
       void main() {
+        if (vShow < 0.02) discard;
         float a = texture(uTex, gl_PointCoord).a;
         fragColor = vec4(vColor * a, a);
       }
@@ -249,11 +242,16 @@ function linkMaterial(uniforms) {
       out float vGold;
       out vec3 vLocal;
       out vec3 vLocalOther;
+      out float vShow;
       uniform float uWidth;
+      uniform highp float uGoldPulse;
       ${GOLD_AT}
+      ${STAGE}
       void main() {
-        vec3 p = (modelViewMatrix * vec4(position, 1.0)).xyz;
-        vec3 q = (modelViewMatrix * vec4(aOther, 1.0)).xyz;
+        float show = min(shown(position), shown(aOther));
+        vShow = show;
+        vec3 p = (modelViewMatrix * vec4(flown(position), 1.0)).xyz;
+        vec3 q = (modelViewMatrix * vec4(flown(aOther), 1.0)).xyz;
         vec3 dir = q - p;
         float span = length(dir);
         dir = span > 0.0001 ? dir / span : vec3(1.0, 0.0, 0.0);
@@ -283,23 +281,23 @@ function linkMaterial(uniforms) {
       in float vGold;
       in vec3 vLocal;
       in vec3 vLocalOther;
+      in float vShow;
       out vec4 fragColor;
       uniform float uTime;
       uniform float uMotion;
-      uniform vec3 uGoldColor;
       ${RIPPLE}
       void main() {
+        if (vShow < 0.02) discard;
         float d = abs(vSide);
         float glow = smoothstep(1.0, 0.08, d);
         float core = smoothstep(0.28, 0.0, d);
         float g = vGold;
-        float alive = 1.0 - g;
         float travel = sin(uTime * 0.42 + vAlong * 6.2 + vPhase);
         float breathe = sin(uTime * 0.31 + vPhase);
-        float life = 1.0 + uMotion * alive * (0.1 * travel + 0.08 * breathe);
-        vec3 hubGlow = rippleGlow(mix(vLocal, vLocalOther, vAlong)) * uMotion * alive;
+        float life = 1.0 + uMotion * (0.1 * travel + 0.08 * breathe);
+        vec3 hubGlow = rippleGlow(mix(vLocal, vLocalOther, vAlong)) * uMotion;
         float wave = max(hubGlow.r, max(hubGlow.g, hubGlow.b));
-        float a = (glow * 0.07 + core * 0.28) * life * vGain;
+        float a = (glow * 0.07 + core * 0.28) * life * vGain * vShow;
         a *= 1.0 + wave * 2.4;
         vec3 col = g >= 1.0 ? uGoldColor : mix(vColor, uGoldColor, g);
         fragColor = vec4(col * a + hubGlow * (0.45 + core), a);
@@ -571,7 +569,6 @@ function build(data, positions) {
     degree[index.get(link.t)] += 1;
   }
 
-  const groupOf = nodes.map((node) => (node.g == null ? 2 : node.g));
   const paint = presentClasses(nodes, positions);
   const haloColor = new Float32Array(n * 3);
   const coreColor = new Float32Array(n * 3);
@@ -694,13 +691,13 @@ function build(data, positions) {
 
   const time = { value: 0 };
   const motion = { value: reduceMotion ? 0 : 1 };
-  const hubPos = Array.from({ length: 8 }, () => new THREE.Vector3());
-  const hubOffset = new Float32Array(8);
-  const hubTravel = new Float32Array(8);
-  const hubOn = new Float32Array(8);
-  const hubAmp = new Float32Array(8);
-  const hubColor = Array.from({ length: 8 }, () => new THREE.Vector3());
-  const hubs = chooseHubs(positions, degree, groupOf);
+  const hubPos = Array.from({ length: HUBS }, () => new THREE.Vector3());
+  const hubOffset = new Float32Array(HUBS);
+  const hubTravel = new Float32Array(HUBS);
+  const hubOn = new Float32Array(HUBS);
+  const hubAmp = new Float32Array(HUBS);
+  const hubColor = Array.from({ length: HUBS }, () => new THREE.Vector3());
+  const hubs = pulseHubs(positions, degree, paint.classes);
   hubs.forEach((hubIndex, nHub) => {
     hubPos[nHub].set(positions[hubIndex * 3], positions[hubIndex * 3 + 1], positions[hubIndex * 3 + 2]);
     const rgb = linear(CLASS_RGB[paint.classes[hubIndex]]);
@@ -709,8 +706,7 @@ function build(data, positions) {
     const period = HUB_TRAVEL[nHub] + HUB_REST;
     hubOffset[nHub] = (nHub * 1.37) % period;
     hubOn[nHub] = 1;
-    const weight = degree[hubIndex];
-    hubAmp[nHub] = weight >= 80 ? 1 : weight >= 12 ? 0.86 : 0.72;
+    hubAmp[nHub] = 1;
   });
   const goldLinear = linear(GOLD_RGB);
   const ripple = {
@@ -720,19 +716,22 @@ function build(data, positions) {
     uHubTravel: { value: hubTravel },
     uHubOn: { value: hubOn },
     uHubAmp: { value: hubAmp },
-    uReach: { value: 40 },
+    uReach: { value: 14.5 },
     uShell: { value: maxR },
     uRest: { value: HUB_REST },
     uTime: time,
     uMotion: motion,
     uGoldFront: { value: 0 },
-    uGoldBand: { value: Math.max(4, maxR * 0.08) },
+    uGoldBand: { value: Math.max(8, maxR * 0.14) },
     uGoldLock: { value: 0 },
-    uGoldColor: { value: new THREE.Vector3(goldLinear[0], goldLinear[1], goldLinear[2]) }
-  };
-  const pointScale = (width, height) => {
-    const short = Math.min(width, height);
-    return short * (width < 760 ? 1.55 : 0.58);
+    uGoldPulse: { value: 0 },
+    uGoldColor: { value: new THREE.Vector3(goldLinear[0], goldLinear[1], goldLinear[2]) },
+    uExplodeTime: { value: 0 },
+    uTravel: { value: 0 },
+    uRebuild: { value: 0 },
+    uAppearFront: { value: 0 },
+    uAppearBand: { value: Math.max(8, maxR * 0.14) },
+    uExplodeDist: { value: reduceMotion ? 0 : 78 }
   };
   const boxSize = () => {
     const rect = host.getBoundingClientRect();
@@ -740,7 +739,7 @@ function build(data, positions) {
   };
   const pointUniforms = {
     uTex: { value: glowTexture() },
-    uScale: { value: pointScale(boxSize().width, boxSize().height) },
+    uScale: { value: pointScaleFor(boxSize().width, boxSize().height, 1, window.devicePixelRatio || 1) },
     ...ripple
   };
   const linkUniforms = {
@@ -805,9 +804,10 @@ function build(data, positions) {
     }
     applyOrbit();
     camera.updateProjectionMatrix();
-    pointUniforms.uScale.value = pointScale(box.width, box.height);
+    const ratio = Math.min(window.devicePixelRatio || 1, box.width < 760 ? 1.35 : 1.6);
+    pointUniforms.uScale.value = pointScaleFor(box.width, box.height, ratio, window.devicePixelRatio || 1);
     linkUniforms.uWidth.value = box.width < 760 ? 0.62 : 0.85;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, box.width < 760 ? 1.35 : 1.6));
+    renderer.setPixelRatio(ratio);
     renderer.setSize(box.width, box.height, false);
   };
   place();
@@ -851,15 +851,17 @@ function build(data, positions) {
   window.addEventListener('pointerup', releasePointer);
   window.addEventListener('pointercancel', releasePointer);
 
-  const applyGold = (frame) => {
-    ripple.uGoldFront.value = frame.front;
-    ripple.uGoldBand.value = frame.band;
-    ripple.uGoldLock.value = frame.lock;
-    host.dataset.wave = frame.progress.toFixed(3);
-    host.dataset.gold = String(frame.lock);
-    if (frame.lock) {
-      for (let i = 0; i < hubOn.length; i++) hubOn[i] = 0;
-    }
+  const stagePlay = (play) => {
+    ripple.uExplodeTime.value = play.explodeTime;
+    ripple.uTravel.value = play.travel;
+    ripple.uRebuild.value = play.rebuild;
+    ripple.uAppearFront.value = play.front;
+    ripple.uAppearBand.value = play.band;
+    ripple.uGoldLock.value = play.lock;
+    ripple.uGoldPulse.value = play.rebuild;
+    host.dataset.wave = play.progress.toFixed(3);
+    host.dataset.gold = String(play.lock);
+    host.dataset.explode = play.exploding ? '1' : '0';
   };
 
   const clock = new THREE.Clock();
@@ -870,12 +872,14 @@ function build(data, positions) {
     const dt = Math.min(0.05, Math.max(0, (now - last) / 1000));
     last = now;
     if (document.hidden) return;
-    const t = reduceMotion ? 0 : (stillTime != null ? stillTime : clock.getElapsedTime());
+    const hold = window.__holdTime;
+    const heldClock = typeof hold === 'number' && Number.isFinite(hold);
+    const t = reduceMotion ? 0 : (heldClock ? hold : stillTime != null ? stillTime : clock.getElapsedTime());
     const breath = reduceMotion ? 1 : 1 + Math.sin(t * 0.37) * 0.016;
     cloud.scale.setScalar(breath);
     time.value = t;
     motion.value = reduceMotion || stillTime != null ? 0 : 1;
-    const spin = stillTime == null ? autoSpin(pad.run, reduceMotion) : 0;
+    const spin = stillTime == null && !heldClock ? autoSpin(pad.run, reduceMotion) : 0;
     if (spin > 0) {
       const turn = turnAxis(pad.run.direction);
       camera.updateMatrixWorld();
@@ -890,16 +894,36 @@ function build(data, positions) {
       /* a number on window.__waveElapsed holds the wave for a still. unset, the clock is real. */
       const held = window.__waveElapsed;
       const elapsed = typeof held === 'number' && Number.isFinite(held) ? held : performance.now() - pad.run.startAt;
-      const frameW = waveFrame(elapsed, maxR, waveMs);
-      applyGold(frameW);
-      const next = typeof held === 'number' ? pad.run : advanceWave(pad.run, pad.run.startAt + elapsed, waveMs);
+      stagePlay(playFrame(elapsed, maxR, reduceMotion));
+      const next = typeof held === 'number' ? pad.run : advanceWave(pad.run, pad.run.startAt + elapsed, playDuration(reduceMotion));
       if (next !== pad.run) {
         pad = { run: next, lockedUntil: pad.lockedUntil, bad: false };
         sync();
         markOpen();
       }
     } else if (pad.run.phase === 'open') {
-      applyGold(waveFrame(waveMs, maxR, waveMs));
+      const band = Math.max(8, maxR * 0.14);
+      stagePlay({
+        explodeTime: 0,
+        travel: 0,
+        rebuild: 1,
+        front: maxR + band,
+        band,
+        lock: 1,
+        progress: 1,
+        exploding: false
+      });
+    } else {
+      stagePlay({
+        explodeTime: 0,
+        travel: 0,
+        rebuild: 0,
+        front: 0,
+        band: ripple.uAppearBand.value,
+        lock: 0,
+        progress: 0,
+        exploding: false
+      });
     }
     renderer.render(scene, camera);
     if (!sampled && host.dataset.radius) {

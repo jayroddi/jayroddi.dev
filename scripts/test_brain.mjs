@@ -2,14 +2,15 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {
-  BURST_MS, BURST_REDUCED_MS, CODE, GOLD_SPIN_RAD_S, SPEED_RAD_S, WAVE_MS, advanceWave,
-  autoSpin, controlView, createPad, gesturesAllowed, goldAmount, graphZoomAllowed,
-  keyboardPress, padTone, padVisible, paintedColor, pressPad, releasePad, revealAllowed,
-  shouldCelebrate, speedOf, turnAxis, waveDuration
+  BURST_MS, BURST_REDUCED_MS, CODE, EXPLODE_MS, EXPLODE_REDUCED_MS, GOLD_SPIN_RAD_S, REBUILD_MS,
+  SPEED_RAD_S, WAVE_MS, advanceWave, autoSpin, controlView, createPad, frameMetrics,
+  gesturesAllowed, goldAmount, graphZoomAllowed, keyboardPress, linkAppear, nodeAppear,
+  padTone, padVisible, paintedColor, playDuration, playFrame, pointScaleFor, pressPad,
+  releasePad, revealAllowed, shouldCelebrate, speedOf, turnAxis, waveDuration
 } from '../site/brain/gate.js';
 import {
   CLASS_HEX, CLASS_RGB, GOLD_RGB, PERIPHERY, TEAL, assignClasses, colorForNode,
-  nodeClass, presentClasses, sanitizeColors
+  nodeClass, presentClasses, pulseHubs, sanitizeColors
 } from '../site/brain/palette.js';
 import { layout } from '../site/brain/layout.js';
 import {
@@ -436,7 +437,7 @@ const nowLines = [
   'launching mideeyah as invite-only soon',
   'pushing midehyah to later next year',
   'loving my yeti mt - likely the best all-trail bike in the world right now',
-  'thinking about someone'
+  'thinking about someone incredible special and wondering how to approach the situation'
 ];
 for (const line of nowLines) {
   assert.equal(brainHtml.includes(line), true, line);
@@ -542,9 +543,62 @@ assert.equal(controlView('wave').arrow, false);
 assert.equal(speedOf(finished.run, true), 0);
 assert.ok(GOLD_SPIN_RAD_S < SPEED_RAD_S[0]);
 assert.equal(autoSpin(createPad().run, false), 0);
-assert.equal(autoSpin(finished.run, false), SPEED_RAD_S[SPEED_RAD_S.length - 1]);
+let spinning = createPad();
+spinning = pressPad(spinning, 'up', 1, 'button', false).pad;
+assert.equal(spinning.run.phase, 'go');
+assert.equal(autoSpin(spinning.run, false), speedOf(spinning.run, false));
+assert.equal(autoSpin(finished.run, false), GOLD_SPIN_RAD_S);
+assert.equal(autoSpin(finished.run, true), 0);
 assert.equal(autoSpin(opened, false), GOLD_SPIN_RAD_S);
 assert.equal(autoSpin(opened, true), 0);
+assert.equal(REBUILD_MS, 10000);
+assert.equal(EXPLODE_MS, 900);
+assert.equal(playDuration(false), EXPLODE_MS + REBUILD_MS);
+assert.equal(playDuration(true), EXPLODE_REDUCED_MS + REBUILD_MS);
+assert.equal(advanceWave(finished.run, finished.run.startAt + WAVE_MS, playDuration(false)).phase, 'wave');
+assert.equal(advanceWave(finished.run, finished.run.startAt + playDuration(false), playDuration(false)).phase, 'open');
+const boom = playFrame(300, 100, false);
+assert.equal(boom.exploding, true);
+assert.equal(boom.rebuild, 0);
+assert.ok(boom.travel > 0 && boom.travel < 1);
+assert.equal(playFrame(300, 100, true).travel, 0);
+const rebuildMid = playFrame(EXPLODE_MS + 1500, 100, false);
+assert.equal(rebuildMid.exploding, false);
+assert.equal(rebuildMid.rebuild, 1);
+assert.equal(rebuildMid.travel, 0);
+assert.ok(nodeAppear(0, rebuildMid.rebuildElapsed, 100) > nodeAppear(100, rebuildMid.rebuildElapsed, 100));
+assert.ok(nodeAppear(100, rebuildMid.rebuildElapsed, 100) < 1);
+assert.equal(nodeAppear(0, REBUILD_MS, 100), 1);
+assert.equal(nodeAppear(100, REBUILD_MS, 100), 1);
+assert.equal(linkAppear(4, 90, rebuildMid.rebuildElapsed, 100), Math.min(nodeAppear(4, rebuildMid.rebuildElapsed, 100), nodeAppear(90, rebuildMid.rebuildElapsed, 100)));
+const pulsePos = new Float32Array(12 * 3);
+for (let i = 0; i < 4; i++) {
+  pulsePos[i * 3] = i * 30;
+  pulsePos[(4 + i) * 3] = i * 30;
+  pulsePos[(4 + i) * 3 + 1] = 80;
+  pulsePos[(8 + i) * 3] = i * 30;
+  pulsePos[(8 + i) * 3 + 2] = 80;
+}
+const pulseClasses = ['pink', 'pink', 'pink', 'pink', 'purple', 'purple', 'purple', 'purple', 'orange', 'orange', 'orange', 'teal'];
+const pulseDegree = [10, 40, 30, 20, 10, 50, 30, 20, 15, 60, 25, 90];
+const pulsePicked = pulseHubs(pulsePos, pulseDegree, pulseClasses);
+assert.equal(pulsePicked.length, 9);
+const hubCounts = { pink: 0, purple: 0, orange: 0, teal: 0 };
+for (const i of pulsePicked) hubCounts[pulseClasses[i]] += 1;
+assert.deepEqual(hubCounts, { pink: 3, purple: 3, orange: 3, teal: 0 });
+assert.equal(pointScaleFor(640, 700, 1.35, 2), 640 * 1.55);
+assert.equal(pointScaleFor(390, 700, 1.35, 2), 390 * 1.55);
+const narrowCover =  (640 * 1.55) / (frameMetrics(640, 700).distFactor * 1.35 * frameMetrics(640, 700).diameter);
+const wideScale = pointScaleFor(1280, 699, 1.6, 2);
+const wideFrame = frameMetrics(1280, 699);
+const wideCover = wideScale / (wideFrame.distFactor * 1.6 * wideFrame.diameter);
+assert.ok(Math.abs(wideCover - narrowCover) / narrowCover < 0.02);
+assert.ok(wideScale > 699 * 0.58 * 1.8);
+assert.match(brainJs, /pulseHubs/);
+assert.match(brainJs, /playFrame/);
+assert.match(brainJs, /pointScaleFor/);
+assert.match(brainJs, /uGoldPulse/);
+assert.doesNotMatch(brainJs, /hubOn\[i\] = 0/);
 assert.equal(gesturesAllowed(opened), true);
 const repeated = pressPad(finished, 'start', finished.run.startAt + 10, 'button', false);
 assert.equal(repeated.result, 'locked');

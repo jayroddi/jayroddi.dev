@@ -33,6 +33,34 @@ export const CLASS_RGB = Object.freeze({
 
 export const GOLD_RGB = [255 / 255, 215 / 255, 0];
 
+/* Local firings, three in each interior color, spread through that cluster.
+   Teal is never a source. Layout groups are not colors. */
+export function pulseHubs(positions, degree, classes) {
+  const accents = ['pink', 'purple', 'orange'];
+  const n = classes ? classes.length : 0;
+  const picked = [];
+  const minSep = 18;
+  const far = (i, j) => {
+    const dx = positions[i * 3] - positions[j * 3];
+    const dy = positions[i * 3 + 1] - positions[j * 3 + 1];
+    const dz = positions[i * 3 + 2] - positions[j * 3 + 2];
+    return dx * dx + dy * dy + dz * dz;
+  };
+  for (const accent of accents) {
+    const order = [];
+    for (let i = 0; i < n; i++) if (classes[i] === accent) order.push(i);
+    order.sort((a, b) => degree[b] - degree[a] || a - b);
+    let got = 0;
+    for (const i of order) {
+      if (got >= 3) break;
+      if (picked.some((j) => far(i, j) < minSep * minSep)) continue;
+      picked.push(i);
+      got += 1;
+    }
+  }
+  return picked;
+}
+
 const CLASS_NAMES = new Set(['purple', 'pink', 'orange', 'teal']);
 
 export function sanitizeColors(raw) {
