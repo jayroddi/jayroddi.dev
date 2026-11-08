@@ -66,6 +66,7 @@ body.is-brain .now-sheet * { user-select: text; }
   touch-action: pinch-zoom;
   cursor: default;
   background: #000;
+  transform: translateZ(0);
 }
 body.is-brain[data-gestures="1"] #graph canvas {
   pointer-events: auto;

@@ -494,6 +494,8 @@ assert.match(read('site/brain/brain.css'), /symbol-burst 780ms/);
 assert.match(read('site/brain/brain.css'), /symbol-burst-still 480ms/);
 assert.match(brainJs, /padVisible/);
 assert.match(brainJs, /retireControls/);
+assert.match(brainJs, /bootGraph/);
+assert.doesNotMatch(brainJs, /high-performance/);
 assert.equal(padVisible('idle', 0, false), true);
 assert.equal(controlView('idle').arrow, false);
 assert.equal(padVisible('go', 9999, false), true);
