@@ -67,7 +67,8 @@ body.log .log-filters button:focus-visible { outline: 2px solid var(--c); outlin
   body.log .log-filters button .n { font-size: 9px; }
 }
 
-html:has(body.log),
+/* Contain the body scroller only. The same declaration on html makes WebKit
+   drop mouse-wheel scrolling for the whole page. */
 body.log { overscroll-behavior-y: contain; }
 
 body.log .log-search {
