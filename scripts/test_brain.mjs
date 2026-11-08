@@ -2,10 +2,10 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {
-  BURST_MS, BURST_REDUCED_MS, CODE, SPEED_RAD_S, WAVE_MS, advanceWave, controlView,
-  createPad, gesturesAllowed, goldAmount, graphZoomAllowed, keyboardPress, padTone,
-  padVisible, paintedColor, pressPad, releasePad, revealAllowed, shouldCelebrate,
-  speedOf, turnAxis, waveDuration
+  BURST_MS, BURST_REDUCED_MS, CODE, GOLD_SPIN_RAD_S, SPEED_RAD_S, WAVE_MS, advanceWave,
+  autoSpin, controlView, createPad, gesturesAllowed, goldAmount, graphZoomAllowed,
+  keyboardPress, padTone, padVisible, paintedColor, pressPad, releasePad, revealAllowed,
+  shouldCelebrate, speedOf, turnAxis, waveDuration
 } from '../site/brain/gate.js';
 import {
   CLASS_HEX, CLASS_RGB, GOLD_RGB, PERIPHERY, TEAL, assignClasses, colorForNode,
@@ -427,17 +427,27 @@ assert.doesNotMatch(brainHtml, /location\.replace/);
 assert.match(nowHtml, /rel="canonical" href="https:\/\/jayroddi\.dev\/now\/"/);
 assert.doesNotMatch(nowHtml, /location\.replace/);
 const nowLines = [
-  "you found me! here's what i'm up to now:",
-  'loving life - myself, my kids, all the authentic connections',
-  'building apps, companies, the future',
-  'getting rid of dad bod #2'
+  "what's up, fellow nerd! here's my prio list right meow:",
+  'loving life - myself, my kids, all the organic, genuine connections',
+  'building apps, building companies, building the future',
+  'getting rid of dad bod #2',
+  'having full trust in God',
+  'finishing up spaceX juniper',
+  'launching mideeyah as invite-only soon',
+  'pushing midehyah to later next year',
+  'loving my yeti mt - likely the best all-trail bike in the world right now',
+  'thinking about someone'
 ];
 for (const line of nowLines) {
   assert.equal(brainHtml.includes(line), true, line);
   assert.equal(nowHtml.includes(line), true, line);
 }
-assert.equal((brainHtml.match(/<li>/g) || []).length, 3);
-assert.equal((nowHtml.match(/<li>/g) || []).length, 3);
+assert.equal((brainHtml.match(/<li>/g) || []).length, nowLines.length - 1);
+assert.equal((nowHtml.match(/<li>/g) || []).length, nowLines.length - 1);
+assert.doesNotMatch(brainHtml, /you found me|authentic connections|playlist/);
+assert.doesNotMatch(nowHtml, /you found me|authentic connections|playlist/);
+assert.match(nowHtml, /mideeyah as invite-only/);
+assert.match(nowHtml, /midehyah to later/);
 assert.doesNotMatch(brainHtml, /coming soon|now writeup is not in the repo/i);
 assert.doesNotMatch(nowHtml, /coming soon|now writeup is not in the repo/i);
 assert.match(nowHtml, /noindex/);
@@ -468,7 +478,7 @@ assert.equal(gesturesAllowed(gesturePad.run), true);
 const started = CODE.reduce((state, key, i) => pressPad(state, key, i, 'button', false).pad, createPad());
 assert.equal(started.run.phase, 'wave');
 assert.equal(gesturesAllowed(started.run), false);
-assert.equal(gesturesAllowed(advanceWave(started.run, started.run.startAt + 5000, 5000)), false);
+assert.equal(gesturesAllowed(advanceWave(started.run, started.run.startAt + 5000, 5000)), true);
 assert.equal(shouldCelebrate('start', false), true);
 assert.equal(shouldCelebrate('start', true), false);
 assert.equal(shouldCelebrate('advance', false), false);
@@ -494,6 +504,8 @@ assert.match(read('site/brain/brain.css'), /symbol-burst 780ms/);
 assert.match(read('site/brain/brain.css'), /symbol-burst-still 480ms/);
 assert.match(brainJs, /padVisible/);
 assert.match(brainJs, /retireControls/);
+assert.match(brainJs, /bootGraph/);
+assert.doesNotMatch(brainJs, /high-performance/);
 assert.equal(padVisible('idle', 0, false), true);
 assert.equal(controlView('idle').arrow, false);
 assert.equal(padVisible('go', 9999, false), true);
@@ -509,8 +521,8 @@ const finished = CODE.reduce((state, key, i) => pressPad(state, key, 100 + i, 'b
 assert.equal(finished.run.phase, 'wave');
 assert.equal(shouldCelebrate('start', false), true);
 assert.equal(shouldCelebrate('start', true), false);
-assert.equal(padVisible('wave', 0, false), true);
-assert.equal(padVisible('wave', BURST_MS - 1, false), true);
+assert.equal(padVisible('wave', 0, false), false);
+assert.equal(padVisible('wave', BURST_MS - 1, false), false);
 assert.equal(controlView('wave').arrow, false);
 assert.equal(padVisible('wave', BURST_MS, false), false);
 assert.equal(controlView('wave').arrow, false);
@@ -524,10 +536,16 @@ assert.equal(padVisible(opened.phase, WAVE_MS, false), false);
 assert.equal(controlView(opened.phase).arrow, true);
 assert.equal(controlView(opened.phase).nowReady, true);
 assert.equal(goldAmount(100, WAVE_MS, 100, WAVE_MS), 1);
-assert.equal(padVisible('wave', BURST_REDUCED_MS - 1, true), true);
+assert.equal(padVisible('wave', BURST_REDUCED_MS - 1, true), false);
 assert.equal(padVisible('wave', BURST_REDUCED_MS, true), false);
 assert.equal(controlView('wave').arrow, false);
 assert.equal(speedOf(finished.run, true), 0);
+assert.ok(GOLD_SPIN_RAD_S < SPEED_RAD_S[0]);
+assert.equal(autoSpin(createPad().run, false), 0);
+assert.equal(autoSpin(finished.run, false), SPEED_RAD_S[SPEED_RAD_S.length - 1]);
+assert.equal(autoSpin(opened, false), GOLD_SPIN_RAD_S);
+assert.equal(autoSpin(opened, true), 0);
+assert.equal(gesturesAllowed(opened), true);
 const repeated = pressPad(finished, 'start', finished.run.startAt + 10, 'button', false);
 assert.equal(repeated.result, 'locked');
 assert.equal(shouldCelebrate(repeated.result, true), false);

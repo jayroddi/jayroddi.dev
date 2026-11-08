@@ -2,9 +2,10 @@
    The camera does not orbit, zoom, or pan. Spin comes from the keys below. */
 
 import * as THREE from 'three';
+import { layout } from './layout.js';
 import { CLASS_RGB, GOLD_RGB, presentClasses } from './palette.js';
 import {
-  BURST_MS, BURST_REDUCED_MS, advanceWave, controlView, createPad, gesturesAllowed,
+  BURST_MS, BURST_REDUCED_MS, advanceWave, autoSpin, controlView, createPad, gesturesAllowed,
   keyboardPress, padTone, padVisible, pressPad, releasePad, revealAllowed, shouldCelebrate,
   speedOf, turnAxis, waveDuration, waveFrame
 } from './gate.js';
@@ -388,6 +389,7 @@ function sync() {
   host.dataset.phase = pad.run.phase;
   host.dataset.prefix = String(pad.run.prefix);
   host.dataset.speed = speedOf(pad.run, reduceMotion).toFixed(2);
+  host.dataset.spin = autoSpin(pad.run, reduceMotion).toFixed(3);
   host.dataset.direction = pad.run.direction || '';
   host.dataset.tone = tone;
   host.dataset.arrow = view.arrow ? '1' : '0';
@@ -454,17 +456,21 @@ function burstSymbols() {
       clone.style.width = rect.width + 'px';
       clone.style.height = rect.height + 'px';
     }
+    clone.tabIndex = -1;
     layer.append(clone);
   });
   if (controls) controls.append(layer);
-  const done = () => {
-    if (layer.isConnected) layer.remove();
-    retireControls();
-  };
+  /* Same turn as the clones: the stationary pad is gone before the next paint. */
+  controlsGone = true;
+  sync();
   const life = reduceMotion ? BURST_REDUCED_MS : BURST_MS;
-  if (reduceMotion) setTimeout(done, life);
-  else layer.addEventListener('animationend', done, { once: true });
-  setTimeout(done, life);
+  const startedAt = performance.now();
+  const done = (event) => {
+    if (event && performance.now() - startedAt < life * 0.85) return;
+    if (layer.isConnected) layer.remove();
+  };
+  layer.addEventListener('animationend', done);
+  setTimeout(() => done(null), life);
 }
 
 function retireControls() {
@@ -671,13 +677,13 @@ function build(data, positions) {
   linkGeo.setAttribute('aColor', new THREE.BufferAttribute(lColor, 3));
   linkGeo.setIndex(new THREE.BufferAttribute(lIndex, 1));
 
-  const renderer = new THREE.WebGLRenderer({
-    antialias: window.innerWidth >= 760,
-    alpha: false,
-    powerPreference: 'high-performance'
-  });
+  const renderer = createRenderer();
   renderer.setClearColor(0x000000, 1);
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  try {
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+  } catch (error) {
+    /* A phone can reject the drawing-buffer color space. Keep the default and still draw. */
+  }
   renderer.toneMapping = THREE.NoToneMapping;
   renderer.domElement.setAttribute('aria-hidden', 'true');
   host.appendChild(renderer.domElement);
@@ -730,7 +736,7 @@ function build(data, positions) {
   };
   const boxSize = () => {
     const rect = host.getBoundingClientRect();
-    return { width: Math.max(1, rect.width), height: Math.max(1, rect.height) };
+    return { width: rect.width, height: rect.height };
   };
   const pointUniforms = {
     uTex: { value: glowTexture() },
@@ -770,8 +776,17 @@ function build(data, positions) {
     host.dataset.radius = framed.toFixed(2);
     host.dataset.theta = orbitTheta.toFixed(3);
   };
+  let placeTries = 0;
   const place = () => {
     const box = boxSize();
+    if (box.width < 2 || box.height < 2) {
+      if (placeTries < 45) {
+        placeTries += 1;
+        requestAnimationFrame(place);
+      }
+      return;
+    }
+    placeTries = 0;
     const aspect = box.width / box.height;
     const vFov = THREE.MathUtils.degToRad(camera.fov);
     const hFov = 2 * Math.atan(Math.tan(vFov / 2) * aspect);
@@ -798,6 +813,7 @@ function build(data, positions) {
   place();
   if (window.ResizeObserver) new ResizeObserver(() => place()).observe(host);
   window.addEventListener('resize', place);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', place);
 
   /* Idle drag orbits at a fixed distance. Wheel, pinch, and pan do not move the graph. */
   const pointers = new Set();
@@ -848,6 +864,7 @@ function build(data, positions) {
 
   const clock = new THREE.Clock();
   let last = performance.now();
+  let spun = 0;
   const frame = (now) => {
     requestAnimationFrame(frame);
     const dt = Math.min(0.05, Math.max(0, (now - last) / 1000));
@@ -858,14 +875,17 @@ function build(data, positions) {
     cloud.scale.setScalar(breath);
     time.value = t;
     motion.value = reduceMotion || stillTime != null ? 0 : 1;
-    if (!reduceMotion && stillTime == null && !gesturesAllowed(pad.run)) {
-      const speed = speedOf(pad.run, false);
+    const spin = stillTime == null ? autoSpin(pad.run, reduceMotion) : 0;
+    if (spin > 0) {
       const turn = turnAxis(pad.run.direction);
       camera.updateMatrixWorld();
       camera.matrixWorld.extractBasis(camRight, camUp, camForward);
       const axis = turn.axis === 'right' ? camRight : camUp;
-      if (speed > 0) cloud.rotateOnWorldAxis(axis, turn.sign * speed * dt);
+      const step = turn.sign * spin * dt;
+      cloud.rotateOnWorldAxis(axis, step);
+      spun += step;
     }
+    host.dataset.yaw = spun.toFixed(4);
     if (pad.run.phase === 'wave' && pad.run.startAt != null) {
       /* a number on window.__waveElapsed holds the wave for a still. unset, the clock is real. */
       const held = window.__waveElapsed;
@@ -882,10 +902,34 @@ function build(data, positions) {
       applyGold(waveFrame(waveMs, maxR, waveMs));
     }
     renderer.render(scene, camera);
+    if (!sampled && host.dataset.radius) {
+      try { sampleFrame(); } catch (error) { sampled = true; host.dataset.lit = '0'; }
+    }
+  };
+  let sampled = false;
+  const sampleFrame = () => {
+    sampled = true;
+    const gl = renderer.getContext();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    const w = gl.drawingBufferWidth;
+    const h = gl.drawingBufferHeight;
+    const pixels = new Uint8Array(4 * 8 * 8);
+    let lit = 0;
+    for (let y = 1; y < 6; y++) {
+      for (let x = 1; x < 6; x++) {
+        gl.readPixels(Math.floor(w * x / 6), Math.floor(h * y / 6), 8, 8, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+        for (let i = 0; i < pixels.length; i += 4) {
+          if (pixels[i] + pixels[i + 1] + pixels[i + 2] > 24) lit += 1;
+        }
+      }
+    }
+    host.dataset.lit = String(lit);
+    host.dataset.buffer = w + 'x' + h;
   };
   frame(performance.now());
 
   host.dataset.ready = '1';
+  host.dataset.startup = 'rendered';
   host.dataset.nodes = String(n);
   host.dataset.painted = String(paint.rendered);
   host.dataset.colors = `purple:${paint.counts.purple},pink:${paint.counts.pink},orange:${paint.counts.orange},teal:${paint.counts.teal}`;
@@ -896,6 +940,73 @@ function build(data, positions) {
   sync();
 }
 
+function createRenderer() {
+  const attempts = [
+    { antialias: window.innerWidth >= 760, alpha: false, powerPreference: 'default' },
+    { antialias: false, alpha: false, powerPreference: 'default' }
+  ];
+  let last;
+  for (const attrs of attempts) {
+    try {
+      return new THREE.WebGLRenderer(attrs);
+    } catch (error) {
+      last = error;
+    }
+  }
+  throw last;
+}
+
+function startupFailed(error) {
+  console.error(error && error.message ? error.message : 'graph failed');
+  if (host) host.dataset.startup = 'error';
+}
+
+function drawGraph(data, positions) {
+  try {
+    build(data, positions);
+  } catch (error) {
+    startupFailed(error);
+  }
+}
+
+/* The worker keeps the first paint off the buttons. If it never answers, lay out here.
+   A failed worker used to leave the black frame up with only the pad. */
+function bootGraph(data) {
+  const main = () => drawGraph(data, layout(data.nodes, data.links));
+  if (new URLSearchParams(location.search).get('layout') === 'main' || typeof Worker !== 'function') {
+    main();
+    return;
+  }
+  let settled = false;
+  const finish = (positions) => {
+    if (settled) return;
+    settled = true;
+    if (positions) drawGraph(data, positions);
+    else main();
+  };
+  try {
+    const worker = new Worker(new URL('./layout-worker.js', import.meta.url), { type: 'module' });
+    const timer = setTimeout(() => {
+      worker.terminate();
+      finish(null);
+    }, 8000);
+    worker.onmessage = (event) => {
+      clearTimeout(timer);
+      worker.terminate();
+      finish(event.data);
+    };
+    worker.onerror = (event) => {
+      if (event && event.preventDefault) event.preventDefault();
+      clearTimeout(timer);
+      worker.terminate();
+      finish(null);
+    };
+    worker.postMessage({ nodes: data.nodes, links: data.links });
+  } catch (error) {
+    finish(null);
+  }
+}
+
 fetch('graph.json', { cache: 'no-cache' })
   .then((res) => {
     if (!res.ok) refuse();
@@ -903,17 +1014,6 @@ fetch('graph.json', { cache: 'no-cache' })
   })
   .then((data) => {
     assertGraph(data);
-    const worker = new Worker(new URL('./layout-worker.js', import.meta.url), { type: 'module' });
-    worker.onmessage = (event) => {
-      worker.terminate();
-      build(data, event.data);
-    };
-    worker.onerror = () => {
-      worker.terminate();
-      console.error('graph layout failed');
-    };
-    worker.postMessage({ nodes: data.nodes, links: data.links });
+    bootGraph(data);
   })
-  .catch((error) => {
-    console.error(error && error.message ? error.message : 'graph failed');
-  });
+  .catch((error) => startupFailed(error));

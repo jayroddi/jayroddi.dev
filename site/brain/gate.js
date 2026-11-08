@@ -179,6 +179,8 @@ export function advanceWave(run, nowMs, durationMs) {
 /* The symbol burst is one shot. These match the CSS durations. */
 export const BURST_MS = 780;
 export const BURST_REDUCED_MS = 480;
+/* After the gold wave, the cloud keeps turning, much slower than the sequence. */
+export const GOLD_SPIN_RAD_S = 0.04;
 
 export function controlView(phase) {
   return {
@@ -188,22 +190,28 @@ export function controlView(phase) {
   };
 }
 
-/* The pad stays through the burst, then the slot is empty until the wave locks. */
+/* Originals leave at the burst. Clones are not the pad. elapsed is unused on purpose. */
 export function padVisible(phase, elapsedMs, reduced) {
-  if (phase === 'idle' || phase === 'go') return true;
-  if (phase !== 'wave') return false;
-  const limit = reduced ? BURST_REDUCED_MS : BURST_MS;
-  const elapsed = Number.isFinite(elapsedMs) ? elapsedMs : 0;
-  return elapsed < limit;
+  void elapsedMs;
+  void reduced;
+  return phase === 'idle' || phase === 'go';
 }
 
 export function revealAllowed(phase, intent) {
   return phase === 'open' && (intent === 'scroll' || intent === 'arrow');
 }
 
-/* Drag orbit only while the sequence is idle. Zoom is never a graph gesture. */
+/* Drag before the code, and again once every node is gold. Not during the wave. */
 export function gesturesAllowed(run) {
-  return !!run && run.phase === 'idle';
+  return !!run && (run.phase === 'idle' || run.phase === 'open');
+}
+
+/* Idle holds still so a drag sticks. The sequence uses its table. Gold is a slow yaw. */
+export function autoSpin(run, reduced) {
+  if (reduced || !run) return 0;
+  if (run.phase === 'go' || run.phase === 'wave') return speedOf(run, false);
+  if (run.phase === 'open') return GOLD_SPIN_RAD_S;
+  return 0;
 }
 
 export function graphZoomAllowed() {
