@@ -18,8 +18,8 @@
    9       b                   1.52
    10      a (peak)            1.75
 
-   The wave duration is WAVE_MS (5000). waveDuration accepts only 3 or 5
-   seconds from ?wave= so the same wave can be retimed without another build. */
+   The wave duration helper is WAVE_MS (5000). The live rebuild is REBUILD_MS
+   (10000) after a short explosion. ?wave= still only retimes the helper. */
 
 export const CODE = Object.freeze(['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'b', 'a', 'start']);
 
@@ -28,6 +28,9 @@ export const SPEED_RAD_S = Object.freeze([
 ]);
 
 export const WAVE_MS = 5000;
+export const EXPLODE_MS = 900;
+export const EXPLODE_REDUCED_MS = 480;
+export const REBUILD_MS = 10000;
 
 const KEYS = { ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right', Enter: 'enter' };
 
@@ -206,16 +209,95 @@ export function gesturesAllowed(run) {
   return !!run && (run.phase === 'idle' || run.phase === 'open');
 }
 
-/* Idle holds still so a drag sticks. The sequence uses its table. Gold is a slow yaw. */
+/* Idle holds still so a drag sticks. The code spins up. The blow-up and the
+   gold brain both turn at the calm gold speed. Reduced motion never spins. */
 export function autoSpin(run, reduced) {
   if (reduced || !run) return 0;
-  if (run.phase === 'go' || run.phase === 'wave') return speedOf(run, false);
-  if (run.phase === 'open') return GOLD_SPIN_RAD_S;
+  if (run.phase === 'go') return speedOf(run, false);
+  if (run.phase === 'wave' || run.phase === 'open') return GOLD_SPIN_RAD_S;
   return 0;
+}
+
+export function playDuration(reduced) {
+  return (reduced ? EXPLODE_REDUCED_MS : EXPLODE_MS) + REBUILD_MS;
+}
+
+/* Rebuild clock only. 0 at the core's first moment, 1 when the shell is in. */
+export function nodeAppear(radius, rebuildElapsed, maxRadius, durationMs = REBUILD_MS) {
+  const maxR = maxRadius > 0 ? maxRadius : 1;
+  const band = Math.max(8, maxR * 0.14);
+  if (rebuildElapsed >= durationMs) return 1;
+  const progress = Math.max(0, rebuildElapsed) / durationMs;
+  const front = progress * (maxR + band);
+  const t = Math.max(0, Math.min(1, (front - radius) / band));
+  return t * t * (3 - 2 * t);
+}
+
+export function linkAppear(radiusA, radiusB, rebuildElapsed, maxRadius, durationMs = REBUILD_MS) {
+  return Math.min(
+    nodeAppear(radiusA, rebuildElapsed, maxRadius, durationMs),
+    nodeAppear(radiusB, rebuildElapsed, maxRadius, durationMs)
+  );
+}
+
+/* elapsed is from the successful Start. Explosion first, then the 10s rebuild. */
+export function playFrame(elapsedMs, maxRadius, reduced) {
+  const boom = reduced ? EXPLODE_REDUCED_MS : EXPLODE_MS;
+  const elapsed = Math.max(0, Number(elapsedMs) || 0);
+  const exploding = elapsed < boom;
+  const explodeTime = exploding ? elapsed / Math.max(boom, 1) : 1;
+  const rebuildElapsed = exploding ? 0 : elapsed - boom;
+  const maxR = maxRadius > 0 ? maxRadius : 1;
+  const band = Math.max(8, maxR * 0.14);
+  const done = !exploding && rebuildElapsed >= REBUILD_MS;
+  const progress = exploding ? 0 : (done ? 1 : rebuildElapsed / REBUILD_MS);
+  const front = done ? maxR + band : progress * (maxR + band);
+  return {
+    explodeTime,
+    exploding,
+    rebuild: exploding ? 0 : 1,
+    /* Outward only while it is blowing apart. The rebuild grows at the real positions. */
+    travel: reduced || !exploding ? 0 : explodeTime,
+    front,
+    band,
+    lock: done ? 1 : 0,
+    progress,
+    rebuildElapsed
+  };
 }
 
 export function graphZoomAllowed() {
   return false;
+}
+
+/* Camera framing for a 38° vertical fov. Diameter is the sphere's CSS size
+   when the camera sits at (maxR * 1.16) / sin(half). */
+export function frameMetrics(width, height) {
+  const aspect = width / Math.max(height, 1);
+  const vHalf = (38 * Math.PI / 180) / 2;
+  const hHalf = Math.atan(Math.tan(vHalf) * aspect);
+  const half = Math.min(vHalf, hHalf);
+  const limiting = hHalf < vHalf ? width : height;
+  const diameter = limiting * (Math.sin(half) / Math.tan(half)) / 1.16;
+  return { diameter, distFactor: 1 / Math.sin(half) };
+}
+
+/* Narrow frames keep the bright scale. Wide frames use that same point size
+   relative to the framed sphere, including the pixel-ratio cap, so a retina
+   desktop is not a dimmer copy of the phone. */
+export function pointScaleFor(width, height, pixelRatio, devicePixelRatio = pixelRatio) {
+  const short = Math.min(width, height);
+  if (!(width >= 760)) return short * 1.55;
+  const device = devicePixelRatio > 0 ? devicePixelRatio : 1;
+  const dpr = pixelRatio > 0 ? pixelRatio : 1;
+  const narrowDpr = Math.min(device, 1.35);
+  const ref = frameMetrics(640, 700);
+  const here = frameMetrics(width, height);
+  const refScale = 640 * 1.55;
+  return refScale
+    * (here.distFactor / ref.distFactor)
+    * (dpr / narrowDpr)
+    * (here.diameter / ref.diameter);
 }
 
 /* The symbol burst plays once, only when Start completes the sequence. */
