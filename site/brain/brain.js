@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import { layout } from './layout.js';
 import { CLASS_RGB, GOLD_RGB, presentClasses } from './palette.js';
 import {
-  BURST_MS, BURST_REDUCED_MS, advanceWave, controlView, createPad, gesturesAllowed,
+  BURST_MS, BURST_REDUCED_MS, advanceWave, autoSpin, controlView, createPad, gesturesAllowed,
   keyboardPress, padTone, padVisible, pressPad, releasePad, revealAllowed, shouldCelebrate,
   speedOf, turnAxis, waveDuration, waveFrame
 } from './gate.js';
@@ -389,6 +389,7 @@ function sync() {
   host.dataset.phase = pad.run.phase;
   host.dataset.prefix = String(pad.run.prefix);
   host.dataset.speed = speedOf(pad.run, reduceMotion).toFixed(2);
+  host.dataset.spin = autoSpin(pad.run, reduceMotion).toFixed(3);
   host.dataset.direction = pad.run.direction || '';
   host.dataset.tone = tone;
   host.dataset.arrow = view.arrow ? '1' : '0';
@@ -455,17 +456,21 @@ function burstSymbols() {
       clone.style.width = rect.width + 'px';
       clone.style.height = rect.height + 'px';
     }
+    clone.tabIndex = -1;
     layer.append(clone);
   });
   if (controls) controls.append(layer);
-  const done = () => {
-    if (layer.isConnected) layer.remove();
-    retireControls();
-  };
+  /* Same turn as the clones: the stationary pad is gone before the next paint. */
+  controlsGone = true;
+  sync();
   const life = reduceMotion ? BURST_REDUCED_MS : BURST_MS;
-  if (reduceMotion) setTimeout(done, life);
-  else layer.addEventListener('animationend', done, { once: true });
-  setTimeout(done, life);
+  const startedAt = performance.now();
+  const done = (event) => {
+    if (event && performance.now() - startedAt < life * 0.85) return;
+    if (layer.isConnected) layer.remove();
+  };
+  layer.addEventListener('animationend', done);
+  setTimeout(() => done(null), life);
 }
 
 function retireControls() {
@@ -859,6 +864,7 @@ function build(data, positions) {
 
   const clock = new THREE.Clock();
   let last = performance.now();
+  let spun = 0;
   const frame = (now) => {
     requestAnimationFrame(frame);
     const dt = Math.min(0.05, Math.max(0, (now - last) / 1000));
@@ -869,14 +875,17 @@ function build(data, positions) {
     cloud.scale.setScalar(breath);
     time.value = t;
     motion.value = reduceMotion || stillTime != null ? 0 : 1;
-    if (!reduceMotion && stillTime == null && !gesturesAllowed(pad.run)) {
-      const speed = speedOf(pad.run, false);
+    const spin = stillTime == null ? autoSpin(pad.run, reduceMotion) : 0;
+    if (spin > 0) {
       const turn = turnAxis(pad.run.direction);
       camera.updateMatrixWorld();
       camera.matrixWorld.extractBasis(camRight, camUp, camForward);
       const axis = turn.axis === 'right' ? camRight : camUp;
-      if (speed > 0) cloud.rotateOnWorldAxis(axis, turn.sign * speed * dt);
+      const step = turn.sign * spin * dt;
+      cloud.rotateOnWorldAxis(axis, step);
+      spun += step;
     }
+    host.dataset.yaw = spun.toFixed(4);
     if (pad.run.phase === 'wave' && pad.run.startAt != null) {
       /* a number on window.__waveElapsed holds the wave for a still. unset, the clock is real. */
       const held = window.__waveElapsed;

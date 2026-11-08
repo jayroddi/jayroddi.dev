@@ -101,10 +101,25 @@ body.is-brain[data-gestures="1"] #graph canvas:active {
 }
 .pad-burst .burst-bit {
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
   color: #FFD700;
+  font: 500 16px/1 var(--mono, ui-monospace, monospace);
   animation: symbol-burst 780ms ease-out forwards;
   filter: drop-shadow(0 0 8px rgba(255, 215, 0, .8));
 }
+.pad-burst .burst-bit svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+.pad-burst .burst-bit[data-k="start"] { font-size: 15px; font-weight: 400; }
 @keyframes symbol-burst {
   0% { opacity: 1; transform: translate(0, 0) scale(1); }
   100% { opacity: 0; transform: translate(var(--bx), var(--by)) scale(1.4); }
