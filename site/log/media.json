@@ -3,12 +3,12 @@
     {
       "c": "all",
       "e": "all",
-      "n": 478
+      "n": 479
     },
     {
       "c": "movies",
       "e": "🍿",
-      "n": 177
+      "n": 178
     },
     {
       "c": "shows",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 21
+      "n": 22
     },
     {
       "m": "2025",
@@ -92,7 +92,8 @@
       "r": null,
       "img": "albums-american-motor-sports-420cc-edition-2026-11-08-1d5b69.jpg",
       "src": "music 🎧",
-      "blurb": null
+      "blurb": null,
+      "glow": "gold"
     },
     {
       "i": "movies-the-only-living-pickpocket-in-new-york-2026-11-06-dec1d6",
@@ -247,7 +248,8 @@
       "r": null,
       "img": "movies-you-can-see-everything-2026-10-16-dd4467.jpg",
       "src": "movies 🍿",
-      "blurb": null
+      "blurb": null,
+      "glow": "gold"
     },
     {
       "i": "movies-forgotten-island-2026-10-04-bbbb8e",
@@ -281,6 +283,18 @@
       "img": "books-skinny-dipping-at-low-tide-a-saga-of-squeezed-shorts-shattered-dreams-and--74c534.jpg",
       "src": "books-page",
       "blurb": null
+    },
+    {
+      "i": "movies-the-odyssey-2026-07-26-1df820",
+      "d": "2026-07-26",
+      "c": "movies",
+      "t": "The Odyssey",
+      "a": null,
+      "r": null,
+      "img": "movies-the-odyssey-2026-07-26-1df820.jpg",
+      "src": "movies 🍿",
+      "blurb": null,
+      "glow": "gold"
     },
     {
       "i": "books-clarity-connection-2026-01-29-bc4ca1",
