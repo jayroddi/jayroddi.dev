@@ -56,7 +56,8 @@ assert.equal(holiday[0].t, 'Right Thing, Right Now: Justice in an Unjust World')
 assert.equal(holiday[0].a, 'Ryan Holiday');
 const booksChip = once.filters.find((filter) => filter.c === 'books');
 assert.equal(booksChip.n, 111);
-assert.equal(once.filters.find((filter) => filter.c === 'all').n, 473);
+assert.equal(once.filters.find((filter) => filter.c === 'all').n, 478);
+assert.equal(once.filters.find((filter) => filter.c === 'albums').n, 155);
 const boy = once.items.filter((item) => item.t === 'The Boy Who Was Raised as a Dog');
 assert.equal(boy.length, 1);
 assert.equal(boy[0].a, 'Bruce D. Perry & Maia Szalavitz');
@@ -64,8 +65,17 @@ assert.equal(boy[0].d, '2026-11-06');
 assert.equal(boy[0].c, 'books');
 assert.equal(boy[0].r, null);
 assert.equal(boy[0].blurb, null);
-assert.equal(once.items[0].i, 'books-the-boy-who-was-raised-as-a-dog-2026-11-06-f2e6d7');
-assert.equal(once.items[1].t, 'Godzilla Minus Zero');
+const motor = once.items.filter((item) => item.t === 'AMERICAN MOTOR SPORTS (420CC EDITION)');
+assert.equal(motor.length, 1);
+assert.equal(motor[0].a, 'Bilmuri');
+assert.equal(motor[0].d, '2026-11-08');
+assert.equal(motor[0].c, 'albums');
+assert.equal(motor[0].r, null);
+assert.equal(motor[0].blurb, null);
+assert.equal(motor[0].glow, undefined);
+assert.equal(motor[0].img, 'albums-american-motor-sports-420cc-edition-2026-11-08-1d5b69.jpg');
+assert.equal(once.items[0].i, 'albums-american-motor-sports-420cc-edition-2026-11-08-1d5b69');
+assert.equal(once.items[1].t, 'The Only Living Pickpocket in New York');
 
 const withTwin = dedupeLog({
   filters: media.filters,
@@ -106,7 +116,7 @@ assert.equal(matchesQuery({ t: "You Can't Please Everyone", a: 'Vex King' }, 'ca
 assert.equal(matchesQuery({ t: 'Godzilla Minus Zero', a: null, blurb: "it's incredible" }, 'incredible'), false);
 assert.equal(matchesQuery({ t: 'Godzilla Minus Zero', a: null }, ''), true);
 assert.equal(matchesQuery({ t: 'Godzilla Minus Zero', a: null }, '   '), true);
-assert.equal(once.items.length, 473);
-assert.equal(once.items[0].t, 'The Boy Who Was Raised as a Dog');
+assert.equal(once.items.length, 478);
+assert.equal(once.items[0].t, 'AMERICAN MOTOR SPORTS (420CC EDITION)');
 
 console.log('log dedupe ok');
