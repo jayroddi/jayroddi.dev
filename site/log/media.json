@@ -3,7 +3,7 @@
     {
       "c": "all",
       "e": "all",
-      "n": 477
+      "n": 478
     },
     {
       "c": "movies",
@@ -23,7 +23,7 @@
     {
       "c": "albums",
       "e": "💿",
-      "n": 154
+      "n": 155
     },
     {
       "c": "games",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 20
+      "n": 21
     },
     {
       "m": "2025",
@@ -83,6 +83,17 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "albums-american-motor-sports-420cc-edition-2026-11-08-1d5b69",
+      "d": "2026-11-08",
+      "c": "albums",
+      "t": "AMERICAN MOTOR SPORTS (420CC EDITION)",
+      "a": "Bilmuri",
+      "r": null,
+      "img": "albums-american-motor-sports-420cc-edition-2026-11-08-1d5b69.jpg",
+      "src": "music 🎧",
+      "blurb": null
+    },
     {
       "i": "movies-the-only-living-pickpocket-in-new-york-2026-11-06-dec1d6",
       "d": "2026-11-06",
