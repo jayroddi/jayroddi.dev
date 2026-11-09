@@ -171,13 +171,6 @@ body.is-brain .pad-cue {
   max-width: calc(100vw - 24px);
   white-space: nowrap;
   text-align: center;
-  font-family: var(--mono, ui-monospace, monospace);
-  font-size: 13px;
-  font-weight: 500;
-  font-style: normal;
-  line-height: 1;
-  letter-spacing: -.03em;
-  color: inherit;
   pointer-events: none;
 }
 
