@@ -1,5 +1,5 @@
 /* Dated blocks, newest first. A line with a url is a link. A line without one stays text. */
-const root = document.getElementById('support');
+const root = document.getElementById('love');
 
 function line(entry) {
   if (!entry || typeof entry.text !== 'string') return null;
@@ -41,7 +41,7 @@ function block(entry) {
   return section.childNodes.length > 1 ? section : null;
 }
 
-fetch('/support/items.json', { cache: 'no-cache' })
+fetch('/love/items.json', { cache: 'no-cache' })
   .then((res) => res.ok ? res.json() : [])
   .then((rows) => {
     if (!root || !Array.isArray(rows)) return;
