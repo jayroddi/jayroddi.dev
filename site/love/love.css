@@ -1,6 +1,6 @@
 .support {
   width: 100%;
-  text-align: left;
+  text-align: center;
 }
 .support-block + .support-block { margin-top: 1.65em; }
 .support-date,
@@ -13,7 +13,10 @@
   line-height: 1.65;
   color: var(--ink, #f6efe9);
 }
-.support-date { margin-bottom: 1.65em; }
+.support-date {
+  margin-bottom: 1.65em;
+  color: var(--c, #1AADB3);
+}
 .support-group {
   list-style: none;
   margin: 0;
