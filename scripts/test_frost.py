@@ -315,7 +315,8 @@ def test_committed_clear_list_matches_album() -> None:
         "f535b7a5b2494dd0a69f5a2f207b12c6",
     ]
     ids = snaps_clear.load_clear_ids(ROOT)
-    assert ids == set(older) | {sign, woodford, parking, yeti}
+    assert ids == set(older) | {sign, woodford, yeti}
+    assert parking not in ids
     assert hotdog not in ids
     found = {}
     november = json.loads((ROOT / "site" / "snaps" / "m" / "2026-11.json").read_text(encoding="utf-8"))
@@ -326,7 +327,7 @@ def test_committed_clear_list_matches_album() -> None:
     def pins_ok(rows: dict) -> None:
         assert set(older) <= set(rows)
         assert hotdog in rows
-        assert set(rows) <= set(older) | {hotdog, sign, woodford, parking, yeti}
+        assert set(rows) <= set(older) | {hotdog, sign, woodford, yeti}
         if sign in rows:
             real = rows[sign]
             assert frost.dated_for_frost(real)
@@ -364,19 +365,19 @@ def test_committed_clear_list_matches_album() -> None:
     assert bottle["w"] == 3073 and bottle["h"] == 4609
     assert frost.dated_for_frost(bottle)
     assert not snaps_clear.should_frost(bottle, ids)
-    lot = found[parking]
+    lot = next(row for row in november if row["i"] == parking)
     assert lot["d"] == "2026-11-09"
     assert lot["a"] == "2026-11-09T09:21:06-06:00"
     assert lot["w"] == 8064 and lot["h"] == 5376
     assert frost.dated_for_frost(lot)
-    assert not snaps_clear.should_frost(lot, ids)
+    assert snaps_clear.should_frost(lot, ids)
     bike = found[yeti]
     assert bike["d"] == "2026-11-09"
     assert bike["a"] == "2026-11-09T11:42:51-06:00"
     assert bike["w"] == 5376 and bike["h"] == 8064
     assert frost.dated_for_frost(bike)
     assert not snaps_clear.should_frost(bike, ids)
-    assert saved["ids"] == [yeti, parking, woodford, sign, *older]
+    assert saved["ids"] == [yeti, woodford, sign, *older]
     assert saved["note"] == snaps_clear.NOTE
 
 
