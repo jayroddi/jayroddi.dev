@@ -430,14 +430,15 @@ assert.doesNotMatch(nowHtml, /location\.replace/);
 const nowLines = [
   "what's up, fellow nerd! here's my prio list right meow:",
   'loving life - myself, my kids, all the organic, genuine connections',
+  'having full trust in god / the universe (new for me)',
   'building apps, building companies, building the future',
   'getting rid of dad bod #2',
-  'having full trust in God',
-  'finishing up spaceX juniper',
+  'finishing up spaceX juniper so i can move onto the next project',
   'launching mideeyah as invite-only soon',
   'pushing midehyah to later next year',
-  'loving my yeti mt - likely the best all-trail bike in the world right now',
-  'thinking about someone incredible special and wondering how to approach the situation'
+  'absolutely loving the yeti mt - likely the best all-trail mountain bike in the world right now',
+  'probably gonna look for a "real job" again soon because i kinda need to',
+  'likely spending a lot of time thinking about someone incredibly special and wondering how to approach the situation'
 ];
 for (const line of nowLines) {
   assert.equal(brainHtml.includes(line), true, line);
@@ -551,7 +552,12 @@ assert.equal(autoSpin(finished.run, false), GOLD_SPIN_RAD_S);
 assert.equal(autoSpin(finished.run, true), 0);
 assert.equal(autoSpin(opened, false), GOLD_SPIN_RAD_S);
 assert.equal(autoSpin(opened, true), 0);
-assert.equal(REBUILD_MS, 10000);
+assert.equal(REBUILD_MS, 5000);
+assert.equal(brainHtml.includes('f*ck around and find out:'), true);
+assert.match(brainHtml, /class="pad in"[\s\S]*class="pad-cue">f\*ck around and find out:<\/p>[\s\S]*data-k="up"/);
+assert.doesNotMatch(nowHtml, /f\*ck around and find out/);
+assert.equal(nodeAppear(0, REBUILD_MS / 2, 100), 1);
+assert.ok(nodeAppear(100, REBUILD_MS / 2, 100) < 1);
 assert.equal(EXPLODE_MS, 900);
 assert.equal(playDuration(false), EXPLODE_MS + REBUILD_MS);
 assert.equal(playDuration(true), EXPLODE_REDUCED_MS + REBUILD_MS);
