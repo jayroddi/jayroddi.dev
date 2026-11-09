@@ -124,6 +124,7 @@ body.is-grind .copy {
 }
 .tabs {
   display: flex;
+  flex-wrap: nowrap;
   gap: 2px;
   align-items: center;
   max-width: 100%;
@@ -178,6 +179,7 @@ body.is-brain .pad-cue {
 .tabs a:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }
 @media (max-width: 720px) {
   .tabs a { padding: 7px 6px; }
+  .tabs a.mark { padding: 7px 6px; }
   .tabs a,
   body.is-brain .pad-cue { font-size: 11px; }
 }

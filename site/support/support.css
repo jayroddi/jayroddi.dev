@@ -1,0 +1,20 @@
+.support {
+  list-style: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+.support li + li { margin-top: 35.5px; }
+.support a {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--c, #1AADB3);
+  text-decoration: none;
+}
+@media (max-width: 760px) {
+  .support li + li { margin-top: 27.5px; }
+}

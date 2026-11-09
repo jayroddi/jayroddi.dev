@@ -1,13 +1,15 @@
 /* live shell. pill nav, square field, quote list on the homepage. no audio.
-   the pill is 👋, snaps, log, grind, 🧠. today's quote is the splash. older
+   the pill is 👋 📷 🎭 💛 🍿 🗓️ 🧠. today's quote is the splash. older
    quotes live under it and fade in on scroll. */
 (() => {
   const pages = [
-    ['/', '👋'],
-    ['/snaps/', 'snaps'],
-    ['/log/', 'log'],
-    ['/grind/', 'grind'],
-    ['/brain/', '🧠']
+    ['/', '👋', 'home'],
+    ['/snaps/', '📷', 'snaps'],
+    ['/tears/', '🎭', 'tears'],
+    ['/support/', '💛', 'support'],
+    ['/log/', '🍿', 'log'],
+    ['/grind/', '🗓️', 'grind'],
+    ['/brain/', '🧠', 'brain']
   ];
   const here = (() => {
     let path = location.pathname.replace(/\/index\.html$/, '');
@@ -21,13 +23,12 @@
   const bar = document.createElement('nav');
   bar.className = 'tabs';
   bar.setAttribute('aria-label', 'pages');
-  pages.forEach(([href, label]) => {
+  pages.forEach(([href, label, name]) => {
     const link = document.createElement('a');
     link.href = href;
     link.textContent = label;
-    if (href === '/') link.setAttribute('aria-label', 'home');
-    if (href === '/brain/') link.setAttribute('aria-label', 'brain');
-    if (href === '/' || href === '/brain/') link.classList.add('mark');
+    link.setAttribute('aria-label', name);
+    link.classList.add('mark');
     if (href === here) link.setAttribute('aria-current', 'page');
     bar.append(link);
   });
