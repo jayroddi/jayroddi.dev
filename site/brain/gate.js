@@ -19,7 +19,8 @@
    10      a (peak)            1.75
 
    The wave duration helper is WAVE_MS (5000). The live rebuild is REBUILD_MS
-   (10000) after a short explosion. ?wave= still only retimes the helper. */
+   (5000) after a short explosion. The core-out order is that same clock.
+   ?wave= still only retimes the helper. */
 
 export const CODE = Object.freeze(['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'b', 'a', 'start']);
 
@@ -30,7 +31,7 @@ export const SPEED_RAD_S = Object.freeze([
 export const WAVE_MS = 5000;
 export const EXPLODE_MS = 900;
 export const EXPLODE_REDUCED_MS = 480;
-export const REBUILD_MS = 10000;
+export const REBUILD_MS = 5000;
 
 const KEYS = { ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right', Enter: 'enter' };
 

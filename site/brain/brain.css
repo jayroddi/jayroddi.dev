@@ -153,12 +153,32 @@ body.is-brain[data-gestures="1"] #graph canvas:active {
 body.is-brain .pad {
   --k: 1;
   --pgap: 0;
+  position: relative;
   width: auto;
   max-width: calc(100% - 16px);
   justify-content: center;
   gap: 4px;
   margin: 0 auto;
   color: #1AADB3;
+}
+
+body.is-brain .pad-cue {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%);
+  margin: 0;
+  max-width: calc(100vw - 24px);
+  white-space: nowrap;
+  text-align: center;
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: 13px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: -.03em;
+  color: inherit;
+  pointer-events: none;
 }
 
 body.is-brain .pad button {
