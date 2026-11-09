@@ -1,0 +1,88 @@
+body.board.interwebs .stage {
+  padding-top: var(--iw-nav, 124px);
+}
+body.interwebs .nav-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: max-content;
+  max-width: calc(100% - 16px);
+}
+body.interwebs .iw-filters {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: safe center;
+  max-width: 100%;
+  margin-top: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+body.interwebs .iw-filters::-webkit-scrollbar { display: none; }
+body.interwebs .iw-filters button {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 239, 230, .22);
+  background: rgba(12, 12, 12, .28);
+  color: rgba(244, 239, 230, .78);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+body.interwebs .iw-filters button .e { font-style: normal; font-size: 15px; line-height: 1; }
+body.interwebs .iw-filters button .word {
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1;
+  text-transform: lowercase;
+}
+body.interwebs .iw-filters button .n { font-variant-numeric: tabular-nums; font-size: 10px; }
+body.interwebs .iw-filters button[aria-pressed="true"] {
+  background: #1AADB3;
+  border-color: #1AADB3;
+  color: #fff;
+}
+body.interwebs .iw-filters button:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }
+@media (max-width: 720px) {
+  body.interwebs .iw-filters { gap: 4px; }
+  body.interwebs .iw-filters button { padding: 4px 7px; }
+  body.interwebs .iw-filters button .n { font-size: 9px; }
+}
+
+.interwebs {
+  list-style: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.interwebs li + li { margin-top: 35.5px; }
+.iw-video {
+  position: relative;
+  width: 100%;
+  max-width: 40em;
+  margin-left: auto;
+  margin-right: auto;
+  aspect-ratio: 16 / 9;
+}
+.iw-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+@media (max-width: 760px) {
+  .interwebs li + li { margin-top: 27.5px; }
+}
