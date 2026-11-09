@@ -430,14 +430,15 @@ assert.doesNotMatch(nowHtml, /location\.replace/);
 const nowLines = [
   "what's up, fellow nerd! here's my prio list right meow:",
   'loving life - myself, my kids, all the organic, genuine connections',
+  'having full trust in god / the universe (new for me)',
   'building apps, building companies, building the future',
   'getting rid of dad bod #2',
-  'having full trust in God',
-  'finishing up spaceX juniper',
+  'finishing up spaceX juniper so i can move onto the next project',
   'launching mideeyah as invite-only soon',
   'pushing midehyah to later next year',
-  'loving my yeti mt - likely the best all-trail bike in the world right now',
-  'thinking about someone incredible special and wondering how to approach the situation'
+  'absolutely loving the yeti mt - likely the best all-trail mountain bike in the world right now',
+  'probably gonna look for a "real job" again soon because i kinda need to',
+  'likely spending a lot of time thinking about someone incredibly special and wondering how to approach the situation'
 ];
 for (const line of nowLines) {
   assert.equal(brainHtml.includes(line), true, line);
