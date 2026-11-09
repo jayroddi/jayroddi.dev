@@ -142,6 +142,11 @@ body.is-grind .copy {
   padding: 8px 12px;
   border-radius: 999px;
   background: none;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.tabs a,
+body.is-brain .pad-cue {
   color: #1AADB3;
   font-family: var(--mono);
   font-size: 12px;
@@ -149,8 +154,6 @@ body.is-grind .copy {
   font-style: italic;
   line-height: 1.25;
   letter-spacing: normal;
-  text-decoration: none;
-  -webkit-tap-highlight-color: transparent;
 }
 .tabs a[aria-current="page"],
 .tabs a[aria-current="page"]:hover {
@@ -158,7 +161,8 @@ body.is-grind .copy {
   color: #fff;
 }
 @media (prefers-color-scheme: light) {
-  .tabs a { color: #1AADB3; }
+  .tabs a,
+  body.is-brain .pad-cue { color: #1AADB3; }
   .tabs a[aria-current="page"],
   .tabs a[aria-current="page"]:hover {
     background: #1AADB3;
@@ -173,7 +177,9 @@ body.is-grind .copy {
 }
 .tabs a:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }
 @media (max-width: 720px) {
-  .tabs a { padding: 7px 6px; font-size: 11px; }
+  .tabs a { padding: 7px 6px; }
+  .tabs a,
+  body.is-brain .pad-cue { font-size: 11px; }
 }
 
 body.board:not(.is-welcome) .stage { padding-top: 68px; padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
