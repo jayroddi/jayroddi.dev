@@ -6,7 +6,7 @@
     ['/', '👋', 'home'],
     ['/snaps/', '📷', 'snaps'],
     ['/interwebs/', '🎭', 'interwebs'],
-    ['/support/', '💛', 'support'],
+    ['/love/', '💛', 'love'],
     ['/log/', '🍿', 'log'],
     ['/grind/', '🗓️', 'grind'],
     ['/brain/', '🧠', 'brain']
