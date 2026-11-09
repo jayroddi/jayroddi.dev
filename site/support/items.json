@@ -1,1 +1,41 @@
-[]
+[
+  {
+    "date": "2026.11.09",
+    "groups": [
+      [
+        {"text": "🍿 you can see everything"},
+        {"text": "📺 severance - tv"},
+        {"text": "📚 you can't please everyone - vex king"},
+        {"text": "💿 bilmuri - american motorsports"},
+        {"text": "🎮 ocarina of time 2026"}
+      ],
+      [
+        {"text": "🚲 2027 yeti mt"},
+        {"text": "⚾️ 2026 wilson a2000 1788 pedroia"},
+        {"text": "👟 nobull journey 2"}
+      ],
+      [
+        {"text": "💻 2021 mbp m1 pro 32gb/4tb"},
+        {"text": "🖥️ pro display xdr & studio display gen1"},
+        {"text": "📱 duo / 17 pro"},
+        {"text": "📷 sony rx100 vii (after 11 years of fuji-only)"},
+        {"text": "🎙️ teenage engineering tp-7 & cm-15 (2) 🔥"}
+      ],
+      [
+        {"text": "apple"},
+        {"text": "barnes & noble"},
+        {"text": "fujifilm"},
+        {"text": "nike"},
+        {"text": "specialized"},
+        {"text": "teenage engineering"},
+        {"text": "yeti cycles"}
+      ],
+      [
+        {"text": "emilio's mexican kitchen (skillman/loop12)", "url": "https://emiliosmexicankitchen.com"},
+        {"text": "fable & fire bookshop bistro (rockwall)", "url": "https://www.fableandfirebookshop.com"},
+        {"text": "flower garden 118 (denton)", "url": "https://flowergardentx.com"},
+        {"text": "the spelled milk (design district)", "url": "https://www.thespelledmilk.com"}
+      ]
+    ]
+  }
+]

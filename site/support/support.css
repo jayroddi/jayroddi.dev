@@ -1,20 +1,27 @@
 .support {
-  list-style: none;
   width: 100%;
-  margin: 0;
-  padding: 0;
-  text-align: center;
+  text-align: left;
 }
-.support li + li { margin-top: 35.5px; }
-.support a {
-  font-family: var(--mono, ui-monospace, monospace);
+.support-block + .support-block { margin-top: 1.65em; }
+.support-date,
+.support-group li {
+  margin: 0;
+  font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
   font-size: 12px;
   font-weight: 500;
   font-style: italic;
-  line-height: 1.5;
-  color: var(--c, #1AADB3);
-  text-decoration: none;
+  line-height: 1.65;
+  color: var(--ink, #f6efe9);
 }
-@media (max-width: 760px) {
-  .support li + li { margin-top: 27.5px; }
+.support-date { margin-bottom: 1.65em; }
+.support-group {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.support-group + .support-group { margin-top: 1.65em; }
+.support-group a {
+  color: var(--c, #1AADB3);
+  font: inherit;
+  text-decoration: none;
 }

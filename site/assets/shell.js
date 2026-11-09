@@ -5,7 +5,7 @@
   const pages = [
     ['/', '👋', 'home'],
     ['/snaps/', '📷', 'snaps'],
-    ['/tears/', '🎭', 'tears'],
+    ['/interwebs/', '🎭', 'interwebs'],
     ['/support/', '💛', 'support'],
     ['/log/', '🍿', 'log'],
     ['/grind/', '🗓️', 'grind'],
