@@ -460,7 +460,6 @@ body.is-welcome::after {
    so each homepage text element sets italic on itself. */
 .hero-title,
 .hero-title .name,
-.hero-sub,
 .chain,
 .chain li,
 .chain .pre,
@@ -468,15 +467,15 @@ body.is-welcome::after {
 .chain .post,
 .chain .carry,
 .chain .ch,
-.chain-fly {
+.chain-caret {
   font-style: italic;
 }
-/* paradox chain. one size for every line, clamped to the longest sentence.
-   both nouns are teal. destiny takes one 1.8s brain-gold breath, then holds. */
+/* typewriter. the full line is in the layout from the first paint.
+   characters reveal in place, already in their final color. */
 .chain {
   list-style: none;
   width: 100%;
-  margin: 0;
+  margin: 14px 0 0;
   padding: 0;
   font-family: var(--mono);
   font-size: clamp(8px, 1.35vw, 18px);
@@ -487,6 +486,7 @@ body.is-welcome::after {
   text-shadow: 0 2px 12px rgba(0, 0, 0, .7);
 }
 .chain li {
+  position: relative;
   margin: 0;
   white-space: nowrap;
 }
@@ -500,7 +500,6 @@ body.is-welcome::after {
 .chain .ch {
   display: inline-block;
   white-space: pre;
-  will-change: transform, opacity;
 }
 .chain .noun,
 .chain .carry {
@@ -513,30 +512,26 @@ html.chain-play .chain .pre,
 html.chain-play .chain .noun,
 html.chain-play .chain .post,
 html.chain-play .chain .carry {
-  opacity: 0;
+  color: transparent;
 }
-.chain .carry.is-destiny {
-  animation: chain-destiny 1.8s ease-in-out 1;
-}
-.chain.is-still .carry.is-destiny { animation: none; }
-@keyframes chain-destiny {
-  0%, 100% {
-    color: #FFD700;
-    filter: drop-shadow(0 0 2px rgba(255, 215, 0, .45));
-  }
-  50% {
-    color: #FFE066;
-    filter: drop-shadow(0 0 6px rgba(255, 215, 0, .8));
-  }
-}
-.chain-fly {
-  position: fixed;
-  z-index: 50;
+.chain-caret {
+  position: absolute;
+  z-index: 2;
+  width: 2px;
   margin: 0;
+  padding: 0;
+  background: #1AADB3;
   pointer-events: none;
-  color: #1AADB3;
-  white-space: nowrap;
-  will-change: transform;
+  animation: chain-caret 1.06s steps(1, end) infinite;
+}
+.chain-caret.is-typing,
+.chain-caret.is-still {
+  animation: none;
+  opacity: 1;
+}
+@keyframes chain-caret {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 }
 @media (max-width: 480px) {
   .chain { font-size: clamp(8px, 2.32vw, 11px); }
@@ -546,12 +541,10 @@ html.chain-play .chain .carry {
   html.chain-play .chain .noun,
   html.chain-play .chain .post,
   html.chain-play .chain .carry {
-    opacity: 1;
+    color: inherit;
   }
-  .chain .carry.is-destiny,
-  .chain .carry.destiny {
-    animation: none;
-    color: #FFD700;
-    filter: none;
-  }
+  .chain .noun,
+  .chain .carry { color: #1AADB3; }
+  .chain .carry.destiny { color: #FFD700; }
+  .chain-caret { animation: none; opacity: 1; }
 }
