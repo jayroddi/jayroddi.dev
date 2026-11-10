@@ -461,10 +461,10 @@ assert.match(shellCss, /\.tabs a,\n  body\.is-brain \.pad-cue \{ font-size: 11px
 assert.doesNotMatch(brainCss, /\.pad-cue \{[^}]*font-style:\s*normal/);
 assert.match(shellCss, /body\.is-grind \.copy \{[^}]*background: rgba\(0, 0, 0, \.94\);/);
 assert.match(shellCss, /\.soft \{[^}]*background: rgba\(0, 0, 0, \.94\);/);
-assert.match(shellCss, /\.scroll-hint \{[^}]*color: #FF4D1A;/);
-assert.match(homeHint, /rgba\(255, 77, 26/);
-assert.match(homeHint, /#FF8A5E/);
-assert.doesNotMatch(homeHint, /#FFD700|#FFE066/);
+assert.match(shellCss, /\.scroll-hint \{[^}]*color: #FFD700;/);
+assert.match(homeHint, /rgba\(255, 215, 0/);
+assert.match(homeHint, /#FFE066/);
+assert.doesNotMatch(homeHint, /#FF4D1A|#FF8A5E/);
 const brainHint = brainCss.slice(brainCss.indexOf('@keyframes brain-scroll-hint'), brainCss.indexOf('body.is-brain::after'));
 assert.match(brainCss, /body\.is-brain button\.scroll-hint \{[^}]*color: #FFD700;/);
 assert.match(brainHint, /rgba\(255, 215, 0/);

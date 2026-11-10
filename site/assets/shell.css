@@ -240,15 +240,30 @@ body.is-welcome .welcome {
   position: relative;
   z-index: 2;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   box-sizing: border-box;
   height: auto;
   min-height: 100svh;
-  padding: 20px;
+  padding: calc(var(--shell-nav, 88px) + 8px) 20px calc(72px + env(safe-area-inset-bottom, 0px));
   overflow: visible;
 }
-.hero { width: min(880px, 100%); text-align: center; }
+.hero {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(880px, 100%);
+  min-height: 0;
+  text-align: center;
+}
+.home-gap {
+  flex: 1 1 16px;
+  width: 100%;
+  min-height: 16px;
+}
+.hero > .soft { margin-top: 0; }
 .hero-copy { --intro-blank: 29px; }
 .hands {
   display: block;
@@ -345,16 +360,13 @@ body.is-welcome .soft { padding-top: 22px; padding-bottom: 22px; }
 }
 
 /* scroll hint under the splash. the first screen stays one viewport; the
-   arrow sits above the social pill. it is the site orange (#FF4D1A)
-   and the glow breathes on the same 1.8s ease as the book gold pulse.
-   it does not travel. the quotes sheet below is the same black card as the
-   splash. it stays invisible until a scroll (or a jump to #quotes), then
-   the whole sheet fades. the brain page keeps its own gold arrow. */
+   arrow sits above the social pill. it is destiny gold (#FFD700) and the
+   glow breathes on the same 1.8s ease as the brain arrow. it does not
+   travel. the quotes sheet below stays invisible until a scroll. */
 .scroll-hint {
-  position: absolute;
+  position: relative;
   z-index: 3;
-  left: 50%;
-  bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  flex: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -362,25 +374,22 @@ body.is-welcome .soft { padding-top: 22px; padding-bottom: 22px; }
   height: 44px;
   margin: 0;
   padding: 0;
-  color: #FF4D1A;
+  color: #FFD700;
   text-decoration: none;
-  transform: translateX(-50%);
   -webkit-tap-highlight-color: transparent;
   animation: home-scroll-hint 1.8s ease-in-out infinite;
 }
 .scroll-hint svg { display: block; width: 26px; height: 26px; }
-.scroll-hint:focus-visible { outline: 2px solid #FF4D1A; outline-offset: 3px; border-radius: 999px; }
+.scroll-hint:focus-visible { outline: 2px solid #FFD700; outline-offset: 3px; border-radius: 999px; }
 @keyframes home-scroll-hint {
   0%, 100% {
     opacity: .72;
-    filter: drop-shadow(0 0 2px rgba(255, 77, 26, .45));
-    transform: translateX(-50%);
+    filter: drop-shadow(0 0 2px rgba(255, 215, 0, .45));
   }
   50% {
-    color: #FF8A5E;
+    color: #FFE066;
     opacity: 1;
-    filter: drop-shadow(0 0 6px rgba(255, 77, 26, .8));
-    transform: translateX(-50%);
+    filter: drop-shadow(0 0 6px rgba(255, 215, 0, .8));
   }
 }
 .home-quotes {
@@ -450,7 +459,6 @@ body.is-welcome::after {
     animation: none;
     opacity: .75;
     filter: none;
-    transform: translateX(-50%);
   }
   .home-quotes.is-in { transition: none; }
 }
@@ -467,9 +475,26 @@ body.is-welcome::after {
 .chain .post,
 .chain .carry,
 .chain .ch,
-.chain-caret {
+.chain-caret,
+.home-note,
+.home-note p,
+.home-note .by {
   font-style: italic;
 }
+.home-note {
+  margin: 0;
+  width: min(880px, 100%);
+  box-sizing: border-box;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.55;
+  color: rgba(244, 239, 230, .72);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .7);
+}
+.home-note p { margin: 0; }
+.home-note .by { margin-top: 12px; color: rgba(244, 239, 230, .72); }
 /* typewriter. the full line is in the layout from the first paint.
    characters reveal in place, already in their final color. */
 .chain {
