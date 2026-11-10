@@ -1,6 +1,6 @@
 /* live shell. pill nav, square field, quote list on the homepage. no audio.
-   the pill is 👋 📷 🎭 💛 🍿 🗓️ 🧠. today's quote is the splash. older
-   quotes live under it and fade in on scroll. */
+   the pill is 👋 📷 🎭 💛 🍿 🗓️ 🧠. the paradox chain is the splash.
+   today's quote leads the list under the arrow and fades in on scroll. */
 (() => {
   const pages = [
     ['/', '👋', 'home'],
@@ -85,7 +85,7 @@
     pushBox(blocked, nav, 8);
     if (getComputedStyle(dock).display !== 'none') pushBox(blocked, dock, 8);
     document.querySelectorAll([
-      '.hands', '.hero-title', '.hero-sub', '.splash-quote', '.heart', '.scroll-hint',
+      '.hands', '.hero-title', '.hero-sub', '.chain-lead', '.chain', '.splash-quote', '.heart', '.scroll-hint',
       '.subhead', '.kicker', '.stat', '.legend', '.months', '.dow',
       '.quotes .d', '.quotes .q', '.quotes .by',
       '.month h2', '.socials a', '.socials p'
@@ -220,21 +220,6 @@
       timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit'
     }).format(new Date());
     const dots = (day) => day.replace(/-/g, '.');
-    const splash = document.querySelector('.splash-quote');
-    const paintSplash = (entry) => {
-      if (!splash) return;
-      if (!entry) {
-        splash.replaceChildren();
-        return;
-      }
-      const words = document.createElement('p');
-      const bare = entry.text.replace(/^["“”]+|["“”]+$/g, '').trim();
-      words.textContent = '"' + bare + '"';
-      const by = document.createElement('p');
-      by.className = 'by';
-      by.textContent = '— ' + entry.author;
-      splash.replaceChildren(words, by);
-    };
     const paint = (rows) => {
       const day = chicago();
       const list = rows.filter((entry) => entry && /^\d{4}-\d{2}-\d{2}$/.test(entry.date) && entry.date <= day && (entry.text || entry.quote) && entry.author)
@@ -244,11 +229,8 @@
           author: String(entry.author).replace(/^\s*[-–—]\s*/, '').trim()
         }))
         .sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0);
-      const featured = list[0] || null;
-      paintSplash(featured);
-      const archive = featured ? list.slice(1) : list;
       const frag = document.createDocumentFragment();
-      archive.forEach((entry) => {
+      list.forEach((entry) => {
         const li = document.createElement('li');
         const date = document.createElement('p');
         date.className = 'd';
@@ -266,7 +248,7 @@
         frag.append(li);
       });
       listEl.replaceChildren(frag);
-      ready = archive.length > 0;
+      ready = list.length > 0;
       placeBlinkers();
       if (pending || location.hash === '#quotes' || scrolled()) reveal();
       if (location.hash === '#quotes') alignQuotes();

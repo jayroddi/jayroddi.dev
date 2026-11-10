@@ -261,24 +261,25 @@ body.is-welcome .welcome {
 .hero-title {
   margin: 0;
   font-family: var(--mono);
-  font-size: clamp(36px, 5.6vw, 72px);
+  font-size: clamp(12.5px, 3.05vw, 38px);
   font-weight: 500;
   font-style: italic;
   line-height: .98;
   letter-spacing: -.04em;
   color: #f4efe6;
   text-shadow: 0 2px 16px rgba(0, 0, 0, .55);
+  white-space: nowrap;
 }
 .hero-title .name { color: var(--c, #1AADB3); font-style: italic; }
 .hero-sub {
-  margin: 14px auto 16px;
+  margin: 14px auto 12px;
   max-width: 100%;
   font-family: var(--mono);
-  font-size: clamp(16px, 1.6vw, 22px);
+  font-size: clamp(8px, 1.32vw, 18px);
   font-weight: 500;
   font-style: italic;
   line-height: 1.35;
-  color: #f4efe6;
+  color: rgba(244, 239, 230, .72);
   text-shadow: 0 2px 12px rgba(0, 0, 0, .7);
   white-space: nowrap;
 }
@@ -325,11 +326,11 @@ body.board .welcome .quotes .d { margin: 0; }
 body.board .welcome .quotes .q { margin-top: 1.65em; }
 body.board .welcome .quotes .by { margin-top: 1.65em; }
 @media (max-width: 720px) {
-  .hero-title { font-size: 34px; }
+  .hero-title { font-size: clamp(12.5px, 4.05vw, 28px); }
   .soft { margin-top: 10px; padding: 14px 10px 10px; }
 }
 @media (max-height: 760px) {
-  .hero-title { font-size: 32px; }
+  .hero-title { font-size: clamp(12.5px, 3.4vw, 30px); }
   .hero-copy { --intro-blank: 18px; }
   .splash-quote { font-size: 12px; line-height: 1.45; }
   .soft { margin-top: 8px; }
@@ -339,7 +340,7 @@ body.is-welcome .soft { padding-top: 22px; padding-bottom: 22px; }
   body.is-welcome .soft { padding-top: 14px; padding-bottom: 14px; }
 }
 @media (max-width: 480px) {
-  .hero-sub { font-size: 11px; letter-spacing: -0.03em; }
+  .hero-sub { font-size: clamp(7.5px, 2.28vw, 11px); letter-spacing: -0.03em; }
   .splash-quote { font-size: 12px; line-height: 1.45; }
 }
 
@@ -411,7 +412,8 @@ body.is-welcome .soft { padding-top: 22px; padding-bottom: 22px; }
    italic so it sits with the splash. colors stay on the black card in light mode. */
 body.board .home-quotes .quotes .d,
 body.board .home-quotes .quotes .q,
-body.board .home-quotes .quotes .by {
+body.board .home-quotes .quotes .by,
+body.board .home-quotes .quotes time {
   font-style: italic;
 }
 body.board .home-quotes .quotes .d {
@@ -451,4 +453,105 @@ body.is-welcome::after {
     transform: translateX(-50%);
   }
   .home-quotes.is-in { transition: none; }
+}
+
+/* Standing rule: every word on jayroddi.dev is italic.
+   habits.css sets `* { font-style: normal }`, which beats inheritance,
+   so each homepage text element sets italic on itself. */
+.hero-title,
+.hero-title .name,
+.hero-sub,
+.chain,
+.chain li,
+.chain .pre,
+.chain .noun,
+.chain .post,
+.chain .carry,
+.chain .ch,
+.chain-fly {
+  font-style: italic;
+}
+/* paradox chain. one size for every line, clamped to the longest sentence.
+   both nouns are teal. destiny takes one 1.8s brain-gold breath, then holds. */
+.chain {
+  list-style: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--mono);
+  font-size: clamp(8px, 1.35vw, 18px);
+  font-weight: 500;
+  line-height: 1.55;
+  letter-spacing: normal;
+  color: #f4efe6;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .7);
+}
+.chain li {
+  margin: 0;
+  white-space: nowrap;
+}
+.chain .pre,
+.chain .noun,
+.chain .post,
+.chain .carry {
+  display: inline-block;
+  vertical-align: baseline;
+}
+.chain .ch {
+  display: inline-block;
+  white-space: pre;
+  will-change: transform, opacity;
+}
+.chain .noun,
+.chain .carry {
+  color: #1AADB3;
+}
+.chain .carry.destiny {
+  color: #FFD700;
+}
+html.chain-play .chain .pre,
+html.chain-play .chain .noun,
+html.chain-play .chain .post,
+html.chain-play .chain .carry {
+  opacity: 0;
+}
+.chain .carry.is-destiny {
+  animation: chain-destiny 1.8s ease-in-out 1;
+}
+.chain.is-still .carry.is-destiny { animation: none; }
+@keyframes chain-destiny {
+  0%, 100% {
+    color: #FFD700;
+    filter: drop-shadow(0 0 2px rgba(255, 215, 0, .45));
+  }
+  50% {
+    color: #FFE066;
+    filter: drop-shadow(0 0 6px rgba(255, 215, 0, .8));
+  }
+}
+.chain-fly {
+  position: fixed;
+  z-index: 50;
+  margin: 0;
+  pointer-events: none;
+  color: #1AADB3;
+  white-space: nowrap;
+  will-change: transform;
+}
+@media (max-width: 480px) {
+  .chain { font-size: clamp(8px, 2.32vw, 11px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html.chain-play .chain .pre,
+  html.chain-play .chain .noun,
+  html.chain-play .chain .post,
+  html.chain-play .chain .carry {
+    opacity: 1;
+  }
+  .chain .carry.is-destiny,
+  .chain .carry.destiny {
+    animation: none;
+    color: #FFD700;
+    filter: none;
+  }
 }
