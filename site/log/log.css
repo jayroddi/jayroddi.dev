@@ -175,7 +175,7 @@ body.log .month h2 {
   text-shadow: 0 0 8px rgba(var(--bg-rgb), .8);
 }
 body.log .month { width: 100%; }
-body.log .month:first-child h2 { margin-top: 4px; }
+body.log .month:first-child h2 { margin-top: 0; }
 body.log .grid {
   display: flex;
   flex-wrap: wrap;

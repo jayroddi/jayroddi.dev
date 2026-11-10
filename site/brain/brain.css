@@ -221,12 +221,24 @@ body.is-brain button.scroll-hint {
   position: relative;
   left: auto;
   bottom: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
   border: 0;
   background: none;
   color: #FFD700;
   cursor: pointer;
   transform: none;
   animation: brain-scroll-hint 1.8s ease-in-out infinite;
+}
+body.is-brain button.scroll-hint svg {
+  display: block;
+  width: 26px;
+  height: 26px;
 }
 
 @keyframes brain-scroll-hint {

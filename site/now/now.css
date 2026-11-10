@@ -8,7 +8,7 @@
   width: min(880px, calc(100% - 40px));
   margin: 0 auto;
   padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px));
-  scroll-margin-top: var(--shell-nav, 88px);
+  scroll-margin-top: 56px;
   opacity: 0;
 }
 
@@ -24,7 +24,7 @@
 .now-sheet .soft {
   width: 100%;
   margin-top: 0;
-  padding: 28px 22px 32px;
+  padding: 16px 22px 32px;
 }
 
 .now-sheet h1,
@@ -111,13 +111,13 @@ body.is-now .social-dock a:focus-visible {
 }
 
 body.board.is-now .stage.now-page {
-  padding-top: calc(var(--shell-nav, 88px) + 12px);
+  padding-top: 56px;
   padding-bottom: 0;
 }
 
 @media (max-width: 720px) {
   .now-sheet { width: min(880px, calc(100% - 32px)); }
-  .now-sheet .soft { padding: 22px 16px 26px; }
+  .now-sheet .soft { padding: 16px 16px 26px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -185,6 +185,9 @@ body.is-brain .pad-cue {
 }
 
 body.board:not(.is-welcome) .stage { padding-top: 68px; padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+/* snaps' november heading sits 16px under the pill. text pages match that line. */
+body.board.is-grind .stage,
+body.board:has(#love) .stage { padding-top: 72px; }
 body.quotes.is-welcome .welcome { padding-top: var(--shell-nav, 96px); }
 
 .social-dock {
@@ -273,13 +276,36 @@ body.is-welcome .soft { padding-top: 22px; padding-bottom: 22px; }
   padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px));
   opacity: 1;
 }
-body.is-quotes .home-quotes { margin-top: var(--shell-nav, 88px); }
+body.is-quotes .home-quotes { margin-top: 56px; }
+body.is-welcome.is-quotes .home-quotes .soft { padding-top: 16px; }
 .home-quotes .soft {
   width: 100%;
   margin-top: 0;
-  padding: 28px 22px 32px;
+  padding: 16px 22px 32px;
 }
-.home-quotes .quotes { margin: 0; width: 100%; }
+body.board .home-quotes .quotes { margin: 0; width: 100%; }
+.home-quotes .pin {
+  max-width: 40em;
+  margin: 0 auto 35.5px;
+}
+.home-quotes .pin .q,
+.home-quotes .pin .by {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.65;
+}
+.home-quotes .pin .q {
+  color: rgba(244, 239, 230, .78);
+  text-align: left;
+}
+.home-quotes .pin .by {
+  margin-top: 4px;
+  color: #FFD700;
+  text-align: right;
+}
 .home-quotes .quotes li {
   max-width: 40em;
   margin-left: auto;
@@ -291,7 +317,10 @@ body.is-quotes .home-quotes { margin-top: var(--shell-nav, 88px); }
 body.board .home-quotes .quotes .d,
 body.board .home-quotes .quotes .q,
 body.board .home-quotes .quotes .by,
-body.board .home-quotes .quotes time {
+body.board .home-quotes .quotes time,
+body.board .home-quotes .pin,
+body.board .home-quotes .pin .q,
+body.board .home-quotes .pin .by {
   font-style: italic;
 }
 body.board .home-quotes .quotes .d {
@@ -320,5 +349,6 @@ body.is-welcome::after {
 }
 @media (max-width: 720px) {
   .home-quotes { width: min(880px, calc(100% - 32px)); }
-  .home-quotes .soft { margin-top: 0; padding: 22px 16px 26px; }
+  .home-quotes .soft { margin-top: 0; padding: 16px 16px 26px; }
+  .home-quotes .pin { margin-bottom: 27.5px; }
 }
