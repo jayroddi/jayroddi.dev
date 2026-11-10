@@ -162,15 +162,22 @@ body.is-brain .pad {
   color: #1AADB3;
 }
 
-body.is-brain .pad-cue {
+body.is-brain .brain-kicker {
   position: absolute;
-  left: 50%;
-  bottom: calc(100% + 8px);
-  transform: translateX(-50%);
+  top: 72px;
+  left: 0;
+  right: 0;
+  z-index: 4;
   margin: 0;
-  max-width: calc(100vw - 24px);
-  white-space: nowrap;
+  padding: 0 16px;
+  font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.25;
+  letter-spacing: normal;
   text-align: center;
+  color: #1AADB3;
   pointer-events: none;
 }
 
