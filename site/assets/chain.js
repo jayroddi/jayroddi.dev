@@ -35,10 +35,14 @@
     return { li, chars };
   });
 
+  let blockW = 0;
   function place(li, el, edge) {
     const base = li.getBoundingClientRect();
     const box = el.getBoundingClientRect();
-    const x = edge === 'start' ? box.left : box.right;
+    if (!blockW && /[a-z]/i.test(el.textContent)) blockW = box.width;
+    const width = blockW || box.width;
+    const x = edge === 'after' ? box.right : box.left;
+    caret.style.width = width + 'px';
     caret.style.height = box.height + 'px';
     caret.style.left = (x - base.left) + 'px';
     caret.style.top = (box.top - base.top) + 'px';
@@ -52,34 +56,43 @@
   const last = rows[rows.length - 1];
   const tail = last.chars[last.chars.length - 1];
   if (reduce) {
-    caret.classList.add('is-still');
-    place(last.li, tail, 'end');
+    caret.classList.add('is-still', 'is-gold');
+    place(last.li, tail, 'after');
     return;
   }
 
+  const charCount = rows.reduce((sum, row) => sum + row.chars.length, 0);
+  const spaces = rows.reduce((sum, row) => sum + row.chars.filter((ch) => ch.textContent === ' ' || ch.textContent === '\u00a0').length, 0);
+  const beatTotal = (rows.length - 1) * 150;
+  const base = (10000 - beatTotal) / (charCount + spaces * 0.35);
+  const jitter = Math.max(3, Math.round(base * 0.3));
+
   function waitFor(prev) {
-    let base = 90;
-    if (prev === ',') base = 210;
-    else if (prev === ' ' || prev === '\u00a0') base = 135;
-    const jitter = Math.round(Math.random() * 76 - 38);
-    return Math.max(48, base + jitter);
+    let ms = base;
+    if (prev === ',') ms += base * 0.6;
+    else if (prev === ' ' || prev === '\u00a0') ms += base * 0.35;
+    ms += (Math.random() * 2 - 1) * jitter;
+    return Math.max(8, Math.round(ms));
   }
 
   async function play() {
+    root.dataset.t0 = String(performance.now());
     for (let i = 0; i < rows.length; i++) {
       const { li, chars } = rows[i];
-      place(li, chars[0], 'start');
       typing(true);
       let prev = '';
       for (const ch of chars) {
+        if (ch.parentElement.classList.contains('destiny')) caret.classList.add('is-gold');
+        place(li, ch, 'on');
         await sleep(waitFor(prev));
         ch.style.opacity = '1';
-        place(li, ch, 'end');
         prev = ch.textContent;
       }
+      place(li, chars[chars.length - 1], 'after');
       typing(false);
-      if (i < rows.length - 1) await sleep(400 + Math.random() * 200);
+      if (i < rows.length - 1) await sleep(120 + Math.random() * 60);
     }
+    root.dataset.done = String(performance.now());
   }
 
   play();
