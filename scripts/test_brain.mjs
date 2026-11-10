@@ -6,7 +6,7 @@ import {
   SPEED_RAD_S, WAVE_MS, advanceWave, autoSpin, controlView, createPad, frameMetrics,
   gesturesAllowed, goldAmount, graphZoomAllowed, keyboardPress, linkAppear, nodeAppear,
   padTone, padVisible, paintedColor, playDuration, playFrame, pointScaleFor, pressPad,
-  releasePad, revealAllowed, shouldCelebrate, speedOf, turnAxis, waveDuration
+  releasePad, revealAllowed, shaking, shouldCelebrate, speedOf, spinSign, turnAxis, waveDuration
 } from '../site/brain/gate.js';
 import {
   CLASS_HEX, CLASS_RGB, GOLD_RGB, PERIPHERY, TEAL, assignClasses, colorForNode,
@@ -176,11 +176,25 @@ for (const key of CODE) {
   assert.notEqual(out.result, 'reset', key);
   pad = out.pad;
   if (key !== 'start') assert.ok(speedOf(pad.run, false) > before);
+  if (key === 'b') {
+    assert.equal(pad.run.flip, true);
+    assert.equal(pad.run.phase, 'go');
+    assert.equal(speedOf(pad.run, false), SPEED_RAD_S[9]);
+    assert.equal(spinSign(pad.run).sign, -turnAxis('right').sign);
+    assert.equal(shaking(pad.run), false);
+  }
+  if (key === 'a') {
+    assert.equal(pad.run.flip, true);
+    assert.equal(shaking(pad.run), true);
+    assert.equal(speedOf(pad.run, false), SPEED_RAD_S[10]);
+  }
   dirs.push(pad.run.direction);
   t += 100;
 }
 assert.deepEqual(dirs, ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'right', 'right', 'right']);
 assert.equal(pad.run.phase, 'wave');
+assert.equal(shaking(pad.run), false);
+assert.equal(pad.run.flip, true);
 assert.equal(pad.run.prefix, 11);
 assert.equal(speedOf(pad.run, false), SPEED_RAD_S[10]);
 assert.equal(pad.run.durationMs, 1000);

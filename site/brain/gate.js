@@ -15,8 +15,8 @@
    6       right               0.88
    7       left                1.08
    8       right               1.30
-   9       b                   1.52
-   10      a (peak)            1.75
+   9       b (reverse)         1.52
+   10      a (shake, peak)     1.75
 
    The wave duration helper is WAVE_MS (5000). The live rebuild is REBUILD_MS
    (5000) after a short explosion. The core-out order is that same clock.
@@ -36,7 +36,7 @@ export const REBUILD_MS = 5000;
 const KEYS = { ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right', Enter: 'enter' };
 
 export function createRun() {
-  return { prefix: 0, direction: null, phase: 'idle', startedAt: null, startAt: null, durationMs: null };
+  return { prefix: 0, direction: null, phase: 'idle', startedAt: null, startAt: null, durationMs: null, flip: false };
 }
 
 export function createPad() {
@@ -77,6 +77,7 @@ export function applyKey(run, key, nowMs, source) {
   if (nextKey === CODE[run.prefix]) {
     const prefix = run.prefix + 1;
     const startedAt = run.startedAt == null ? nowMs : run.startedAt;
+    const flip = nextKey === 'b' ? true : !!run.flip;
     if (nextKey === 'start') {
       return {
         run: {
@@ -85,7 +86,8 @@ export function applyKey(run, key, nowMs, source) {
           phase: 'wave',
           startedAt,
           startAt: nowMs,
-          durationMs: nowMs - startedAt
+          durationMs: nowMs - startedAt,
+          flip
         },
         result: 'start'
       };
@@ -97,7 +99,8 @@ export function applyKey(run, key, nowMs, source) {
         phase: 'go',
         startedAt,
         startAt: null,
-        durationMs: null
+        durationMs: null,
+        flip
       },
       result: 'advance'
     };
@@ -130,6 +133,17 @@ export function speedOf(run, reduced) {
   if (run.phase === 'wave' || run.phase === 'open') return SPEED_RAD_S[SPEED_RAD_S.length - 1];
   const index = Math.max(0, Math.min(SPEED_RAD_S.length - 1, run.prefix));
   return SPEED_RAD_S[index];
+}
+
+/* B reverses the spin that the arrows already chose. The axis stays. */
+export function spinSign(run) {
+  const turn = turnAxis(run && run.direction);
+  return { axis: turn.axis, sign: turn.sign * (run && run.flip ? -1 : 1), idle: turn.idle };
+}
+
+/* A, before Start, shakes the nodes inside the brain. Start is the explosion. */
+export function shaking(run) {
+  return !!run && run.phase === 'go' && run.prefix >= 10;
 }
 
 export function turnAxis(direction) {
@@ -174,6 +188,7 @@ export function advanceWave(run, nowMs, durationMs) {
     prefix: run.prefix,
     direction: run.direction,
     phase: 'open',
+    flip: !!run.flip,
     startedAt: run.startedAt,
     startAt: run.startAt,
     durationMs: run.durationMs
