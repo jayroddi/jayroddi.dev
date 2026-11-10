@@ -1,51 +1,52 @@
 /* Standing rule: every word on jayroddi.dev is italic.
    habits.css resets `* { font-style: normal }`, which beats inheritance,
-   so homepage text has to set italic on the element itself. */
+   so the nav and the quote feed set italic on the element itself. */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 const css = readFileSync(new URL('../site/assets/shell.css', import.meta.url), 'utf8');
 const html = readFileSync(new URL('../site/index.html', import.meta.url), 'utf8');
-const chain = readFileSync(new URL('../site/assets/chain.js', import.meta.url), 'utf8');
+const quotes = readFileSync(new URL('../site/quotes/index.html', import.meta.url), 'utf8');
+const shell = readFileSync(new URL('../site/assets/shell.js', import.meta.url), 'utf8');
+const grind = readFileSync(new URL('../site/grind/index.html', import.meta.url), 'utf8');
+const habits = readFileSync(new URL('../site/habits/index.html', import.meta.url), 'utf8');
+const me = readFileSync(new URL('../site/me/index.html', import.meta.url), 'utf8');
 
 assert.match(css, /Standing rule: every word on jayroddi\.dev is italic/);
 assert.match(css, /\* \{ font-style: normal \}/);
-
-const rule = css.slice(css.indexOf('.hero-title,'), css.indexOf('/* The phrase is'));
-for (const sel of [
-  '.hero-title,',
-  '.hero-title .name,',
-  '.phrase,',
-  '.phrase .discipline,',
-  '.phrase .plain,',
-  '.phrase .destiny,',
-  '.phrase .ch,',
-  '.heart,',
-  '.heart .em {'
-]) {
-  assert.ok(rule.includes(sel), sel);
-}
-assert.match(rule, /font-style:\s*italic/);
+assert.match(css, /\.tabs a\.mark \{[^}]*font-style: italic/);
 assert.match(css, /body\.board \.home-quotes \.quotes time \{\s*font-style: italic/);
-assert.match(css, /\.phrase \.discipline \{ color: #1AADB3/);
-assert.match(css, /\.phrase \.plain \{ color: #f4efe6/);
-assert.match(css, /\.phrase \.destiny \{ color: #FFD700/);
-assert.match(css, /--title-size: clamp\(12\.5px, 3\.05vw, 38px\)/);
-assert.match(css, /--phrase-size: calc\(var\(--title-size\) \* 1\.15\)/);
-assert.match(css, /@media \(max-width: 720px\) \{\s*\.hero-copy \{ --title-size: clamp\(12\.5px, 4\.05vw, 28px\)/);
-assert.match(css, /@media \(max-height: 760px\) \{\s*\.hero-copy \{ --title-size: clamp\(12\.5px, 3\.4vw, 30px\)/);
-assert.match(css, /\.hero-title \{[^}]*font-size: var\(--title-size\)/);
-assert.match(css, /\.phrase \{[^}]*font-size: var\(--phrase-size\)/);
-assert.match(css, /\.heart \{[^}]*font-size: var\(--title-size\)/);
-assert.doesNotMatch(css, /chain-caret/);
-assert.match(html, /i'm <span class="name">jay<\/span>, and i build stuff w\/ my 💻/);
-assert.match(html, /<p class="phrase"><span class="discipline">discipline<\/span><span class="plain"> is <\/span><span class="destiny">destiny<\/span><\/p>/);
-assert.match(html, /<p class="heart">🇺🇸✌️🤟✞🤘🤙🏴‍☠️<\/p>/);
-assert.doesNotMatch(html, /watch your|karnazes|home-note|class="hero-sub"|class="chain"|chain-caret|paradox/);
-assert.doesNotMatch(html, /localStorage|sessionStorage/);
-assert.doesNotMatch(chain, /localStorage|sessionStorage|document\.cookie|chain-caret/);
-assert.match(chain, /#1AADB3/);
-assert.match(chain, /#FFD700/);
-assert.match(chain, /#f4efe6/);
+assert.doesNotMatch(css, /chain-caret|hero-title|\.phrase /);
+
+assert.match(html, /class="trackers"/);
+assert.match(html, /class="board is-grind"/);
+assert.doesNotMatch(html, /hero-title|discipline is destiny|class="heart"|chain\.js|scroll-hint|location\.replace/);
+assert.match(quotes, /<section id="quotes" class="home-quotes">/);
+assert.match(quotes, /<ol class="quotes" aria-label="quotes"><\/ol>/);
+assert.doesNotMatch(quotes, /hero-title|class="subhead"|class="heart"|chain\.js/);
+assert.match(shell, /fetch\('\/quote-of-the-day\/quotes\.json'/);
+
+const nav = [
+  "['/', '🤓', 'grind']",
+  "['/snaps/', '📷', 'snaps']",
+  "['/log/', '🍿', 'log']",
+  "['/love/', '💛', 'love']",
+  "['/quotes/', '📣', 'quotes']",
+  "['/interwebs/', '🎭', 'interwebs']",
+  "['/brain/', '🧠', 'brain']"
+];
+let at = -1;
+for (const line of nav) {
+  const found = shell.indexOf(line);
+  assert.ok(found > at, line);
+  at = found;
+}
+assert.doesNotMatch(shell, /👋|🗓️/);
+
+const forward = 'location.replace("/" + location.search + location.hash)';
+for (const page of [grind, habits, me]) {
+  assert.match(page, new RegExp(forward.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  assert.doesNotMatch(page, /class="trackers"|\/grind\//);
+}
 
 console.log('home italic rule ok');
