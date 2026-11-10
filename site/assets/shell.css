@@ -412,7 +412,8 @@ body.is-welcome .soft { padding-top: 22px; padding-bottom: 22px; }
    italic so it sits with the splash. colors stay on the black card in light mode. */
 body.board .home-quotes .quotes .d,
 body.board .home-quotes .quotes .q,
-body.board .home-quotes .quotes .by {
+body.board .home-quotes .quotes .by,
+body.board .home-quotes .quotes time {
   font-style: italic;
 }
 body.board .home-quotes .quotes .d {
@@ -454,15 +455,30 @@ body.is-welcome::after {
   .home-quotes.is-in { transition: none; }
 }
 
-/* paradox chain. nav type: JetBrains Mono italic, weight 500.
-   one size for every line, clamped to the longest sentence.
-   a carried noun glows teal. destiny takes one 1.8s orange breath, then holds. */
+/* Standing rule: every word on jayroddi.dev is italic.
+   habits.css sets `* { font-style: normal }`, which beats inheritance,
+   so each homepage text element sets italic on itself. */
+.hero-title,
+.hero-title .name,
+.hero-sub,
+.chain-lead,
+.chain,
+.chain li,
+.chain .pre,
+.chain .noun,
+.chain .post,
+.chain .carry,
+.chain .ch,
+.chain-fly {
+  font-style: italic;
+}
+/* paradox chain. one size for every line, clamped to the longest sentence.
+   both nouns are teal. destiny takes one 1.8s brain-gold breath, then holds. */
 .chain-lead {
-  margin: 4px 0 8px;
+  margin: 10px 0 8px;
   font-family: var(--mono);
   font-size: clamp(9px, 2.05vw, 15px);
   font-weight: 500;
-  font-style: italic;
   line-height: 1.35;
   letter-spacing: normal;
   color: #f4efe6;
@@ -476,7 +492,6 @@ body.is-welcome::after {
   font-family: var(--mono);
   font-size: clamp(8px, 1.35vw, 18px);
   font-weight: 500;
-  font-style: italic;
   line-height: 1.55;
   letter-spacing: normal;
   color: #f4efe6;
@@ -493,40 +508,36 @@ body.is-welcome::after {
   display: inline-block;
   vertical-align: baseline;
 }
-html.chain-play .chain .pre:not(.is-on),
-html.chain-play .chain .noun:not(.is-on),
-html.chain-play .chain .post:not(.is-on),
-html.chain-play .chain .carry:not(.is-on) {
-  color: transparent;
-  text-shadow: none;
+.chain .ch {
+  display: inline-block;
+  white-space: pre;
+  will-change: transform, opacity;
 }
-.chain .wipe {
-  clip-path: inset(0 100% 0 0);
-}
-.chain .wipe.is-on {
-  clip-path: inset(0 0 0 0);
-}
-.chain .is-hot {
+.chain .noun,
+.chain .carry {
   color: #1AADB3;
-  text-shadow: 0 0 8px rgba(26, 173, 179, .9);
 }
-.chain .carry.destiny,
-.chain.is-still .carry.destiny {
-  color: #FF4D1A;
+.chain .carry.destiny {
+  color: #FFD700;
+}
+html.chain-play .chain .pre,
+html.chain-play .chain .noun,
+html.chain-play .chain .post,
+html.chain-play .chain .carry {
+  opacity: 0;
 }
 .chain .carry.is-destiny {
-  color: #FF4D1A;
-  animation: chain-destiny 1.8s ease-in-out 1 forwards;
+  animation: chain-destiny 1.8s ease-in-out 1;
 }
 .chain.is-still .carry.is-destiny { animation: none; }
 @keyframes chain-destiny {
   0%, 100% {
-    color: #FF4D1A;
-    text-shadow: 0 0 2px rgba(255, 77, 26, .45);
+    color: #FFD700;
+    filter: drop-shadow(0 0 2px rgba(255, 215, 0, .45));
   }
   50% {
-    color: #FF8A5E;
-    text-shadow: 0 0 6px rgba(255, 77, 26, .8);
+    color: #FFE066;
+    filter: drop-shadow(0 0 6px rgba(255, 215, 0, .8));
   }
 }
 .chain-fly {
@@ -535,8 +546,8 @@ html.chain-play .chain .carry:not(.is-on) {
   margin: 0;
   pointer-events: none;
   color: #1AADB3;
-  text-shadow: 0 0 8px rgba(26, 173, 179, .9);
   white-space: nowrap;
+  will-change: transform;
 }
 @media (max-width: 480px) {
   .chain { font-size: clamp(8px, 2.32vw, 11px); }
@@ -547,10 +558,12 @@ html.chain-play .chain .carry:not(.is-on) {
   html.chain-play .chain .noun,
   html.chain-play .chain .post,
   html.chain-play .chain .carry {
-    color: inherit;
-    text-shadow: inherit;
-    clip-path: none;
+    opacity: 1;
   }
   .chain .carry.is-destiny,
-  .chain .carry.destiny { animation: none; color: #FF4D1A; }
+  .chain .carry.destiny {
+    animation: none;
+    color: #FFD700;
+    filter: none;
+  }
 }

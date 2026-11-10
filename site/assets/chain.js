@@ -1,11 +1,12 @@
-/* The paradox chain types once, then stays revealed. A finished line's last
-   word glows teal and slides down to become the noun in the next line.
-   destiny takes one orange breath and the chain holds still. */
+/* The paradox chain reveals once, slowly enough to read. Each character
+   eases in with transform and opacity. A finished line's last noun slides
+   down and becomes the first noun of the next line. destiny takes one
+   brain-gold breath, then the chain holds still. */
 (() => {
   const root = document.querySelector('ol.chain');
   if (!root) return;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const KEY = 'jay.chain.v1';
+  const KEY = 'jay.chain.v2';
   let seen = false;
   try { seen = localStorage.getItem(KEY) === '1'; } catch (e) {}
 
@@ -20,35 +21,48 @@
 
   const lines = [...root.querySelectorAll('li')];
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-  const SLIDE = 220;
+  const FADE = 380;
+  const STAGGER = 38;
+  const SLIDE = 560;
+  const BEAT = 180;
   const GLOW = 1800;
-  let typed = 0;
-  lines.forEach((li, index) => {
-    typed += li.querySelector('.pre').textContent.length;
-    typed += li.querySelector('.post').textContent.length;
-    typed += li.querySelector('.carry').textContent.length;
-    if (index === 0) typed += li.querySelector('.noun').textContent.length;
-  });
-  const per = (5600 - GLOW - (lines.length - 1) * SLIDE) / typed;
 
-  lines.forEach((li) => {
-    li.querySelectorAll('.pre, .noun, .post, .carry').forEach((el) => el.classList.add('wipe'));
-  });
+  function charsOf(el) {
+    const text = el.textContent;
+    const chars = [...text].map((ch) => {
+      const span = document.createElement('span');
+      span.className = 'ch';
+      span.textContent = ch;
+      span.style.opacity = '0';
+      return span;
+    });
+    el.replaceChildren(...chars);
+    el.style.opacity = '1';
+    return chars;
+  }
 
-  function wipe(el) {
-    const ms = Math.max(90, Math.round(el.textContent.length * per));
-    el.style.transition = 'none';
-    void el.offsetWidth;
-    el.style.transition = 'clip-path ' + ms + 'ms steps(' + Math.max(2, el.textContent.length) + ', end)';
-    el.classList.add('is-on');
-    return sleep(ms);
+  function reveal(parts) {
+    let delay = 0;
+    parts.forEach((el) => {
+      const chars = charsOf(el);
+      chars.forEach((ch, i) => {
+        ch.animate([
+          { opacity: 0, transform: 'translate3d(0, 0.22em, 0)' },
+          { opacity: 1, transform: 'translate3d(0, 0, 0)' }
+        ], {
+          duration: FADE,
+          delay: delay + i * STAGGER,
+          easing: 'cubic-bezier(.16, .84, .28, 1)',
+          fill: 'forwards'
+        });
+      });
+      delay += chars.length * STAGGER;
+    });
+    return sleep(delay + FADE);
   }
 
   function showLanded(el) {
-    el.style.transition = 'none';
-    el.classList.remove('wipe');
-    el.style.clipPath = 'none';
-    el.classList.add('is-on', 'is-hot');
+    el.style.opacity = '1';
   }
 
   function fly(from, to) {
@@ -57,16 +71,21 @@
     const cs = getComputedStyle(from);
     const ghost = from.cloneNode(true);
     ghost.className = 'chain-fly';
+    ghost.querySelectorAll('.ch').forEach((ch) => {
+      ch.style.opacity = '1';
+      ch.style.transform = 'none';
+    });
     ghost.style.left = a.left + 'px';
     ghost.style.top = a.top + 'px';
     ghost.style.font = cs.font;
     ghost.style.letterSpacing = cs.letterSpacing;
     ghost.style.lineHeight = cs.lineHeight;
+    ghost.style.opacity = '1';
     document.body.append(ghost);
     const motion = ghost.animate([
-      { transform: 'translate(0px, 0px)' },
-      { transform: 'translate(' + (b.left - a.left) + 'px, ' + (b.top - a.top) + 'px)' }
-    ], { duration: SLIDE, easing: 'cubic-bezier(.2, .7, .2, 1)', fill: 'forwards' });
+      { transform: 'translate3d(0, 0, 0)' },
+      { transform: 'translate3d(' + (b.left - a.left) + 'px, ' + (b.top - a.top) + 'px, 0)' }
+    ], { duration: SLIDE, easing: 'cubic-bezier(.22, .8, .28, 1)', fill: 'forwards' });
     return motion.finished.then(() => ghost.remove());
   }
 
@@ -77,21 +96,17 @@
       const noun = li.querySelector('.noun');
       const post = li.querySelector('.post');
       const carry = li.querySelector('.carry');
-      await wipe(pre);
-      if (i === 0) await wipe(noun);
-      await wipe(post);
-      noun.classList.remove('is-hot');
-      await wipe(carry);
+      await reveal(i === 0 ? [pre, noun, post, carry] : [pre, post, carry]);
       if (i === lines.length - 1) {
         carry.classList.add('is-destiny');
         await sleep(GLOW);
         break;
       }
-      carry.classList.add('is-hot');
+      await sleep(BEAT);
       const nextNoun = lines[i + 1].querySelector('.noun');
       await fly(carry, nextNoun);
-      carry.classList.remove('is-hot');
       showLanded(nextNoun);
+      await sleep(BEAT);
     }
     try { localStorage.setItem(KEY, '1'); } catch (e) {}
     hold();
