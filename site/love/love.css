@@ -1,6 +1,8 @@
 .support {
-  width: 100%;
-  text-align: center;
+  width: max-content;
+  max-width: 100%;
+  margin-inline: auto;
+  text-align: left;
 }
 .support-block + .support-block { margin-top: 1.65em; }
 .support-date,
