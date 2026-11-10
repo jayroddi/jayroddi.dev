@@ -146,8 +146,7 @@ body.is-grind .copy {
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
 }
-.tabs a,
-body.is-brain .pad-cue {
+.tabs a {
   color: #1AADB3;
   font-family: var(--mono);
   font-size: 12px;
@@ -162,8 +161,7 @@ body.is-brain .pad-cue {
   color: #fff;
 }
 @media (prefers-color-scheme: light) {
-  .tabs a,
-  body.is-brain .pad-cue { color: #1AADB3; }
+  .tabs a { color: #1AADB3; }
   .tabs a[aria-current="page"],
   .tabs a[aria-current="page"]:hover {
     background: #1AADB3;
@@ -180,8 +178,7 @@ body.is-brain .pad-cue {
 @media (max-width: 720px) {
   .tabs a { padding: 7px 6px; }
   .tabs a.mark { padding: 7px 6px; }
-  .tabs a,
-  body.is-brain .pad-cue { font-size: 11px; }
+  .tabs a { font-size: 11px; }
 }
 
 body.board:not(.is-welcome) .stage { padding-top: 68px; padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
