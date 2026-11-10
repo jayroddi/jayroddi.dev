@@ -22,7 +22,9 @@ for (const sel of [
   '.chain .post,',
   '.chain .carry,',
   '.chain .ch,',
-  '.chain-caret {'
+  '.chain-caret,',
+  '.heart,',
+  '.heart .em {'
 ]) {
   assert.ok(rule.includes(sel), sel);
 }
@@ -33,6 +35,7 @@ assert.match(css, /\.chain \.carry\.destiny \{\s*color: #FFD700/);
 assert.match(css, /\.chain-caret \{[^}]*background: #1AADB3/);
 assert.match(html, /i'm <span class="name">jay<\/span>, and i build stuff w\/ my 💻/);
 assert.doesNotMatch(html, /karnazes|home-note/);
+assert.match(html, /<p class="heart">🇺🇸✌️🤟✞🤘🤙🏴‍☠️<\/p>/);
 assert.match(html, /because they will become your&nbsp;<\/span><span class="carry">behaviors/);
 assert.match(html, /<span class="noun">behaviors<\/span><span class="post">&nbsp;because they will become your/);
 assert.doesNotMatch(html, /class="hero-sub"/);

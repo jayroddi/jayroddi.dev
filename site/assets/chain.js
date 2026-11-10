@@ -35,17 +35,24 @@
     return { li, chars };
   });
 
-  let blockW = 0;
+  const measure = document.createElement('canvas').getContext('2d');
   function place(li, el, edge) {
     const base = li.getBoundingClientRect();
     const box = el.getBoundingClientRect();
-    if (!blockW && /[a-z]/i.test(el.textContent)) blockW = box.width;
-    const width = blockW || box.width;
+    const cs = getComputedStyle(li);
+    const fontSize = parseFloat(cs.fontSize);
+    measure.font = cs.font;
+    const glyph = measure.measureText('H');
+    const descent = glyph.actualBoundingBoxDescent || fontSize * 0.15;
+    const lineHeight = parseFloat(cs.lineHeight) || fontSize * 1.55;
+    const halfLead = Math.max(0, (lineHeight - fontSize) / 2);
+    const baseline = box.bottom - descent - halfLead;
+    const height = fontSize * 0.7;
     const x = edge === 'after' ? box.right : box.left;
-    caret.style.width = width + 'px';
-    caret.style.height = box.height + 'px';
+    caret.style.width = (fontSize * 0.6) + 'px';
+    caret.style.height = height + 'px';
     caret.style.left = (x - base.left) + 'px';
-    caret.style.top = (box.top - base.top) + 'px';
+    caret.style.top = (baseline - height - base.top) + 'px';
     if (caret.parentNode !== li) li.append(caret);
   }
 
@@ -55,6 +62,32 @@
 
   const last = rows[rows.length - 1];
   const tail = last.chars[last.chars.length - 1];
+  const heart = document.querySelector('.heart');
+  function splitHeart() {
+    if (!heart || heart.dataset.ready) return;
+    const seg = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+    const parts = [...seg.segment(heart.textContent)].map((item) => item.segment);
+    heart.replaceChildren(...parts.map((text) => {
+      const span = document.createElement('span');
+      span.className = 'em';
+      span.textContent = text;
+      return span;
+    }));
+    heart.dataset.ready = '1';
+  }
+  function popHeart() {
+    if (!heart) return;
+    const marks = [...heart.querySelectorAll('.em')];
+    marks.forEach((em, i) => {
+      em.animate([
+        { opacity: 0, transform: 'translate3d(0, 8px, 0) scale(0.4)', filter: 'drop-shadow(0 0 0 rgba(26, 173, 179, 0))' },
+        { opacity: 1, transform: 'translate3d(0, -3px, 0) scale(1.14)', filter: 'drop-shadow(0 0 8px rgba(26, 173, 179, .9))', offset: 0.62 },
+        { opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)', filter: 'drop-shadow(0 0 0 rgba(26, 173, 179, 0))' }
+      ], { duration: 500, delay: i * 80, easing: 'cubic-bezier(.22, .85, .3, 1)', fill: 'forwards' });
+    });
+  }
+  splitHeart();
+
   if (reduce) {
     caret.classList.add('is-still', 'is-gold');
     place(last.li, tail, 'after');
@@ -93,6 +126,7 @@
       if (i < rows.length - 1) await sleep(120 + Math.random() * 60);
     }
     root.dataset.done = String(performance.now());
+    popHeart();
   }
 
   play();
