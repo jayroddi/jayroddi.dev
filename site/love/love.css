@@ -18,6 +18,7 @@
 .support-date {
   margin-bottom: 1.65em;
   color: var(--c, #1AADB3);
+  text-align: center;
 }
 .support-group {
   list-style: none;

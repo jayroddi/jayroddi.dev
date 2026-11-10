@@ -7,8 +7,8 @@ import { CLASS_RGB, GOLD_RGB, presentClasses, pulseHubs } from './palette.js';
 import {
   BURST_MS, BURST_REDUCED_MS, advanceWave, autoSpin, controlView, createPad, gesturesAllowed,
   keyboardPress, padTone, padVisible, playDuration, playFrame, pointScaleFor, pressPad, releasePad,
-  revealAllowed, shouldCelebrate, speedOf, turnAxis
-} from './gate.js';
+  revealAllowed, shaking, shouldCelebrate, speedOf, spinSign
+} from './gate.js?v=15';
 import {
   DISCLOSURE, UNLOCK_ENABLED, buildClientPing, disclosureNeeded, maybeNotify
 } from './unlock-client.js';
@@ -143,10 +143,23 @@ uniform float uRebuild;
 uniform float uAppearFront;
 uniform float uAppearBand;
 uniform float uExplodeDist;
+uniform float uShake;
+vec3 shaken(vec3 home) {
+  if (uShake < 0.5) return home;
+  float len = max(length(home), 0.001);
+  float seed = fract(sin(dot(home, vec3(12.9898, 78.233, 37.719))) * 43758.5453);
+  float t = uTime * 16.0 + seed * 6.28318;
+  vec3 wob = vec3(sin(t), sin(t * 1.31 + 1.7), sin(t * 0.87 + 3.4));
+  vec3 p = home + wob * (len * 0.2);
+  float plen = length(p);
+  if (plen > len) p *= len / plen;
+  return p;
+}
 vec3 flown(vec3 home) {
-  if (uTravel < 0.001) return home;
-  vec3 dir = home / max(length(home), 0.001);
-  return home + dir * smoothstep(0.0, 1.0, uTravel) * uExplodeDist;
+  vec3 base = shaken(home);
+  if (uTravel < 0.001) return base;
+  vec3 dir = base / max(length(base), 0.001);
+  return base + dir * smoothstep(0.0, 1.0, uTravel) * uExplodeDist;
 }
 float shown(vec3 home) {
   if (uRebuild < 0.5) {
@@ -244,6 +257,7 @@ function linkMaterial(uniforms) {
       out vec3 vLocalOther;
       out float vShow;
       uniform float uWidth;
+      uniform float uTime;
       uniform highp float uGoldPulse;
       ${GOLD_AT}
       ${STAGE}
@@ -361,7 +375,7 @@ function waveElapsed() {
 function sync() {
   const view = controlView(pad.run.phase);
   const tone = padTone(pad.run.phase, pad.bad);
-  const turn = turnAxis(pad.run.direction);
+  const turn = spinSign(pad.run);
   const showPad = !controlsGone && padVisible(pad.run.phase, waveElapsed(), reduceMotion);
   if (padEl) {
     padEl.hidden = !showPad;
@@ -389,6 +403,9 @@ function sync() {
   host.dataset.speed = speedOf(pad.run, reduceMotion).toFixed(2);
   host.dataset.spin = autoSpin(pad.run, reduceMotion).toFixed(3);
   host.dataset.direction = pad.run.direction || '';
+  host.dataset.flip = pad.run.flip ? '1' : '0';
+  host.dataset.shake = shaking(pad.run) ? '1' : '0';
+  host.dataset.sign = String(spinSign(pad.run).sign);
   host.dataset.tone = tone;
   host.dataset.arrow = view.arrow ? '1' : '0';
   host.dataset.controls = showPad ? '1' : '0';
@@ -731,7 +748,8 @@ function build(data, positions) {
     uRebuild: { value: 0 },
     uAppearFront: { value: 0 },
     uAppearBand: { value: Math.max(8, maxR * 0.14) },
-    uExplodeDist: { value: reduceMotion ? 0 : 78 }
+    uExplodeDist: { value: reduceMotion ? 0 : 78 },
+    uShake: { value: 0 }
   };
   const boxSize = () => {
     const rect = host.getBoundingClientRect();
@@ -879,9 +897,10 @@ function build(data, positions) {
     cloud.scale.setScalar(breath);
     time.value = t;
     motion.value = reduceMotion || stillTime != null ? 0 : 1;
+    ripple.uShake.value = shaking(pad.run) && !reduceMotion ? 1 : 0;
     const spin = stillTime == null && !heldClock ? autoSpin(pad.run, reduceMotion) : 0;
     if (spin > 0) {
-      const turn = turnAxis(pad.run.direction);
+      const turn = spinSign(pad.run);
       camera.updateMatrixWorld();
       camera.matrixWorld.extractBasis(camRight, camUp, camForward);
       const axis = turn.axis === 'right' ? camRight : camUp;

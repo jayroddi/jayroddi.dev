@@ -298,13 +298,13 @@ body.board .home-quotes .quotes { margin: 0; width: 100%; }
   line-height: 1.65;
 }
 .home-quotes .pin .q {
-  color: rgba(244, 239, 230, .78);
-  text-align: left;
+  color: #1AADB3;
+  text-align: center;
 }
 .home-quotes .pin .by {
   margin-top: 4px;
   color: #FFD700;
-  text-align: right;
+  text-align: center;
 }
 .home-quotes .quotes li {
   max-width: 40em;
