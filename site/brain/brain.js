@@ -257,7 +257,7 @@ function linkMaterial(uniforms) {
       out vec3 vLocalOther;
       out float vShow;
       uniform float uWidth;
-      uniform float uTime;
+      uniform mediump float uTime;
       uniform highp float uGoldPulse;
       ${GOLD_AT}
       ${STAGE}
