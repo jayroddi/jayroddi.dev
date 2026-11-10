@@ -1,6 +1,6 @@
 /* Newest first. Category is only for the filter; it is not shown on the video. */
 const list = document.getElementById('interwebs');
-const CATS = ['😭', '🏎️', '🐐'];
+const CATS = ['😭', '🏎️', '🐐', '💭'];
 let items = [];
 let selected = 'all';
 let watcher;
