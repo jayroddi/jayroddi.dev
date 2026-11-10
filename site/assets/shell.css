@@ -465,15 +465,26 @@ body.is-welcome::after {
 .chain .post,
 .chain .carry,
 .chain .ch,
-.chain-caret {
+.chain-caret,
+.heart,
+.heart .em {
   font-style: italic;
 }
+.heart {
+  display: block;
+  margin: calc(14px + 1.55em) 0 0;
+  font-size: 18px;
+  line-height: 1;
+  text-align: center;
+}
+.heart .em { display: inline-block; }
+html.chain-play .heart .em { opacity: 0; }
 /* typewriter. the full line is in the layout from the first paint.
    characters reveal in place, already in their final color. */
 .chain {
   list-style: none;
   width: 100%;
-  margin: 14px 0 0;
+  margin: calc(14px + 1.55em) 0 0;
   padding: 0;
   font-family: var(--mono);
   font-size: clamp(8px, 1.35vw, 18px);
@@ -515,7 +526,8 @@ html.chain-play .chain .carry {
 .chain-caret {
   position: absolute;
   z-index: 2;
-  width: 1ch;
+  width: 0.6em;
+  height: 0.7em;
   margin: 0;
   padding: 0;
   background: #1AADB3;
@@ -546,4 +558,5 @@ html.chain-play .chain .carry {
   .chain .carry { color: #1AADB3; }
   .chain .carry.destiny { color: #FFD700; }
   .chain-caret { animation: none; opacity: 1; }
+  html.chain-play .heart .em { opacity: 1; }
 }
