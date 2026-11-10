@@ -279,7 +279,7 @@ body.is-welcome .welcome {
   font-weight: 500;
   font-style: italic;
   line-height: 1.35;
-  color: #f4efe6;
+  color: rgba(244, 239, 230, .72);
   text-shadow: 0 2px 12px rgba(0, 0, 0, .7);
   white-space: nowrap;
 }
@@ -461,7 +461,6 @@ body.is-welcome::after {
 .hero-title,
 .hero-title .name,
 .hero-sub,
-.chain-lead,
 .chain,
 .chain li,
 .chain .pre,
@@ -474,16 +473,6 @@ body.is-welcome::after {
 }
 /* paradox chain. one size for every line, clamped to the longest sentence.
    both nouns are teal. destiny takes one 1.8s brain-gold breath, then holds. */
-.chain-lead {
-  margin: 10px 0 8px;
-  font-family: var(--mono);
-  font-size: clamp(9px, 2.05vw, 15px);
-  font-weight: 500;
-  line-height: 1.35;
-  letter-spacing: normal;
-  color: #f4efe6;
-  white-space: nowrap;
-}
 .chain {
   list-style: none;
   width: 100%;
@@ -551,7 +540,6 @@ html.chain-play .chain .carry {
 }
 @media (max-width: 480px) {
   .chain { font-size: clamp(8px, 2.32vw, 11px); }
-  .chain-lead { font-size: clamp(8px, 2.5vw, 11px); letter-spacing: -0.02em; }
 }
 @media (prefers-reduced-motion: reduce) {
   html.chain-play .chain .pre,

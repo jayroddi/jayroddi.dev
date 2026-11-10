@@ -10,12 +10,11 @@ const html = readFileSync(new URL('../site/index.html', import.meta.url), 'utf8'
 assert.match(css, /Standing rule: every word on jayroddi\.dev is italic/);
 assert.match(css, /\* \{ font-style: normal \}/);
 
-const rule = css.slice(css.indexOf('.hero-title,'), css.indexOf('.chain-lead {'));
+const rule = css.slice(css.indexOf('.hero-title,'), css.indexOf('/* paradox chain'));
 for (const sel of [
   '.hero-title,',
   '.hero-title .name,',
   '.hero-sub,',
-  '.chain-lead,',
   '.chain,',
   '.chain li,',
   '.chain .pre,',
@@ -32,6 +31,8 @@ assert.match(css, /body\.board \.home-quotes \.quotes time \{\s*font-style: ital
 assert.match(css, /\.chain \.noun,\s*\.chain \.carry \{\s*color: #1AADB3/);
 assert.match(css, /\.chain \.carry\.destiny \{\s*color: #FFD700/);
 assert.match(html, /<p class="hero-sub">navigating the messy middle i created for myself<\/p>/);
+assert.doesNotMatch(html, /the best thing my 38 years have taught me/);
+assert.match(css, /\.hero-sub \{[^}]*color: rgba\(244, 239, 230, \.72\)/);
 assert.match(html, /my name is <span class="name">jay<\/span>, and i am a paradox</);
 assert.doesNotMatch(html, /paradox\./);
 
