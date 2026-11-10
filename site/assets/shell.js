@@ -85,7 +85,7 @@
     pushBox(blocked, nav, 8);
     if (getComputedStyle(dock).display !== 'none') pushBox(blocked, dock, 8);
     document.querySelectorAll([
-      '.hands', '.hero-title', '.hero-sub', '.chain-lead', '.chain', '.splash-quote', '.heart', '.scroll-hint',
+      '.hands', '.hero-title', '.hero-sub', '.chain-lead', '.phrase', '.splash-quote', '.heart', '.scroll-hint',
       '.subhead', '.kicker', '.stat', '.legend', '.months', '.dow',
       '.quotes .d', '.quotes .q', '.quotes .by',
       '.month h2', '.socials a', '.socials p'

@@ -249,7 +249,7 @@ body.is-welcome .welcome {
   overflow: visible;
 }
 .hero { width: min(880px, 100%); text-align: center; }
-.hero-copy { --intro-blank: 29px; }
+.hero-copy { --intro-blank: 29px; --phrase-size: 18px; }
 .hands {
   display: block;
   margin: 0 0 var(--intro-blank);
@@ -310,7 +310,6 @@ body.is-welcome .welcome {
   display: block;
   margin: 0;
   font-style: normal;
-  font-size: 18px;
   line-height: 1;
 }
 .soft {
@@ -458,105 +457,66 @@ body.is-welcome::after {
    so each homepage text element sets italic on itself. */
 .hero-title,
 .hero-title .name,
-.chain,
-.chain li,
-.chain .pre,
-.chain .noun,
-.chain .post,
-.chain .carry,
-.chain .ch,
-.chain-caret,
+.phrase,
+.phrase .discipline,
+.phrase .plain,
+.phrase .destiny,
+.phrase .ch,
 .heart,
 .heart .em {
   font-style: italic;
 }
+/* The phrase uses the flag row's previous size: .heart was 18px at every
+   breakpoint. The flags now use the title's size, matched per breakpoint
+   below. Both gaps use the phrase size so they stay equal. */
+.phrase {
+  width: 100%;
+  margin: calc(14px + 1.55 * var(--phrase-size)) 0 0;
+  font-family: var(--mono);
+  font-size: var(--phrase-size);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: normal;
+  color: #f4efe6;
+  text-align: center;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .7);
+  white-space: nowrap;
+}
+.phrase .discipline { color: #1AADB3; }
+.phrase .plain { color: #f4efe6; }
+.phrase .destiny { color: #FFD700; }
+.phrase .ch {
+  display: inline-block;
+  white-space: pre;
+}
+html.chain-play .phrase .discipline,
+html.chain-play .phrase .plain,
+html.chain-play .phrase .destiny {
+  color: transparent;
+}
 .heart {
   display: block;
-  margin: calc(14px + 1.55em) 0 0;
-  font-size: 18px;
+  margin: calc(14px + 1.55 * var(--phrase-size)) 0 0;
+  font-size: clamp(12.5px, 3.05vw, 38px);
   line-height: 1;
   text-align: center;
 }
 .heart .em { display: inline-block; }
 html.chain-play .heart .em { opacity: 0; }
-/* typewriter. the full line is in the layout from the first paint.
-   characters reveal in place, already in their final color. */
-.chain {
-  list-style: none;
-  width: 100%;
-  margin: calc(14px + 1.55em) 0 0;
-  padding: 0;
-  font-family: var(--mono);
-  font-size: clamp(8px, 1.35vw, 18px);
-  font-weight: 500;
-  line-height: 1.55;
-  letter-spacing: normal;
-  color: #f4efe6;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, .7);
+@media (max-width: 720px) {
+  .heart { font-size: clamp(12.5px, 4.05vw, 28px); }
 }
-.chain li {
-  position: relative;
-  margin: 0;
-  white-space: nowrap;
-}
-.chain .pre,
-.chain .noun,
-.chain .post,
-.chain .carry {
-  display: inline-block;
-  vertical-align: baseline;
-}
-.chain .ch {
-  display: inline-block;
-  white-space: pre;
-}
-.chain .noun,
-.chain .carry {
-  color: #1AADB3;
-}
-.chain .carry.destiny {
-  color: #FFD700;
-}
-html.chain-play .chain .pre,
-html.chain-play .chain .noun,
-html.chain-play .chain .post,
-html.chain-play .chain .carry {
-  color: transparent;
-}
-.chain-caret {
-  position: absolute;
-  z-index: 2;
-  width: 0.52em;
-  height: 0.55em;
-  margin: 0;
-  padding: 0;
-  background: #1AADB3;
-  pointer-events: none;
-  animation: chain-caret 1.06s steps(1, end) infinite;
-}
-.chain-caret.is-gold { background: #FFD700; }
-.chain-caret.is-typing,
-.chain-caret.is-still {
-  animation: none;
-  opacity: 1;
-}
-@keyframes chain-caret {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
-}
-@media (max-width: 480px) {
-  .chain { font-size: clamp(8px, 2.32vw, 11px); }
+@media (max-height: 760px) {
+  .heart { font-size: clamp(12.5px, 3.4vw, 30px); }
 }
 @media (prefers-reduced-motion: reduce) {
-  html.chain-play .chain .pre,
-  html.chain-play .chain .noun,
-  html.chain-play .chain .post,
-  html.chain-play .chain .carry {
+  html.chain-play .phrase .discipline,
+  html.chain-play .phrase .plain,
+  html.chain-play .phrase .destiny {
     color: inherit;
   }
-  .chain .noun,
-  .chain .carry { color: #1AADB3; }
-  .chain .carry.destiny { color: #FFD700; }
-  .chain-caret { animation: none; opacity: 1; }
+  .phrase .discipline { color: #1AADB3; }
+  .phrase .plain { color: #f4efe6; }
+  .phrase .destiny { color: #FFD700; }
   html.chain-play .heart .em { opacity: 1; }
 }
