@@ -11,7 +11,7 @@ const chain = readFileSync(new URL('../site/assets/chain.js', import.meta.url), 
 assert.match(css, /Standing rule: every word on jayroddi\.dev is italic/);
 assert.match(css, /\* \{ font-style: normal \}/);
 
-const rule = css.slice(css.indexOf('.hero-title,'), css.indexOf('/* The phrase uses'));
+const rule = css.slice(css.indexOf('.hero-title,'), css.indexOf('/* The phrase is'));
 for (const sel of [
   '.hero-title,',
   '.hero-title .name,',
@@ -30,11 +30,13 @@ assert.match(css, /body\.board \.home-quotes \.quotes time \{\s*font-style: ital
 assert.match(css, /\.phrase \.discipline \{ color: #1AADB3/);
 assert.match(css, /\.phrase \.plain \{ color: #f4efe6/);
 assert.match(css, /\.phrase \.destiny \{ color: #FFD700/);
-assert.match(css, /--phrase-size: 18px/);
+assert.match(css, /--title-size: clamp\(12\.5px, 3\.05vw, 38px\)/);
+assert.match(css, /--phrase-size: calc\(var\(--title-size\) \* 1\.15\)/);
+assert.match(css, /@media \(max-width: 720px\) \{\s*\.hero-copy \{ --title-size: clamp\(12\.5px, 4\.05vw, 28px\)/);
+assert.match(css, /@media \(max-height: 760px\) \{\s*\.hero-copy \{ --title-size: clamp\(12\.5px, 3\.4vw, 30px\)/);
+assert.match(css, /\.hero-title \{[^}]*font-size: var\(--title-size\)/);
 assert.match(css, /\.phrase \{[^}]*font-size: var\(--phrase-size\)/);
-assert.match(css, /\.heart \{[^}]*font-size: clamp\(12\.5px, 3\.05vw, 38px\)/);
-assert.match(css, /@media \(max-width: 720px\) \{\s*\.heart \{ font-size: clamp\(12\.5px, 4\.05vw, 28px\)/);
-assert.match(css, /@media \(max-height: 760px\) \{\s*\.heart \{ font-size: clamp\(12\.5px, 3\.4vw, 30px\)/);
+assert.match(css, /\.heart \{[^}]*font-size: var\(--title-size\)/);
 assert.doesNotMatch(css, /chain-caret/);
 assert.match(html, /i'm <span class="name">jay<\/span>, and i build stuff w\/ my 💻/);
 assert.match(html, /<p class="phrase"><span class="discipline">discipline<\/span><span class="plain"> is <\/span><span class="destiny">destiny<\/span><\/p>/);

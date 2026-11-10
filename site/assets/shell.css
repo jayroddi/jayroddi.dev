@@ -249,7 +249,11 @@ body.is-welcome .welcome {
   overflow: visible;
 }
 .hero { width: min(880px, 100%); text-align: center; }
-.hero-copy { --intro-blank: 29px; --phrase-size: 18px; }
+.hero-copy {
+  --intro-blank: 29px;
+  --title-size: clamp(12.5px, 3.05vw, 38px);
+  --phrase-size: calc(var(--title-size) * 1.15);
+}
 .hands {
   display: block;
   margin: 0 0 var(--intro-blank);
@@ -261,7 +265,7 @@ body.is-welcome .welcome {
 .hero-title {
   margin: 0;
   font-family: var(--mono);
-  font-size: clamp(12.5px, 3.05vw, 38px);
+  font-size: var(--title-size);
   font-weight: 500;
   font-style: italic;
   line-height: .98;
@@ -325,12 +329,11 @@ body.board .welcome .quotes .d { margin: 0; }
 body.board .welcome .quotes .q { margin-top: 1.65em; }
 body.board .welcome .quotes .by { margin-top: 1.65em; }
 @media (max-width: 720px) {
-  .hero-title { font-size: clamp(12.5px, 4.05vw, 28px); }
+  .hero-copy { --title-size: clamp(12.5px, 4.05vw, 28px); }
   .soft { margin-top: 10px; padding: 14px 10px 10px; }
 }
 @media (max-height: 760px) {
-  .hero-title { font-size: clamp(12.5px, 3.4vw, 30px); }
-  .hero-copy { --intro-blank: 18px; }
+  .hero-copy { --title-size: clamp(12.5px, 3.4vw, 30px); --intro-blank: 18px; }
   .splash-quote { font-size: 12px; line-height: 1.45; }
   .soft { margin-top: 8px; }
 }
@@ -466,9 +469,8 @@ body.is-welcome::after {
 .heart .em {
   font-style: italic;
 }
-/* The phrase uses the flag row's previous size: .heart was 18px at every
-   breakpoint. The flags now use the title's size, matched per breakpoint
-   below. Both gaps use the phrase size so they stay equal. */
+/* The phrase is 1.15× the title at every breakpoint, from the same clamp.
+   The flags use the title size. Both gaps use the phrase size so they stay equal. */
 .phrase {
   width: 100%;
   margin: calc(14px + 1.55 * var(--phrase-size)) 0 0;
@@ -497,18 +499,12 @@ html.chain-play .phrase .destiny {
 .heart {
   display: block;
   margin: calc(14px + 1.55 * var(--phrase-size)) 0 0;
-  font-size: clamp(12.5px, 3.05vw, 38px);
+  font-size: var(--title-size);
   line-height: 1;
   text-align: center;
 }
 .heart .em { display: inline-block; }
 html.chain-play .heart .em { opacity: 0; }
-@media (max-width: 720px) {
-  .heart { font-size: clamp(12.5px, 4.05vw, 28px); }
-}
-@media (max-height: 760px) {
-  .heart { font-size: clamp(12.5px, 3.4vw, 30px); }
-}
 @media (prefers-reduced-motion: reduce) {
   html.chain-play .phrase .discipline,
   html.chain-play .phrase .plain,
