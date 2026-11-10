@@ -388,7 +388,7 @@ def test_page_copy() -> None:
     habits = (ROOT / "site" / "habits" / "index.html").read_text(encoding="utf-8")
     css = (ROOT / "site" / "snaps" / "snaps.css").read_text(encoding="utf-8")
     js = (ROOT / "site" / "snaps" / "snaps.js").read_text(encoding="utf-8")
-    assert 'location.replace("/grind/"' in home and 'id="gallery"' not in home and 'class="trackers"' not in home
+    assert 'class="trackers"' in home and 'location.replace' not in home and 'id="gallery"' not in home
     assert 'id="gallery"' in html and 'class="site-menu"' in html and "menu.js" in html
     assert 'id="guess"' not in html and 'type="password"' not in html
     assert "if you know me well enough" not in html
@@ -399,11 +399,10 @@ def test_page_copy() -> None:
     assert "index.frost" not in js
     assert publish_snaps.GATE == datetime(2026, 11, 1, 0, 0, tzinfo=publish_snaps.CT)
     assert publish_snaps.PRECONNECT.strip() in html
-    assert 'class="trackers"' in grind and 'id="kronos"' not in grind
-    assert "hud.js" not in grind and "hud.css" not in grind
-    assert 'class="day-quote"' not in grind and "today.js" not in grind
-    assert 'id="gallery"' not in grind
-    assert 'location.replace("/grind/"' in habits and 'class="trackers"' not in habits
+    assert 'id="kronos"' not in home and "hud.js" not in home and "hud.css" not in home
+    assert 'class="day-quote"' not in home and "today.js" not in home
+    assert 'location.replace("/" + location.search + location.hash)' in grind and 'class="trackers"' not in grind
+    assert 'location.replace("/" + location.search + location.hash)' in habits and 'class="trackers"' not in habits
     order = ["/grind/", "/snaps/", "/music/", "/books/", "/quotes/", "/social/"]
     social = (ROOT / "site" / "social" / "index.html").read_text(encoding="utf-8")
     for page in (

@@ -1,18 +1,27 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="quiet">
 <head>
 <meta charset="utf-8">
-<title>quotes</title>
-<script>location.replace("/" + location.search + "#quotes")</script>
-<meta http-equiv="refresh" content="0; url=/#quotes">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8DYYL3KYM"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());(function(){var l=location.href;try{var u=new URL(l),d=[];u.searchParams.forEach(function(v,k){if(/mail/i.test(k)||v.indexOf('@')>=0)d.push(k);});d.forEach(function(k){u.searchParams.delete(k);});l=u.href;}catch(e){}gtag('config','G-G8DYYL3KYM',{page_location:l});})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="robots" content="noindex">
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
-<link rel="canonical" href="https://jayroddi.dev/#quotes">
-<style>html,body{margin:0;background:#000;color:#f4efe6}body{font:16px/1.5 ui-monospace,monospace;padding:24px}a{color:#1AADB3;text-decoration:none}</style>
+<title>quotes</title>
+<link rel="stylesheet" href="/habits/habits.css?v=3.49">
+<link rel="stylesheet" href="/assets/rain.css?v=2.64">
+<link rel="stylesheet" href="/assets/shell.css?v=38">
+<link rel="icon" href="/favicon.ico?v=6" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=6">
+<link rel="canonical" href="https://jayroddi.dev/quotes/">
+<meta name="description" content="daily quotes">
 </head>
-<body>
-<p><a href="/#quotes">quotes</a></p>
+<body class="board is-welcome is-quotes">
+<section id="quotes" class="home-quotes">
+  <div class="soft">
+    <ol class="quotes" aria-label="quotes"></ol>
+  </div>
+</section>
+<script src="/assets/shell.js?v=24" defer></script>
 </body>
 </html>

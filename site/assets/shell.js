@@ -1,14 +1,14 @@
-/* live shell. pill nav, square field, quote list on the homepage. no audio.
-   the pill is 👋 📷 🎭 💛 🍿 🗓️ 🧠. the paradox chain is the splash.
-   today's quote leads the list under the arrow and fades in on scroll. */
+/* live shell. pill nav, square field, quote list on /quotes/. no audio.
+   the pill is 🤓 📷 🍿 💛 📣 🎭 🧠.
+   /quotes/ reads /quote-of-the-day/quotes.json. today's quote leads. */
 (() => {
   const pages = [
-    ['/', '👋', 'home'],
+    ['/', '🤓', 'grind'],
     ['/snaps/', '📷', 'snaps'],
-    ['/interwebs/', '🎭', 'interwebs'],
-    ['/love/', '💛', 'love'],
     ['/log/', '🍿', 'log'],
-    ['/grind/', '🗓️', 'grind'],
+    ['/love/', '💛', 'love'],
+    ['/quotes/', '📣', 'quotes'],
+    ['/interwebs/', '🎭', 'interwebs'],
     ['/brain/', '🧠', 'brain']
   ];
   const here = (() => {
@@ -85,7 +85,7 @@
     pushBox(blocked, nav, 8);
     if (getComputedStyle(dock).display !== 'none') pushBox(blocked, dock, 8);
     document.querySelectorAll([
-      '.hands', '.hero-title', '.hero-sub', '.chain-lead', '.phrase', '.splash-quote', '.heart', '.scroll-hint',
+      '.hands', '.hero-title', '.hero-sub', '.chain-lead', '.phrase', '.splash-quote', '.heart', '.scroll-hint', '.home-quotes',
       '.subhead', '.kicker', '.stat', '.legend', '.months', '.dow',
       '.quotes .d', '.quotes .q', '.quotes .by',
       '.month h2', '.socials a', '.socials p'
@@ -172,49 +172,7 @@
   function mountHomeQuotes() {
     const section = document.getElementById('quotes');
     const listEl = section && section.querySelector('ol.quotes');
-    if (!section || !listEl || !document.body.classList.contains('is-welcome')) return;
-
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let shown = false;
-    let ready = false;
-    let pending = false;
-
-    const reveal = () => {
-      pending = true;
-      if (!ready || shown) return;
-      shown = true;
-      section.removeAttribute('aria-hidden');
-      const go = () => section.classList.add('is-in');
-      if (reduce) go();
-      else requestAnimationFrame(() => requestAnimationFrame(go));
-    };
-
-    const scrolled = () => window.scrollY > 12;
-    const alignQuotes = () => {
-      if (location.hash !== '#quotes') return;
-      const root = document.documentElement;
-      const prev = root.style.scrollBehavior;
-      root.style.scrollBehavior = 'auto';
-      section.scrollIntoView({ block: 'start' });
-      root.style.scrollBehavior = prev;
-    };
-    addEventListener('scroll', () => { if (scrolled()) reveal(); }, { passive: true });
-    addEventListener('hashchange', () => {
-      if (location.hash !== '#quotes') return;
-      reveal();
-      alignQuotes();
-    });
-    const hint = document.querySelector('a.scroll-hint');
-    if (hint) hint.addEventListener('click', () => reveal());
-    if (location.hash === '#quotes' || scrolled()) reveal();
-    if (window.IntersectionObserver) {
-      const watch = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && (scrolled() || location.hash === '#quotes')) reveal();
-        });
-      }, { threshold: 0.08 });
-      watch.observe(section);
-    }
+    if (!section || !listEl) return;
 
     const chicago = () => new Intl.DateTimeFormat('en-CA', {
       timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit'
@@ -248,10 +206,9 @@
         frag.append(li);
       });
       listEl.replaceChildren(frag);
-      ready = list.length > 0;
+      section.classList.add('is-in');
+      section.removeAttribute('aria-hidden');
       placeBlinkers();
-      if (pending || location.hash === '#quotes' || scrolled()) reveal();
-      if (location.hash === '#quotes') alignQuotes();
     };
     const load = () => {
       fetch('/quote-of-the-day/quotes.json', { cache: 'no-cache' })

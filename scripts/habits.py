@@ -62,24 +62,15 @@ JARVIS = HABITS / "journal-jarvis.json"
 SLEEP = HABITS / "sleep.json"
 STEPS = HABITS / "steps.json"
 STEPS_CUTS = [2500, 5000, 7500, 10000]
-# / forwards to /grind/. the grids are site/grind/index.html. /habits/ and /me/ forward there.
-# snaps are /snaps/. the life-score tape is /hud/ only, not on /grind/.
-# /daily/ is the quote feed. day pages still forward to /, which forwards to /grind/.
+# / is the habit grids (site/index.html). /grind/, /habits/, and /me/ forward there.
+# snaps are /snaps/. the life-score tape is /hud/ only, not on /.
+# /quotes/ is the quote feed. it still reads site/quote-of-the-day/quotes.json.
+# day pages still forward to /.
 HOME = HABITS.parent / "index.html"
 INDEX = HABITS / "index.html"
 GRIND = HABITS.parent / "grind" / "index.html"
 SNAPS = HABITS.parent / "snaps" / "index.html"
 ME = HABITS.parent / "me" / "index.html"
-MAST_PAGES = (
-    GRIND,
-    SNAPS,
-    HABITS.parent / "music" / "index.html",
-    HABITS.parent / "books" / "index.html",
-    HABITS.parent / "quotes" / "index.html",
-    HABITS.parent / "social" / "index.html",
-    HABITS.parent / "daily" / "index.html",
-    HABITS.parent / "confirmed" / "index.html",
-)
 TZ = ZoneInfo("America/Chicago")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 RIDE_FROM = "2026-01-01"
@@ -815,8 +806,8 @@ def build_cursor_once(cfg: dict, today: date) -> dict:
 
 
 def grid_pages() -> list[Path]:
-    """The habit grids. They live on /grind/. / and /habits/ forward there."""
-    return [GRIND]
+    """The habit grids. They live on /. /grind/, /habits/, and /me/ forward there."""
+    return [HOME]
 
 
 def check_index(cfg: dict) -> None:
@@ -995,41 +986,24 @@ def assert_redirects() -> int:
         n += 1
     if n == 0:
         raise SystemExit("habits: no day-page redirects under site/habits")
-    # / and /habits/ and /me/ forward to /grind/. snaps are /snaps/. grids are /grind/.
-    mast = '<p class="mark"><span class="em">✌️🤟🤙</span></p><h1 class="pages"><a class="brand" href="/"><span class="em">a/b tester of the year? 🎭</span></a></h1>'
+    # / is the grids. /grind/, /habits/, and /me/ forward there. snaps are /snaps/.
     for path in grid_pages():
         html = path.read_text(encoding="utf-8")
         label = path.relative_to(ROOT)
         if 'class="trackers"' not in html or "location.replace" in html or 'id="gallery"' in html:
             raise SystemExit(f"habits: {label} is not the grids page")
-        if 'class="site-menu"' not in html or "menu.js" not in html or "🗓️" in html or 'class="day-quote"' in html or "today.js" in html:
-            raise SystemExit(f"habits: {label} is missing the menu or still has the daily quote")
+        if 'class="day-quote"' in html or "today.js" in html:
+            raise SystemExit(f"habits: {label} still has the daily quote")
         if 'id="kronos"' in html or "hud.js" in html or "hud.css" in html:
             raise SystemExit(f"habits: {label} still has the life-score tape")
-        if 'href="/grind/"' not in html or ">grind</a>" not in html:
-            raise SystemExit(f"habits: {label} is missing the grind link")
-    me = ME.read_text(encoding="utf-8")
-    if 'location.replace("/grind/"' not in me:
-        raise SystemExit("habits: site/me/index.html is not a redirect to /grind/")
-    home = HOME.read_text(encoding="utf-8")
-    if 'location.replace("/grind/"' not in home or 'id="gallery"' in home or 'class="trackers"' in home:
-        raise SystemExit("habits: site/index.html is not a redirect to /grind/")
-    habits_page = INDEX.read_text(encoding="utf-8")
-    if 'location.replace("/grind/"' not in habits_page or 'class="trackers"' in habits_page:
-        raise SystemExit("habits: site/habits/index.html is not a redirect to /grind/")
+    home_forward = 'location.replace("/" + location.search + location.hash)'
+    for path, name in ((GRIND, "grind"), (INDEX, "habits"), (ME, "me")):
+        text = path.read_text(encoding="utf-8")
+        if home_forward not in text or 'class="trackers"' in text:
+            raise SystemExit(f"habits: site/{name}/index.html is not a redirect to /")
     snaps = SNAPS.read_text(encoding="utf-8")
     if 'id="gallery"' not in snaps or 'id="kronos"' in snaps:
         raise SystemExit("habits: site/snaps/index.html is not the photo grid")
-    for path in MAST_PAGES:
-        text = path.read_text(encoding="utf-8")
-        if mast not in text or 'class="sep"' in text or "site-menu" not in text or "menu.js" not in text:
-            raise SystemExit(f"habits: {path.relative_to(ROOT)} mast is not hands / a/b tester of the year? 🎭 / menu")
-        if '<button type="button" class="brand"' in text or 'cycle accent color' in text:
-            raise SystemExit(f"habits: {path.relative_to(ROOT)} title is still an accent control")
-        if '<a class="brand" href="/">' not in text:
-            raise SystemExit(f"habits: {path.relative_to(ROOT)} title does not link home")
-        if '✌️🤟🤙 // ' in text:
-            raise SystemExit(f"habits: {path.relative_to(ROOT)} still has the old header alt")
     return n
 
 
