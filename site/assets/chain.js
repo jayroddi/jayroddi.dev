@@ -42,14 +42,15 @@
     const cs = getComputedStyle(li);
     const fontSize = parseFloat(cs.fontSize);
     measure.font = cs.font;
-    const glyph = measure.measureText('H');
+    const glyph = measure.measureText('n');
+    const xHeight = measure.measureText('x').actualBoundingBoxAscent || fontSize * 0.53;
     const descent = glyph.actualBoundingBoxDescent || fontSize * 0.15;
     const lineHeight = parseFloat(cs.lineHeight) || fontSize * 1.55;
     const halfLead = Math.max(0, (lineHeight - fontSize) / 2);
     const baseline = box.bottom - descent - halfLead;
-    const height = fontSize * 0.7;
+    const height = xHeight;
     const x = edge === 'after' ? box.right : box.left;
-    caret.style.width = (fontSize * 0.6) + 'px';
+    caret.style.width = (glyph.width || fontSize * 0.52) + 'px';
     caret.style.height = height + 'px';
     caret.style.left = (x - base.left) + 'px';
     caret.style.top = (baseline - height - base.top) + 'px';
@@ -96,8 +97,8 @@
 
   const charCount = rows.reduce((sum, row) => sum + row.chars.length, 0);
   const spaces = rows.reduce((sum, row) => sum + row.chars.filter((ch) => ch.textContent === ' ' || ch.textContent === '\u00a0').length, 0);
-  const beatTotal = (rows.length - 1) * 150;
-  const base = (10000 - beatTotal) / (charCount + spaces * 0.35);
+  const beatTotal = (rows.length - 1) * 75;
+  const base = (5000 - beatTotal) / (charCount + spaces * 0.35);
   const jitter = Math.max(3, Math.round(base * 0.3));
 
   function waitFor(prev) {
@@ -123,7 +124,7 @@
       }
       place(li, chars[chars.length - 1], 'after');
       typing(false);
-      if (i < rows.length - 1) await sleep(120 + Math.random() * 60);
+      if (i < rows.length - 1) await sleep(60 + Math.random() * 30);
     }
     root.dataset.done = String(performance.now());
     popHeart();
