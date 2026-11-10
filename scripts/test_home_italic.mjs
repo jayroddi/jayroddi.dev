@@ -15,14 +15,19 @@ const me = readFileSync(new URL('../site/me/index.html', import.meta.url), 'utf8
 assert.match(css, /Standing rule: every word on jayroddi\.dev is italic/);
 assert.match(css, /\* \{ font-style: normal \}/);
 assert.match(css, /\.tabs a\.mark \{[^}]*font-style: italic/);
-assert.match(css, /body\.board \.home-quotes \.quotes time \{\s*font-style: italic/);
+assert.match(css, /body\.board \.home-quotes \.quotes time,[\s\S]*font-style: italic/);
+assert.match(css, /\.home-quotes \.pin \.by \{[^}]*color: #FFD700/);
 assert.doesNotMatch(css, /chain-caret|hero-title|\.phrase /);
 
 assert.match(html, /class="trackers"/);
 assert.match(html, /class="board is-grind"/);
 assert.doesNotMatch(html, /hero-title|discipline is destiny|class="heart"|chain\.js|scroll-hint|location\.replace/);
 assert.match(quotes, /<section id="quotes" class="home-quotes">/);
+assert.match(quotes, /<blockquote class="q">you are the average of the five people you spend the most time with\.<\/blockquote>/);
+assert.match(quotes, /<p class="by">jim rohn<\/p>/);
 assert.match(quotes, /<ol class="quotes" aria-label="quotes"><\/ol>/);
+const feed = readFileSync(new URL('../site/quote-of-the-day/quotes.json', import.meta.url), 'utf8');
+assert.doesNotMatch(feed, /jim rohn|five people you spend/);
 assert.doesNotMatch(quotes, /hero-title|class="subhead"|class="heart"|chain\.js/);
 assert.match(shell, /fetch\('\/quote-of-the-day\/quotes\.json'/);
 
