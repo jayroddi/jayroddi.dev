@@ -304,6 +304,7 @@ def test_committed_clear_list_matches_album() -> None:
     woodford = "26c32239173e446fbe0a5739d9d6199d"
     parking = "4f3f4896ed13440ea9f5b9b99f46a1c4"
     yeti = "2908d99635db460ba2d7d3e8069b782f"
+    tesla = "57455e079c1b414682ea454192f6e14b"
     hotdog = "0dee4b68d6554ae0bc2e7a5f87005d6c"
     older = [
         "d997f7830d2044719fe89f8414379f8c",
@@ -315,7 +316,7 @@ def test_committed_clear_list_matches_album() -> None:
         "f535b7a5b2494dd0a69f5a2f207b12c6",
     ]
     ids = snaps_clear.load_clear_ids(ROOT)
-    assert ids == set(older) | {sign, woodford, yeti}
+    assert ids == set(older) | {sign, woodford, yeti, tesla}
     assert parking not in ids
     assert hotdog not in ids
     found = {}
@@ -327,7 +328,7 @@ def test_committed_clear_list_matches_album() -> None:
     def pins_ok(rows: dict) -> None:
         assert set(older) <= set(rows)
         assert hotdog in rows
-        assert set(rows) <= set(older) | {hotdog, sign, woodford, yeti}
+        assert set(rows) <= set(older) | {hotdog, sign, woodford, yeti, tesla}
         if sign in rows:
             real = rows[sign]
             assert frost.dated_for_frost(real)
@@ -377,7 +378,13 @@ def test_committed_clear_list_matches_album() -> None:
     assert bike["w"] == 5376 and bike["h"] == 8064
     assert frost.dated_for_frost(bike)
     assert not snaps_clear.should_frost(bike, ids)
-    assert saved["ids"] == [yeti, woodford, sign, *older]
+    car = found[tesla]
+    assert car["d"] == "2026-11-10"
+    assert car["a"] == "2026-11-10T08:54:18-06:00"
+    assert car["w"] == 4032 and car["h"] == 2688
+    assert frost.dated_for_frost(car)
+    assert not snaps_clear.should_frost(car, ids)
+    assert saved["ids"] == [tesla, yeti, woodford, sign, *older]
     assert saved["note"] == snaps_clear.NOTE
 
 
