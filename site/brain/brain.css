@@ -179,12 +179,11 @@ body.is-brain .brain-kicker {
   text-align: center;
   color: #1AADB3;
   pointer-events: none;
-  transition: color 1.2s ease;
 }
 
-/* Gold joins the title once the rebuild finishes, same #FFD700 as the cloud. */
-body.is-brain.is-rebuilt .brain-kicker {
-  color: #FFD700;
+/* The line leaves with the code, and the cloud takes its space. */
+body.is-brain.is-burst .brain-kicker {
+  display: none;
 }
 
 body.is-brain .pad button {
@@ -279,7 +278,6 @@ body.is-brain::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body.is-brain .brain-kicker { transition: none; }
   body.is-brain .pad button.hit { transform: none; }
   body.is-brain button.scroll-hint {
     animation: none;
