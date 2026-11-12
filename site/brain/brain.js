@@ -396,8 +396,10 @@ function sync() {
   if (view.nowReady && nowEl) nowEl.hidden = false;
   document.body.dataset.brain = revealed ? 'now' : (pad.bad ? 'bad' : pad.run.phase);
   document.body.dataset.gestures = gesturesAllowed(pad.run) ? '1' : '0';
-  if (pad.run.phase === 'wave' || pad.run.phase === 'open') document.body.classList.add('is-gold');
-  if (pad.run.phase === 'open') document.body.classList.add('is-rebuilt');
+  if (pad.run.phase === 'wave' || pad.run.phase === 'open') {
+    document.body.classList.add('is-gold');
+    document.body.classList.add('is-burst');
+  }
   if (!host) return;
   host.dataset.phase = pad.run.phase;
   host.dataset.prefix = String(pad.run.prefix);
