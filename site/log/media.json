@@ -3,7 +3,7 @@
     {
       "c": "all",
       "e": "all",
-      "n": 480
+      "n": 481
     },
     {
       "c": "movies",
@@ -23,7 +23,7 @@
     {
       "c": "albums",
       "e": "💿",
-      "n": 156
+      "n": 157
     },
     {
       "c": "games",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 23
+      "n": 24
     },
     {
       "m": "2025",
@@ -83,6 +83,17 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "albums-ballads-of-hyrule-iii-2026-11-12-612c5b",
+      "d": "2026-11-12",
+      "c": "albums",
+      "t": "Ballads of Hyrule III",
+      "a": "Rozen",
+      "r": null,
+      "img": "albums-ballads-of-hyrule-iii-2026-11-12-612c5b.jpg",
+      "src": "music 🎧",
+      "blurb": null
+    },
     {
       "i": "albums-currency-2026-11-12-5c53b8",
       "d": "2026-11-12",
