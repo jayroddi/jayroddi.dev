@@ -397,6 +397,7 @@ function sync() {
   document.body.dataset.brain = revealed ? 'now' : (pad.bad ? 'bad' : pad.run.phase);
   document.body.dataset.gestures = gesturesAllowed(pad.run) ? '1' : '0';
   if (pad.run.phase === 'wave' || pad.run.phase === 'open') document.body.classList.add('is-gold');
+  if (pad.run.phase === 'open') document.body.classList.add('is-rebuilt');
   if (!host) return;
   host.dataset.phase = pad.run.phase;
   host.dataset.prefix = String(pad.run.prefix);
@@ -794,6 +795,16 @@ function build(data, positions) {
     host.dataset.theta = orbitTheta.toFixed(3);
   };
   let placeTries = 0;
+  /* Sit the code row just above the social pill, inside the black fade. */
+  const seatFoot = () => {
+    const stage = document.querySelector('.brain-stage');
+    const dock = document.querySelector('.social-dock');
+    if (!stage || !dock) return;
+    const dockTop = dock.getBoundingClientRect().top;
+    const stageBottom = stage.getBoundingClientRect().bottom;
+    const pad = Math.max(64, Math.ceil(stageBottom - dockTop + 12));
+    document.documentElement.style.setProperty('--brain-foot', pad + 'px');
+  };
   const place = () => {
     const box = boxSize();
     if (box.width < 2 || box.height < 2) {
@@ -822,6 +833,7 @@ function build(data, positions) {
     }
     applyOrbit();
     camera.updateProjectionMatrix();
+    seatFoot();
     const ratio = Math.min(window.devicePixelRatio || 1, box.width < 760 ? 1.35 : 1.6);
     pointUniforms.uScale.value = pointScaleFor(box.width, box.height, ratio, window.devicePixelRatio || 1);
     linkUniforms.uWidth.value = box.width < 760 ? 0.62 : 0.85;
