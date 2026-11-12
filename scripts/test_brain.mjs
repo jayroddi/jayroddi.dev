@@ -442,7 +442,6 @@ assert.doesNotMatch(brainHtml, /location\.replace/);
 assert.match(nowHtml, /rel="canonical" href="https:\/\/jayroddi\.dev\/now\/"/);
 assert.doesNotMatch(nowHtml, /location\.replace/);
 const nowLines = [
-  "what's up, fellow nerd! here's my prio list right meow:",
   'loving life - myself, my kids, all the organic, genuine connections',
   'having full trust in god / the universe (new for me)',
   'building apps, building companies, building the future',
@@ -454,12 +453,15 @@ const nowLines = [
   'probably gonna look for a "real job" again soon because i kinda need to',
   'likely spending a lot of time thinking about someone incredibly special and wondering how to approach the situation'
 ];
+assert.equal(brainHtml.includes('updated 2026.11.10'), true);
+assert.doesNotMatch(brainHtml, /what's up, fellow nerd/);
+assert.match(nowHtml, /what's up, fellow nerd! here's my prio list right meow:/);
 for (const line of nowLines) {
   assert.equal(brainHtml.includes(line), true, line);
   assert.equal(nowHtml.includes(line), true, line);
 }
-assert.equal((brainHtml.match(/<li>/g) || []).length, nowLines.length - 1);
-assert.equal((nowHtml.match(/<li>/g) || []).length, nowLines.length - 1);
+assert.equal((brainHtml.match(/<li>/g) || []).length, nowLines.length);
+assert.equal((nowHtml.match(/<li>/g) || []).length, nowLines.length);
 assert.doesNotMatch(brainHtml, /you found me|authentic connections|playlist/);
 assert.doesNotMatch(nowHtml, /you found me|authentic connections|playlist/);
 assert.match(nowHtml, /mideeyah as invite-only/);
