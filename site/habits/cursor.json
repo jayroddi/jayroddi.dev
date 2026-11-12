@@ -775,11 +775,11 @@
       "workouts": 1
     },
     "2026-10-24": {
-      "total": 2,
+      "total": 13,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "rides": 1,
+      "rides": 12,
       "workouts": 1
     },
     "2026-10-25": {
@@ -840,6 +840,27 @@
       "prs_opened": 0,
       "prs_merged": 0,
       "workouts": 3
+    },
+    "2026-11-03": {
+      "total": 3,
+      "commits": 0,
+      "prs_opened": 0,
+      "prs_merged": 0,
+      "workouts": 3
+    },
+    "2026-11-04": {
+      "total": 16,
+      "commits": 0,
+      "prs_opened": 0,
+      "prs_merged": 0,
+      "rides": 16
+    },
+    "2026-11-10": {
+      "total": 4,
+      "commits": 0,
+      "prs_opened": 0,
+      "prs_merged": 0,
+      "workouts": 4
     }
   }
 }
