@@ -473,7 +473,10 @@ assert.match(shellCss, /\.tabs a \{\n  color: #1AADB3;\n  font-family: var\(--mo
 assert.match(shellCss, /\.tabs a \{ font-size: 11px; \}/);
 assert.match(brainCss, /body\.is-brain \.brain-kicker \{[^}]*font-style: italic/);
 assert.match(brainCss, /body\.is-brain \.brain-kicker \{[^}]*color: #1AADB3/);
-assert.match(brainCss, /body\.is-brain \.brain-kicker \{[^}]*top: 72px/);
+assert.match(brainCss, /\.brain-stage \{[^}]*padding-top: 72px/);
+assert.match(brainCss, /body\.is-brain\.is-rebuilt \.brain-kicker \{[^}]*color: #FFD700/);
+assert.match(brainCss, /body\.is-brain \.brain-kicker \{[^}]*transition: color 1\.2s ease/);
+assert.match(brainJs, /classList\.add\('is-rebuilt'\)/);
 assert.doesNotMatch(brainCss, /\.pad-cue/);
 assert.match(shellCss, /body\.is-grind \.copy \{[^}]*background: rgba\(0, 0, 0, \.94\);/);
 assert.match(shellCss, /\.soft \{[^}]*background: rgba\(0, 0, 0, \.94\);/);

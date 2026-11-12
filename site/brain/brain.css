@@ -44,14 +44,15 @@ body.is-brain .now-sheet * { user-select: text; }
   box-sizing: border-box;
   height: 100svh;
   min-height: 100svh;
-  padding-top: var(--shell-nav, 72px);
-  padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  /* Title line stays at 72px. The foot clears the social pill; brain.js tightens it. */
+  padding-top: 72px;
+  padding-bottom: var(--brain-foot, 70px);
 }
 
 #graph {
   position: relative;
   flex: 1 1 auto;
-  min-height: 120px;
+  min-height: 0;
   z-index: 1;
   background: #000;
   overflow: hidden;
@@ -163,12 +164,11 @@ body.is-brain .pad {
 }
 
 body.is-brain .brain-kicker {
-  position: absolute;
-  top: 72px;
-  left: 0;
-  right: 0;
+  position: relative;
   z-index: 4;
-  margin: 0;
+  flex: 0 0 auto;
+  /* The code glyphs sit inside 44px buttons. This margin recenters the cloud on the ink. */
+  margin: 0 0 12px;
   padding: 0 16px;
   font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
   font-size: 12px;
@@ -179,6 +179,12 @@ body.is-brain .brain-kicker {
   text-align: center;
   color: #1AADB3;
   pointer-events: none;
+  transition: color 1.2s ease;
+}
+
+/* Gold joins the title once the rebuild finishes, same #FFD700 as the cloud. */
+body.is-brain.is-rebuilt .brain-kicker {
+  color: #FFD700;
 }
 
 body.is-brain .pad button {
@@ -273,6 +279,7 @@ body.is-brain::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  body.is-brain .brain-kicker { transition: none; }
   body.is-brain .pad button.hit { transform: none; }
   body.is-brain button.scroll-hint {
     animation: none;
