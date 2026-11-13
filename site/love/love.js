@@ -13,6 +13,7 @@ function line(entry) {
     link.textContent = text;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
+    if (entry.gold) link.className = 'gold';
     li.append(link);
   } else {
     li.textContent = text;
