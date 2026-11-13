@@ -16,6 +16,7 @@ assert.match(css, /Standing rule: every word on jayroddi\.dev is italic/);
 assert.match(css, /\* \{ font-style: normal \}/);
 assert.match(css, /\.tabs a\.mark \{[^}]*font-style: italic/);
 assert.match(css, /body\.board \.home-quotes \.quotes time,[\s\S]*font-style: italic/);
+assert.match(css, /\.home-quotes \.pin \.q \{[^}]*color: #fff;/);
 assert.match(css, /\.home-quotes \.pin \.by \{[^}]*color: #FFD700/);
 assert.doesNotMatch(css, /chain-caret|hero-title|\.phrase /);
 
