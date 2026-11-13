@@ -1,5 +1,6 @@
-/* Six lines above the homepage grids. 12px italic mono, like the page-top
-   titles, with white body text. The caret matches the habits grid .cursor. */
+/* Seven lines above the homepage grids. Italic mono, 12px on a wide
+   screen and down to 8.9px so the longest line stays one line at 375px.
+   The caret matches the habits grid .cursor. */
 
 .chain,
 .chain li,
@@ -11,7 +12,7 @@
 .chain .ch,
 .chain-caret {
   font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
-  font-size: 12px;
+  font-size: clamp(8.9px, calc(2.86vw - 1.83px), 12px);
   font-weight: 500;
   font-style: italic;
   letter-spacing: normal;
@@ -37,6 +38,11 @@
   position: relative;
   margin: 0;
   text-align: center;
+  white-space: nowrap;
+}
+
+@media (max-width: 374px) {
+  .chain li { white-space: normal; }
 }
 
 .chain li:last-child {
