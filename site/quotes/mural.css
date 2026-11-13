@@ -23,6 +23,15 @@ html:has(body.is-quotes) {
 
 body.is-quotes .habit-bg { display: none; }
 
+/* The welcome list veil is a solid black band under the social pill.
+   On the mural it has to stay out of the way so the picture reaches
+   the bottom edge, behind that pill, the same way it sits behind the nav. */
+body.is-quotes.is-welcome::after {
+  content: none;
+  display: none;
+  background: none;
+}
+
 body.is-quotes .sr {
   position: absolute;
   width: 1px;
