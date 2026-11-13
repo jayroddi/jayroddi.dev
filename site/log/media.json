@@ -3,7 +3,7 @@
     {
       "c": "all",
       "e": "all",
-      "n": 482
+      "n": 483
     },
     {
       "c": "movies",
@@ -23,7 +23,7 @@
     {
       "c": "albums",
       "e": "💿",
-      "n": 157
+      "n": 158
     },
     {
       "c": "games",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 25
+      "n": 26
     },
     {
       "m": "2025",
@@ -83,6 +83,17 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "albums-camp-2026-11-13-d253e4",
+      "d": "2026-11-13",
+      "c": "albums",
+      "t": "Camp",
+      "a": "Childish Gambino",
+      "r": null,
+      "img": "albums-camp-2026-11-13-d253e4.jpg",
+      "src": "music 🎧",
+      "blurb": null
+    },
     {
       "i": "movies-air-2026-11-13-bad8fd",
       "d": "2026-11-13",
