@@ -31,3 +31,7 @@
   font: inherit;
   text-decoration: none;
 }
+.support-group a.gold {
+  color: #FFD700;
+  font-style: italic;
+}

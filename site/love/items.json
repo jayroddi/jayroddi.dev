@@ -3,6 +3,11 @@
     "date": "2026.11.09",
     "groups": [
       [
+        {"text": "🥃 fable & fire bookshop bistro (rockwall)", "url": "https://www.fableandfirebookshop.com", "gold": true},
+        {"text": "💐 flower garden 118 (denton)", "url": "https://flowergardentx.com", "gold": true},
+        {"text": "🥣 the spelled milk (design district)", "url": "https://www.thespelledmilk.com", "gold": true}
+      ],
+      [
         {"text": "🍿 you can see everything / the odyssey"},
         {"text": "📺 severance - apple tv"},
         {"text": "📚 you can't please everyone - vex king"},
@@ -33,11 +38,6 @@
         {"text": "specialized"},
         {"text": "teenage engineering"},
         {"text": "yeti cycles"}
-      ],
-      [
-        {"text": "fable & fire bookshop bistro (rockwall)", "url": "https://www.fableandfirebookshop.com"},
-        {"text": "flower garden 118 (denton)", "url": "https://flowergardentx.com"},
-        {"text": "the spelled milk (design district)", "url": "https://www.thespelledmilk.com"}
       ]
     ]
   }
