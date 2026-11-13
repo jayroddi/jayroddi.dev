@@ -42,10 +42,10 @@ Frost is the glass on a new snap only. There is no password field, no guess log,
 
 ## quotes
 
-`/quotes/` is the quote list. `site/quote-of-the-day/quotes.json` stays in the repo, newest first. One object per day, with these fields. `url` is optional; when it is set, `/quotes/` links that quote and its author.
+`/quotes/` is the quote list. `site/quote-of-the-day/quotes.json` stays in the repo, newest first. One object per day, with only these fields: `date`, `text`, `author`. Do not add a `url`. A source link stays out of the file. The nightly append writes those three fields and does not put a `url` back on an existing day, including 2026-11-13. The popup and the list paint quote, date, and author the same way for every entry.
 
 ```json
-{"date": "YYYY-MM-DD", "text": "the quote", "author": "Name", "url": "https://example.com/optional"}
+{"date": "YYYY-MM-DD", "text": "the quote", "author": "Name"}
 ```
 
 `date` is America/Chicago. `/quotes/` and `/daily/` read that file and paint the whole list (future dates stay hidden). `/habits/` does not. `/quote-of-the-day/` still forwards home.

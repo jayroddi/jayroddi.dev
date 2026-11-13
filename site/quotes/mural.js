@@ -645,7 +645,6 @@
         date: e.date,
         text: String(e.text || e.quote || "").trim(),
         author: String(e.author || "").trim().replace(/^\s*[-–—]\s*/, ""),
-        url: typeof e.url === "string" && /^https:\/\//.test(e.url.trim()) ? e.url.trim() : "",
       }))
       .filter((e) => e.text && e.author)
       .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
@@ -885,15 +884,6 @@
     }
     qText.textContent = q.text;
     qBy.textContent = q.author;
-    if (q.url) {
-      const link = document.createElement("a");
-      link.className = "ext";
-      link.href = q.url;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      qText.before(link);
-      link.append(qText, qBy);
-    }
     opener = btn;
     markRead(q, btn);
     if (!dialog.open) dialog.showModal();
@@ -985,7 +975,7 @@
 
   function applyList(rows) {
     const list = usable(rows);
-    const sig = list.map((q) => q.date + "\0" + q.text + "\0" + q.author + "\0" + q.url).join("\n");
+    const sig = list.map((q) => q.date + "\0" + q.text + "\0" + q.author).join("\n");
     if (sig === signature) return;
     signature = sig;
     current = list;

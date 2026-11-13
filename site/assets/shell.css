@@ -332,25 +332,6 @@ body.board .home-quotes .quotes .by {
   color: #1AADB3;
   text-align: right;
 }
-body.board .home-quotes .quotes a.ext {
-  display: block;
-  color: #FFD700;
-  font-style: italic;
-  text-decoration: none;
-}
-body.board .home-quotes .quotes a.ext .q,
-body.board .home-quotes .quotes a.ext .by,
-body.board .home-quotes .quotes a.ext:hover,
-body.board .home-quotes .quotes a.ext:hover .q,
-body.board .home-quotes .quotes a.ext:hover .by,
-body.board .home-quotes .quotes a.ext:visited,
-body.board .home-quotes .quotes a.ext:visited .q,
-body.board .home-quotes .quotes a.ext:visited .by {
-  color: #FFD700;
-  font-style: italic;
-  text-decoration: underline;
-  text-decoration-color: #FFD700;
-}
 /* the fixed social pill is translucent, so a long list would read through it. */
 body.is-welcome::after {
   content: "";

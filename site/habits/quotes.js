@@ -1,7 +1,7 @@
 /* v2.44: daily quotes on /quotes. the feed is still /quote-of-the-day/quotes.json
    (newest first; one object per day: date, text, author). the whole list paints at once.
    the quote is left-justified. the name is its own line, with no leading dash.
-   a nightly append to that file shows up here. future dates stay hidden until America/Chicago. */
+   a nightly append to that file shows up here. it writes date, text, and author only, and does not add a url. future dates stay hidden until America/Chicago. */
 (() => {
   const host = document.querySelector('.copy') || document.querySelector('main');
   if (!host) return;
