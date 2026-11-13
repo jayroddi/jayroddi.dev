@@ -23,7 +23,7 @@ assert.doesNotMatch(css, /chain-caret|hero-title|\.phrase /);
 assert.match(html, /class="trackers"/);
 assert.match(html, /class="board is-grind"/);
 assert.match(html, /<ol class="chain">/);
-assert.match(html, /chain\.css\?v=5/);
+assert.match(html, /chain\.css\?v=6/);
 assert.match(html, /chain\.js\?v=3/);
 assert.match(html, /shell\.css\?v=43/);
 assert.match(html, /shell\.js\?v=25/);
@@ -42,6 +42,7 @@ assert.match(chainCss, /\.chain \.noun,\s*\n\.chain \.carry \{\s*\n  color: #1AA
 assert.match(chainCss, /\.chain \.carry\.destiny,\s*\n\.chain \.gold \{\s*\n  color: #FFD700;/);
 assert.match(chainJs, /classList\.contains\('gold'\)/);
 assert.match(chainJs, /park\(tail, 'after'\)/);
+assert.match(chainCss, /\.chain li:last-child \{\s*\n  margin-top: 1\.55em;/);
 assert.match(chainCss, /width: \.58em;\n  height: 1\.08em;/);
 assert.match(chainCss, /animation: chain-blink 1\.05s infinite/);
 assert.match(chainCss, /background: #FFD700;/);
