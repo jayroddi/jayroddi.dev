@@ -35,6 +35,13 @@
   ];
   const PORTRAIT = { cx: 0.4679, cy: 0.4713, rx: 0.1500, ry: 0.2892 };
 
+  // Squint's forehead on mural.jpg (2800×1867). The glasses frame starts
+  // near y=787 and the hairline near y=523. A painted rivet sits just
+  // right of the face center, so the swoosh sits at x=1268, y=655.
+  const SWOOSH_X = 1268 / 2800;
+  const SWOOSH_Y = 655 / 1867;
+  const SWOOSH_TEXT = "you\u2019re remembered for the rules you break\n\njust do it";
+
   const viewport = document.getElementById("viewport");
   const stage = document.getElementById("stage");
   const mural = document.getElementById("mural");
@@ -185,7 +192,7 @@
     suppressStarFocus = true;
     const blurStar = () => {
       const active = document.activeElement;
-      const star = active && active.closest ? active.closest(".star") : null;
+      const star = active && active.closest ? active.closest(".star, .swoosh") : null;
       if (star) star.blur();
     };
     blurStar();
@@ -412,7 +419,7 @@
       const t = e.changedTouches[0];
       const target = t.target;
       gestureMoved = false;
-      tapStar = target && target.closest ? target.closest(".star") : null;
+      tapStar = target && target.closest ? target.closest(".star, .swoosh") : null;
       pinch = null;
       vx = 0;
       vy = 0;
@@ -481,7 +488,7 @@
     gestureMoved = false;
     viewport.classList.remove("is-panning");
     armClickSuppression();
-    if (!cancelled && !moved && star && !dialog.open) openFrom(star);
+    if (!cancelled && !moved && star && !dialog.open) openControl(star);
     else if (moved) startGlide();
   }
 
@@ -514,7 +521,7 @@
       oy: y,
       touch: false,
       moved: false,
-      star: target && target.closest ? target.closest(".star") : null,
+      star: target && target.closest ? target.closest(".star, .swoosh") : null,
     };
     vx = 0;
     vy = 0;
@@ -547,7 +554,7 @@
     mouse = null;
     viewport.classList.remove("is-panning");
     armClickSuppression();
-    if (!moved && star) openFrom(star);
+    if (!moved && star) openControl(star);
     else if (moved) startGlide();
   }
   viewport.addEventListener("pointerup", endMouse);
@@ -575,14 +582,14 @@
   viewport.addEventListener("dragstart", (e) => e.preventDefault());
 
   viewport.addEventListener("click", (e) => {
-    const btn = e.target.closest(".star");
+    const btn = e.target.closest(".star, .swoosh");
     if (!btn) return;
     if (suppressClick) {
       e.preventDefault();
       e.stopPropagation();
       return;
     }
-    openFrom(btn);
+    openControl(btn);
   });
 
   document.addEventListener("keydown", (e) => {
@@ -868,6 +875,7 @@
     lastOpen = now;
     blockDismissUntil = now + 550;
     stopGlide();
+    dialog.classList.remove("is-swoosh");
     qDate.dateTime = q.date;
     qDate.textContent = q.date.replaceAll("-", ".");
     const prior = inner.querySelector("a.ext");
@@ -895,6 +903,49 @@
     const q = quoteOf.get(btn);
     if (q) openQuote(q, btn);
   }
+
+  function openSwoosh() {
+    const now = performance.now();
+    if (dialog.open && now - lastOpen < 450) return;
+    lastOpen = now;
+    blockDismissUntil = now + 550;
+    stopGlide();
+    dialog.classList.add("is-swoosh");
+    const prior = inner.querySelector("a.ext");
+    if (prior) {
+      while (prior.firstChild) inner.insertBefore(prior.firstChild, prior);
+      prior.remove();
+    }
+    qDate.removeAttribute("datetime");
+    qDate.textContent = "";
+    qText.textContent = SWOOSH_TEXT;
+    qBy.textContent = "";
+    opener = swooshBtn;
+    if (!dialog.open) dialog.showModal();
+  }
+
+  function openControl(btn) {
+    if (!btn) return;
+    if (btn.classList.contains("swoosh")) openSwoosh();
+    else openFrom(btn);
+  }
+
+  const swooshBtn = document.createElement("button");
+  swooshBtn.type = "button";
+  swooshBtn.className = "swoosh";
+  swooshBtn.setAttribute("aria-label", "nike swoosh");
+  swooshBtn.style.left = (SWOOSH_X * 100) + "%";
+  swooshBtn.style.top = (SWOOSH_Y * 100) + "%";
+  const swooshImg = document.createElement("img");
+  swooshImg.src = "/quotes/swoosh.png";
+  swooshImg.alt = "";
+  swooshImg.draggable = false;
+  swooshBtn.append(swooshImg);
+  swooshBtn.addEventListener("focus", () => {
+    if (!keyboardNav || suppressStarFocus) return;
+    centerOnImage(SWOOSH_X * imgW, SWOOSH_Y * imgH);
+  });
+  stage.append(swooshBtn);
 
   function paint(list) {
     const spots = spotsFor(list);

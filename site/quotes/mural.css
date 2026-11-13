@@ -326,6 +326,66 @@ body.is-quotes .by {
   text-transform: lowercase;
 }
 
+body.is-quotes .swoosh {
+  position: absolute;
+  z-index: 4;
+  width: 130px;
+  height: calc(130px * 232 / 513);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body.is-quotes .swoosh img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: swoosh-pulse 1.8s ease-in-out infinite;
+  filter:
+    drop-shadow(0 0 4px rgba(255, 215, 0, 0.7))
+    drop-shadow(0 0 12px rgba(255, 215, 0, 0.45));
+  pointer-events: none;
+}
+
+body.is-quotes .swoosh:focus,
+body.is-quotes .swoosh:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+html.keyboard body.is-quotes .swoosh:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 3px;
+}
+
+@keyframes swoosh-pulse {
+  0%, 100% {
+    opacity: 1;
+    filter:
+      drop-shadow(0 0 3px rgba(255, 215, 0, 0.55))
+      drop-shadow(0 0 8px rgba(255, 215, 0, 0.35));
+  }
+  50% {
+    opacity: 0.82;
+    filter:
+      drop-shadow(0 0 8px rgba(255, 229, 102, 0.95))
+      drop-shadow(0 0 18px rgba(255, 215, 0, 0.75));
+  }
+}
+
+body.is-quotes dialog.is-swoosh time,
+body.is-quotes dialog.is-swoosh .by { display: none; }
+
+body.is-quotes dialog.is-swoosh blockquote {
+  color: #FFD700;
+  text-align: center;
+}
+
 body.is-quotes .inner a.ext,
 body.is-quotes .inner a.ext:hover,
 body.is-quotes .inner a.ext:visited {
@@ -349,8 +409,15 @@ body.is-quotes ::selection { background: var(--orange); color: #1a0c06; }
 @media (prefers-reduced-motion: reduce) {
   body.is-quotes .star svg,
   body.is-quotes .star.is-today svg,
+  body.is-quotes .swoosh img,
   body.is-quotes .guide-dot,
   body.is-quotes .guide-glow { animation: none; }
+  body.is-quotes .swoosh img {
+    opacity: 1;
+    filter:
+      drop-shadow(0 0 4px rgba(255, 215, 0, 0.7))
+      drop-shadow(0 0 12px rgba(255, 215, 0, 0.45));
+  }
   body.is-quotes .star.is-today svg { opacity: 1; transform: none; }
   body.is-quotes .guide-dot {
     opacity: 0.8;
