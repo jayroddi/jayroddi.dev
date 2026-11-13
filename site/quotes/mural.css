@@ -386,24 +386,6 @@ body.is-quotes dialog.is-swoosh blockquote {
   text-align: center;
 }
 
-body.is-quotes .inner a.ext,
-body.is-quotes .inner a.ext:hover,
-body.is-quotes .inner a.ext:visited {
-  display: block;
-  color: #FFD700;
-  text-decoration: underline;
-}
-
-body.is-quotes .inner a.ext blockquote,
-body.is-quotes .inner a.ext .by,
-body.is-quotes .inner a.ext:hover blockquote,
-body.is-quotes .inner a.ext:hover .by,
-body.is-quotes .inner a.ext:visited blockquote,
-body.is-quotes .inner a.ext:visited .by {
-  color: #FFD700;
-  text-decoration: underline;
-}
-
 body.is-quotes ::selection { background: var(--orange); color: #1a0c06; }
 
 @media (prefers-reduced-motion: reduce) {
