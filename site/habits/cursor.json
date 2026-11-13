@@ -855,12 +855,33 @@
       "prs_merged": 0,
       "rides": 16
     },
+    "2026-11-08": {
+      "total": 12,
+      "commits": 0,
+      "prs_opened": 0,
+      "prs_merged": 0,
+      "rides": 12
+    },
+    "2026-11-09": {
+      "total": 11,
+      "commits": 0,
+      "prs_opened": 0,
+      "prs_merged": 0,
+      "rides": 11
+    },
     "2026-11-10": {
       "total": 4,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
       "workouts": 4
+    },
+    "2026-11-11": {
+      "total": 10,
+      "commits": 0,
+      "prs_opened": 0,
+      "prs_merged": 0,
+      "rides": 10
     }
   }
 }
