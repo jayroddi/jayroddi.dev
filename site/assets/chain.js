@@ -1,4 +1,5 @@
-/* Types the homepage lines on every load, about five seconds in all.
+/* Types the homepage lines on every load, about two and a half seconds in all.
+   The sleeps add up to 2.3s; painting each letter makes the run about 2.6s.
    Each character is already its final color. The caret is the habits
    grid caret: teal, then gold from destiny through the last line.
    Reduced motion shows the finished lines and parks that gold caret. */
@@ -59,15 +60,17 @@
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   const charCount = rows.reduce((sum, row) => sum + row.chars.length, 0);
   const spaces = rows.reduce((sum, row) => sum + row.chars.filter((ch) => ch.textContent === ' ').length, 0);
-  const beatTotal = (rows.length - 1) * 75;
-  const base = (5000 - beatTotal) / (charCount + spaces * 0.35);
-  const jitter = Math.max(3, Math.round(base * 0.3));
+  const span = 2300;
+  const linePause = 75 * span / 5000;
+  const beatTotal = (rows.length - 1) * linePause;
+  const base = (span - beatTotal) / (charCount + spaces * 0.35);
+  const jitter = Math.max(1, Math.round(base * 0.3));
 
   function waitFor(prev) {
     let ms = base;
     if (prev === ' ') ms += base * 0.35;
     ms += (Math.random() * 2 - 1) * jitter;
-    return Math.max(8, Math.round(ms));
+    return Math.max(4, Math.round(ms));
   }
 
   async function play() {
@@ -82,7 +85,7 @@
         prev = ch.textContent;
       }
       park(chars[chars.length - 1], 'after');
-      if (i < rows.length - 1) await sleep(60 + Math.random() * 30);
+      if (i < rows.length - 1) await sleep((60 + Math.random() * 30) * span / 5000);
     }
     root.dataset.done = String(performance.now());
   }
