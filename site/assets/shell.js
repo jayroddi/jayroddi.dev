@@ -184,7 +184,8 @@
         .map((entry) => ({
           date: entry.date,
           text: String(entry.text || entry.quote).trim(),
-          author: String(entry.author).replace(/^\s*[-–—]\s*/, '').trim()
+          author: String(entry.author).replace(/^\s*[-–—]\s*/, '').trim(),
+          url: typeof entry.url === 'string' && /^https:\/\//.test(entry.url.trim()) ? entry.url.trim() : ''
         }))
         .sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0);
       const frag = document.createDocumentFragment();
@@ -202,7 +203,17 @@
         const by = document.createElement('p');
         by.className = 'by';
         by.textContent = entry.author;
-        li.append(date, words, by);
+        if (entry.url) {
+          const link = document.createElement('a');
+          link.className = 'ext';
+          link.href = entry.url;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.append(words, by);
+          li.append(date, link);
+        } else {
+          li.append(date, words, by);
+        }
         frag.append(li);
       });
       listEl.replaceChildren(frag);
