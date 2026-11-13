@@ -289,12 +289,9 @@ function linkMaterial(uniforms) {
       precision mediump float;
       in vec3 vColor;
       in float vSide;
-      in float vAlong;
       in float vPhase;
       in float vGain;
       in float vGold;
-      in vec3 vLocal;
-      in vec3 vLocalOther;
       in float vShow;
       out vec4 fragColor;
       uniform float uTime;
@@ -303,24 +300,21 @@ function linkMaterial(uniforms) {
       void main() {
         if (vShow < 0.02) discard;
         float d = abs(vSide);
-        float glow = smoothstep(1.0, 0.08, d);
-        float core = smoothstep(0.28, 0.0, d);
+        float edge = smoothstep(1.0, 0.45, d);
+        float core = smoothstep(0.4, 0.0, d);
         float g = vGold;
-        float travel = sin(uTime * 0.42 + vAlong * 6.2 + vPhase);
         float breathe = sin(uTime * 0.31 + vPhase);
-        float life = 1.0 + uMotion * (0.1 * travel + 0.08 * breathe);
-        vec3 hubGlow = rippleGlow(mix(vLocal, vLocalOther, vAlong)) * uMotion;
-        float wave = max(hubGlow.r, max(hubGlow.g, hubGlow.b));
-        float a = (glow * 0.07 + core * 0.28) * life * vGain * vShow;
-        a *= 1.0 + wave * 2.4;
+        float life = 1.0 + uMotion * 0.05 * breathe;
+        float a = (edge * 0.1 + core * 0.38) * life * vGain * vShow;
+        a = min(a, 0.34);
         vec3 col = g >= 1.0 ? uGoldColor : mix(vColor, uGoldColor, g);
-        fragColor = vec4(col * a + hubGlow * (0.45 + core), a);
+        fragColor = vec4(col, a);
       }
     `,
     transparent: true,
     depthWrite: false,
     depthTest: false,
-    blending: THREE.AdditiveBlending,
+    blending: THREE.NormalBlending,
     side: THREE.DoubleSide,
     toneMapped: false
   });
@@ -656,7 +650,8 @@ function build(data, positions) {
     const cb = ca;
     const ph = phase(i + 17);
     const span = Math.hypot(bx - ax, by - ay, bz - az);
-    const gain = 0.36 / (1 + span / 34);
+    /* Only the graph's own links. Not an all-pairs mesh. */
+    const gain = 0.85 / (1 + span / 55);
     const base = i * 4;
     for (let v = 0; v < 4; v++) {
       const end = v >> 1;
@@ -838,7 +833,7 @@ function build(data, positions) {
     seatFoot();
     const ratio = Math.min(window.devicePixelRatio || 1, box.width < 760 ? 1.35 : 1.6);
     pointUniforms.uScale.value = pointScaleFor(box.width, box.height, ratio, window.devicePixelRatio || 1);
-    linkUniforms.uWidth.value = box.width < 760 ? 0.62 : 0.85;
+    linkUniforms.uWidth.value = box.width < 760 ? 0.42 : 0.55;
     renderer.setPixelRatio(ratio);
     renderer.setSize(box.width, box.height, false);
   };
