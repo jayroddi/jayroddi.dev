@@ -1,7 +1,7 @@
-/* Types the six homepage lines on every load, about five seconds in all.
+/* Types the homepage lines on every load, about five seconds in all.
    Each character is already its final color. The caret is the habits
-   grid caret: teal, then gold once destiny starts. Reduced motion shows
-   the finished lines and does not type. */
+   grid caret: teal, then gold from destiny through the last line.
+   Reduced motion shows the finished lines and parks that gold caret. */
 (() => {
   const root = document.querySelector('ol.chain');
   if (!root) return;
@@ -9,14 +9,14 @@
   const lines = [...root.querySelectorAll('li')];
 
   function colorFor(el) {
-    if (el.classList.contains('destiny')) return '#FFD700';
+    if (el.classList.contains('destiny') || el.classList.contains('gold')) return '#FFD700';
     if (el.classList.contains('noun') || el.classList.contains('carry')) return '#1AADB3';
     return '#fff';
   }
 
   const rows = lines.map((li) => {
     const chars = [];
-    li.querySelectorAll('.pre, .noun, .post, .carry').forEach((el) => {
+    li.querySelectorAll('.pre, .noun, .post, .carry, .gold').forEach((el) => {
       const color = colorFor(el);
       const pieces = [...el.textContent].map((ch) => {
         const span = document.createElement('span');
@@ -31,15 +31,30 @@
     return { li, chars };
   });
 
-  if (reduce) {
-    rows.forEach((row) => row.chars.forEach((ch) => ch.classList.add('is-on')));
-    root.dataset.done = 'reduce';
-    return;
-  }
-
   const caret = document.createElement('span');
   caret.className = 'chain-caret';
   caret.setAttribute('aria-hidden', 'true');
+
+  function park(ch, edge) {
+    const li = ch.closest('li');
+    const parent = ch.parentElement;
+    if (parent && (parent.classList.contains('destiny') || parent.classList.contains('gold'))) caret.classList.add('is-gold');
+    if (caret.parentNode !== li) li.append(caret);
+    const base = li.getBoundingClientRect();
+    const box = ch.getBoundingClientRect();
+    const shift = 0.2 * parseFloat(getComputedStyle(li).fontSize);
+    caret.style.left = ((edge === 'after' ? box.right : box.left) - base.left) + 'px';
+    caret.style.top = (box.top - base.top + shift) + 'px';
+  }
+
+  if (reduce) {
+    rows.forEach((row) => row.chars.forEach((ch) => ch.classList.add('is-on')));
+    const tail = rows[rows.length - 1].chars.at(-1);
+    caret.classList.add('is-gold');
+    park(tail, 'after');
+    root.dataset.done = 'reduce';
+    return;
+  }
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   const charCount = rows.reduce((sum, row) => sum + row.chars.length, 0);
@@ -53,18 +68,6 @@
     if (prev === ' ') ms += base * 0.35;
     ms += (Math.random() * 2 - 1) * jitter;
     return Math.max(8, Math.round(ms));
-  }
-
-  function park(ch, edge) {
-    const li = ch.closest('li');
-    const parent = ch.parentElement;
-    if (parent && parent.classList.contains('destiny')) caret.classList.add('is-gold');
-    if (caret.parentNode !== li) li.append(caret);
-    const base = li.getBoundingClientRect();
-    const box = ch.getBoundingClientRect();
-    const shift = 0.2 * parseFloat(getComputedStyle(li).fontSize);
-    caret.style.left = ((edge === 'after' ? box.right : box.left) - base.left) + 'px';
-    caret.style.top = (box.top - base.top + shift) + 'px';
   }
 
   async function play() {

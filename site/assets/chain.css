@@ -7,6 +7,7 @@
 .chain .noun,
 .chain .post,
 .chain .carry,
+.chain .gold,
 .chain .ch,
 .chain-caret {
   font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
@@ -51,7 +52,8 @@
   color: #1AADB3;
 }
 
-.chain .carry.destiny {
+.chain .carry.destiny,
+.chain .gold {
   color: #FFD700;
 }
 
@@ -63,7 +65,8 @@
 html.chain-play .chain .pre,
 html.chain-play .chain .noun,
 html.chain-play .chain .post,
-html.chain-play .chain .carry {
+html.chain-play .chain .carry,
+html.chain-play .chain .gold {
   color: transparent;
 }
 
@@ -101,12 +104,14 @@ html.chain-play .chain .ch.is-on {
   html.chain-play .chain .pre,
   html.chain-play .chain .noun,
   html.chain-play .chain .post,
-  html.chain-play .chain .carry {
+  html.chain-play .chain .carry,
+  html.chain-play .chain .gold {
     color: inherit;
   }
   .chain .noun,
   .chain .carry { color: #1AADB3; }
-  .chain .carry.destiny { color: #FFD700; }
+  .chain .carry.destiny,
+  .chain .gold { color: #FFD700; }
   html.chain-play .chain .ch { opacity: 1; }
-  .chain-caret { animation: none; opacity: 0; }
+  .chain-caret { animation: none; opacity: 1; }
 }
