@@ -1,0 +1,112 @@
+/* Six lines above the homepage grids. 12px italic mono, like the page-top
+   titles, with white body text. The caret matches the habits grid .cursor. */
+
+.chain,
+.chain li,
+.chain .pre,
+.chain .noun,
+.chain .post,
+.chain .carry,
+.chain .ch,
+.chain-caret {
+  font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: normal;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+.chain {
+  list-style: none;
+  align-self: stretch;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0 0 var(--habit-gap, 16px);
+  padding: 0 8px;
+  line-height: 1.55;
+  text-align: center;
+  color: #fff;
+}
+
+.chain li {
+  position: relative;
+  margin: 0;
+  text-align: center;
+}
+
+.chain .pre,
+.chain .noun,
+.chain .post,
+.chain .carry,
+.chain .ch {
+  font-size: inherit;
+}
+
+.chain .noun,
+.chain .carry {
+  color: #1AADB3;
+}
+
+.chain .carry.destiny {
+  color: #FFD700;
+}
+
+.chain .ch {
+  white-space: pre-wrap;
+  transition: none;
+}
+
+html.chain-play .chain .pre,
+html.chain-play .chain .noun,
+html.chain-play .chain .post,
+html.chain-play .chain .carry {
+  color: transparent;
+}
+
+html.chain-play .chain .ch {
+  opacity: 0;
+}
+
+html.chain-play .chain .ch.is-on {
+  opacity: 1;
+}
+
+.chain-caret {
+  position: absolute;
+  display: inline-block;
+  width: .58em;
+  height: 1.08em;
+  margin: 0;
+  background: #1AADB3;
+  box-shadow: 0 0 14px rgba(26, 173, 179, .75);
+  animation: chain-blink 1.05s infinite;
+  pointer-events: none;
+}
+
+.chain-caret.is-gold {
+  background: #FFD700;
+  box-shadow: 0 0 14px rgba(255, 215, 0, .75);
+}
+
+@keyframes chain-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.chain-play .chain .pre,
+  html.chain-play .chain .noun,
+  html.chain-play .chain .post,
+  html.chain-play .chain .carry {
+    color: inherit;
+  }
+  .chain .noun,
+  .chain .carry { color: #1AADB3; }
+  .chain .carry.destiny { color: #FFD700; }
+  html.chain-play .chain .ch { opacity: 1; }
+  .chain-caret { animation: none; opacity: 0; }
+}
