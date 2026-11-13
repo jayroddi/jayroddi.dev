@@ -295,7 +295,7 @@ body.board .home-quotes .quotes { margin: 0; width: 100%; }
   line-height: 1.65;
 }
 .home-quotes .pin .q {
-  color: #1AADB3;
+  color: #fff;
   text-align: center;
 }
 .home-quotes .pin .by {
