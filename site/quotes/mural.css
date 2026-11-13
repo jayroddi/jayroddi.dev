@@ -329,8 +329,8 @@ body.is-quotes .by {
 body.is-quotes .swoosh {
   position: absolute;
   z-index: 4;
-  width: 130px;
-  height: calc(130px * 232 / 513);
+  width: 65px;
+  height: calc(65px * 232 / 513);
   margin: 0;
   padding: 0;
   border: 0;
@@ -345,10 +345,11 @@ body.is-quotes .swoosh img {
   display: block;
   width: 100%;
   height: 100%;
-  animation: swoosh-pulse 1.8s ease-in-out infinite;
+  opacity: 1;
+  animation: swoosh-pulse 1.6s ease-in-out infinite;
   filter:
-    drop-shadow(0 0 4px rgba(255, 215, 0, 0.7))
-    drop-shadow(0 0 12px rgba(255, 215, 0, 0.45));
+    drop-shadow(0 0 2px rgba(255, 215, 0, 0.4))
+    drop-shadow(0 0 6px rgba(255, 215, 0, 0.4));
   pointer-events: none;
 }
 
@@ -365,16 +366,15 @@ html.keyboard body.is-quotes .swoosh:focus-visible {
 
 @keyframes swoosh-pulse {
   0%, 100% {
-    opacity: 1;
     filter:
-      drop-shadow(0 0 3px rgba(255, 215, 0, 0.55))
-      drop-shadow(0 0 8px rgba(255, 215, 0, 0.35));
+      drop-shadow(0 0 2px rgba(255, 215, 0, 0.4))
+      drop-shadow(0 0 6px rgba(255, 215, 0, 0.4));
   }
   50% {
-    opacity: 0.82;
     filter:
-      drop-shadow(0 0 8px rgba(255, 229, 102, 0.95))
-      drop-shadow(0 0 18px rgba(255, 215, 0, 0.75));
+      drop-shadow(0 0 6px rgba(255, 215, 0, 0.95))
+      drop-shadow(0 0 14px rgba(255, 215, 0, 0.8))
+      drop-shadow(0 0 24px rgba(255, 215, 0, 0.5));
   }
 }
 
@@ -416,7 +416,8 @@ body.is-quotes ::selection { background: var(--orange); color: #1a0c06; }
     opacity: 1;
     filter:
       drop-shadow(0 0 4px rgba(255, 215, 0, 0.7))
-      drop-shadow(0 0 12px rgba(255, 215, 0, 0.45));
+      drop-shadow(0 0 12px rgba(255, 215, 0, 0.6))
+      drop-shadow(0 0 18px rgba(255, 215, 0, 0.45));
   }
   body.is-quotes .star.is-today svg { opacity: 1; transform: none; }
   body.is-quotes .guide-dot {
