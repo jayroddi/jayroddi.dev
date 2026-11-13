@@ -307,8 +307,8 @@ def test_committed_clear_list_matches_album() -> None:
     tesla = "57455e079c1b414682ea454192f6e14b"
     books = "2ed4c9653c1a449187cbeacaaf338160"
     hotdog = "0dee4b68d6554ae0bc2e7a5f87005d6c"
+    espresso = "d997f7830d2044719fe89f8414379f8c"
     older = [
-        "d997f7830d2044719fe89f8414379f8c",
         "8812192cdd784ccc8a0967b30f3a1ea7",
         "2ba7f5b5c6274684a0ddcb569675dad0",
         "264de4928a8448d1898de48617fd2d03",
@@ -320,6 +320,7 @@ def test_committed_clear_list_matches_album() -> None:
     assert ids == set(older) | {sign, woodford, yeti, tesla, books}
     assert parking not in ids
     assert hotdog not in ids
+    assert espresso not in ids
     found = {}
     november = json.loads((ROOT / "site" / "snaps" / "m" / "2026-11.json").read_text(encoding="utf-8"))
     for path in (ROOT / "site" / "snaps" / "m").glob("*.json"):
@@ -367,6 +368,12 @@ def test_committed_clear_list_matches_album() -> None:
     assert bottle["w"] == 3073 and bottle["h"] == 4609
     assert frost.dated_for_frost(bottle)
     assert not snaps_clear.should_frost(bottle, ids)
+    martini = next(row for row in november if row["i"] == espresso)
+    assert martini["d"] == "2026-11-05"
+    assert martini["a"] == "2026-11-05T20:45:03-06:00"
+    assert martini["w"] == 4026 and martini["h"] == 2684
+    assert frost.dated_for_frost(martini)
+    assert snaps_clear.should_frost(martini, ids)
     lot = next(row for row in november if row["i"] == parking)
     assert lot["d"] == "2026-11-09"
     assert lot["a"] == "2026-11-09T09:21:06-06:00"
