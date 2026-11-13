@@ -26,7 +26,7 @@ assert.match(html, /<ol class="chain">/);
 assert.match(html, /chain\.css\?v=7/);
 assert.match(html, /chain\.js\?v=5/);
 assert.match(html, /shell\.css\?v=43/);
-assert.match(html, /shell\.js\?v=25/);
+assert.match(html, /shell\.js\?v=26/);
 assert.match(html, /<span class="noun">thoughts<\/span>/);
 assert.match(html, /<span class="carry destiny">destiny<\/span>/);
 assert.match(html, /<li><span class="gold">don't take today off<\/span><\/li>/);
@@ -114,7 +114,7 @@ const nav = [
   "['/snaps/', '📷', 'snaps']",
   "['/log/', '🍿', 'log']",
   "['/love/', '💛', 'love']",
-  "['/quotes/', '📣', 'quotes']",
+  "['/quotes/', '💭', 'quotes']",
   "['/interwebs/', '🎭', 'interwebs']",
   "['/brain/', '🧠', 'brain']"
 ];

@@ -1,5 +1,5 @@
 /* live shell. pill nav, square field, quote list on /quotes/. no audio.
-   the pill is 🤓 📷 🍿 💛 📣 🎭 🧠.
+   the pill is 🤓 📷 🍿 💛 💭 🎭 🧠.
    /quotes/ reads /quote-of-the-day/quotes.json. today's quote leads. */
 (() => {
   const pages = [
@@ -7,7 +7,7 @@
     ['/snaps/', '📷', 'snaps'],
     ['/log/', '🍿', 'log'],
     ['/love/', '💛', 'love'],
-    ['/quotes/', '📣', 'quotes'],
+    ['/quotes/', '💭', 'quotes'],
     ['/interwebs/', '🎭', 'interwebs'],
     ['/brain/', '🧠', 'brain']
   ];
