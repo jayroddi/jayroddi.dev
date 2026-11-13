@@ -99,6 +99,14 @@ html.chain-play .chain .ch.is-on {
   box-shadow: 0 0 14px rgba(255, 215, 0, .75);
 }
 
+/* Parked after the last line, the caret is a grid today square:
+   same radius, no glow, and the same today-cursor pulse. */
+.chain-caret.is-parked {
+  border-radius: 2px;
+  box-shadow: none;
+  animation: today-cursor 1.2s ease-in-out infinite;
+}
+
 @keyframes chain-blink {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
