@@ -3,12 +3,12 @@
     {
       "c": "all",
       "e": "all",
-      "n": 481
+      "n": 482
     },
     {
       "c": "movies",
       "e": "🍿",
-      "n": 178
+      "n": 179
     },
     {
       "c": "shows",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 24
+      "n": 25
     },
     {
       "m": "2025",
@@ -83,6 +83,18 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "movies-air-2026-11-13-bad8fd",
+      "d": "2026-11-13",
+      "c": "movies",
+      "t": "Air",
+      "a": "Ben Affleck",
+      "r": null,
+      "img": "movies-air-2026-11-13-bad8fd.jpg",
+      "src": "movies 🍿",
+      "blurb": null,
+      "glow": "gold"
+    },
     {
       "i": "albums-ballads-of-hyrule-iii-2026-11-12-612c5b",
       "d": "2026-11-12",
@@ -1713,7 +1725,8 @@
       "r": null,
       "img": "books-shoe-dog-a-memoir-by-the-creator-of-nike-2023-06-26-c4e129.jpg",
       "src": "books-page",
-      "blurb": null
+      "blurb": null,
+      "glow": "gold"
     },
     {
       "i": "albums-the-brightest-days-2023-06-26-03b149",

@@ -56,8 +56,9 @@ assert.equal(holiday[0].t, 'Right Thing, Right Now: Justice in an Unjust World')
 assert.equal(holiday[0].a, 'Ryan Holiday');
 const booksChip = once.filters.find((filter) => filter.c === 'books');
 assert.equal(booksChip.n, 111);
-assert.equal(once.filters.find((filter) => filter.c === 'all').n, 479);
-assert.equal(once.filters.find((filter) => filter.c === 'albums').n, 155);
+assert.equal(once.filters.find((filter) => filter.c === 'all').n, 482);
+assert.equal(once.filters.find((filter) => filter.c === 'movies').n, 179);
+assert.equal(once.filters.find((filter) => filter.c === 'albums').n, 157);
 const boy = once.items.filter((item) => item.t === 'The Boy Who Was Raised as a Dog');
 assert.equal(boy.length, 1);
 assert.equal(boy[0].a, 'Bruce D. Perry & Maia Szalavitz');
@@ -92,8 +93,22 @@ assert.equal(odyssey[0].blurb, null);
 assert.equal(odyssey[0].glow, 'gold');
 assert.equal(odyssey[0].img, 'movies-the-odyssey-2026-07-26-1df820.jpg');
 assert.equal(motor[0].img, 'albums-american-motor-sports-420cc-edition-2026-11-08-1d5b69.jpg');
-assert.equal(once.items[0].i, 'albums-american-motor-sports-420cc-edition-2026-11-08-1d5b69');
-assert.equal(once.items[1].t, 'The Only Living Pickpocket in New York');
+const air = once.items[0];
+assert.equal(air.t, 'Air');
+assert.equal(air.c, 'movies');
+assert.equal(air.a, 'Ben Affleck');
+assert.equal(air.d, '2026-11-13');
+assert.equal(air.r, null);
+assert.equal(air.blurb, null);
+assert.equal(air.glow, 'gold');
+assert.equal(air.i, 'movies-air-2026-11-13-bad8fd');
+assert.equal(air.img, 'movies-air-2026-11-13-bad8fd.jpg');
+const shoe = once.items.filter((item) => item.t.startsWith('Shoe Dog'));
+assert.equal(shoe.length, 1);
+assert.equal(shoe[0].a, 'Phil Knight');
+assert.equal(shoe[0].d, '2023-06-26');
+assert.equal(shoe[0].img, 'books-shoe-dog-a-memoir-by-the-creator-of-nike-2023-06-26-c4e129.jpg');
+assert.equal(shoe[0].glow, 'gold');
 
 const withTwin = dedupeLog({
   filters: media.filters,
@@ -134,7 +149,8 @@ assert.equal(matchesQuery({ t: "You Can't Please Everyone", a: 'Vex King' }, 'ca
 assert.equal(matchesQuery({ t: 'Godzilla Minus Zero', a: null, blurb: "it's incredible" }, 'incredible'), false);
 assert.equal(matchesQuery({ t: 'Godzilla Minus Zero', a: null }, ''), true);
 assert.equal(matchesQuery({ t: 'Godzilla Minus Zero', a: null }, '   '), true);
-assert.equal(once.items.length, 479);
-assert.equal(once.items[0].t, 'AMERICAN MOTOR SPORTS (420CC EDITION)');
+assert.equal(once.items.length, 482);
+assert.equal(once.items[0].t, 'Air');
+assert.equal(once.items[0].glow, 'gold');
 
 console.log('log dedupe ok');
