@@ -44,12 +44,13 @@ assert.match(chainJs, /\(5000 - beatTotal\)/);
 assert.doesNotMatch(chainJs, /class="heart"|popHeart|hero-title/);
 assert.doesNotMatch(grind, /chain\.js|ol class="chain"/);
 assert.match(quotes, /<section id="quotes" class="home-quotes">/);
-assert.match(quotes, /<blockquote class="q">you are the average of the five people you spend the most time with\.<\/blockquote>/);
-assert.match(quotes, /<p class="by">-jim rohn<\/p>/);
+assert.match(quotes, /<blockquote class="q">a life that looks good or sounds good is nothing compared to a life that feels good<\/blockquote>/);
+assert.match(quotes, /<p class="by">-jay shetty<\/p>/);
+assert.doesNotMatch(quotes, /jim rohn|five people you spend/);
 assert.match(css, /\.home-quotes \.pin \.q \{[^}]*text-align: center/);
 assert.match(quotes, /<ol class="quotes" aria-label="quotes"><\/ol>/);
 const feed = readFileSync(new URL('../site/quote-of-the-day/quotes.json', import.meta.url), 'utf8');
-assert.doesNotMatch(feed, /jim rohn|five people you spend/);
+assert.doesNotMatch(feed, /jim rohn|five people you spend|jay shetty|a life that looks good/);
 assert.doesNotMatch(quotes, /hero-title|class="subhead"|class="heart"|chain\.js/);
 assert.match(shell, /fetch\('\/quote-of-the-day\/quotes\.json'/);
 
