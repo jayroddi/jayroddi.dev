@@ -125,6 +125,5 @@ html.chain-play .chain .ch.is-on {
   .chain .carry.destiny,
   .chain .gold { color: #FFD700; }
   html.chain-play .chain .ch { opacity: 1; }
-  .chain-caret,
-  .chain-caret.is-parked { animation: none; opacity: 1; }
+  .chain-caret { animation: none; opacity: 1; }
 }
