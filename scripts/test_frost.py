@@ -306,6 +306,8 @@ def test_committed_clear_list_matches_album() -> None:
     yeti = "2908d99635db460ba2d7d3e8069b782f"
     tesla = "57455e079c1b414682ea454192f6e14b"
     books = "2ed4c9653c1a449187cbeacaaf338160"
+    bartender = "6b4f36cec9bf4acc9f228652b07c8289"
+    plate = "8aa4523c0bf34362b657b73f9a767805"
     hotdog = "0dee4b68d6554ae0bc2e7a5f87005d6c"
     espresso = "d997f7830d2044719fe89f8414379f8c"
     older = [
@@ -317,10 +319,11 @@ def test_committed_clear_list_matches_album() -> None:
         "f535b7a5b2494dd0a69f5a2f207b12c6",
     ]
     ids = snaps_clear.load_clear_ids(ROOT)
-    assert ids == set(older) | {sign, woodford, yeti, tesla, books}
+    assert ids == set(older) | {sign, woodford, yeti, tesla, books, bartender}
     assert parking not in ids
     assert hotdog not in ids
     assert espresso not in ids
+    assert plate not in ids
     found = {}
     november = json.loads((ROOT / "site" / "snaps" / "m" / "2026-11.json").read_text(encoding="utf-8"))
     for path in (ROOT / "site" / "snaps" / "m").glob("*.json"):
@@ -330,7 +333,7 @@ def test_committed_clear_list_matches_album() -> None:
     def pins_ok(rows: dict) -> None:
         assert set(older) <= set(rows)
         assert hotdog in rows
-        assert set(rows) <= set(older) | {hotdog, sign, woodford, yeti, tesla, books}
+        assert set(rows) <= set(older) | {hotdog, sign, woodford, yeti, tesla, books, bartender}
         if sign in rows:
             real = rows[sign]
             assert frost.dated_for_frost(real)
@@ -398,7 +401,17 @@ def test_committed_clear_list_matches_album() -> None:
     assert pair["w"] == 5376 and pair["h"] == 8064
     assert frost.dated_for_frost(pair)
     assert not snaps_clear.should_frost(pair, ids)
-    assert saved["ids"] == [books, tesla, yeti, woodford, sign, *older]
+    bar = found[bartender]
+    assert bar["d"] == "2026-11-03"
+    assert bar["a"] == "2026-11-03T20:18:26-06:00"
+    assert bar["w"] == 4032 and bar["h"] == 2688
+    assert frost.dated_for_frost(bar)
+    assert not snaps_clear.should_frost(bar, ids)
+    food = next(row for row in november if row["i"] == plate)
+    assert food["d"] == "2026-11-03"
+    assert food["a"] == "2026-11-03T20:19:02-06:00"
+    assert snaps_clear.should_frost(food, ids)
+    assert saved["ids"] == [bartender, books, tesla, yeti, woodford, sign, *older]
     assert saved["note"] == snaps_clear.NOTE
 
 
