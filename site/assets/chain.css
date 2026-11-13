@@ -39,6 +39,10 @@
   text-align: center;
 }
 
+.chain li:last-child {
+  margin-top: 1.55em;
+}
+
 .chain .pre,
 .chain .noun,
 .chain .post,
