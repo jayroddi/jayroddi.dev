@@ -3,12 +3,12 @@
     {
       "c": "all",
       "e": "all",
-      "n": 484
+      "n": 485
     },
     {
       "c": "movies",
       "e": "🍿",
-      "n": 179
+      "n": 180
     },
     {
       "c": "shows",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 27
+      "n": 28
     },
     {
       "m": "2025",
@@ -83,6 +83,17 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "movies-the-waterboy-2026-11-14-7c0854",
+      "d": "2026-11-14",
+      "c": "movies",
+      "t": "The Waterboy",
+      "a": "Frank Coraci",
+      "r": null,
+      "img": "movies-the-waterboy-2026-11-14-7c0854.jpg",
+      "src": "movies 🍿",
+      "blurb": null
+    },
     {
       "i": "albums-imploding-the-mirage-2026-11-13-4b6287",
       "d": "2026-11-13",
