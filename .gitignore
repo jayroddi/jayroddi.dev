@@ -1,6 +1,5 @@
 node_modules
-# Mid-frost snaps dated 2026-11-01 or later (Chicago). Built in Actions
-# (frost-cache/) and uploaded with Pages. Older snaps stay sharp. Not source.
+# Leftover local frost files. Snaps stay sharp; do not bake or commit these.
 frost-cache/
 site/snaps/f/
 scripts/snaps_frost.json
