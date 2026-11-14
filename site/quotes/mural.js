@@ -83,6 +83,7 @@
   let midnightTimer = 0;
   let skyLum = null;
   let darkSlots = null;
+  let quoteState = "pending";
 
   const touches = new Map();
   let mouse = null;
@@ -153,8 +154,18 @@
     setTimeout(() => { guide.hidden = true; }, 680);
   }
 
+  function maybeReveal() {
+    if (stage.classList.contains("is-ready")) return;
+    if (!lastVw || !lastVh) return;
+    if (quoteState === "pending") return;
+    if (quoteState === "ready" && current.length && !sky.querySelector(".star")) return;
+    stage.classList.add("is-ready");
+    updateGuide();
+  }
+
   function updateGuide() {
     if (guideDone || !todayBtn) return;
+    if (!stage.classList.contains("is-ready")) return;
     const vw = viewport.clientWidth;
     const vh = viewport.clientHeight;
     if (vw < 2 || vh < 2) return;
@@ -269,7 +280,7 @@
     apply();
     lastVw = box.vw;
     lastVh = box.vh;
-    stage.classList.add("is-ready");
+    maybeReveal();
   }
 
   function holdCenter(prevW, prevH) {
@@ -939,7 +950,10 @@
 
   function paint(list) {
     const spots = spotsFor(list);
-    if (!spots) return;
+    if (!spots) {
+      maybeReveal();
+      return;
+    }
     const frag = document.createDocumentFragment();
     const day = chicagoToday();
     let nextToday = null;
@@ -971,24 +985,42 @@
     todayBtn = nextToday;
     if (!todayBtn) guide.hidden = true;
     else updateGuide();
+    maybeReveal();
   }
 
   function applyList(rows) {
     const list = usable(rows);
     const sig = list.map((q) => q.date + "\0" + q.text + "\0" + q.author).join("\n");
-    if (sig === signature) return;
+    if (sig === signature) {
+      if (current.length && !sky.querySelector(".star")) paint(current);
+      else maybeReveal();
+      return;
+    }
     signature = sig;
     current = list;
     paint(list);
   }
 
+  function takeQuotes() {
+    const pending = window.__quotes;
+    window.__quotes = null;
+    if (pending) return Promise.resolve(pending);
+    return fetch(QUOTES, { cache: "no-cache" }).then((r) => (r.ok ? r.json() : Promise.reject()));
+  }
+
   function load() {
-    fetch(QUOTES, { cache: "no-cache" })
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
+    takeQuotes()
       .then((rows) => {
-        if (Array.isArray(rows)) applyList(rows);
+        if (Array.isArray(rows)) {
+          quoteState = "ready";
+          applyList(rows);
+        } else quoteState = "failed";
+        maybeReveal();
       })
-      .catch(() => {});
+      .catch(() => {
+        quoteState = "failed";
+        maybeReveal();
+      });
   }
 
   function msUntilChicagoMidnight() {
@@ -1041,15 +1073,29 @@
     visualViewport.addEventListener("resize", onResize);
     visualViewport.addEventListener("scroll", onResize);
   }
-  mural.addEventListener("load", () => {
+  function onMuralReady() {
     const w = mural.naturalWidth;
     const h = mural.naturalHeight;
-    if (!w || !h || (w === imgW && h === imgH)) return;
-    readImageSize();
-    if (pinnedToFace) frameFace();
-    else onResize();
-    if (current.length) paint(current);
+    if (!w || !h) return;
+    const changed = w !== imgW || h !== imgH;
+    if (changed) {
+      readImageSize();
+      if (pinnedToFace) frameFace();
+      else onResize();
+    }
+    if (current.length && (changed || !sky.querySelector(".star"))) paint(current);
+    else maybeReveal();
+  }
+
+  mural.addEventListener("load", onMuralReady);
+  mural.addEventListener("error", () => {
+    quoteState = quoteState === "pending" ? "failed" : quoteState;
+    stage.classList.add("is-ready");
   });
+  if (mural.complete) {
+    if (mural.naturalWidth) onMuralReady();
+    else stage.classList.add("is-ready");
+  }
 
   loadRead();
   readImageSize();

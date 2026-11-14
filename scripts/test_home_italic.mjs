@@ -64,7 +64,7 @@ assert.doesNotMatch(grind, /chain\.js|ol class="chain"/);
 assert.match(quotes, /id="viewport"/);
 assert.match(quotes, /\/quotes\/mural\.jpg/);
 assert.match(quotes, /\/quotes\/mural\.css\?v=7/);
-assert.match(quotes, /\/quotes\/mural\.js\?v=5/);
+assert.match(quotes, /\/quotes\/mural\.js\?v=6/);
 assert.match(quotes, /<dialog id="quote"/);
 assert.doesNotMatch(quotes, /home-quotes|jay shetty|class="pin"|<ol class="quotes"/);
 assert.doesNotMatch(quotes, /jim rohn|five people you spend/);
