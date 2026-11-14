@@ -1,8 +1,6 @@
 # Lightroom sync, once daily at midnight Chicago.
-# Frost JPEGs for photos dated 2026-11-01 or later are baked on the same run,
-# except asset ids in scripts/snaps_clear.json, which stay sharp. The Pages
-# deploy is what stops serving sharp Adobe URLs for the frosted rows.
-# This commits site/snaps only when the album or the frost files changed.
+# Every photo stays the sharp Lightroom rendition. This commits site/snaps
+# and scripts/snaps_colors.json only when the album changed.
 name: Sync snaps
 
 on:
@@ -60,16 +58,6 @@ jobs:
       - name: Checkout
         if: steps.chicago.outputs.run == 'true'
         uses: actions/checkout@v4
-      - name: Frost cache
-        if: steps.chicago.outputs.run == 'true'
-        uses: actions/cache@v4
-        with:
-          path: |
-            frost-cache
-            scripts/snaps_frost.json
-          key: snaps-frost-${{ hashFiles('site/snaps/m/*.json', 'scripts/frost.py') }}
-          restore-keys: |
-            snaps-frost-
       - name: Pillow
         if: steps.chicago.outputs.run == 'true'
         run: pip install pillow numpy

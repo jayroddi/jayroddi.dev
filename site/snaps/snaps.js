@@ -1,16 +1,9 @@
-/* v2.64: the lightbox close control is a larger, higher-contrast target under
+/* v2.65: every snap is the sharp Lightroom rendition. capture stamps stay
+   on each tile and under the full image.
+   v2.64: the lightbox close control is a larger, higher-contrast target under
    the safe area. a vertical swipe follows the finger and dismisses back to
    the mosaic; left and right still change photos. the gesture locks to one
    axis so a diagonal flick does not both advance and dismiss.
-   v2.63: clear-listed asset ids (scripts/snaps_clear.json) are published
-   without f, so they stay the sharp Lightroom rendition. the soft recipe
-   is unchanged for every other new snap.
-   v2.62: frost is per photo. a row with f loads /snaps/f/{id}.jpg and
-   /snaps/f/{id}-l.jpg. the Pages deploy sets f only for a Chicago capture
-   date of 2026-11-01 or later that is not clear-listed, and only once those
-   JPEGs exist. it also strips that row's sharp Lightroom ids. every earlier
-   snap stays sharp.
-   v2.61: frost is glass only. no password field, no guess log, no unlock.
    v2.33: newest month first. one month is drawn, then another when the sentinel
    scrolls into view (a short month keeps going until the screen is full).
    photos go round-robin into 3 columns, or 6 from 900px, so each row reads
@@ -62,22 +55,14 @@ let swallowUntil = 0;
 let stepping = false;
 let held = [];
 
-function useFrost(photo) {
-  return !!(photo && photo.f);
-}
-
-function frostSrc(photo, big) {
-  return '/snaps/f/' + photo.i + (big ? '-l.jpg' : '.jpg');
-}
-
 const url = (photo, id) => index.base + 'assets/' + photo.i + '/revisions/' + photo.v + '/renditions/' + id + '?api_key=' + encodeURIComponent(index.key);
 
 function tileSrc(photo) {
-  return useFrost(photo) ? frostSrc(photo, false) : url(photo, photo.t);
+  return url(photo, photo.t);
 }
 
 function bigSrc(photo) {
-  return useFrost(photo) ? frostSrc(photo, true) : url(photo, photo.l || photo.s || photo.t);
+  return url(photo, photo.l || photo.s || photo.t);
 }
 
 function monthName(key) {
@@ -153,8 +138,7 @@ function render(meta, photos) {
     button.dataset.src = thumb;
     button.dataset.w = photo.w;
     button.dataset.h = photo.h;
-    if (useFrost(photo)) button.dataset.srcset = thumb + ' ' + resource(640) + 'w, ' + frostSrc(photo, true) + ' ' + resource(1280) + 'w';
-    else if (photo.s) button.dataset.srcset = thumb + ' ' + resource(640) + 'w, ' + url(photo, photo.s) + ' ' + resource(1280) + 'w';
+    if (photo.s) button.dataset.srcset = thumb + ' ' + resource(640) + 'w, ' + url(photo, photo.s) + ' ' + resource(1280) + 'w';
     button.dataset.eager = already + n < eagerCount ? '1' : '';
     button.addEventListener('click', () => openAt(seqAt));
     if (already + n === 0) mount(button, true);
