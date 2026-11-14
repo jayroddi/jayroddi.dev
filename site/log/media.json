@@ -3,7 +3,7 @@
     {
       "c": "all",
       "e": "all",
-      "n": 483
+      "n": 484
     },
     {
       "c": "movies",
@@ -23,7 +23,7 @@
     {
       "c": "albums",
       "e": "💿",
-      "n": 158
+      "n": 159
     },
     {
       "c": "games",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 26
+      "n": 27
     },
     {
       "m": "2025",
@@ -83,6 +83,17 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "albums-imploding-the-mirage-2026-11-13-4b6287",
+      "d": "2026-11-13",
+      "c": "albums",
+      "t": "Imploding The Mirage",
+      "a": "The Killers",
+      "r": null,
+      "img": "albums-imploding-the-mirage-2026-11-13-4b6287.jpg",
+      "src": "music 🎧",
+      "blurb": null
+    },
     {
       "i": "albums-camp-2026-11-13-d253e4",
       "d": "2026-11-13",
