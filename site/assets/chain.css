@@ -1,4 +1,4 @@
-/* Seven lines above the homepage grids. Italic mono, 12px on a wide
+/* Six lines above the homepage grids. Italic mono, 12px on a wide
    screen and down to 8.9px so the longest line stays one line at 375px.
    The caret matches the habits grid .cursor. */
 
@@ -8,7 +8,6 @@
 .chain .noun,
 .chain .post,
 .chain .carry,
-.chain .gold,
 .chain .ch,
 .chain-caret {
   font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
@@ -45,10 +44,6 @@
   .chain li { white-space: normal; }
 }
 
-.chain li:last-child {
-  margin-top: 1.55em;
-}
-
 .chain .pre,
 .chain .noun,
 .chain .post,
@@ -62,8 +57,7 @@
   color: #1AADB3;
 }
 
-.chain .carry.destiny,
-.chain .gold {
+.chain .carry.destiny {
   color: #FFD700;
 }
 
@@ -75,8 +69,7 @@
 html.chain-play .chain .pre,
 html.chain-play .chain .noun,
 html.chain-play .chain .post,
-html.chain-play .chain .carry,
-html.chain-play .chain .gold {
+html.chain-play .chain .carry {
   color: transparent;
 }
 
@@ -114,14 +107,12 @@ html.chain-play .chain .ch.is-on {
   html.chain-play .chain .pre,
   html.chain-play .chain .noun,
   html.chain-play .chain .post,
-  html.chain-play .chain .carry,
-  html.chain-play .chain .gold {
+  html.chain-play .chain .carry {
     color: inherit;
   }
   .chain .noun,
   .chain .carry { color: #1AADB3; }
-  .chain .carry.destiny,
-  .chain .gold { color: #FFD700; }
+  .chain .carry.destiny { color: #FFD700; }
   html.chain-play .chain .ch { opacity: 1; }
   .chain-caret { animation: none; opacity: 1; }
 }

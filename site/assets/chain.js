@@ -1,8 +1,8 @@
 /* Types the homepage lines on every load, about two and a half seconds in all.
    The sleeps add up to 2.3s; painting each letter makes the run about 2.6s.
    Each character is already its final color. While the lines type, the
-   caret is the habits bar: teal, then gold from destiny through the last
-   line. It is removed when the sequence finishes. Reduced motion shows
+   caret is the habits bar: teal, then gold on destiny. It is removed
+   when the sequence finishes. Reduced motion shows
    the finished lines and no caret. */
 (() => {
   const root = document.querySelector('ol.chain');
@@ -11,14 +11,14 @@
   const lines = [...root.querySelectorAll('li')];
 
   function colorFor(el) {
-    if (el.classList.contains('destiny') || el.classList.contains('gold')) return '#FFD700';
+    if (el.classList.contains('destiny')) return '#FFD700';
     if (el.classList.contains('noun') || el.classList.contains('carry')) return '#1AADB3';
     return '#fff';
   }
 
   const rows = lines.map((li) => {
     const chars = [];
-    li.querySelectorAll('.pre, .noun, .post, .carry, .gold').forEach((el) => {
+    li.querySelectorAll('.pre, .noun, .post, .carry').forEach((el) => {
       const color = colorFor(el);
       const pieces = [...el.textContent].map((ch) => {
         const span = document.createElement('span');
@@ -40,7 +40,7 @@
   function park(ch, edge) {
     const li = ch.closest('li');
     const parent = ch.parentElement;
-    if (parent && (parent.classList.contains('destiny') || parent.classList.contains('gold'))) caret.classList.add('is-gold');
+    if (parent && parent.classList.contains('destiny')) caret.classList.add('is-gold');
     if (caret.parentNode !== li) li.append(caret);
     const base = li.getBoundingClientRect();
     const box = ch.getBoundingClientRect();
