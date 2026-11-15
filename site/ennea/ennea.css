@@ -55,30 +55,6 @@
   line-height: 1.25;
 }
 
-.ennea-top h2 b {
-  color: var(--gold);
-  font-weight: 500;
-  text-shadow: 0 0 8px rgba(255, 215, 0, 0.55);
-}
-
-.ennea-live {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--gold);
-  font-size: 12px;
-}
-
-.ennea-live i {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--gold);
-  box-shadow: 0 0 8px var(--gold);
-  animation: ennea-blink 1.05s ease-in-out infinite;
-}
-
 .ennea-body {
   display: flex;
   flex-direction: column;
@@ -291,7 +267,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ennea-live i { animation: none; }
   .ennea-line,
   .ennea.is-drawn .ennea-line {
     stroke-dashoffset: 0;
@@ -307,10 +282,4 @@
     transform: scaleX(1);
     transition: none;
   }
-}
-
-@keyframes ennea-blink {
-  0%, 46% { opacity: 1; }
-  54%, 72% { opacity: 0.2; }
-  100% { opacity: 1; }
 }
