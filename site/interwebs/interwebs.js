@@ -148,12 +148,15 @@ function render() {
     if (selected !== 'all' && item.c !== selected) return;
     if (typeof item.video === 'string' && item.video.charAt(0) === '/') {
       const { li, wrap } = card('iw-video');
+      const fit = (w, h) => { if (w > 0 && h > 0) wrap.style.aspectRatio = w + ' / ' + h; };
+      fit(Number(item.w), Number(item.h));
       const video = document.createElement('video');
       video.controls = true;
       video.playsInline = true;
       video.preload = 'none';
       video.poster = item.poster || '';
       video.src = item.video;
+      video.addEventListener('loadedmetadata', () => fit(video.videoWidth, video.videoHeight));
       wrap.append(video);
       if (typeof item.src === 'string' && item.src) li.append(sourceLink(item.src));
       frag.append(li);
