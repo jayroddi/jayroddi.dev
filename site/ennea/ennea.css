@@ -55,6 +55,14 @@
   line-height: 1.25;
 }
 
+.ennea-live {
+  flex: none;
+  color: var(--gold);
+  font-size: 12px;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.55);
+  animation: ennea-blink 1.05s ease-in-out infinite;
+}
+
 .ennea-body {
   display: flex;
   flex-direction: column;
@@ -267,6 +275,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .ennea-live { animation: none; opacity: 1; }
   .ennea-line,
   .ennea.is-drawn .ennea-line {
     stroke-dashoffset: 0;
@@ -282,4 +291,10 @@
     transform: scaleX(1);
     transition: none;
   }
+}
+
+@keyframes ennea-blink {
+  0%, 46% { opacity: 1; }
+  54%, 72% { opacity: 0.2; }
+  100% { opacity: 1; }
 }
