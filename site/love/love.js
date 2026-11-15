@@ -21,6 +21,21 @@ function line(entry) {
   return li;
 }
 
+function placeName(text) {
+  return String(text || '')
+    .replace(/^(?:\p{Extended_Pictographic}\uFE0F?\s*)+/u, '')
+    .replace(/^the\s+/i, '')
+    .trim()
+    .toLowerCase();
+}
+
+function ordered(group) {
+  if (!group.length || !group.every((item) => item && item.gold)) return group;
+  return group.map((item, index) => ({ item, index }))
+    .sort((a, b) => placeName(a.item.text).localeCompare(placeName(b.item.text), 'en') || (a.index - b.index))
+    .map((row) => row.item);
+}
+
 function block(entry) {
   if (!entry || typeof entry.date !== 'string' || !Array.isArray(entry.groups)) return null;
   const section = document.createElement('section');
@@ -33,7 +48,7 @@ function block(entry) {
     if (!Array.isArray(group)) return;
     const list = document.createElement('ul');
     list.className = 'support-group';
-    group.forEach((item) => {
+    ordered(group).forEach((item) => {
       const row = line(item);
       if (row) list.append(row);
     });
