@@ -6,6 +6,23 @@ const SHORT = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov'
 const LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const LOWER = ['january','february','march','april','may','june','july','august','september','october','november','december'];
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* destiny paints immediately. the gold today cells start after the grids load.
+   both today-cursor animations share document time 0, so the phase matches. */
+function syncTodayBlink() {
+  if (reduced) return;
+  const align = () => {
+    document.querySelectorAll('.carry.destiny, .cell.today:not(.sweep)').forEach(el => {
+      el.getAnimations().forEach(anim => {
+        if (anim.animationName === 'today-cursor') anim.startTime = 0;
+      });
+    });
+  };
+  align();
+  requestAnimationFrame(() => {
+    align();
+    requestAnimationFrame(align);
+  });
+}
 const mk = (tag, cls) => { const e = document.createElement(tag); if (cls) e.className = cls; return e; };
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
@@ -588,6 +605,7 @@ function finish(){
   const settled = !grids.length || grids.every(section => section.dataset.error === '1' || section.dataset.swept === '1');
   if (settled){
     document.documentElement.classList.add('year-done');
+    syncTodayBlink();
     dispatchEvent(new Event('year-done'));
   }
   if (window.JayRain) {
