@@ -3,10 +3,11 @@
     "date": "2026.11.13",
     "groups": [
       [
-        {"text": "🌮 donde los tacos", "url": "https://dondelostacos.com", "gold": true},
+        {"text": "🌮 donde los tacos (design district)", "url": "https://dondelostacos.com", "gold": true},
         {"text": "🥃 fable & fire bookshop bistro (rockwall)", "url": "https://www.fableandfirebookshop.com", "gold": true},
         {"text": "💐 flower garden 118 (denton)", "url": "https://flowergardentx.com", "gold": true},
-        {"text": "🥣 the spelled milk (design district)", "url": "https://www.thespelledmilk.com", "gold": true}
+        {"text": "🥣 the spelled milk (design district)", "url": "https://www.thespelledmilk.com", "gold": true},
+        {"text": "💛 yellow couch counseling (denton)", "url": "https://www.yellowcouchcounseling.com", "gold": true}
       ],
       [
         {"text": "🍿 you can see everything / the odyssey"},
