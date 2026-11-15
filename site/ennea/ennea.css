@@ -1,0 +1,316 @@
+/* who i am. a small kronos-style readout above the habit grids.
+   italic mono, teal frame, gold on the main type. */
+
+.ennea,
+.ennea * {
+  font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
+  font-style: italic;
+  font-weight: 500;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+.ennea {
+  --teal: #1aadb3;
+  --gold: #ffd700;
+  --ink: #e7fff9;
+  --dim: rgba(215, 255, 248, 0.55);
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0 0 var(--habit-gap, 16px);
+  padding: 10px 10px 12px;
+  color: var(--ink);
+  text-align: left;
+  background:
+    linear-gradient(rgba(26, 173, 179, 0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 173, 179, 0.13) 1px, transparent 1px),
+    radial-gradient(ellipse at 50% 30%, rgba(26, 173, 179, 0.1), transparent 58%),
+    #05080c;
+  background-size: 16px 16px, 16px 16px, auto, auto;
+  box-shadow: inset 0 0 0 1px rgba(26, 173, 179, 0.42);
+  overflow: hidden;
+}
+
+.ennea-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 22px;
+  margin: 0 0 10px;
+  color: var(--dim);
+  font-size: 12px;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+}
+
+.ennea-top h2 {
+  margin: 0;
+  min-width: 0;
+  color: #f4fffd;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.ennea-top h2 b {
+  color: var(--gold);
+  font-weight: 500;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.55);
+}
+
+.ennea-live {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--gold);
+  font-size: 12px;
+}
+
+.ennea-live i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px var(--gold);
+  animation: ennea-blink 1.05s ease-in-out infinite;
+}
+
+.ennea-body {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  min-width: 0;
+}
+
+.ennea-ring {
+  position: relative;
+  width: min(100%, 340px);
+  margin: 0 auto;
+  aspect-ratio: 1;
+}
+
+.ennea-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ennea-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.ennea.is-drawn .ennea-line {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1.15s ease;
+}
+
+.ennea-line.ring { stroke: rgba(231, 255, 249, 0.28); stroke-width: 1; transition-delay: 0s; }
+.ennea-line.hex { stroke: rgba(26, 173, 179, 0.55); stroke-width: 1; transition-delay: 0.15s; }
+.ennea-line.tri { stroke: rgba(255, 215, 0, 0.45); stroke-width: 1; transition-delay: 0.28s; }
+.ennea-line.wing {
+  stroke: var(--teal);
+  stroke-width: 2.2;
+  transition-delay: 0.45s;
+  filter: drop-shadow(0 0 3px rgba(26, 173, 179, 0.7));
+}
+
+.ennea-pt {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(26, 173, 179, 0.55);
+  background: rgba(5, 10, 14, 0.92);
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ennea.is-drawn .ennea-pt {
+  opacity: 1;
+  transition: opacity 0.35s ease 0.4s, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.ennea-pt.is-main {
+  color: var(--gold);
+  border-color: var(--gold);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+}
+
+.ennea-pt.is-wing {
+  color: #bff7f4;
+  border-color: var(--teal);
+  box-shadow: 0 0 8px rgba(26, 173, 179, 0.65);
+}
+
+.ennea-pt.is-hot,
+.ennea-pt:focus-visible {
+  z-index: 2;
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px #05080c, 0 0 0 3px var(--gold), 0 0 14px rgba(255, 215, 0, 0.7);
+}
+
+.ennea-read {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ennea-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ennea-row {
+  display: grid;
+  grid-template-columns: 1.5em minmax(0, 1fr) 3.4em;
+  gap: 6px 8px;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font-size: 12px;
+  line-height: 1.2;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ennea-row .num { color: var(--dim); }
+.ennea-row.is-main .num,
+.ennea-row.is-main .ennea-name { color: var(--gold); }
+.ennea-row.is-wing .num,
+.ennea-row.is-wing .ennea-name { color: #9cf3ee; }
+
+.ennea-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+
+.ennea-role {
+  color: var(--dim);
+  font-size: 10px;
+}
+
+.ennea-track {
+  grid-column: 2 / 3;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(231, 255, 249, 0.12);
+  overflow: hidden;
+}
+
+.ennea-fill {
+  display: block;
+  height: 100%;
+  width: calc(var(--p) * 1%);
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: rgba(231, 255, 249, 0.55);
+}
+
+.ennea-row.is-main .ennea-fill { background: var(--gold); }
+.ennea-row.is-wing .ennea-fill { background: var(--teal); }
+
+.ennea.is-drawn .ennea-fill {
+  transform: scaleX(1);
+  transition: transform 0.9s ease;
+}
+
+.ennea-pct {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.ennea-row.is-hot,
+.ennea-row:focus-visible {
+  outline: none;
+  border-color: rgba(255, 215, 0, 0.7);
+  background: rgba(255, 215, 0, 0.06);
+}
+
+.ennea-name { grid-column: 2; grid-row: 1; }
+.ennea-pct { grid-column: 3; grid-row: 1; }
+.ennea-track { grid-column: 2; grid-row: 2; }
+
+.ennea-blurb {
+  box-sizing: border-box;
+  min-height: 8.2em;
+  margin: 0;
+  padding: 8px 8px 2px;
+  border-top: 1px solid rgba(26, 173, 179, 0.35);
+  color: rgba(244, 255, 253, 0.88);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+@media (min-width: 720px) {
+  .ennea-body {
+    flex-direction: row;
+    align-items: center;
+    gap: 18px;
+  }
+  .ennea-ring {
+    flex: 0 0 42%;
+    width: 42%;
+    max-width: none;
+    margin: 0;
+  }
+  .ennea-read { flex: 1 1 auto; }
+  .ennea-blurb { min-height: 5.8em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ennea-live i { animation: none; }
+  .ennea-line,
+  .ennea.is-drawn .ennea-line {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+  .ennea-pt,
+  .ennea.is-drawn .ennea-pt {
+    opacity: 1;
+    transition: none;
+  }
+  .ennea-fill,
+  .ennea.is-drawn .ennea-fill {
+    transform: scaleX(1);
+    transition: none;
+  }
+}
+
+@keyframes ennea-blink {
+  0%, 46% { opacity: 1; }
+  54%, 72% { opacity: 0.2; }
+  100% { opacity: 1; }
+}

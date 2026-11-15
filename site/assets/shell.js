@@ -3,7 +3,7 @@
    /quotes/ reads /quote-of-the-day/quotes.json. today's quote leads. */
 (() => {
   const pages = [
-    ['/', '🤓', 'grind'],
+    ['/whothefuckisjay/', '🤓', 'grind'],
     ['/snaps/', '📷', 'snaps'],
     ['/log/', '🍿', 'log'],
     ['/love/', '💛', 'love'],
