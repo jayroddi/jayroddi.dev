@@ -1,6 +1,6 @@
 /* Newest first. Category is only for the filter; it is not shown on the video. */
 const list = document.getElementById('interwebs');
-const CATS = ['😭', '🏎️', '🐐', '💭', '🙃'];
+const CATS = ['😭', '🏎️', '🐐', '💭', '🙃', '🇺🇸'];
 let items = [];
 let selected = 'all';
 let watcher;
@@ -16,6 +16,18 @@ function youtubeId(url) {
   const parts = parsed.pathname.split('/').filter(Boolean);
   if (parts[0] === 'embed' || parts[0] === 'shorts' || parts[0] === 'live') return parts[1] || '';
   return '';
+}
+
+function instagramId(url) {
+  let parsed;
+  try { parsed = new URL(url); } catch (e) { return null; }
+  const host = parsed.hostname.replace(/^(www|m)\./, '');
+  if (host !== 'instagram.com') return null;
+  const parts = parsed.pathname.split('/').filter(Boolean);
+  if ((parts[0] === 'reel' || parts[0] === 'p') && /^[\w-]+$/.test(parts[1] || '')) {
+    return { kind: parts[0], id: parts[1] };
+  }
+  return null;
 }
 
 function readHash() {
@@ -105,16 +117,59 @@ function arm(node) {
   watcher.observe(node);
 }
 
+function card(className) {
+  const li = document.createElement('li');
+  const wrap = document.createElement('div');
+  wrap.className = className;
+  li.append(wrap);
+  return { li, wrap };
+}
+
+function sourceLink(href) {
+  const link = document.createElement('a');
+  link.className = 'iw-source';
+  link.href = href;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  link.textContent = 'source';
+  return link;
+}
+
 function render() {
   if (!list) return;
   const frag = document.createDocumentFragment();
   items.forEach((item) => {
     if (selected !== 'all' && item.c !== selected) return;
-    const id = youtubeId(item.url);
+    if (typeof item.video === 'string' && item.video.charAt(0) === '/') {
+      const { li, wrap } = card('iw-video');
+      const video = document.createElement('video');
+      video.controls = true;
+      video.playsInline = true;
+      video.preload = 'none';
+      video.poster = item.poster || '';
+      video.src = item.video;
+      wrap.append(video);
+      if (typeof item.src === 'string' && item.src) li.append(sourceLink(item.src));
+      frag.append(li);
+      return;
+    }
+    const ig = typeof item.url === 'string' ? instagramId(item.url) : null;
+    if (ig) {
+      const { li, wrap } = card('iw-video iw-reel');
+      const frame = document.createElement('iframe');
+      frame.dataset.src = 'https://www.instagram.com/' + ig.kind + '/' + encodeURIComponent(ig.id) + '/embed';
+      frame.title = 'Instagram reel';
+      frame.loading = 'lazy';
+      frame.setAttribute('allowfullscreen', '');
+      wrap.append(frame);
+      li.append(sourceLink(item.url));
+      frag.append(li);
+      arm(wrap);
+      return;
+    }
+    const id = typeof item.url === 'string' ? youtubeId(item.url) : '';
     if (!/^[\w-]{6,}$/.test(id)) return;
-    const li = document.createElement('li');
-    const wrap = document.createElement('div');
-    wrap.className = 'iw-video';
+    const { li, wrap } = card('iw-video');
     const frame = document.createElement('iframe');
     frame.dataset.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id);
     frame.title = 'YouTube video';
@@ -122,7 +177,6 @@ function render() {
     frame.setAttribute('allowfullscreen', '');
     frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
     wrap.append(frame);
-    li.append(wrap);
     frag.append(li);
     arm(wrap);
   });
@@ -130,7 +184,7 @@ function render() {
 }
 
 function start(rows) {
-  items = Array.isArray(rows) ? rows.filter((row) => row && typeof row.url === 'string' && CATS.includes(row.c)) : [];
+  items = Array.isArray(rows) ? rows.filter((row) => row && CATS.includes(row.c) && (typeof row.url === 'string' || (typeof row.video === 'string' && row.video.charAt(0) === '/'))) : [];
   const counts = {};
   items.forEach((item) => { counts[item.c] = (counts[item.c] || 0) + 1; });
   selected = readHash();
