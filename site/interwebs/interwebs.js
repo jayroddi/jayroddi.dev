@@ -66,11 +66,17 @@ function pad() {
   document.documentElement.style.setProperty('--iw-nav', Math.ceil(bottom + 16) + 'px');
 }
 
+function rankedCats(counts) {
+  return CATS.map((cat, index) => ({ cat, index, n: counts[cat] || 0 }))
+    .sort((a, b) => (b.n - a.n) || (a.index - b.index))
+    .map((row) => row.cat);
+}
+
 function mountFilters(counts) {
   const nav = document.querySelector('.nav-stack');
   if (!nav) return false;
   if (nav.querySelector('.iw-filters')) return true;
-  const filters = [{ c: 'all', e: 'all', n: items.length }].concat(CATS.map((cat) => ({
+  const filters = [{ c: 'all', e: 'all', n: items.length }].concat(rankedCats(counts).map((cat) => ({
     c: cat,
     e: cat,
     n: counts[cat] || 0

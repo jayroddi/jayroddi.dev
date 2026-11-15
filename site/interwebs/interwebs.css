@@ -48,7 +48,11 @@ body.interwebs .iw-filters button .word {
   line-height: 1;
   text-transform: lowercase;
 }
-body.interwebs .iw-filters button .n { font-variant-numeric: tabular-nums; font-size: 10px; }
+body.interwebs .iw-filters button .n {
+  font-variant-numeric: tabular-nums;
+  font-size: 10px;
+  font-style: italic;
+}
 body.interwebs .iw-filters button[aria-pressed="true"] {
   background: #1AADB3;
   border-color: #1AADB3;
