@@ -5,7 +5,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 const css = readFileSync(new URL('../site/assets/shell.css', import.meta.url), 'utf8');
-const html = readFileSync(new URL('../site/index.html', import.meta.url), 'utf8');
+const html = readFileSync(new URL('../site/whothefuckisjay/index.html', import.meta.url), 'utf8');
+const rootHome = readFileSync(new URL('../site/index.html', import.meta.url), 'utf8');
 const quotes = readFileSync(new URL('../site/quotes/index.html', import.meta.url), 'utf8');
 const shell = readFileSync(new URL('../site/assets/shell.js', import.meta.url), 'utf8');
 const grind = readFileSync(new URL('../site/grind/index.html', import.meta.url), 'utf8');
@@ -23,10 +24,13 @@ assert.doesNotMatch(css, /chain-caret|hero-title|\.phrase /);
 assert.match(html, /class="trackers"/);
 assert.match(html, /class="board is-grind"/);
 assert.match(html, /<ol class="chain">/);
-assert.match(html, /chain\.css\?v=10/);
-assert.match(html, /chain\.js\?v=7/);
+assert.match(html, /chain\.css\?v=11/);
+assert.doesNotMatch(html, /chain\.js/);
 assert.match(html, /shell\.css\?v=44/);
-assert.match(html, /shell\.js\?v=30/);
+assert.match(html, /shell\.js\?v=31/);
+assert.match(html, /id="ennea"/);
+assert.ok(html.indexOf('id="ennea"') < html.indexOf('<ol class="chain">'));
+assert.ok(html.indexOf('<ol class="chain">') < html.indexOf('id="grids"'));
 assert.match(html, /<span class="noun">thoughts<\/span>/);
 assert.match(html, /<span class="carry destiny">destiny<\/span>/);
 assert.doesNotMatch(html, /don't take today off/);
@@ -34,7 +38,6 @@ const habitsCss = readFileSync(new URL('../site/habits/habits.css', import.meta.
 assert.match(habitsCss, /\.cell\.today:not\(\.sweep\)\{background:#FFD700/);
 assert.doesNotMatch(html, /hero-title|discipline is destiny|class="heart"|scroll-hint|location\.replace/);
 const chainCss = readFileSync(new URL('../site/assets/chain.css', import.meta.url), 'utf8');
-const chainJs = readFileSync(new URL('../site/assets/chain.js', import.meta.url), 'utf8');
 assert.match(chainCss, /\.chain,[\s\S]*font-family: var\(--mono/);
 assert.match(chainCss, /font-size: clamp\(8\.9px, calc\(2\.86vw - 1\.83px\), 12px\)/);
 assert.match(chainCss, /\.chain li \{[^}]*white-space: nowrap/);
@@ -44,22 +47,11 @@ assert.match(chainCss, /\.chain,[\s\S]*font-style: italic/);
 assert.match(chainCss, /\.chain \{[\s\S]*color: #fff;/);
 assert.match(chainCss, /\.chain \.noun,\s*\n\.chain \.carry \{\s*\n  color: #1AADB3;/);
 assert.match(chainCss, /\.chain \.carry\.destiny \{\s*\n  color: #FFD700;/);
-assert.match(chainJs, /classList\.contains\('destiny'\)/);
-assert.doesNotMatch(chainJs, /classList\.contains\('gold'\)/);
-assert.match(chainJs, /caret\.remove\(\)/);
-assert.doesNotMatch(chainJs, /is-parked|settle\(/);
-assert.doesNotMatch(chainCss, /li:last-child/);
-assert.match(chainCss, /width: \.58em;\n  height: 1\.08em;/);
-assert.match(chainCss, /animation: chain-blink 1\.05s infinite/);
-assert.doesNotMatch(chainCss, /is-parked/);
-assert.doesNotMatch(chainJs, /animationName === 'today-cursor'/);
+assert.match(chainCss, /animation: today-cursor 1\.2s ease-in-out infinite/);
+assert.match(chainCss, /prefers-reduced-motion: reduce/);
+assert.doesNotMatch(chainCss, /chain-caret|chain-play|chain-blink/);
+assert.doesNotMatch(html, /chain-play|chain\.js/);
 assert.match(habitsCss, /@keyframes today-cursor/);
-assert.match(chainCss, /background: #FFD700;/);
-assert.match(chainCss, /\.chain-caret \{\s*\n[^}]*background: #1AADB3;/);
-assert.match(chainJs, /const span = 2300/);
-assert.match(chainJs, /\(span - beatTotal\)/);
-assert.match(chainJs, /await sleep\(\(60 \+ Math\.random\(\) \* 30\) \* span \/ 5000\)/);
-assert.doesNotMatch(chainJs, /class="heart"|popHeart|hero-title/);
 assert.doesNotMatch(grind, /chain\.js|ol class="chain"/);
 assert.match(quotes, /id="viewport"/);
 assert.match(quotes, /\/quotes\/mural\.jpg/);
@@ -128,7 +120,7 @@ assert.doesNotMatch(quotes, /hero-title|class="subhead"|class="heart"|chain\.js/
 assert.match(shell, /fetch\('\/quote-of-the-day\/quotes\.json'/);
 
 const nav = [
-  "['/', '🤓', 'grind']",
+  "['/whothefuckisjay/', '🤓', 'grind']",
   "['/snaps/', '📷', 'snaps']",
   "['/log/', '🍿', 'log']",
   "['/love/', '💛', 'love']",
@@ -144,8 +136,8 @@ for (const line of nav) {
 }
 assert.doesNotMatch(shell, /👋|🗓️/);
 
-const forward = 'location.replace("/" + location.search + location.hash)';
-for (const page of [grind, habits, me]) {
+const forward = 'location.replace("/whothefuckisjay/" + location.search + location.hash)';
+for (const page of [rootHome, grind, habits, me]) {
   assert.match(page, new RegExp(forward.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   assert.doesNotMatch(page, /class="trackers"|\/grind\//);
 }

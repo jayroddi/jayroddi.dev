@@ -62,11 +62,11 @@ JARVIS = HABITS / "journal-jarvis.json"
 SLEEP = HABITS / "sleep.json"
 STEPS = HABITS / "steps.json"
 STEPS_CUTS = [2500, 5000, 7500, 10000]
-# / is the habit grids (site/index.html). /grind/, /habits/, and /me/ forward there.
-# snaps are /snaps/. the life-score tape is /hud/ only, not on /.
+# The habit grids live at /whothefuckisjay/. / , /grind/, /habits/, and /me/ forward there.
+# snaps are /snaps/. the life-score tape is /hud/ only, not on the homepage.
 # /quotes/ is the quote feed. it still reads site/quote-of-the-day/quotes.json.
-# day pages still forward to /.
-HOME = HABITS.parent / "index.html"
+# day pages forward straight to /whothefuckisjay/.
+HOME = HABITS.parent / "whothefuckisjay" / "index.html"
 INDEX = HABITS / "index.html"
 GRIND = HABITS.parent / "grind" / "index.html"
 SNAPS = HABITS.parent / "snaps" / "index.html"
@@ -806,7 +806,7 @@ def build_cursor_once(cfg: dict, today: date) -> dict:
 
 
 def grid_pages() -> list[Path]:
-    """The habit grids. They live on /. /grind/, /habits/, and /me/ forward there."""
+    """The habit grids. They live at /whothefuckisjay/. The old home urls forward there."""
     return [HOME]
 
 
@@ -895,17 +895,17 @@ REDIRECT_STUB = """<!doctype html>
 <head>
 <meta charset="utf-8">
 <title>jay tha ninja</title>
-<!-- v2.16: every page except / forwards home. location.replace keeps ?query and #hash, and the stub never sits in the back history. -->
-<script>location.replace("/" + location.search + location.hash)</script>
-<meta http-equiv="refresh" content="0; url=/">
+<!-- forwards to /whothefuckisjay/. location.replace keeps ?query and #hash, and the stub never sits in the back history. -->
+<script>location.replace("/whothefuckisjay/" + location.search + location.hash)</script>
+<meta http-equiv="refresh" content="0; url=/whothefuckisjay/">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
-<link rel="canonical" href="https://jayroddi.dev/">
+<link rel="canonical" href="https://jayroddi.dev/whothefuckisjay/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="jayroddi.dev">
-<meta property="og:url" content="https://jayroddi.dev/">
+<meta property="og:url" content="https://jayroddi.dev/whothefuckisjay/">
 <meta property="og:title" content="let your success be what shakes the ground">
 <meta property="og:description" content="a year of habits // sleep, fitness, code, and journal">
 <meta property="og:image" content="https://jayroddi.dev/og-card.png?v=3.3">
@@ -915,16 +915,16 @@ REDIRECT_STUB = """<!doctype html>
 <meta property="og:image:alt" content="by jay, a millennial living out loud">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@jayroddi">
-<meta name="twitter:url" content="https://jayroddi.dev/">
+<meta name="twitter:url" content="https://jayroddi.dev/whothefuckisjay/">
 <meta name="twitter:title" content="let your success be what shakes the ground">
 <meta name="twitter:description" content="a year of habits // sleep, fitness, code, and journal">
 <meta name="twitter:image" content="https://jayroddi.dev/og-card.png?v=3.3">
 <meta name="twitter:image:alt" content="by jay, a millennial living out loud">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"jayroddi.dev","url":"https://jayroddi.dev/"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"jayroddi.dev","url":"https://jayroddi.dev/whothefuckisjay/"}</script>
 <style>html,body{margin:0;background:#000;color:#f6efe9}body{font:16px/1.5 "JetBrains Mono",ui-monospace,monospace;padding:24px}a{color:#FF4D1A;text-decoration:none}</style>
 </head>
 <body>
-<p><a href="/">jayroddi.dev</a></p>
+<p><a href="/whothefuckisjay/">jayroddi.dev</a></p>
 </body>
 </html>
 """
@@ -962,7 +962,7 @@ def write_redirects() -> int:
         (child / "index.html").write_text(REDIRECT_STUB, encoding="utf-8")
         n += 1
     clear_coverage()
-    print(f"habits: day pages off; {n} old dates redirect to /")
+    print(f"habits: day pages off; {n} old dates redirect to /whothefuckisjay/")
     return n
 
 
@@ -971,8 +971,8 @@ def assert_redirects() -> int:
         html = path.read_text(encoding="utf-8")
         if 'data-pages-through="' in html:
             raise SystemExit(f"habits: data-pages-through is set on {path.relative_to(ROOT)} while day pages are off")
-    marker = 'location.replace("/" + location.search + location.hash)'
-    refresh = 'content="0; url=/"'
+    marker = 'location.replace("/whothefuckisjay/" + location.search + location.hash)'
+    refresh = 'content="0; url=/whothefuckisjay/"'
     n = 0
     for child in HABITS.iterdir():
         if not child.is_dir() or not DATE_RE.fullmatch(child.name):
@@ -982,11 +982,11 @@ def assert_redirects() -> int:
             raise SystemExit(f"habits: {child.name} has no redirect")
         text = page.read_text(encoding="utf-8")
         if marker not in text or refresh not in text or "day.js" in text:
-            raise SystemExit(f"habits: {child.name} is not a redirect to /")
+            raise SystemExit(f"habits: {child.name} is not a redirect to /whothefuckisjay/")
         n += 1
     if n == 0:
         raise SystemExit("habits: no day-page redirects under site/habits")
-    # / is the grids. /grind/, /habits/, and /me/ forward there. snaps are /snaps/.
+    # /whothefuckisjay/ is the grids. /, /grind/, /habits/, and /me/ forward there. snaps are /snaps/.
     for path in grid_pages():
         html = path.read_text(encoding="utf-8")
         label = path.relative_to(ROOT)
@@ -996,11 +996,12 @@ def assert_redirects() -> int:
             raise SystemExit(f"habits: {label} still has the daily quote")
         if 'id="kronos"' in html or "hud.js" in html or "hud.css" in html:
             raise SystemExit(f"habits: {label} still has the life-score tape")
-    home_forward = 'location.replace("/" + location.search + location.hash)'
-    for path, name in ((GRIND, "grind"), (INDEX, "habits"), (ME, "me")):
+    home_forward = 'location.replace("/whothefuckisjay/" + location.search + location.hash)'
+    root_index = HABITS.parent / "index.html"
+    for path, name in ((GRIND, "grind"), (INDEX, "habits"), (ME, "me"), (root_index, "/")):
         text = path.read_text(encoding="utf-8")
         if home_forward not in text or 'class="trackers"' in text:
-            raise SystemExit(f"habits: site/{name}/index.html is not a redirect to /")
+            raise SystemExit(f"habits: {name} index is not a redirect to /whothefuckisjay/")
     snaps = SNAPS.read_text(encoding="utf-8")
     if 'id="gallery"' not in snaps or 'id="kronos"' in snaps:
         raise SystemExit("habits: site/snaps/index.html is not the photo grid")
