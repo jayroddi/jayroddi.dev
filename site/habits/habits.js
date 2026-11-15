@@ -11,7 +11,7 @@ const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 function syncTodayBlink() {
   if (reduced) return;
   const align = () => {
-    document.querySelectorAll('.carry.destiny, .cell.today:not(.sweep)').forEach(el => {
+    document.querySelectorAll('.carry.destiny, .ennea-live, .cell.today:not(.sweep)').forEach(el => {
       el.getAnimations().forEach(anim => {
         if (anim.animationName === 'today-cursor') anim.startTime = 0;
       });

@@ -5,15 +5,7 @@ html:has(body.is-brain) {
   background: #000 !important;
   color-scheme: dark;
   overscroll-behavior-y: auto;
-  scrollbar-width: none;
   touch-action: pan-x pan-y pinch-zoom;
-}
-
-html:has(body.is-brain)::-webkit-scrollbar,
-body.is-brain::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
 }
 
 body.board.is-brain {
@@ -27,7 +19,6 @@ body.board.is-brain {
   overscroll-behavior-y: auto;
   background: #000 !important;
   user-select: none;
-  scrollbar-width: none;
   touch-action: pan-x pan-y pinch-zoom;
 }
 
