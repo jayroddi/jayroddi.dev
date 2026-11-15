@@ -3,7 +3,7 @@
     {
       "c": "all",
       "e": "all",
-      "n": 485
+      "n": 486
     },
     {
       "c": "movies",
@@ -23,7 +23,7 @@
     {
       "c": "albums",
       "e": "💿",
-      "n": 159
+      "n": 160
     },
     {
       "c": "games",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 28
+      "n": 29
     },
     {
       "m": "2025",
@@ -83,6 +83,17 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "albums-infinite-ep-2026-11-14-fff8c2",
+      "d": "2026-11-14",
+      "c": "albums",
+      "t": "Infinite EP",
+      "a": "Eminem",
+      "r": null,
+      "img": "albums-infinite-ep-2026-11-14-fff8c2.jpg",
+      "src": "music 🎧",
+      "blurb": null
+    },
     {
       "i": "movies-the-waterboy-2026-11-14-7c0854",
       "d": "2026-11-14",
