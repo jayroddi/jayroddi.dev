@@ -61,7 +61,7 @@
   color: var(--gold);
   font-size: 12px;
   text-shadow: 0 0 8px rgba(255, 215, 0, 0.55);
-  animation: ennea-blink 1.05s ease-in-out infinite;
+  animation: today-cursor 1.2s ease-in-out infinite;
 }
 
 .ennea-body {
@@ -292,10 +292,4 @@
     transform: scaleX(1);
     transition: none;
   }
-}
-
-@keyframes ennea-blink {
-  0%, 46% { opacity: 1; }
-  54%, 72% { opacity: 0.2; }
-  100% { opacity: 1; }
 }
