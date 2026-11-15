@@ -870,11 +870,11 @@
       "rides": 11
     },
     "2026-11-10": {
-      "total": 4,
+      "total": 3,
       "commits": 0,
       "prs_opened": 0,
       "prs_merged": 0,
-      "workouts": 4
+      "workouts": 3
     },
     "2026-11-11": {
       "total": 10,
@@ -882,6 +882,20 @@
       "prs_opened": 0,
       "prs_merged": 0,
       "rides": 10
+    },
+    "2026-11-13": {
+      "total": 16,
+      "commits": 0,
+      "prs_opened": 0,
+      "prs_merged": 0,
+      "rides": 16
+    },
+    "2026-11-14": {
+      "total": 14,
+      "commits": 0,
+      "prs_opened": 0,
+      "prs_merged": 0,
+      "rides": 14
     }
   }
 }
