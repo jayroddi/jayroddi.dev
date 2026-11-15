@@ -89,6 +89,7 @@ body.interwebs .iw-filters button:focus-visible { outline: 2px solid var(--c); o
   border: 0;
   background: #000;
 }
+.iw-video video { object-fit: contain; }
 .iw-reel {
   aspect-ratio: 9 / 16;
   width: min(100%, 22.5rem);
