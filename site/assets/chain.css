@@ -1,12 +1,11 @@
-/* Six static lines between the enneagram panel and the habit grids.
+/* Six arrow lines between the enneagram panel and the habit grids.
    Italic mono, 12px on a wide screen and down to 8.9px so the longest
    line stays one line at 375px. destiny pulses with the grid's today cell. */
 
 .chain,
 .chain li,
-.chain .pre,
-.chain .noun,
-.chain .post,
+.chain .from,
+.chain .arrow,
 .chain .carry {
   font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
   font-size: clamp(8.9px, calc(2.86vw - 1.83px), 12px);
@@ -41,10 +40,10 @@
   .chain li { white-space: normal; }
 }
 
-.chain .noun,
-.chain .carry {
-  color: #1AADB3;
-}
+.chain .from { color: #fff; }
+.chain .from.thoughts { color: #FFD700; }
+.chain .arrow { color: rgba(255, 255, 255, .45); }
+.chain .carry { color: #1AADB3; }
 
 .chain .carry.destiny {
   color: #FFD700;
