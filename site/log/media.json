@@ -3,12 +3,12 @@
     {
       "c": "all",
       "e": "all",
-      "n": 487
+      "n": 488
     },
     {
       "c": "movies",
       "e": "🍿",
-      "n": 180
+      "n": 181
     },
     {
       "c": "shows",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 30
+      "n": 31
     },
     {
       "m": "2025",
@@ -384,6 +384,17 @@
       "src": "movies 🍿",
       "blurb": null,
       "glow": "gold"
+    },
+    {
+      "i": "movies-michael-2026-06-07-40b588",
+      "d": "2026-06-07",
+      "c": "movies",
+      "t": "Michael",
+      "a": "Antoine Fuqua",
+      "r": null,
+      "img": "movies-michael-2026-06-07-40b588.jpg",
+      "src": "movies 🍿",
+      "blurb": null
     },
     {
       "i": "books-clarity-connection-2026-01-29-bc4ca1",
