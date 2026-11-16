@@ -35,3 +35,125 @@
   color: #FFD700;
   font-style: italic;
 }
+
+#love {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.love-now {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0 0 1.65em;
+}
+
+.os,
+.os * {
+  font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
+  font-style: italic;
+  font-weight: 500;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+.os {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 10px 12px 12px;
+  text-align: left;
+  color: #e7fff9;
+  background:
+    linear-gradient(rgba(26, 173, 179, 0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 173, 179, 0.13) 1px, transparent 1px),
+    #05080c;
+  background-size: 16px 16px, 16px 16px, auto;
+  box-shadow: inset 0 0 0 1px rgba(26, 173, 179, 0.42);
+}
+
+.os p { margin: 0; font-size: 12px; line-height: 1.65; }
+
+.os-from {
+  color: #ff9679;
+  overflow-wrap: anywhere;
+}
+
+.os-bar {
+  height: 8px;
+  margin: 8px 0;
+  background: rgba(26, 173, 179, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(26, 173, 179, 0.45);
+  overflow: hidden;
+}
+
+.os-bar i {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #1aadb3, #ffd700);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: os-fill 3.2s linear forwards;
+}
+
+.os-to {
+  min-height: 1.65em;
+  color: #ffd700;
+  opacity: 0.4;
+  overflow-wrap: anywhere;
+}
+
+.os-log {
+  min-height: 1.65em;
+  color: rgba(215, 255, 248, 0.62);
+  overflow-wrap: anywhere;
+}
+
+.os.is-done .os-from { opacity: 0.45; }
+.os.is-done .os-to { opacity: 1; }
+.os.is-done .os-bar i { transform: scaleX(1); }
+
+.os-notes {
+  list-style: none;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 1.65em 0 0;
+  padding: 0;
+  text-align: left;
+}
+
+.os-notes li {
+  margin: 0;
+  font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.65;
+  color: var(--ink, #f6efe9);
+  overflow-wrap: anywhere;
+}
+
+.os-lfg {
+  margin: 1.65em 0 0;
+  text-align: center;
+  font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.65;
+  color: #ffd700;
+}
+
+@keyframes os-fill { to { transform: scaleX(1); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .os-bar i { animation: none; transform: scaleX(1); }
+  .os-from { opacity: 0.45; }
+  .os-to { opacity: 1; }
+}
