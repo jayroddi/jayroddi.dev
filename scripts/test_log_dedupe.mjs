@@ -56,8 +56,8 @@ assert.equal(holiday[0].t, 'Right Thing, Right Now: Justice in an Unjust World')
 assert.equal(holiday[0].a, 'Ryan Holiday');
 const booksChip = once.filters.find((filter) => filter.c === 'books');
 assert.equal(booksChip.n, 111);
-assert.equal(once.filters.find((filter) => filter.c === 'all').n, 487);
-assert.equal(once.filters.find((filter) => filter.c === 'movies').n, 180);
+assert.equal(once.filters.find((filter) => filter.c === 'all').n, 488);
+assert.equal(once.filters.find((filter) => filter.c === 'movies').n, 181);
 assert.equal(once.filters.find((filter) => filter.c === 'albums').n, 161);
 const boy = once.items.filter((item) => item.t === 'The Boy Who Was Raised as a Dog');
 assert.equal(boy.length, 1);
@@ -193,7 +193,14 @@ assert.equal(matchesQuery({ t: "You Can't Please Everyone", a: 'Vex King' }, 'ca
 assert.equal(matchesQuery({ t: 'Godzilla Minus Zero', a: null, blurb: "it's incredible" }, 'incredible'), false);
 assert.equal(matchesQuery({ t: 'Godzilla Minus Zero', a: null }, ''), true);
 assert.equal(matchesQuery({ t: 'Godzilla Minus Zero', a: null }, '   '), true);
-assert.equal(once.items.length, 487);
+assert.equal(once.items.length, 488);
+const michaelAt = once.items.findIndex((item) => item.i === 'movies-michael-2026-06-07-40b588');
+assert.equal(once.items[michaelAt - 1].i, 'movies-the-odyssey-2026-07-26-1df820');
+assert.equal(once.items[michaelAt + 1].i, 'books-clarity-connection-2026-01-29-bc4ca1');
+assert.equal(once.items[michaelAt].t, 'Michael');
+assert.equal(once.items[michaelAt].a, 'Antoine Fuqua');
+assert.equal(once.items[michaelAt].d, '2026-06-07');
+assert.equal(once.items[michaelAt].glow, undefined);
 assert.equal(once.items[0].t, 'Bando Stone and The New World');
 assert.equal(once.items[0].glow, undefined);
 assert.equal(once.items[1].t, 'Infinite EP');
