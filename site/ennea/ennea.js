@@ -25,7 +25,6 @@
       blurb: 'nines keep the peace and go along. easy to miss what they actually want. the work is saying it out loud.' }
   ];
 
-  const byN = new Map(TYPES.map((t) => [t.n, t]));
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const CX = 100;
   const CY = 100;
@@ -91,12 +90,16 @@
   list.className = 'ennea-list';
   TYPES.forEach((t, i) => {
     const li = document.createElement('li');
+    li.className = 'ennea-item';
+    li.dataset.n = String(t.n);
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'ennea-row' + (t.wing === 'main' ? ' is-main' : t.wing === 'wing' ? ' is-wing' : '');
     btn.dataset.n = String(t.n);
     btn.style.setProperty('--p', String(t.score));
     btn.setAttribute('aria-label', 'type ' + t.n + ' ' + t.name + ', ' + t.score + ' percent');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', 'ennea-fold-' + t.n);
     const num = document.createElement('span');
     num.className = 'num';
     num.textContent = String(t.n);
@@ -121,17 +124,21 @@
     fill.style.transitionDelay = (0.2 + i * 0.06) + 's';
     track.append(fill);
     btn.append(num, name, pct, track);
-    li.append(btn);
+    const fold = document.createElement('div');
+    fold.className = 'ennea-fold';
+    fold.id = 'ennea-fold-' + t.n;
+    fold.setAttribute('aria-hidden', 'true');
+    const blurb = document.createElement('p');
+    blurb.className = 'ennea-blurb';
+    blurb.textContent = t.blurb;
+    fold.append(blurb);
+    li.append(btn, fold);
     list.append(li);
   });
 
-  const blurb = document.createElement('p');
-  blurb.className = 'ennea-blurb';
-  blurb.id = 'ennea-blurb';
-
   const read = document.createElement('div');
   read.className = 'ennea-read';
-  read.append(list, blurb);
+  read.append(list);
 
   const body = document.createElement('div');
   body.className = 'ennea-body';
@@ -139,45 +146,82 @@
   root.append(body);
 
   let picked = 2;
-  let hot = 2;
 
-  function show(n) {
-    hot = n;
-    const type = byN.get(n);
+  function setFold(li, open) {
+    const fold = li.querySelector('.ennea-fold');
+    const was = li.classList.contains('is-open');
+    if (was === open && li.dataset.ready === '1') return;
+    li.dataset.ready = '1';
+    li.classList.toggle('is-open', open);
+    fold.setAttribute('aria-hidden', open ? 'false' : 'true');
+    if (reduce) {
+      fold.style.height = open ? 'auto' : '0px';
+      return;
+    }
+    const start = fold.getBoundingClientRect().height;
+    const target = open ? fold.scrollHeight : 0;
+    if (Math.abs(start - target) < 1) {
+      fold.style.height = open ? 'auto' : '0px';
+      return;
+    }
+    fold.style.height = start + 'px';
+    fold.offsetHeight;
+    fold.style.height = target + 'px';
+    const gen = String((Number(fold.dataset.gen) || 0) + 1);
+    fold.dataset.gen = gen;
+    const done = (e) => {
+      if (e.propertyName !== 'height' || fold.dataset.gen !== gen) return;
+      fold.removeEventListener('transitionend', done);
+      if (li.classList.contains('is-open')) fold.style.height = 'auto';
+    };
+    fold.addEventListener('transitionend', done);
+  }
+
+  function mark(n) {
     root.querySelectorAll('[data-n]').forEach((el) => {
+      if (el.classList.contains('ennea-item')) return;
       const on = Number(el.dataset.n) === n;
       el.classList.toggle('is-hot', on);
-      el.setAttribute('aria-pressed', on ? 'true' : 'false');
+      if (el.classList.contains('ennea-row')) {
+        el.setAttribute('aria-expanded', Number(el.dataset.n) === picked ? 'true' : 'false');
+      } else {
+        el.setAttribute('aria-pressed', Number(el.dataset.n) === picked ? 'true' : 'false');
+      }
     });
-    blurb.textContent = type ? type.blurb : '';
+  }
+
+  function choose(n) {
+    picked = n;
+    mark(n);
+    root.querySelectorAll('.ennea-item').forEach((li) => {
+      setFold(li, Number(li.dataset.n) === n);
+    });
   }
 
   root.addEventListener('click', (e) => {
     const btn = e.target.closest('[data-n]');
-    if (!btn || !root.contains(btn)) return;
-    picked = Number(btn.dataset.n);
-    show(picked);
+    if (!btn || btn.classList.contains('ennea-item') || !root.contains(btn)) return;
+    choose(Number(btn.dataset.n));
   });
   root.addEventListener('pointerover', (e) => {
     const btn = e.target.closest('[data-n]');
-    if (!btn || !root.contains(btn)) return;
-    show(Number(btn.dataset.n));
+    if (!btn || btn.classList.contains('ennea-item') || !root.contains(btn)) return;
+    mark(Number(btn.dataset.n));
   });
   root.addEventListener('pointerout', (e) => {
     const btn = e.target.closest('[data-n]');
-    if (!btn) return;
+    if (!btn || btn.classList.contains('ennea-item')) return;
     const next = e.relatedTarget && e.relatedTarget.closest ? e.relatedTarget.closest('[data-n]') : null;
-    if (next && root.contains(next)) return;
-    show(picked);
+    if (next && !next.classList.contains('ennea-item') && root.contains(next)) return;
+    mark(picked);
   });
   root.addEventListener('focusin', (e) => {
     const btn = e.target.closest('[data-n]');
-    if (!btn || !root.contains(btn)) return;
-    picked = Number(btn.dataset.n);
-    show(picked);
+    if (!btn || btn.classList.contains('ennea-item') || !root.contains(btn)) return;
+    choose(Number(btn.dataset.n));
   });
 
-  show(2);
+  choose(2);
 
   const pcts = [...root.querySelectorAll('.ennea-pct')];
   const tick = (start) => {
