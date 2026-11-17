@@ -3,7 +3,7 @@
     {
       "c": "all",
       "e": "all",
-      "n": 488
+      "n": 489
     },
     {
       "c": "movies",
@@ -18,7 +18,7 @@
     {
       "c": "books",
       "e": "📚",
-      "n": 111
+      "n": 112
     },
     {
       "c": "albums",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 31
+      "n": 32
     },
     {
       "m": "2025",
@@ -83,6 +83,18 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "books-greatness-2026-11-16-e546bf",
+      "d": "2026-11-16",
+      "c": "books",
+      "t": "Greatness",
+      "a": "David L. Cook",
+      "r": null,
+      "img": "books-greatness-2026-11-16-e546bf.jpg",
+      "src": "books 📚",
+      "blurb": null,
+      "glow": "gold"
+    },
     {
       "i": "albums-bando-stone-and-the-new-world-2026-11-15-a41f41",
       "d": "2026-11-15",
