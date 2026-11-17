@@ -3,7 +3,7 @@
     {
       "c": "all",
       "e": "all",
-      "n": 490
+      "n": 491
     },
     {
       "c": "movies",
@@ -23,7 +23,7 @@
     {
       "c": "albums",
       "e": "💿",
-      "n": 162
+      "n": 163
     },
     {
       "c": "games",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 33
+      "n": 34
     },
     {
       "m": "2025",
@@ -83,6 +83,17 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "albums-take-off-your-pants-and-jacket-25-year-anniversary-edition-2026-11-17-3f06ae",
+      "d": "2026-11-17",
+      "c": "albums",
+      "t": "Take Off Your Pants And Jacket (25 Year Anniversary Edition)",
+      "a": "Blink-182",
+      "r": null,
+      "img": "albums-take-off-your-pants-and-jacket-25-year-anniversary-edition-2026-11-17-3f06ae.jpg",
+      "src": "music 🎧",
+      "blurb": null
+    },
     {
       "i": "albums-the-great-divide-2026-11-17-3db89f",
       "d": "2026-11-17",
