@@ -159,8 +159,7 @@
       "r": null,
       "img": "movies-air-2026-11-13-bad8fd.jpg",
       "src": "movies 🍿",
-      "blurb": null,
-      "glow": "gold"
+      "blurb": null
     },
     {
       "i": "albums-ballads-of-hyrule-iii-2026-11-12-612c5b",
@@ -483,7 +482,8 @@
       "r": null,
       "img": "books-lighter-let-go-of-the-past-connect-with-the-present-and-expand-the-future--ddf2a9.jpg",
       "src": "books-page",
-      "blurb": null
+      "blurb": null,
+      "glow": "gold"
     },
     {
       "i": "books-crystals-for-beginners-the-guide-to-get-started-with-the-healing-power-of--c7fbc8",
