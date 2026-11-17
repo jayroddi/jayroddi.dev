@@ -3,7 +3,7 @@
     {
       "c": "all",
       "e": "all",
-      "n": 489
+      "n": 490
     },
     {
       "c": "movies",
@@ -23,7 +23,7 @@
     {
       "c": "albums",
       "e": "💿",
-      "n": 161
+      "n": 162
     },
     {
       "c": "games",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 32
+      "n": 33
     },
     {
       "m": "2025",
@@ -83,6 +83,17 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "albums-the-great-divide-2026-11-17-3db89f",
+      "d": "2026-11-17",
+      "c": "albums",
+      "t": "The Great Divide",
+      "a": "Noah Kahan",
+      "r": null,
+      "img": "albums-the-great-divide-2026-11-17-3db89f.jpg",
+      "src": "music 🎧",
+      "blurb": null
+    },
     {
       "i": "books-greatness-2026-11-16-e546bf",
       "d": "2026-11-16",
