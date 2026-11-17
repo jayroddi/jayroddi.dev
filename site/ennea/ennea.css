@@ -58,11 +58,19 @@
 
 .ennea-live {
   flex: none;
-  color: var(--gold);
   font-size: 12px;
-  text-shadow: 0 0 8px rgba(255, 215, 0, 0.55);
-  animation: today-cursor 1.2s ease-in-out infinite;
+  font-style: italic;
+  animation: none;
+  opacity: 1;
 }
+.ennea-live .n2,
+.ennea-live .n1,
+.ennea-live .n3,
+.ennea-live .dot { font-style: italic; }
+.ennea-live .n2 { color: var(--gold); }
+.ennea-live .n1,
+.ennea-live .n3 { color: var(--teal); }
+.ennea-live .dot { color: #fff; }
 
 .ennea-body {
   display: flex;
