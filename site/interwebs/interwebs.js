@@ -1,4 +1,5 @@
-/* Newest first. Category is only for the filter; it is not shown on the video. */
+/* Newest first. Category is only for the filter; it is not shown on the video.
+   An item with pin "last" renders after every other item. */
 const list = document.getElementById('interwebs');
 const CATS = ['😭', '🏎️', '🐐', '💭', '🙃', '🇺🇸', '💛'];
 let items = [];
@@ -141,10 +142,20 @@ function sourceLink(href) {
   return link;
 }
 
+function pinnedLast(rows) {
+  const body = [];
+  const tail = [];
+  rows.forEach((row) => {
+    if (row && row.pin === 'last') tail.push(row);
+    else body.push(row);
+  });
+  return body.concat(tail);
+}
+
 function render() {
   if (!list) return;
   const frag = document.createDocumentFragment();
-  items.forEach((item) => {
+  pinnedLast(items).forEach((item) => {
     if (selected !== 'all' && item.c !== selected) return;
     if (typeof item.video === 'string' && item.video.charAt(0) === '/') {
       const { li, wrap } = card('iw-video');
