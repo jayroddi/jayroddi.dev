@@ -1,6 +1,6 @@
 /* Six arrow lines between the enneagram panel and the habit grids.
    Italic mono, 12px on a wide screen and down to 8.9px so the longest
-   line stays one line at 375px. destiny pulses with the grid's today cell. */
+   line stays one line at 375px. thoughts and destiny pulse with the grid's today cell. */
 
 .chain,
 .chain li,
@@ -41,15 +41,16 @@
 }
 
 .chain .from { color: #fff; }
-.chain .from.thoughts { color: #FFD700; }
 .chain .arrow { color: rgba(255, 255, 255, .45); }
 .chain .carry { color: #1AADB3; }
 
+.chain .from.thoughts,
 .chain .carry.destiny {
   color: #FFD700;
   animation: today-cursor 1.2s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .chain .from.thoughts,
   .chain .carry.destiny { animation: none; opacity: 1; }
 }

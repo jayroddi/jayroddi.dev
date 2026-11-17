@@ -6,12 +6,12 @@ const SHORT = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov'
 const LONG = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const LOWER = ['january','february','march','april','may','june','july','august','september','october','november','december'];
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-/* destiny paints immediately. the gold today cells start after the grids load.
-   both today-cursor animations share document time 0, so the phase matches. */
+/* thoughts and destiny paint immediately. the gold today cells start after the grids load.
+   every today-cursor animation shares document time 0, so the phase matches. */
 function syncTodayBlink() {
   if (reduced) return;
   const align = () => {
-    document.querySelectorAll('.carry.destiny, .ennea-live, .cell.today:not(.sweep)').forEach(el => {
+    document.querySelectorAll('.from.thoughts, .carry.destiny, .ennea-live, .cell.today:not(.sweep)').forEach(el => {
       el.getAnimations().forEach(anim => {
         if (anim.animationName === 'today-cursor') anim.startTime = 0;
       });
