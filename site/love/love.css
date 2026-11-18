@@ -20,6 +20,24 @@
   color: var(--c, #1AADB3);
   text-align: center;
 }
+.letter {
+  box-sizing: border-box;
+  width: min(40em, 100%);
+  margin: 0 0 1.65em;
+  padding: 0 8px;
+  text-align: left;
+}
+.letter p {
+  margin: 0 0 1em;
+  font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.65;
+  color: var(--fg, #f6efe9);
+  overflow-wrap: break-word;
+}
+.letter p:last-child { margin-bottom: 0; }
 .support-group {
   list-style: none;
   margin: 0;
