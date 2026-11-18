@@ -3,7 +3,7 @@
     {
       "c": "all",
       "e": "all",
-      "n": 491
+      "n": 492
     },
     {
       "c": "movies",
@@ -23,7 +23,7 @@
     {
       "c": "albums",
       "e": "💿",
-      "n": 163
+      "n": 164
     },
     {
       "c": "games",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 34
+      "n": 35
     },
     {
       "m": "2025",
@@ -83,6 +83,17 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "albums-life-is-not-a-waiting-room-2026-11-18-b4f117",
+      "d": "2026-11-18",
+      "c": "albums",
+      "t": "Life Is Not a Waiting Room",
+      "a": "Senses Fail",
+      "r": null,
+      "img": "albums-life-is-not-a-waiting-room-2026-11-18-b4f117.jpg",
+      "src": "music 🎧",
+      "blurb": null
+    },
     {
       "i": "albums-take-off-your-pants-and-jacket-25-year-anniversary-edition-2026-11-17-3f06ae",
       "d": "2026-11-17",
