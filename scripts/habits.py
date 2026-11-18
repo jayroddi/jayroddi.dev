@@ -894,10 +894,12 @@ REDIRECT_STUB = """<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>!function(){var o=!1;try{o=localStorage.getItem("jay-gate")==="1"}catch(e){}document.documentElement.classList.add(o?"gate-open":"is-locked")}();</script>
+<style>html.is-locked,html.is-locked body{background:#000}html.is-locked body>*:not(.jay-gate){display:none!important}</style>
+<link rel="stylesheet" href="/assets/gate.css?v=1">
 <title>jay tha ninja</title>
 <!-- forwards to /whothefuckisjay/. location.replace keeps ?query and #hash, and the stub never sits in the back history. -->
-<script>location.replace("/whothefuckisjay/" + location.search + location.hash)</script>
-<meta http-equiv="refresh" content="0; url=/whothefuckisjay/">
+<script>if(document.documentElement.classList.contains("gate-open"))location.replace("/whothefuckisjay/" + location.search + location.hash);else document.documentElement.setAttribute("data-gate-next","/whothefuckisjay/"+location.search+location.hash)</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#000000">
@@ -925,6 +927,7 @@ REDIRECT_STUB = """<!doctype html>
 </head>
 <body>
 <p><a href="/whothefuckisjay/">jayroddi.dev</a></p>
+<script src="/assets/gate.js?v=1"></script>
 </body>
 </html>
 """
@@ -972,7 +975,6 @@ def assert_redirects() -> int:
         if 'data-pages-through="' in html:
             raise SystemExit(f"habits: data-pages-through is set on {path.relative_to(ROOT)} while day pages are off")
     marker = 'location.replace("/whothefuckisjay/" + location.search + location.hash)'
-    refresh = 'content="0; url=/whothefuckisjay/"'
     n = 0
     for child in HABITS.iterdir():
         if not child.is_dir() or not DATE_RE.fullmatch(child.name):
@@ -981,8 +983,8 @@ def assert_redirects() -> int:
         if not page.is_file():
             raise SystemExit(f"habits: {child.name} has no redirect")
         text = page.read_text(encoding="utf-8")
-        if marker not in text or refresh not in text or "day.js" in text:
-            raise SystemExit(f"habits: {child.name} is not a redirect to /whothefuckisjay/")
+        if marker not in text or "jay-gate" not in text or 'http-equiv="refresh"' in text or "day.js" in text:
+            raise SystemExit(f"habits: {child.name} is not a gated redirect to /whothefuckisjay/")
         n += 1
     if n == 0:
         raise SystemExit("habits: no day-page redirects under site/habits")

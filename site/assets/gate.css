@@ -1,0 +1,105 @@
+/* Full-screen riddle. The head script hides the page before paint.
+   Dark, like the rest of the site (light stays locked off). */
+
+.jay-gate,
+.jay-gate * {
+  font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
+  font-style: italic;
+  font-weight: 500;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+.jay-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 24px 12px;
+  background:
+    linear-gradient(rgba(26, 173, 179, 0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 173, 179, 0.13) 1px, transparent 1px),
+    #000;
+  background-size: 16px 16px, 16px 16px, auto;
+  color: rgba(244, 239, 230, .78);
+  opacity: 1;
+  transition: opacity .4s ease;
+}
+
+.jay-gate.is-out { opacity: 0; }
+
+.jay-gate-q {
+  margin: 0;
+  max-width: 28em;
+  font-size: 12px;
+  line-height: 1.45;
+  text-align: center;
+  color: #1aadb3;
+}
+
+.jay-gate-words {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px 18px;
+  max-width: 100%;
+}
+
+.jay-word {
+  display: flex;
+  gap: 4px;
+}
+
+.jay-gate input {
+  box-sizing: border-box;
+  width: 1.35em;
+  height: 1.7em;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(26, 173, 179, .55);
+  border-radius: 4px;
+  background: rgba(5, 8, 12, .92);
+  color: #e7fff9;
+  font-size: 16px;
+  line-height: 1;
+  text-align: center;
+  text-transform: lowercase;
+  caret-color: #ffd700;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.jay-gate input:focus {
+  border-color: #ffd700;
+  box-shadow: 0 0 0 1px #ffd700, 0 0 10px rgba(255, 215, 0, .45);
+}
+
+.jay-gate.is-shake .jay-gate-words {
+  animation: jay-gate-shake .36s ease;
+}
+
+@keyframes jay-gate-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jay-gate { transition: none; }
+  .jay-gate.is-shake .jay-gate-words { animation: none; }
+}
+
+@media (max-width: 360px) {
+  .jay-gate-words { gap: 10px 12px; }
+  .jay-word { gap: 3px; }
+  .jay-gate input { width: 1.2em; font-size: 16px; }
+}
