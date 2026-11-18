@@ -5,8 +5,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 const css = readFileSync(new URL('../site/assets/shell.css', import.meta.url), 'utf8');
-const html = readFileSync(new URL('../site/whothefuckisjay/index.html', import.meta.url), 'utf8');
-const rootHome = readFileSync(new URL('../site/index.html', import.meta.url), 'utf8');
+const html = readFileSync(new URL('../site/index.html', import.meta.url), 'utf8');
+const rootHome = readFileSync(new URL('../site/whothefuckisjay/index.html', import.meta.url), 'utf8');
 const quotes = readFileSync(new URL('../site/quotes/index.html', import.meta.url), 'utf8');
 const shell = readFileSync(new URL('../site/assets/shell.js', import.meta.url), 'utf8');
 const grind = readFileSync(new URL('../site/grind/index.html', import.meta.url), 'utf8');
@@ -27,7 +27,7 @@ assert.match(html, /<ol class="chain">/);
 assert.match(html, /chain\.css\?v=12/);
 assert.doesNotMatch(html, /chain\.js/);
 assert.match(html, /shell\.css\?v=45/);
-assert.match(html, /shell\.js\?v=31/);
+assert.match(html, /shell\.js\?v=32/);
 assert.match(html, /id="ennea"/);
 assert.ok(html.indexOf('id="ennea"') < html.indexOf('<ol class="chain">'));
 assert.ok(html.indexOf('<ol class="chain">') < html.indexOf('id="grids"'));
@@ -123,7 +123,7 @@ assert.doesNotMatch(quotes, /hero-title|class="subhead"|class="heart"|chain\.js/
 assert.match(shell, /fetch\('\/quote-of-the-day\/quotes\.json'/);
 
 const nav = [
-  "['/whothefuckisjay/', '🤓', 'grind']",
+  "['/', '🤓', 'grind']",
   "['/snaps/', '📷', 'snaps']",
   "['/log/', '🍿', 'log']",
   "['/love/', '💛', 'love']",
@@ -139,7 +139,7 @@ for (const line of nav) {
 }
 assert.doesNotMatch(shell, /👋|🗓️/);
 
-const forward = 'location.replace("/whothefuckisjay/" + location.search + location.hash)';
+const forward = 'location.replace("/" + location.search + location.hash)';
 for (const page of [rootHome, grind, habits, me]) {
   assert.match(page, new RegExp(forward.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   assert.doesNotMatch(page, /class="trackers"|\/grind\//);
