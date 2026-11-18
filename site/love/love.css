@@ -20,6 +20,9 @@
   color: var(--c, #1AADB3);
   text-align: center;
 }
+.support-date.gold {
+  color: #FFD700;
+}
 .letter {
   box-sizing: border-box;
   width: min(40em, 100%);
