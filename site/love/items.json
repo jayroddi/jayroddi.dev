@@ -3,6 +3,7 @@
     "date": "2026.11.15",
     "groups": [
       [
+        {"text": "🚲 bike mart (hollyhock)", "url": "https://www.bikemart.com/", "gold": true},
         {"text": "🌮 donde los tacos (design district)", "url": "https://dondelostacos.com", "gold": true},
         {"text": "🥃 fable & fire bookshop bistro (rockwall)", "url": "https://www.fableandfirebookshop.com", "gold": true},
         {"text": "💐 flower garden 118 (denton)", "url": "https://flowergardentx.com", "gold": true},
