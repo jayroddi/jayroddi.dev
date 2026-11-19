@@ -44,6 +44,24 @@
   color: var(--au, #FFD700);
   font-style: italic;
 }
+.widner {
+  box-sizing: border-box;
+  width: min(40em, 100%);
+  margin: 0 0 1em;
+  padding: 0 8px;
+  text-align: left;
+  font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.65;
+  color: var(--fg, #f6efe9);
+  overflow-wrap: break-word;
+}
+.widner .widner-name {
+  color: #ff9679;
+  font-style: italic;
+}
 .letter p:last-child { margin-bottom: 0; }
 .support-group {
   list-style: none;
