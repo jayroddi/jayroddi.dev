@@ -4,10 +4,97 @@
   const HASH = '9de96f89f90714c7c7936cafd5b8c3c15378da2fea4ca43d911f2341b34ead4b';
   const GROUPS = [7, 3, 3, 4];
   const root = document.documentElement;
-  if (root.classList.contains('gate-open')) return;
+  const GA = 'G-G8DYYL3KYM';
 
+  function optedOut() {
+    if (window['ga-disable-' + GA] === true) return true;
+    try { return localStorage.getItem('jr_ga_off') === '1'; } catch (e) { return false; }
+  }
+
+  const pending = [];
+  let flushTimer = 0;
+  let flushTries = 0;
+
+  function ensureTag() {
+    window.dataLayer = window.dataLayer || [];
+    if (typeof window.gtag !== 'function') {
+      window.gtag = function () { window.dataLayer.push(arguments); };
+    }
+    const queued = window.dataLayer.some((item) => item && item[0] === 'config');
+    if (!queued) {
+      window.gtag('js', new Date());
+      window.gtag('config', GA);
+    }
+    if (!document.querySelector('script[src*="googletagmanager.com/gtag/js"]')) {
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA);
+      document.head.appendChild(script);
+    }
+  }
+
+  function clientId() {
+    const match = document.cookie.match(/(?:^|; )_ga=GA1\.\d+\.(\d+\.\d+)/);
+    return match ? match[1] : '';
+  }
+
+  function sessionBits() {
+    const match = document.cookie.match(new RegExp('(?:^|; )_ga_' + GA.slice(2) + '=GS\\d+\\.\\d+\\.s(\\d+)\\$o(\\d+)'));
+    return match ? { sid: match[1], sct: match[2] } : null;
+  }
+
+  function flush() {
+    if (optedOut()) { pending.length = 0; return; }
+    const cid = clientId();
+    if (!cid) {
+      if (!flushTimer) flushTimer = setInterval(flush, 200);
+      flushTries += 1;
+      if (flushTries > 40) clearInterval(flushTimer);
+      return;
+    }
+    if (flushTimer) { clearInterval(flushTimer); flushTimer = 0; }
+    const session = sessionBits();
+    while (pending.length) {
+      const name = pending.shift();
+      const params = new URLSearchParams({
+        v: '2',
+        tid: GA,
+        cid: cid,
+        en: name,
+        dl: location.origin + location.pathname,
+        'ep.page_path': location.pathname,
+        _s: '2'
+      });
+      if (session) {
+        params.set('sid', session.sid);
+        params.set('sct', session.sct);
+        params.set('seg', '1');
+      }
+      const url = 'https://www.google-analytics.com/g/collect?' + params.toString();
+      try {
+        if (!navigator.sendBeacon || !navigator.sendBeacon(url)) {
+          fetch(url, { method: 'POST', mode: 'no-cors', keepalive: true });
+        }
+      } catch (e) {}
+    }
+  }
+
+  // gtag.js records commands that are already queued when it boots, then drops
+  // later gtag('event') calls. A beacon after the client id exists is the hit
+  // that actually leaves the browser. The only parameter is the page path.
   function track(name) {
-    try { if (typeof gtag === 'function') gtag('event', name); } catch (e) {}
+    if (optedOut()) return;
+    if (name !== 'gate_view' && name !== 'gate_unlock' && name !== 'gate_pass') return;
+    try {
+      ensureTag();
+      pending.push(name);
+      flush();
+    } catch (e) {}
+  }
+
+  if (root.classList.contains('gate-open')) {
+    track('gate_pass');
+    return;
   }
 
   const boxes = [];
