@@ -40,6 +40,10 @@
   color: var(--fg, #f6efe9);
   overflow-wrap: break-word;
 }
+.letter .meagan {
+  color: var(--au, #FFD700);
+  font-style: italic;
+}
 .letter p:last-child { margin-bottom: 0; }
 .support-group {
   list-style: none;
