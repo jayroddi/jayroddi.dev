@@ -41,7 +41,7 @@ html.is-locked body > .habit-bg { display: grid !important; }
   font-size: 12px;
   line-height: 1.45;
   text-align: center;
-  color: #1aadb3;
+  color: var(--au, #FFD700);
 }
 
 .jay-gate-words {
