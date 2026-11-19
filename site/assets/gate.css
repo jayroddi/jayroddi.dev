@@ -1,5 +1,6 @@
 /* Full-screen riddle. The head script hides the page before paint.
-   Dark, like the rest of the site (light stays locked off). */
+   The gate itself is clear so the page background shows through:
+   black (--bg) plus the same square field. Light stays locked off. */
 
 .jay-gate,
 .jay-gate * {
@@ -22,17 +23,17 @@
   box-sizing: border-box;
   margin: 0;
   padding: 24px 12px;
-  background:
-    linear-gradient(rgba(26, 173, 179, 0.13) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(26, 173, 179, 0.13) 1px, transparent 1px),
-    #000;
-  background-size: 16px 16px, 16px 16px, auto;
+  background: transparent;
   color: rgba(244, 239, 230, .78);
   opacity: 1;
   transition: opacity .4s ease;
 }
 
 .jay-gate.is-out { opacity: 0; }
+
+/* The lock rule hides every direct child except the gate. The square
+   field is the page background, so it stays up behind the riddle. */
+html.is-locked body > .habit-bg { display: grid !important; }
 
 .jay-gate-q {
   margin: 0;
@@ -45,10 +46,20 @@
 
 .jay-gate-words {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
-  gap: 14px 18px;
+  gap: 14px;
+  max-width: 100%;
+}
+
+.jay-gate-line {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
   max-width: 100%;
 }
 
@@ -99,7 +110,8 @@
 }
 
 @media (max-width: 360px) {
-  .jay-gate-words { gap: 10px 12px; }
+  .jay-gate-words { gap: 10px; }
+  .jay-gate-line { gap: 12px; }
   .jay-word { gap: 3px; }
   .jay-gate input { width: 1.2em; font-size: 16px; }
 }

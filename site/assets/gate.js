@@ -18,7 +18,13 @@
 
   const words = document.createElement('div');
   words.className = 'jay-gate-words';
-  GROUPS.forEach((count) => {
+  let line = null;
+  GROUPS.forEach((count, index) => {
+    if (index % 2 === 0) {
+      line = document.createElement('div');
+      line.className = 'jay-gate-line';
+      words.append(line);
+    }
     const word = document.createElement('div');
     word.className = 'jay-word';
     for (let i = 0; i < count; i += 1) {
@@ -34,7 +40,7 @@
       word.append(input);
       boxes.push(input);
     }
-    words.append(word);
+    line.append(word);
   });
   gate.append(prompt, words);
   document.body.append(gate);
