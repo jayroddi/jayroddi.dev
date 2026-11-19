@@ -6,6 +6,10 @@
   const root = document.documentElement;
   if (root.classList.contains('gate-open')) return;
 
+  function track(name) {
+    try { if (typeof gtag === 'function') gtag('event', name); } catch (e) {}
+  }
+
   const boxes = [];
   const gate = document.createElement('form');
   gate.className = 'jay-gate';
@@ -45,6 +49,7 @@
   gate.append(prompt, words);
   document.body.append(gate);
   boxes[0].focus();
+  track('gate_view');
 
   const indexOf = (el) => boxes.indexOf(el);
   const focusAt = (i) => {
@@ -105,6 +110,7 @@
     try { hash = await digest(entry()); } catch (e) { busy = false; shake(); return; }
     if (hash !== HASH) { busy = false; shake(); return; }
     try { localStorage.setItem(KEY, '1'); } catch (e) {}
+    track('gate_unlock');
     root.classList.add('gate-open');
     root.classList.remove('is-locked');
     gate.classList.add('is-out');
