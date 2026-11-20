@@ -1,3 +1,17 @@
+/* Homepage and /redpill do not load habits.css, so the black page
+   background and the shared column gutter have to live here. Without
+   them, body is transparent and the habit-bg veil uses rain.css's
+   64px / 1312px measure instead of the 777.6px column /love uses. */
+html,
+body {
+  background: #000;
+}
+body.board {
+  --left: max(24px, calc((100vw - 777.6px)/2));
+  --edge: var(--left);
+  --col: min(777.6px, calc(100vw - 48px));
+}
+
 /* Keep typography from inflating on wide tablets (Surface Duo, etc.). */
 html {
   -webkit-text-size-adjust: 100%;
@@ -32,12 +46,7 @@ html {
   padding: 10px 10px 12px;
   text-align: left;
   color: var(--ink);
-  background:
-    linear-gradient(rgba(26, 173, 179, 0.13) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(26, 173, 179, 0.13) 1px, transparent 1px),
-    radial-gradient(ellipse at 50% 30%, rgba(26, 173, 179, 0.1), transparent 58%),
-    #05080c;
-  background-size: 16px 16px, 16px 16px, auto, auto;
+  background: transparent;
   box-shadow: inset 0 0 0 1px rgba(26, 173, 179, 0.42);
   overflow: hidden;
 }
@@ -89,7 +98,8 @@ html {
   width: 100%;
   margin: 1.65em 0 0;
   padding: 16px 18px;
-  background: rgba(0, 0, 0, 0.72);
+  background: transparent;
+  box-shadow: inset 0 0 0 1px rgba(26, 173, 179, 0.42);
   color: #fff;
   font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
   font-size: 12px;
