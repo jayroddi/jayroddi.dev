@@ -1,250 +1,786 @@
-/* Bitcoin daily closes, shown only under the brain unlock.
-   Source: CoinMetrics Community API, asset metric PriceUSD, frequency 1d.
-   https://community-api.coinmetrics.io/v4/timeseries/asset-metrics?assets=btc&metrics=PriceUSD&frequency=1d
-   https://docs.coinmetrics.io/tutorials-and-examples/community-data
-   Bundled 2026-11-17. No API key. UTC day, close.
-   Power law, fit on this series: log10(price) = a + b * log10(days since 2009-01-03).
-   The band is that line ± 1 residual standard deviation. Theoretical, not advice.
-   Halving dates are the subsidy cuts at blocks 210000, 420000, 630000, and 840000. */
+/* Homepage bitcoin tape, in the Kronos HUD language from Oct 31 2026.
+   Last 90 daily closes from site/brain/btc.json. On load, the Coinbase
+   BTC-USD spot (CoinGecko if that fails) replaces the last close and
+   the now-wall price. The spray starts there. Theoretical, not a forecast. */
 (() => {
   const root = document.getElementById('btc');
-  if (!root) return;
+  if (!root || root.dataset.ready) return;
+  root.dataset.ready = '1';
 
-  const HALVINGS = [
-    { d: '2012-11-28', n: 1 },
-    { d: '2016-07-09', n: 2 },
-    { d: '2020-05-11', n: 3 },
-    { d: '2024-04-20', n: 4 }
-  ];
-  const VB_W = 1000;
-  const VB_H = 560;
-  const PLOT = { l: 118, r: 988, t: 28, b: 500 };
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ROUND = reduced ? 14 : 8.6;
+  const HOLD = 5;
+  const CYCLE = ROUND + HOLD;
+  const H = 24;
+  const SAMPLES = 96;
+  const solo = false;
 
-  const utc = (iso) => {
+  const parse = iso => {
     const [y, m, d] = iso.split('-').map(Number);
     return Date.UTC(y, m - 1, d);
   };
-  const isoAt = (t0, i) => {
-    const dt = new Date(utc(t0) + i * 86400000);
-    const m = String(dt.getUTCMonth() + 1).padStart(2, '0');
-    const d = String(dt.getUTCDate()).padStart(2, '0');
-    return dt.getUTCFullYear() + '-' + m + '-' + d;
+  const fmtDate = ms => {
+    const dt = new Date(ms);
+    return dt.getUTCFullYear() + '-' + String(dt.getUTCMonth() + 1).padStart(2, '0') + '-' + String(dt.getUTCDate()).padStart(2, '0');
   };
-  const dot = (iso) => iso.replace(/-/g, '.');
-  const days = (a, b) => Math.round((utc(b) - utc(a)) / 86400000);
-  const money = (n) => {
-    if (n >= 1000) return '$' + Math.round(n).toLocaleString('en-US');
-    if (n >= 1) return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    if (n >= 0.01) return '$' + n.toFixed(4);
-    return '$' + n.toPrecision(3);
+  const addDays = (iso, n) => fmtDate(parse(iso) + n * 86400000);
+  const fmt = n => {
+    if (!Number.isFinite(n)) return '—';
+    if (Math.abs(n) >= 1000) return '$' + Math.round(n).toLocaleString('en-US');
+    if (Math.abs(n) >= 1) return '$' + n.toFixed(2);
+    return '$' + n.toFixed(4);
   };
-  const tickLabel = (n) => {
-    if (n >= 1000) return '$' + Math.round(n / 1000) + 'k';
-    if (n >= 1) return '$' + n;
-    return '$' + n;
+  const smooth = (a, b, x) => {
+    const t = Math.max(0, Math.min(1, (x - a) / (b - a || 1)));
+    return t * t * (3 - 2 * t);
   };
-
-  const svgNS = 'http://www.w3.org/2000/svg';
-  const el = (name, attrs) => {
-    const node = document.createElementNS(svgNS, name);
-    Object.keys(attrs).forEach((key) => node.setAttribute(key, attrs[key]));
-    return node;
-  };
-
-  fetch('/brain/btc.json', { cache: 'no-cache' })
-    .then((res) => res.ok ? res.json() : Promise.reject())
-    .then((data) => draw(data))
-    .catch(() => {
-      root.textContent = 'btc history unavailable';
-    });
-
-  function draw(data) {
-    const px = data.px;
-    const n = px.length;
-    const lastI = n - 1;
-    const t0 = data.t0;
-    const lastIso = isoAt(t0, lastI);
-    let athI = 0;
-    for (let i = 1; i < n; i++) if (px[i] >= px[athI]) athI = i;
-    const athIso = isoAt(t0, athI);
-    const dd = (px[lastI] / px[athI] - 1) * 100;
-    let halving = HALVINGS[0];
-    HALVINGS.forEach((h) => { if (h.d <= lastIso) halving = h; });
-    const since = days(halving.d, lastIso);
-    const cycle = halving.n + 1;
-
-    const law = data.law;
-    const yHat = (iso) => {
-      const d = days(law.genesis, iso);
-      return law.a + law.b * Math.log10(d);
+  function mulberry32(seed) {
+    let a = seed >>> 0;
+    return function () {
+      a |= 0;
+      a = (a + 0x6D2B79F5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
     };
-
-    let lo = Math.log10(Math.min(...px));
-    let hi = Math.log10(Math.max(...px));
-    const bandLo = yHat(t0) - law.sd;
-    const bandHi = yHat(lastIso) + law.sd;
-    lo = Math.min(lo, bandLo);
-    hi = Math.max(hi, bandHi);
-    const pad = (hi - lo) * 0.06;
-    lo -= pad;
-    hi += pad;
-
-    const xOf = (i) => PLOT.l + (n === 1 ? 0 : i / (n - 1)) * (PLOT.r - PLOT.l);
-    const yOfLog = (logP) => {
-      const t = (logP - lo) / (hi - lo);
-      return PLOT.b - t * (PLOT.b - PLOT.t);
-    };
-    const yOf = (p) => yOfLog(Math.log10(p));
-
-    root.replaceChildren();
-    root.setAttribute('aria-label', 'bitcoin daily close ' + money(px[lastI]) + ' on ' + dot(lastIso));
-
-    const top = document.createElement('div');
-    top.className = 'btc-top';
-    const kicker = document.createElement('p');
-    kicker.className = 'btc-kicker';
-    kicker.textContent = 'btc';
-    const read = document.createElement('p');
-    read.className = 'btc-read';
-    top.append(kicker, read);
-
-    const plot = document.createElement('div');
-    plot.className = 'btc-plot';
-    const svg = el('svg', { viewBox: '0 0 ' + VB_W + ' ' + VB_H, preserveAspectRatio: 'none', role: 'img' });
-    svg.setAttribute('aria-hidden', 'true');
-
-    const ticks = [0.1, 1, 10, 100, 1000, 10000, 100000].filter((v) => {
-      const y = yOf(v);
-      return y > PLOT.t - 1 && y < PLOT.b + 1;
-    });
-    ticks.forEach((v) => {
-      const y = yOf(v);
-      svg.append(el('line', {
-        x1: PLOT.l, x2: PLOT.r, y1: y.toFixed(1), y2: y.toFixed(1),
-        stroke: 'rgba(26,173,179,0.16)', 'stroke-width': '1', 'vector-effect': 'non-scaling-stroke'
-      }));
-      const label = el('text', { x: '8', y: (y + 3).toFixed(1) });
-      label.textContent = tickLabel(v);
-      svg.append(label);
-    });
-
-    const upper = [];
-    const lower = [];
-    const center = [];
-    for (let i = 0; i < n; i += 7) {
-      const iso = isoAt(t0, i);
-      const mid = yHat(iso);
-      const x = xOf(i).toFixed(1);
-      upper.push(x + ',' + yOfLog(mid + law.sd).toFixed(1));
-      lower.push(x + ',' + yOfLog(mid - law.sd).toFixed(1));
-      center.push(x + ',' + yOfLog(mid).toFixed(1));
+  }
+  function gauss(rng) {
+    let u = 0;
+    let v = 0;
+    while (u === 0) u = rng();
+    while (v === 0) v = rng();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(Math.PI * 2 * v);
+  }
+  function fit(arr) {
+    const n = arr.length;
+    if (n < 2) {
+      const y = arr[0] || 0;
+      return { a: y, b: 0, sigma: 1, mean: y };
     }
-    const endIso = lastIso;
-    const endMid = yHat(endIso);
-    const endX = xOf(lastI).toFixed(1);
-    upper.push(endX + ',' + yOfLog(endMid + law.sd).toFixed(1));
-    lower.push(endX + ',' + yOfLog(endMid - law.sd).toFixed(1));
-    center.push(endX + ',' + yOfLog(endMid).toFixed(1));
-    svg.append(el('polygon', { class: 'band', points: upper.join(' ') + ' ' + lower.reverse().join(' ') }));
-    svg.append(el('polyline', { class: 'law', points: center.join(' ') }));
+    let sx = 0, sy = 0, sxx = 0, sxy = 0;
+    for (let i = 0; i < n; i++) {
+      sx += i; sy += arr[i]; sxx += i * i; sxy += i * arr[i];
+    }
+    const den = n * sxx - sx * sx || 1;
+    const b = (n * sxy - sx * sy) / den;
+    const a = (sy - b * sx) / n;
+    let ss = 0;
+    for (let i = 0; i < n; i++) {
+      const e = arr[i] - (a + b * i);
+      ss += e * e;
+    }
+    return { a, b, sigma: Math.sqrt(ss / Math.max(1, n - 2)), mean: sy / n };
+  }
+  function qOf(sorted, q) {
+    if (!sorted.length) return 0;
+    const i = (sorted.length - 1) * q;
+    const lo = Math.floor(i);
+    const hi = Math.min(sorted.length - 1, Math.ceil(i));
+    const t = i - lo;
+    return sorted[lo] * (1 - t) + sorted[hi] * t;
+  }
 
-    HALVINGS.forEach((h) => {
-      const i = days(t0, h.d);
-      if (i < 0 || i > lastI) return;
-      const x = xOf(i);
-      svg.append(el('line', {
-        class: 'halving',
-        x1: x.toFixed(1), x2: x.toFixed(1),
-        y1: PLOT.t, y2: PLOT.b
-      }));
-      const label = el('text', { class: 'year', x: x.toFixed(1), y: '16', 'text-anchor': 'middle' });
-      label.textContent = String(h.d.slice(0, 4));
-      svg.append(label);
-    });
+  root.innerHTML = `
+    <header class="btc-top">
+      <p class="btc-kicker">btc</p>
+      <p class="btc-read" id="btc-read">—</p>
+    </header>
+    <div class="btc-plot" id="btc-stage">
+      <canvas id="btc-chart" aria-hidden="true"></canvas>
+    </div>
+    <p class="btc-note">theoretical paths, not a forecast</p>`;
 
-    const price = [];
-    for (let i = 0; i < n; i++) price.push(xOf(i).toFixed(1) + ',' + yOf(px[i]).toFixed(1));
-    svg.append(el('polyline', { class: 'price', points: price.join(' ') }));
+  const $ = id => document.getElementById(id);
+  const stage = $('btc-stage');
+  const canvas = $('btc-chart');
+  const ctx = canvas.getContext('2d', { alpha: true });
 
-    const ath = el('circle', {
-      class: 'ath',
-      cx: xOf(athI).toFixed(1),
-      cy: yOf(px[athI]).toFixed(1),
-      r: '5'
-    });
-    svg.append(ath);
-    const lastDot = el('circle', {
-      class: 'dot',
-      cx: xOf(lastI).toFixed(1),
-      cy: yOf(px[lastI]).toFixed(1),
-      r: '3.5'
-    });
-    svg.append(lastDot);
-
-    const cross = el('line', { class: 'cross', x1: '0', x2: '0', y1: PLOT.t, y2: PLOT.b });
-    cross.style.display = 'none';
-    const hover = el('circle', { class: 'dot', r: '3.5' });
-    hover.style.display = 'none';
-    svg.append(cross, hover);
-
-    const axis0 = el('text', { x: String(PLOT.l), y: '534', 'text-anchor': 'start' });
-    axis0.textContent = t0.slice(0, 4);
-    const axis1 = el('text', { x: String(PLOT.r), y: '534', 'text-anchor': 'end' });
-    axis1.textContent = lastIso.slice(0, 4);
-    const logMark = el('text', { x: '8', y: '16' });
-    logMark.textContent = 'log';
-    svg.append(axis0, axis1, logMark);
-
-    plot.append(svg);
-
-    const meta = document.createElement('p');
-    meta.className = 'btc-meta';
-    meta.textContent = 'ath ' + money(px[athI]) + ' · ' + dot(athIso)
-      + ' · ' + dd.toFixed(1) + '%'
-      + ' · cycle ' + cycle + ' · ' + since + 'd since halving';
-
-    const note = document.createElement('p');
-    note.className = 'btc-note';
-    note.textContent = 'power law band · theoretical · not advice';
-
-    root.append(top, plot, meta, note);
-
-    const show = (i) => {
-      const iso = isoAt(t0, i);
-      read.textContent = dot(iso) + ' · ' + money(px[i]);
+  let model = null;
+  let candles = [];
+  let paths = [];
+  let env = null;
+  let roundId = -1;
+  let clock = 0;
+  let lastNow = 0;
+  let raf = 0;
+  let running = false;
+  let yLo = 40;
+  let yHi = 80;
+  let yLoT = 40;
+  let yHiT = 80;
+  function yAt(path, h, t) {
+    const wob = Math.sin(t * path.freq + path.phase + h * 0.55) * path.amp * (h / H);
+    return path.ys[h] + wob;
+  }
+  function samplePaths(seed) {
+    const rng = mulberry32(seed);
+    const out = [];
+    for (let p = 0; p < SAMPLES; p++) {
+      const ys = new Array(H + 1);
+      ys[0] = model.level;
+      let y = model.level;
+      for (let h = 1; h <= H; h++) y = ys[h] = y + model.drift + model.sigma * gauss(rng);
+      out.push({
+        ys,
+        z: rng() * 2 - 1,
+        phase: rng() * Math.PI * 2,
+        freq: 1.15 + rng() * 1.7,
+        amp: model.sigma * (0.045 + rng() * 0.07)
+      });
+    }
+    return out;
+  }
+  function envelope(list) {
+    const p10 = [], p50 = [], p90 = [];
+    for (let h = 0; h <= H; h++) {
+      const col = list.map(p => p.ys[h]).sort((a, b) => a - b);
+      p10.push(qOf(col, 0.1));
+      p50.push(qOf(col, 0.5));
+      p90.push(qOf(col, 0.9));
+    }
+    return { p10, p50, p90 };
+  }
+  function makeCandles(series) {
+    const rows = series.slice(-90);
+    const out = [];
+    for (let i = 0; i < rows.length; i++) {
+      const close = rows[i].score;
+      const open = i ? rows[i - 1].score : close;
+      const pad = Math.max(0.45, Math.abs(close - open) * 0.28);
+      out.push({
+        open, close,
+        high: Math.max(open, close) + pad,
+        low: Math.min(open, close) - pad,
+        date: rows[i].date
+      });
+    }
+    return out;
+  }
+  function backtest(series) {
+    const out = [];
+    const start = Math.max(30, series.length - 10);
+    for (let i = start; i < series.length; i++) {
+      const train = series.slice(i - 30, i).map(d => d.score);
+      const f = fit(train);
+      const pred = f.a + f.b * train.length;
+      const lo = pred - 1.28155 * f.sigma;
+      const hi = pred + 1.28155 * f.sigma;
+      const actual = series[i].score;
+      out.push({ date: series[i].date.slice(5), hit: actual >= lo && actual <= hi, actual });
+    }
+    return out;
+  }
+  function buildModel(series) {
+    const ys = series.map(d => d.score);
+    const s30 = fit(ys.slice(-30));
+    const s14 = fit(ys.slice(-14));
+    const s7 = fit(ys.slice(-7));
+    const prev = fit(ys.slice(-60, -30));
+    const tail = ys.slice(-30);
+    const rets = [];
+    for (let i = 1; i < tail.length; i++) rets.push(Math.log(tail[i] / tail[i - 1]));
+    const mean = rets.reduce((s, n) => s + n, 0) / Math.max(1, rets.length);
+    const sd = Math.sqrt(rets.reduce((s, n) => s + (n - mean) ** 2, 0) / Math.max(1, rets.length));
+    const spot = ys[ys.length - 1];
+    const drift = spot * (Math.exp(mean) - 1);
+    const sigma = Math.max(spot * sd, spot * 0.004);
+    const rising = mean > 0.001 && s30.b > prev.b;
+    const regime = rising ? 'TRENDING' : 'CHOPPY';
+    return {
+      ys, s30, s14, s7, prev, drift, sigma, regime,
+      level: spot,
+      lastDate: series[series.length - 1].date,
+      tests: backtest(series)
     };
-    show(lastI);
+  }
 
-    const pick = (event) => {
-      const rect = svg.getBoundingClientRect();
-      if (!rect.width) return;
-      const x = ((event.clientX - rect.left) / rect.width) * VB_W;
-      const span = PLOT.r - PLOT.l;
-      let i = Math.round(((x - PLOT.l) / span) * (n - 1));
-      if (i < 0) i = 0;
-      if (i > lastI) i = lastI;
-      const cx = xOf(i);
-      cross.style.display = '';
-      cross.setAttribute('x1', cx.toFixed(1));
-      cross.setAttribute('x2', cx.toFixed(1));
-      hover.style.display = '';
-      hover.setAttribute('cx', cx.toFixed(1));
-      hover.setAttribute('cy', yOf(px[i]).toFixed(1));
-      show(i);
+  function buildSeries(px, t0) {
+    const start = px.length - 90;
+    const series = [];
+    for (let i = Math.max(0, start); i < px.length; i++) {
+      const price = Number(px[i]);
+      if (!(price > 0)) continue;
+      series.push({ date: addDays(t0, i), score: price });
+    }
+    return series;
+  }
+
+  function applySeries(series) {
+    model = buildModel(series);
+    candles = makeCandles(series);
+    roundId = -1;
+    clock = 0;
+  }
+
+  function beginRound(id) {
+    roundId = id;
+    paths = samplePaths((id + 1) * 9973 + 17);
+    env = envelope(paths);
+    let lo = Infinity, hi = -Infinity;
+    candles.forEach(c => { lo = Math.min(lo, c.low); hi = Math.max(hi, c.high); });
+    env.p10.forEach(v => { lo = Math.min(lo, v); });
+    env.p90.forEach(v => { hi = Math.max(hi, v); });
+    const pad = Math.max(3, (hi - lo) * 0.07);
+    yLoT = lo - pad;
+    yHiT = hi + pad;
+    if (id === 0 || !Number.isFinite(yLo)) { yLo = yLoT; yHi = yHiT; }
+  }
+
+  function resize() {
+    const rect = stage.getBoundingClientRect();
+    const dpr = Math.min(2, devicePixelRatio || 1);
+    const w = Math.max(1, Math.floor(rect.width * dpr));
+    const h = Math.max(1, Math.floor(rect.height * dpr));
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width = w;
+      canvas.height = h;
+    }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { w: rect.width, h: rect.height };
+  }
+
+  function draw(t, grow) {
+    const size = resize();
+    const w = size.w;
+    const h = size.h;
+    if (w < 20 || h < 20 || !model || !paths.length) return;
+    ctx.clearRect(0, 0, w, h);
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+
+    const narrow = w < 560;
+    // The spec floats on the corner. Indenting the tape by its width left a
+    // dark gutter, so day one of the 90d window starts at the left edge and
+    // the last candle still ends just before NOW.
+    const plot = {
+      left: 6,
+      right: w - (narrow ? 34 : 50),
+      top: narrow ? 42 : 28,
+      bottom: h - (narrow ? 22 : 16)
     };
-    const clear = () => {
-      cross.style.display = 'none';
-      hover.style.display = 'none';
-      show(lastI);
-    };
-    svg.addEventListener('pointermove', (event) => {
-      if (event.pointerType && event.pointerType !== 'mouse') return;
-      pick(event);
+    plot.w = Math.max(10, plot.right - plot.left);
+    plot.h = Math.max(10, plot.bottom - plot.top);
+    const split = narrow ? 0.58 : 0.46;
+    const nowX = plot.left + plot.w * (split + Math.sin(t * 0.22) * 0.004);
+    const yOf = v => plot.bottom - ((v - yLo) / (yHi - yLo || 1)) * plot.h;
+
+    drawFloor(plot, t);
+    drawGrid(plot, yOf);
+
+    const n = candles.length;
+    const lead = 3;
+    const tail = 8;
+    const slot = (nowX - plot.left - lead - tail) / Math.max(1, n);
+    candles.forEach((c, i) => {
+      const x = plot.left + lead + slot * (i + 0.5);
+      drawCandle(c, x, slot, i >= n - 6, yOf, t);
     });
-    svg.addEventListener('pointerdown', pick);
-    svg.addEventListener('pointerleave', (event) => {
-      if (event.pointerType && event.pointerType !== 'mouse') return;
-      clear();
+
+    const tip = Math.max(1, Math.round(grow * H));
+    drawFutureTint(plot, nowX);
+    drawBeam(nowX, plot, yOf(model.level), t);
+    drawEnvelope(plot, nowX, yOf, tip);
+    drawPaths(plot, nowX, yOf, tip, t);
+    drawMedian(plot, nowX, yOf, tip, t);
+    drawLabels(plot, nowX, yOf, tip, t, narrow);
+    drawReticle(nowX, yOf(model.level), t, plot, narrow);
+    drawStamp(nowX, yOf(model.level), t, grow);
+    drawAxis(plot, yOf);
+  }
+
+  function drawFloor(plot, t) {
+    ctx.save();
+    const horizon = plot.top + plot.h * 0.34;
+    const near = plot.bottom + 6;
+    const drift = (t * 0.08) % 1;
+    const point = (u, v) => {
+      const k = Math.pow(v, 0.62);
+      const y = horizon + (near - horizon) * k;
+      const half = plot.w * (0.22 + 0.62 * k);
+      const cx = plot.left + plot.w * 0.5;
+      return { x: cx + u * half, y };
+    };
+    ctx.strokeStyle = 'rgba(26,173,179,0.34)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 7; i++) {
+      const v = ((i / 7) + drift) % 1;
+      const a = point(-1, Math.max(0.02, v));
+      const b = point(1, Math.max(0.02, v));
+      ctx.globalAlpha = 0.25 + 0.55 * v;
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 0.45;
+    for (let i = -4; i <= 4; i++) {
+      const u = i / 4;
+      const a = point(u * 0.15, 0.02);
+      const b = point(u, 1);
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+  function drawGrid(plot, yOf) {
+    ctx.save();
+    ctx.strokeStyle = 'rgba(26,173,179,0.13)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 4; i++) {
+      const v = yLo + (yHi - yLo) * (i / 4);
+      const y = yOf(v);
+      ctx.beginPath();
+      ctx.moveTo(plot.left, y);
+      ctx.lineTo(plot.right, y);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+  function drawCandle(c, x, slot, last, yOf, t) {
+    const up = c.close >= c.open;
+    const color = up ? '#1ee6a0' : '#ff3b6a';
+    const yO = yOf(c.open);
+    const yC = yOf(c.close);
+    const top = Math.min(yO, yC);
+    const bot = Math.max(yO, yC);
+    const bh = Math.max(2.5, bot - top);
+    const bw = Math.max(1, Math.min(12, slot * 0.62));
+    ctx.save();
+    ctx.globalAlpha = 0.22;
+    ctx.fillStyle = color;
+    ctx.fillRect(x - bw * 0.9, top - 1, bw * 1.8, bh + 2);
+    if (last) {
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 16 + 8 * (0.5 + 0.5 * Math.sin(t * 3.2));
+    } else {
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 8;
+    }
+    ctx.globalAlpha = 0.95;
+    ctx.fillStyle = color;
+    ctx.fillRect(x - bw / 2, top, bw, bh);
+    ctx.shadowBlur = 0;
+    ctx.strokeStyle = up ? '#d8fff1' : '#ffd0dc';
+    ctx.globalAlpha = 0.9;
+    ctx.lineWidth = 1.15;
+    ctx.beginPath();
+    ctx.moveTo(x, yOf(c.high));
+    ctx.lineTo(x, yOf(c.low));
+    ctx.stroke();
+    ctx.globalAlpha = 0.55;
+    ctx.fillStyle = up ? '#f3fffb' : '#ffe4ea';
+    ctx.fillRect(x - Math.max(1, bw * 0.18), top, Math.max(1, bw * 0.28), bh);
+    ctx.globalAlpha = 0.14;
+    ctx.fillStyle = color;
+    const base = yOf(c.low);
+    ctx.fillRect(x - bw / 2, base + 2, bw, Math.min(18, bh * 0.45));
+    ctx.restore();
+  }
+  function drawFutureTint(plot, nowX) {
+    const g = ctx.createLinearGradient(nowX, 0, plot.right, 0);
+    g.addColorStop(0, 'rgba(26,173,179,0.02)');
+    g.addColorStop(1, 'rgba(26,173,179,0.07)');
+    ctx.fillStyle = g;
+    ctx.fillRect(nowX, plot.top, plot.right - nowX, plot.h);
+  }
+  function drawBeam(nowX, plot, yPrice, t) {
+    const x = nowX + Math.sin(t * 0.9) * 1.1;
+    const top = plot.top + 4;
+    const bot = plot.bottom - 2;
+    const kick = 28 + Math.sin(t * 0.7) * 6;
+    ctx.save();
+    const g = ctx.createLinearGradient(x, top, x, bot);
+    g.addColorStop(0, 'rgba(26,173,179,0)');
+    g.addColorStop(0.18, 'rgba(26,173,179,0.16)');
+    g.addColorStop(0.55, 'rgba(124,255,242,0.28)');
+    g.addColorStop(1, 'rgba(26,173,179,0.02)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.moveTo(x - 11, top);
+    ctx.lineTo(x + 11, top);
+    ctx.lineTo(x + 14, yPrice);
+    ctx.lineTo(x + kick, bot);
+    ctx.lineTo(x - 4, bot);
+    ctx.lineTo(x - 12, yPrice);
+    ctx.closePath();
+    ctx.fill();
+    ctx.shadowColor = '#7CFFF2';
+    ctx.shadowBlur = 16;
+    ctx.strokeStyle = 'rgba(220,255,252,0.92)';
+    ctx.lineWidth = 1.7;
+    ctx.beginPath();
+    ctx.moveTo(x, top + 8);
+    ctx.lineTo(x, yPrice);
+    ctx.lineTo(x + kick * 0.45, bot);
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+    ctx.font = 'italic 11px JetBrains Mono, ui-monospace, monospace';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#041014';
+    ctx.fillRect(x - 16, top + 2, 32, 14);
+    ctx.strokeStyle = 'rgba(124,255,242,0.8)';
+    ctx.strokeRect(x - 16, top + 2, 32, 14);
+    ctx.fillStyle = '#7CFFF2';
+    ctx.fillText('NOW', x, top + 13);
+    ctx.restore();
+  }
+  function project(h01, value, z, plot, nowX, yOf) {
+    const reach = Math.max(24, plot.right - nowX - 8);
+    const foreshorten = 1 - Math.exp(-h01 * 2.35);
+    const x = nowX + foreshorten * reach * (1 - z * 0.045);
+    const anchor = yOf(model.level);
+    const base = yOf(value);
+    const y = anchor + (base - anchor) * (1 - h01 * 0.12) + z * h01 * 30;
+    const s = 1 / (1 + h01 * 0.42 + Math.max(0, z) * 0.28);
+    return { x, y, s };
+  }
+  function drawEnvelope(plot, nowX, yOf, tip) {
+    if (!env) return;
+    ctx.save();
+    ctx.beginPath();
+    for (let h = 0; h <= tip; h++) {
+      const p = project(h / H, env.p90[h], 0, plot, nowX, yOf);
+      if (h === 0) ctx.moveTo(p.x, p.y);
+      else ctx.lineTo(p.x, p.y);
+    }
+    for (let h = tip; h >= 0; h--) {
+      const p = project(h / H, env.p10[h], 0.15, plot, nowX, yOf);
+      ctx.lineTo(p.x, p.y);
+    }
+    ctx.closePath();
+    const g = ctx.createLinearGradient(0, plot.top, 0, plot.bottom);
+    g.addColorStop(0, 'rgba(30,230,160,0.16)');
+    g.addColorStop(0.5, 'rgba(246,201,69,0.07)');
+    g.addColorStop(1, 'rgba(255,59,106,0.14)');
+    ctx.fillStyle = g;
+    ctx.fill();
+    ctx.restore();
+  }
+  function strokeSmooth(pts) {
+    if (!pts.length) return;
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, pts[0].y);
+    if (pts.length < 3) {
+      for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
+    } else {
+      for (let i = 1; i < pts.length - 1; i++) {
+        const mx = (pts[i].x + pts[i + 1].x) / 2;
+        const my = (pts[i].y + pts[i + 1].y) / 2;
+        ctx.quadraticCurveTo(pts[i].x, pts[i].y, mx, my);
+      }
+      const last = pts[pts.length - 1];
+      ctx.lineTo(last.x, last.y);
+    }
+    ctx.stroke();
+  }
+  function drawPaths(plot, nowX, yOf, tip, t) {
+    const order = paths.slice().sort((a, b) => b.z - a.z);
+    order.forEach(p => {
+      const pts = [];
+      for (let h = 0; h <= tip; h++) pts.push(project(h / H, yAt(p, h, t), p.z, plot, nowX, yOf));
+      const end = yAt(p, tip, t);
+      const front = (1 - p.z) / 2;
+      const d = end - model.level;
+      let color = '#f6c945';
+      if (d > 1.2) color = front > 0.62 ? '#d9fff4' : '#1ee6a0';
+      else if (d < -1.2) color = front > 0.62 ? '#ffb3c4' : '#ff3b6a';
+      ctx.save();
+      ctx.globalAlpha = 0.2 + front * 0.72;
+      ctx.strokeStyle = color;
+      ctx.lineWidth = (0.55 + front * 1.35) * (pts[pts.length - 1].s || 1);
+      strokeSmooth(pts);
+      const tipP = pts[pts.length - 1];
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(tipP.x, tipP.y, Math.max(1.1, (1.3 + front * 1.8) * tipP.s), 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
     });
   }
+  function drawMedian(plot, nowX, yOf, tip, t) {
+    if (!env) return;
+    const pts = [];
+    for (let h = 0; h <= tip; h++) {
+      const wob = Math.sin(t * 1.6 + h * 0.4) * model.sigma * 0.04 * (h / H);
+      pts.push(project(h / H, env.p50[h] + wob, -0.15, plot, nowX, yOf));
+    }
+    ctx.save();
+    ctx.shadowColor = '#F6C945';
+    ctx.shadowBlur = 12;
+    ctx.strokeStyle = '#ffe28a';
+    ctx.lineWidth = 2.15;
+    strokeSmooth(pts);
+    ctx.restore();
+  }
+  function drawLabels(plot, nowX, yOf, tip, t, narrow) {
+    if (!env || tip < 2) return;
+    const h = tip;
+    const wob = Math.sin(t * 1.6 + h * 0.4) * model.sigma * 0.04;
+    const spots = [
+      { name: 'p90', v: env.p90[h], color: '#7CFFF2', z: -0.2 },
+      { name: 'median', v: env.p50[h] + wob, color: '#F6C945', z: -0.15 },
+      { name: 'p10', v: env.p10[h], color: '#FF8AA3', z: 0.2 }
+    ];
+    ctx.save();
+    ctx.font = 'italic 11px JetBrains Mono, ui-monospace, monospace';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    if (narrow) {
+      let y = plot.top + 4;
+      spots.forEach(s => {
+        const text = s.name + ' ' + fmt(s.v);
+        const tw = ctx.measureText(text).width;
+        const x = Math.max(plot.left, plot.right - tw - 4);
+        ctx.fillStyle = 'rgba(4,10,14,0.82)';
+        ctx.fillRect(x - 3, y, tw + 8, 16);
+        ctx.strokeStyle = s.color;
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x - 3, y, tw + 8, 16);
+        ctx.fillStyle = s.color;
+        ctx.fillText(text, x, y + 8);
+        y += 20;
+      });
+      ctx.restore();
+      return;
+    }
+    spots.forEach(s => {
+      const p = project(h / H, s.v, s.z, plot, nowX, yOf);
+      const text = s.name + ' ' + fmt(s.v);
+      const tw = ctx.measureText(text).width;
+      const x = Math.min(plot.right - tw - 6, p.x + 6);
+      const y = Math.max(plot.top + 10, Math.min(plot.bottom - 8, p.y));
+      ctx.fillStyle = 'rgba(4,10,14,0.82)';
+      ctx.fillRect(x - 3, y - 8, tw + 8, 16);
+      ctx.strokeStyle = s.color;
+      ctx.lineWidth = 1;
+      ctx.strokeRect(x - 3, y - 8, tw + 8, 16);
+      ctx.fillStyle = s.color;
+      ctx.fillText(text, x, y);
+    });
+    ctx.restore();
+  }
+  function drawReticle(x, y, t, plot, narrow) {
+    const bob = reduced ? Math.sin(t * 1.2) * 2 : Math.sin(t * 2.15) * 8;
+    const rx = x + Math.sin(t * 1.3) * 1.4;
+    const ry = y + bob;
+    const pulse = 0.5 + 0.5 * Math.sin(t * 4.1);
+    const lift = (bob + 8) / 16;
+    ctx.save();
+    ctx.translate(rx, Math.min(plot.bottom - 4, ry + 28));
+    ctx.scale(1, 0.32);
+    ctx.globalAlpha = 0.28 - lift * 0.1;
+    ctx.fillStyle = '#1AADB3';
+    ctx.beginPath();
+    ctx.arc(0, 0, 16 + (1 - lift) * 10, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    ctx.save();
+    const rad = ctx.createRadialGradient(rx, ry, 0, rx, ry, 28 + 16 * pulse);
+    rad.addColorStop(0, 'rgba(255,255,255,0.95)');
+    rad.addColorStop(0.18, 'rgba(124,255,242,0.75)');
+    rad.addColorStop(0.45, 'rgba(26,173,179,0.28)');
+    rad.addColorStop(1, 'rgba(26,173,179,0)');
+    ctx.fillStyle = rad;
+    ctx.beginPath();
+    ctx.arc(rx, ry, 34 + 14 * pulse, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.translate(rx, ry);
+    ctx.rotate(-0.5 + Math.sin(t * 0.65) * 0.4);
+    ctx.scale(1, 0.38 + 0.06 * Math.sin(t * 1.4));
+    ctx.strokeStyle = 'rgba(210,255,252,0.9)';
+    ctx.lineWidth = 1.4;
+    ctx.beginPath();
+    ctx.arc(0, 0, 22 + 5 * pulse, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+
+    ctx.save();
+    ctx.translate(rx, ry);
+    ctx.strokeStyle = 'rgba(124,255,242,0.75)';
+    ctx.lineWidth = 1.1;
+    ctx.setLineDash([3, 4]);
+    ctx.lineDashOffset = -t * 28;
+    ctx.beginPath();
+    ctx.arc(0, 0, 14 + 3 * pulse, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    const arm = 8 + 6 * pulse;
+    ctx.beginPath();
+    ctx.moveTo(-30, 0); ctx.lineTo(-arm, 0);
+    ctx.moveTo(arm, 0); ctx.lineTo(30, 0);
+    ctx.moveTo(0, -22); ctx.lineTo(0, -arm);
+    ctx.moveTo(0, arm); ctx.lineTo(0, 22);
+    ctx.stroke();
+    for (let i = 0; i < 3; i++) {
+      const a = t * (1.4 + i * 0.25) + i * 2.1;
+      const rad2 = 18 + i * 5;
+      ctx.fillStyle = i === 1 ? '#F6C945' : '#7CFFF2';
+      ctx.globalAlpha = 0.85;
+      ctx.beginPath();
+      ctx.arc(Math.cos(a) * rad2, Math.sin(a) * rad2 * 0.42, 1.7, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+
+    if (narrow) return;
+    ctx.save();
+    ctx.font = 'italic 11px JetBrains Mono, ui-monospace, monospace';
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#041014';
+    ctx.fillRect(rx + 18, ry - 18, 62, 14);
+    ctx.strokeStyle = 'rgba(124,255,242,0.75)';
+    ctx.strokeRect(rx + 18, ry - 18, 62, 14);
+    ctx.fillStyle = '#d7fff8';
+    ctx.fillText('KRONOS', rx + 22, ry - 7);
+    ctx.restore();
+  }
+  function drawStamp(nowX, y, t, grow) {
+    if (grow < 0.72 || !model || !model.tests.length) return;
+    const bt = model.tests[Math.max(0, roundId) % model.tests.length];
+    const age = Math.min(1, (grow - 0.72) / 0.2);
+    const hit = bt.hit;
+    ctx.save();
+    ctx.globalAlpha = age;
+    ctx.font = 'italic 12px JetBrains Mono, ui-monospace, monospace';
+    ctx.textAlign = 'left';
+    const text = hit ? 'HIT' : 'MISS';
+    const x = nowX + 28;
+    const yy = y + 16 - age * 10;
+    ctx.fillStyle = hit ? 'rgba(14,50,36,0.9)' : 'rgba(60,12,28,0.9)';
+    ctx.fillRect(x, yy - 11, 42, 16);
+    ctx.strokeStyle = hit ? '#1EE6A0' : '#FF3B6A';
+    ctx.strokeRect(x, yy - 11, 42, 16);
+    ctx.fillStyle = hit ? '#1EE6A0' : '#FF8AA3';
+    ctx.fillText(text, x + 6, yy + 1);
+    ctx.restore();
+  }
+  function drawAxis(plot, yOf) {
+    ctx.save();
+    ctx.font = 'italic 11px JetBrains Mono, ui-monospace, monospace';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = 'rgba(124,255,242,0.62)';
+    const span = yHi - yLo;
+    for (let i = 0; i <= 4; i++) {
+      const v = yLo + span * (i / 4);
+      const label = span > 50 ? String(Math.round(v)) : v.toFixed(0);
+      ctx.fillText(label, plot.right + 6, yOf(v));
+    }
+    ctx.restore();
+  }
+
+  function setText(id, text) {
+    const el = $(id);
+    if (el && el.textContent !== text) el.textContent = text;
+  }
+  function paint(t) {
+    if (!model) return;
+    setText('btc-read', fmt(model.level));
+    const r = (Math.max(0, roundId) % 5) + 1;
+    setText('k-round', 'ROUND ' + r + '/5 · ' + model.regime.toLowerCase());
+  }
+
+  function frame(now) {
+    if (!running) return;
+    const dt = Math.min(0.05, lastNow ? (now - lastNow) / 1000 : 0.016);
+    lastNow = now;
+    clock += dt;
+    if (model) {
+      const id = Math.floor(clock / CYCLE);
+      if (id !== roundId) beginRound(id);
+      yLo += (yLoT - yLo) * 0.08;
+      yHi += (yHiT - yHi) * 0.08;
+      // Spray still finishes at 70% of ROUND. The extra HOLD keeps that frame up.
+      const u = Math.min(1, (clock - id * CYCLE) / ROUND);
+      const grow = smooth(0.05, 0.7, u);
+      draw(clock, grow);
+      paint(clock);
+    }
+    raf = requestAnimationFrame(frame);
+  }
+  function start() {
+    if (running) return;
+    running = true;
+    lastNow = 0;
+    raf = requestAnimationFrame(frame);
+  }
+  function stop() {
+    running = false;
+    cancelAnimationFrame(raf);
+  }
+
+  let bookSeries = null;
+  let spot = null;
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => { if (entry.isIntersecting) start(); else stop(); });
+  }, { threshold: 0.02 });
+  io.observe(root);
+
+  function shownSeries() {
+    if (!bookSeries) return null;
+    const series = bookSeries.map(row => ({ date: row.date, score: row.score }));
+    if (spot > 0) series[series.length - 1].score = spot;
+    return series;
+  }
+
+  function publish(first) {
+    const series = shownSeries();
+    if (!series) return;
+    if (first || !model) {
+      applySeries(series, false);
+      start();
+      return;
+    }
+    model = buildModel(series);
+    candles = makeCandles(series);
+    beginRound(Math.max(0, roundId));
+  }
+
+  function grab(url) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 4000);
+    return fetch(url, { signal: ctrl.signal }).finally(() => clearTimeout(timer));
+  }
+
+  function pullSpot() {
+    if (document.visibilityState === 'hidden' || !bookSeries) return;
+    grab('https://api.coinbase.com/v2/prices/BTC-USD/spot')
+      .then(res => res.ok ? res.json() : Promise.reject())
+      .then(body => Number(body.data.amount))
+      .catch(() => grab('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd')
+        .then(res => res.ok ? res.json() : Promise.reject())
+        .then(body => Number(body.bitcoin.usd)))
+      .then(price => {
+        if (!(price > 0) || !bookSeries) return;
+        spot = price;
+        publish(false);
+      })
+      .catch(() => {});
+  }
+
+  function useBook(data) {
+    const px = (data && data.px) || [];
+    const t0 = data && data.t0;
+    if (!t0 || px.length < 30) return;
+    const series = buildSeries(px, t0);
+    if (series.length < 20) return;
+    bookSeries = series;
+    publish(true);
+    pullSpot();
+  }
+
+  fetch('/brain/btc.json', { cache: 'no-cache' })
+    .then(res => res.ok ? res.json() : null)
+    .then(useBook)
+    .catch(() => {});
+
+  setInterval(pullSpot, 60000);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') pullSpot();
+  });
 })();
