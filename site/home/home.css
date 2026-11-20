@@ -1,3 +1,9 @@
+/* Keep typography from inflating on wide tablets (Surface Duo, etc.). */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 /* Homepage and /redpill. Installer, the pill quote, then the bitcoin chart. */
 .redpill {
   box-sizing: border-box;
@@ -90,11 +96,21 @@
   font-weight: 500;
   font-style: italic;
   line-height: 1.65;
-  text-align: left;
+  text-align: center;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 .redpill .ennea { margin-top: 1.65em; }
-.pill-box .pill-blue { color: #3b82f6; font-style: italic; }
-.pill-box .pill-red { color: #ff3b30; font-style: italic; }
+.pill-box .pill-blue,
+.pill-box .pill-red {
+  font-size: inherit;
+  font-style: italic;
+  line-height: inherit;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+.pill-box .pill-blue { color: #3b82f6; }
+.pill-box .pill-red { color: #ff3b30; }
 
 @media (max-width: 720px) {
   .pill-box { padding: 14px 12px; }
