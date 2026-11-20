@@ -90,7 +90,9 @@ def test_stamp_ui_is_on_every_snap() -> None:
     assert "frostSrc" not in js
     assert ".shot .stamp" in css
     assert ".light .cap" in css
-    assert "snaps.js?v=2.65" in html
+    assert "snaps.js?v=2.66" in html
+    assert "photo.k" in js
+    assert "line + ' // ' + cam" in js
 
 
 def main() -> int:

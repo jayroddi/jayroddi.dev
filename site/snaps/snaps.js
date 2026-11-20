@@ -1,4 +1,7 @@
-/* v2.65: every snap is the sharp Lightroom rendition. capture stamps stay
+/* v2.66: the stamp is date // time // camera. the camera is the short
+   name stored on the photo. no camera keeps date // time, with no
+   trailing separator. italic, same as before.
+   v2.65: every snap is the sharp Lightroom rendition. capture stamps stay
    on each tile and under the full image.
    v2.64: the lightbox close control is a larger, higher-contrast target under
    the safe area. a vertical swipe follows the finger and dismisses back to
@@ -12,8 +15,9 @@
    is eager; the rest are lazy. the lightbox shows that thumbnail at once,
    then the 2048 in the same box. left is newer, right is older.
    each tile stamps its capture time in the bottom-right, America/Chicago,
-   like 2026.10.25 // 7:33am. the lightbox repeats that line under the photo.
-   a photo with no time shows the date only. */
+   like 2026.10.25 // 7:33am // 17 pro. the lightbox repeats that line under
+   the photo. a photo with no time shows the date only. a photo with no
+   camera omits the camera and the extra separator. */
 (() => {
 const NAMES = ['january','february','march','april','may','june','july','august','september','october','november','december'];
 const FIRST = 1;
@@ -98,11 +102,12 @@ function dotted(day) {
 
 function caption(photo) {
   const raw = photo && typeof photo.a === 'string' ? photo.a : '';
-  if (raw.includes('T')) {
-    const line = stamp(raw);
-    if (line) return line;
-  }
-  return dotted(photo && photo.d);
+  let line = '';
+  if (raw.includes('T')) line = stamp(raw);
+  if (!line) line = dotted(photo && photo.d);
+  const cam = photo && typeof photo.k === 'string' ? photo.k.trim() : '';
+  if (line && cam) return line + ' // ' + cam;
+  return line;
 }
 
 function render(meta, photos) {
