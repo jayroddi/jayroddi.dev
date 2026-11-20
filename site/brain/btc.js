@@ -88,7 +88,7 @@
     <div class="btc-plot" id="btc-stage">
       <canvas id="btc-chart" aria-hidden="true"></canvas>
     </div>
-    <p class="btc-note">theoretical paths, not a forecast</p>`;
+    <p class="btc-note">theoretical paths // not financial advice</p>`;
 
   const $ = id => document.getElementById(id);
   const stage = $('btc-stage');
