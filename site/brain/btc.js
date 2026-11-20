@@ -2,8 +2,9 @@
    Last 90 daily closes from site/brain/btc.json. On load, the Coinbase
    BTC-USD spot (CoinGecko if that fails) replaces the last close and
    the now-wall price. The spray starts there. Theoretical, not a forecast.
-   Header: teal live price at left, gold ATH at right. ATH is the max daily
-   close in btc.json (closes only; no highs) maxed with the live spot. */
+   Header: teal "btc" at left, gold ATH at right. The live price sits on
+   the now wall as "now // $59,612". ATH is the max daily close in btc.json
+   (closes only; no highs) maxed with the live spot. */
 (() => {
   const root = document.getElementById('btc');
   if (!root || root.dataset.ready) return;
@@ -84,7 +85,7 @@
 
   root.innerHTML = `
     <header class="btc-top">
-      <p class="btc-now" id="btc-now">btc // —</p>
+      <p class="btc-now" id="btc-now">btc</p>
       <p class="btc-ath" id="btc-ath">ath —</p>
     </header>
     <div class="btc-plot" id="btc-stage">
@@ -280,7 +281,7 @@
 
     const tip = Math.max(1, Math.round(grow * H));
     drawFutureTint(plot, nowX);
-    drawBeam(nowX, plot, yOf(model.level), t);
+    drawBeam(nowX, plot, yOf(model.level), t, narrow, w);
     drawEnvelope(plot, nowX, yOf, tip);
     drawPaths(plot, nowX, yOf, tip, t);
     drawMedian(plot, nowX, yOf, tip, t);
@@ -387,7 +388,7 @@
     ctx.fillStyle = g;
     ctx.fillRect(nowX, plot.top, plot.right - nowX, plot.h);
   }
-  function drawBeam(nowX, plot, yPrice, t) {
+  function drawBeam(nowX, plot, yPrice, t, narrow, w) {
     const x = nowX + Math.sin(t * 0.9) * 1.1;
     const top = plot.top + 4;
     const bot = plot.bottom - 2;
@@ -419,13 +420,28 @@
     ctx.stroke();
     ctx.shadowBlur = 0;
     ctx.font = 'italic 11px JetBrains Mono, ui-monospace, monospace';
-    ctx.textAlign = 'center';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
+    const label = 'now // ' + fmt(model.level);
+    const tw = ctx.measureText(label).width;
+    const padX = 5;
+    const boxW = tw + padX * 2;
+    const boxH = 14;
+    const boxY = top + 2;
+    const minX = 3;
+    // Narrow widths stack p90/median/p10 at the top right, so leave them room.
+    const reserve = narrow ? 148 : 8;
+    const maxX = Math.min(w - 3, plot.right - reserve) - boxW;
+    let boxX = x - boxW / 2;
+    if (boxX > maxX || boxX < minX) boxX = x - 6 - boxW;
+    if (boxX < minX) boxX = minX;
+    if (boxX > maxX) boxX = Math.max(minX, maxX);
     ctx.fillStyle = '#041014';
-    ctx.fillRect(x - 16, top + 2, 32, 14);
+    ctx.fillRect(boxX, boxY, boxW, boxH);
     ctx.strokeStyle = 'rgba(124,255,242,0.8)';
-    ctx.strokeRect(x - 16, top + 2, 32, 14);
+    ctx.strokeRect(boxX, boxY, boxW, boxH);
     ctx.fillStyle = '#7CFFF2';
-    ctx.fillText('now', x, top + 13);
+    ctx.fillText(label, boxX + padX, boxY + 11);
     ctx.restore();
   }
   function project(h01, value, z, plot, nowX, yOf) {
@@ -684,7 +700,7 @@
   }
   function paintHeader() {
     if (!model) return;
-    setText('btc-now', 'btc // ' + fmt(model.level));
+    setText('btc-now', 'btc');
     const live = spot > 0 ? spot : model.level;
     const ath = Math.max(bookAth || 0, live || 0);
     setText('btc-ath', ath > 0 ? 'ath ' + fmt(ath) : 'ath —');
