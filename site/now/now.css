@@ -25,6 +25,8 @@
   width: 100%;
   margin-top: 0;
   padding: 16px 22px 32px;
+  /* The shared .soft halo (40px blur + 24px spread) was a page-wide veil. */
+  box-shadow: none;
 }
 
 .now-sheet h1,
@@ -86,8 +88,6 @@ ul.now-preview ul {
 body.board.is-now {
   background: #000;
 }
-
-body.is-now .habit-bg { display: none !important; }
 
 /* Gold only after the brain unlock, and on the direct now page.
    Home, grind, log, and snaps do not load this file. */
