@@ -14,11 +14,14 @@ follows that, then writes:
   site/snaps/m/YYYY-MM.json      that month, newest first
 
 A photo keeps its id, revision, capture date, capture time, oriented
-width and height, the 640 / 1280 / 2048 rendition ids, and a dominant
-color sampled from the 640 JPEG. No GPS, filename, or other EXIF. The
-time is the capture clock tagged America/Chicago, so the page can stamp
-it. The color cache is scripts/snaps_colors.json so a later run does not
-download a rendition that has not changed.
+width and height, the 640 / 1280 / 2048 rendition ids, a dominant
+color sampled from the 640 JPEG, and a short camera name. No GPS,
+filename, or other EXIF. The camera name comes from the asset XMP
+(tiff Make/Model, with exif Make/Model as a fallback). The public
+share only includes those fields when Show metadata is on. The time
+is the capture clock tagged America/Chicago, so the page can stamp
+it. The color cache is scripts/snaps_colors.json so a later run does
+not download a rendition that has not changed.
 
 Every photo stays the sharp Lightroom rendition. This script does not frost
 and does not drop capture times or rendition ids.
@@ -27,6 +30,7 @@ and does not drop capture times or rendition ids.
 from __future__ import annotations
 
 import json
+import re
 import sys
 import time
 import urllib.error
@@ -164,6 +168,57 @@ def iso_at(dt: datetime) -> str:
     return local.replace(tzinfo=CHICAGO).isoformat(timespec="seconds")
 
 
+def _words(value: str) -> str:
+    return re.sub(r"\s+", " ", (value or "").strip()).lower()
+
+
+def short_camera(make: str, model: str) -> str | None:
+    """Short lowercase camera name, or None when the asset has no model.
+
+    iPhone Air, iPhone 17 Pro, and iPhone 16 all drop the leading
+    "iphone ". The dual-lens source previously labeled "iphone duo"
+    is "duo". Sony DSC-RX100M7 is "rx100 vii". Any other model is
+    the model string, lowercased, with a leading "iphone " removed.
+    """
+    make_n = _words(make)
+    model_n = _words(model)
+    if make_n.startswith("apple "):
+        make_n = make_n[6:].strip()
+    if model_n.startswith("apple "):
+        model_n = model_n[6:].strip()
+    if not make_n and not model_n:
+        return None
+    joined = " ".join(part for part in (make_n, model_n) if part)
+    compact = re.sub(r"[^a-z0-9]", "", joined)
+    if "dscrx100m7" in compact or compact.endswith("rx100m7"):
+        return "rx100 vii"
+    if re.search(r"\bduo\b", model_n) or (re.search(r"\bduo\b", joined) and "iphone" in joined):
+        return "duo"
+    source = model_n or ""
+    if source.startswith("iphone "):
+        source = source[len("iphone "):].strip()
+    elif not source:
+        return None
+    return source or None
+
+
+def camera_of(asset: dict) -> tuple[str, str, str | None]:
+    """Raw make, raw model, and the short name from asset XMP."""
+    xmp = ((asset.get("payload") or {}).get("xmp") or {})
+    if not isinstance(xmp, dict):
+        xmp = {}
+    tiff = xmp.get("tiff") if isinstance(xmp.get("tiff"), dict) else {}
+    exif = xmp.get("exif") if isinstance(xmp.get("exif"), dict) else {}
+    make = tiff.get("Make") if isinstance(tiff.get("Make"), str) else ""
+    model = tiff.get("Model") if isinstance(tiff.get("Model"), str) else ""
+    if not make and isinstance(exif.get("Make"), str):
+        make = exif["Make"]
+    if not model and isinstance(exif.get("Model"), str):
+        model = exif["Model"]
+    make, model = make.strip(), model.strip()
+    return make, model, short_camera(make, model)
+
+
 def color_of(blob: bytes) -> str:
     with Image.open(BytesIO(blob)) as im:
         rgb = im.convert("RGB").resize((1, 1), Image.Resampling.BOX)
@@ -266,6 +321,11 @@ def main() -> None:
             row["l"] = rends["2048"]
         if thumb in cache:
             row["c"] = cache[thumb]
+        make, model, short = camera_of(asset)
+        if short:
+            row["k"] = short
+        row["_make"] = make
+        row["_model"] = model
         rows.append(row)
     sample_colors(base, rows, cache)
     used = {row["t"] for row in rows}
@@ -293,6 +353,8 @@ def main() -> None:
             if "l" in row:
                 item["l"] = row["l"]
             item["c"] = row.get("c") or "1a1a1a"
+            if row.get("k"):
+                item["k"] = row["k"]
             out.append(item)
         path = MONTHS / f"{month}.json"
         path.write_text(json.dumps(out, separators=(",", ":"), ensure_ascii=True) + "\n", encoding="utf-8")
@@ -307,7 +369,27 @@ def main() -> None:
     }
     (OUT / "snaps.json").write_text(json.dumps(index, separators=(",", ":"), ensure_ascii=True) + "\n", encoding="utf-8")
     CACHE.write_text(json.dumps(cache, separators=(",", ":"), ensure_ascii=True) + "\n", encoding="utf-8")
+    counts: dict[str, int] = {}
+    raw_counts: dict[str, int] = {}
+    missing = 0
+    for row in rows:
+        short = row.get("k")
+        if not short:
+            missing += 1
+            continue
+        counts[short] = counts.get(short, 0) + 1
+        raw = " ".join(part for part in (row.get("_make") or "", row.get("_model") or "") if part) or "(model only)"
+        raw_counts[raw] = raw_counts.get(raw, 0) + 1
     print(f"{len(rows)} photos, {len(grouped)} months, {min(grouped)} .. {max(grouped)}")
+    if counts:
+        listed = ", ".join(f"{name} {counts[name]}" for name in sorted(counts))
+        print(f"cameras: {listed}")
+    else:
+        print("cameras: none")
+    print(f"no camera data: {missing}")
+    if raw_counts:
+        for raw in sorted(raw_counts):
+            print(f"raw {raw_counts[raw]}: {raw}")
 
 
 if __name__ == "__main__":
