@@ -1,5 +1,5 @@
-/* Bitcoin daily-close HUD. Only the brain unlock mounts it.
-   Same frame as the enneagram readout and the jayos installer. */
+/* Bitcoin daily-close HUD. The homepage mounts it under the pill quote.
+   Same frame as the jayos installer. */
 
 .btc,
 .btc * {

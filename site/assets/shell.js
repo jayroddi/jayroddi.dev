@@ -1,9 +1,11 @@
 /* live shell. pill nav, square field, quote list on /quotes/. no audio.
-   the pill is 🤓 📷 🍿 💛 🎥 ✨ 🧠.
-   /quotes/ reads /quote-of-the-day/quotes.json. today's quote leads. */
+   the pill is 🤓 🗓️ 💭 📷 🍿 💛 🎥 ✨ 🧠.
+   / and /redpill/ are the same homepage. /quotes/ reads /quote-of-the-day/quotes.json. */
 (() => {
   const pages = [
-    ['/', '🤓', 'grind'],
+    ['/redpill/', '🤓', 'home'],
+    ['/grind/', '🗓️', 'grind'],
+    ['/outloud/', '💭', 'outloud'],
     ['/snaps/', '📷', 'snaps'],
     ['/log/', '🍿', 'log'],
     ['/love/', '💛', 'love'],
@@ -15,7 +17,8 @@
     let path = location.pathname.replace(/\/index\.html$/, '');
     if (path.length > 1 && path.endsWith('/')) path = path.slice(0, -1);
     if (!path) path = '/';
-    return path === '/' ? '/' : path + '/';
+    if (path === '/' || path === '/redpill') return '/redpill/';
+    return path + '/';
   })();
 
   const nav = document.createElement('div');
@@ -87,6 +90,7 @@
     document.querySelectorAll([
       '.hands', '.hero-title', '.hero-sub', '.chain-lead', '.phrase', '.splash-quote', '.heart', '.scroll-hint', '.home-quotes',
       '.subhead', '.kicker', '.stat', '.legend', '.months', '.dow',
+      '.os', '.pill-box', '.btc', '.grind-line', '.out-post', '.out-empty',
       '.quotes .d', '.quotes .q', '.quotes .by',
       '.month h2', '.socials a', '.socials p'
     ].join(',')).forEach((el) => pushBox(blocked, el, 6));

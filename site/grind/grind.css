@@ -1,0 +1,11 @@
+/* /grind header. the grids keep the habits styles. */
+.grind-line {
+  margin: 0 0 1.65em;
+  text-align: center;
+  font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.65;
+  color: var(--c, #1AADB3);
+}
