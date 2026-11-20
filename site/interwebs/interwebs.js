@@ -1,7 +1,7 @@
 /* Newest first. Category is only for the filter; it is not shown on the video.
    An item with pin "last" renders after every other item. */
 const list = document.getElementById('interwebs');
-const CATS = ['😭', '🏎️', '🐐', '💭', '🙃', '🇺🇸', '💛'];
+const CATS = ['😭', '🏎️', '🐐', '💭', '🙃', '🇺🇸', '💛', '🎶'];
 let items = [];
 let selected = 'all';
 let watcher;
