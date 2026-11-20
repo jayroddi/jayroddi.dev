@@ -1,14 +1,14 @@
 /* live shell. pill nav, square field, quote list on /quotes/. no audio.
-   the pill is 🤓 🗓️ 💭 📷 🍿 💛 🎥 ✨ 🧠.
+   the pill is 🤓 📷 💭 🍿 💛 🗓️ 🎥 ✨ 🧠.
    / and /redpill/ are the same homepage. /quotes/ reads /quote-of-the-day/quotes.json. */
 (() => {
   const pages = [
     ['/redpill/', '🤓', 'home'],
-    ['/grind/', '🗓️', 'grind'],
-    ['/outloud/', '💭', 'outloud'],
     ['/snaps/', '📷', 'snaps'],
+    ['/outloud/', '💭', 'outloud'],
     ['/log/', '🍿', 'log'],
     ['/love/', '💛', 'love'],
+    ['/grind/', '🗓️', 'grind'],
     ['/interwebs/', '🎥', 'interwebs'],
     ['/quotes/', '✨', 'quotes'],
     ['/brain/', '🧠', 'brain']
