@@ -55,41 +55,18 @@
 
 .btc-plot {
   position: relative;
+  height: 300px;
   margin-top: 8px;
   min-width: 0;
 }
 
-.btc svg {
+.btc-plot canvas {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
-  height: 188px;
-  touch-action: manipulation;
+  height: 100%;
 }
-
-.btc svg text {
-  font-size: 10px;
-  font-style: italic;
-  font-weight: 500;
-  fill: var(--dim);
-}
-
-.btc svg text.year { fill: var(--gold); }
-
-.btc svg .price,
-.btc svg .halving,
-.btc svg .law,
-.btc svg .cross {
-  fill: none;
-  vector-effect: non-scaling-stroke;
-}
-
-.btc svg .price { stroke: var(--teal); stroke-width: 1.4; }
-.btc svg .law { stroke: var(--gold); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0.85; }
-.btc svg .band { fill: rgba(255, 215, 0, 0.1); stroke: none; }
-.btc svg .halving { stroke: rgba(255, 215, 0, 0.45); stroke-width: 1; }
-.btc svg .cross { stroke: rgba(231, 255, 249, 0.45); stroke-width: 1; }
-.btc svg .dot { fill: var(--gold); stroke: #05080c; stroke-width: 1; vector-effect: non-scaling-stroke; }
-.btc svg .ath { fill: none; stroke: var(--gold); stroke-width: 1; vector-effect: non-scaling-stroke; }
 
 .btc-meta,
 .btc-note {
@@ -102,8 +79,11 @@
 
 .btc-note { margin-top: 4px; color: rgba(215, 255, 248, 0.42); font-size: 11px; }
 
+@media (max-width: 720px) {
+  .btc-plot { height: 220px; }
+}
+
 @media (max-width: 374px) {
   .btc-top { flex-wrap: wrap; }
   .btc-read { text-align: left; }
-  .btc svg { height: 168px; }
 }

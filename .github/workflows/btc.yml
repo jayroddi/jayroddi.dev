@@ -1,0 +1,71 @@
+# Daily bitcoin closes, once a night at 12:10am Chicago.
+# Writes site/brain/btc.json only when the series changed, then redeploys.
+name: Sync bitcoin
+
+on:
+  schedule:
+    # America/Chicago wall clock, once daily at 12:10am.
+    # Actions cron is UTC only. 12:10am is listed twice, CDT (UTC-5) and CST (UTC-6).
+    # Both fire. The gate keeps the cron that matches the current Chicago offset.
+    # 12:10am — CDT 05:10 UTC, CST 06:10 UTC
+    - cron: '10 5 * * *'
+    - cron: '10 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: bitcoin
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Only the 12:10am Chicago slot
+        id: chicago
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+            echo "manual run"
+            exit 0
+          fi
+          slot="${{ github.event.schedule }}"
+          zone=$(TZ=America/Chicago date +%Z)
+          case "$zone:$slot" in
+            "CDT:10 5 * * *")
+              echo "run=true" >> "$GITHUB_OUTPUT"
+              echo "Chicago is ${zone}; cron '${slot}' is the 12:10am Chicago slot; running"
+              exit 0
+              ;;
+            "CST:10 6 * * *")
+              echo "run=true" >> "$GITHUB_OUTPUT"
+              echo "Chicago is ${zone}; cron '${slot}' is the 12:10am Chicago slot; running"
+              exit 0
+              ;;
+          esac
+          echo "run=false" >> "$GITHUB_OUTPUT"
+          echo "Chicago is ${zone}; cron '${slot}' is not the current Chicago offset; skipping"
+      - name: Checkout
+        if: steps.chicago.outputs.run == 'true'
+        uses: actions/checkout@v4
+      - name: Refresh daily closes
+        if: steps.chicago.outputs.run == 'true'
+        run: python3 scripts/sync_btc.py
+      - name: Commit when the series changed
+        if: steps.chicago.outputs.run == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/brain/btc.json
+          if git diff --cached --quiet; then
+            echo "bitcoin unchanged"
+            exit 0
+          fi
+          git commit -m "Refresh bitcoin daily closes."
+          git push
+          gh workflow run pages.yml --ref main
