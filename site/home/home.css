@@ -95,26 +95,40 @@
 .pill-box .pill-blue { color: #3b82f6; font-style: italic; }
 .pill-box .pill-red { color: #ff3b30; font-style: italic; }
 
-.redpill .kronos,
-.redpill .kronos * {
-  font-style: italic;
+.redpill .btc {
+  width: 100%;
+  margin: 1.65em 0 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
 }
-.redpill .kronos {
-  margin-top: 1.65em;
+.btc-scene {
+  width: 100%;
+  height: 280px;
+  background: transparent;
+  touch-action: pan-y;
 }
-.redpill .kronos .kronos-stage {
-  height: 460px;
-  min-height: 320px;
+.btc-scene canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: transparent;
 }
-.redpill .kronos .kronos-note {
+.btc-note {
+  margin: 0.35em 0 0;
+  text-align: center;
+  color: rgba(246, 239, 233, 0.55);
+  font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
   font-size: 12px;
-  letter-spacing: 0;
-  text-transform: none;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.65;
 }
 
 @media (max-width: 720px) {
   .pill-box { padding: 14px 12px; }
-  .redpill .kronos .kronos-stage { height: 340px; min-height: 280px; }
+  .btc-scene { height: 220px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
