@@ -9,3 +9,28 @@
   line-height: 1.65;
   color: var(--c, #1AADB3);
 }
+
+/* Same frame as the homepage jayos, ennea, and btc modules.
+   Weekday labels stay inside the box, so the desktop hang
+   (habits.css, min-width 900px) does not overflow it. */
+.tracker {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 10px 10px 12px;
+  background:
+    linear-gradient(rgba(26, 173, 179, 0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 173, 179, 0.13) 1px, transparent 1px),
+    radial-gradient(ellipse at 50% 30%, rgba(26, 173, 179, 0.1), transparent 58%),
+    #05080c;
+  background-size: 16px 16px, 16px 16px, auto, auto;
+  box-shadow: inset 0 0 0 1px rgba(26, 173, 179, 0.42);
+  overflow: hidden;
+}
+@media (min-width: 900px) {
+  body.board .tracker .graph {
+    margin-left: 0;
+    width: 100%;
+  }
+}

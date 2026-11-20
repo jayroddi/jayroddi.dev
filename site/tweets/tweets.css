@@ -31,11 +31,28 @@
   text-align: center;
   color: var(--c, #1AADB3);
 }
-.tweet-empty,
-.tweet-post { margin: 0; }
 .tweet-empty {
+  margin: 0;
   color: rgba(246, 239, 233, 0.45);
   text-align: center;
+}
+/* Same frame as the homepage jayos, ennea, and btc modules. */
+.tweet-post {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 10px 10px 12px;
+  text-align: left;
+  background:
+    linear-gradient(rgba(26, 173, 179, 0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26, 173, 179, 0.13) 1px, transparent 1px),
+    radial-gradient(ellipse at 50% 30%, rgba(26, 173, 179, 0.1), transparent 58%),
+    #05080c;
+  background-size: 16px 16px, 16px 16px, auto, auto;
+  box-shadow: inset 0 0 0 1px rgba(26, 173, 179, 0.42);
+  overflow: hidden;
 }
 .tweet-post + .tweet-post { margin-top: 1.65em; }
 .tweet-when {
