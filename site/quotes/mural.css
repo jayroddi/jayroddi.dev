@@ -378,6 +378,40 @@ html.keyboard body.is-quotes .swoosh:focus-visible {
   }
 }
 
+/* Same teal as a viewed star. The gold png is used as a mask so the
+   mark is exact site teal; the pulse stays, just in teal. */
+body.is-quotes .swoosh.is-read img {
+  opacity: 0;
+  animation: none;
+}
+body.is-quotes .swoosh.is-read::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--teal);
+  -webkit-mask-image: url(/quotes/swoosh.png);
+  mask-image: url(/quotes/swoosh.png);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  pointer-events: none;
+  animation: swoosh-pulse-read 1.6s ease-in-out infinite;
+}
+@keyframes swoosh-pulse-read {
+  0%, 100% {
+    filter:
+      drop-shadow(0 0 2px rgba(26, 173, 179, 0.4))
+      drop-shadow(0 0 6px rgba(26, 173, 179, 0.4));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 6px rgba(26, 173, 179, 0.95))
+      drop-shadow(0 0 14px rgba(26, 173, 179, 0.8))
+      drop-shadow(0 0 24px rgba(26, 173, 179, 0.5));
+  }
+}
+
 body.is-quotes dialog.is-swoosh time,
 body.is-quotes dialog.is-swoosh .by { display: none; }
 
@@ -400,6 +434,17 @@ body.is-quotes ::selection { background: var(--orange); color: #1a0c06; }
       drop-shadow(0 0 4px rgba(255, 215, 0, 0.7))
       drop-shadow(0 0 12px rgba(255, 215, 0, 0.6))
       drop-shadow(0 0 18px rgba(255, 215, 0, 0.45));
+  }
+  body.is-quotes .swoosh.is-read img {
+    opacity: 0;
+    animation: none;
+  }
+  body.is-quotes .swoosh.is-read::after {
+    animation: none;
+    filter:
+      drop-shadow(0 0 4px rgba(26, 173, 179, 0.7))
+      drop-shadow(0 0 12px rgba(26, 173, 179, 0.6))
+      drop-shadow(0 0 18px rgba(26, 173, 179, 0.45));
   }
   body.is-quotes .star.is-today svg { opacity: 1; transform: none; }
   body.is-quotes .guide-dot {
