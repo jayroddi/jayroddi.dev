@@ -3,7 +3,7 @@
     {
       "c": "all",
       "e": "all",
-      "n": 497
+      "n": 498
     },
     {
       "c": "movies",
@@ -23,7 +23,7 @@
     {
       "c": "albums",
       "e": "💿",
-      "n": 168
+      "n": 169
     },
     {
       "c": "games",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 40
+      "n": 41
     },
     {
       "m": "2025",
@@ -83,6 +83,17 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "albums-ride-the-lightning-deluxe-remaster-2026-11-20-38cff7",
+      "d": "2026-11-20",
+      "c": "albums",
+      "t": "Ride The Lightning (Deluxe Remaster)",
+      "a": "Metallica",
+      "r": null,
+      "img": "albums-ride-the-lightning-deluxe-remaster-2026-11-20-38cff7.jpg",
+      "src": "music 🎧",
+      "blurb": null
+    },
     {
       "i": "albums-so-wrong-its-right-2026-11-20-6fcbb6",
       "d": "2026-11-20",
