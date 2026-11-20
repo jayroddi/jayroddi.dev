@@ -185,7 +185,7 @@
     const drift = spot * (Math.exp(mean) - 1);
     const sigma = Math.max(spot * sd, spot * 0.004);
     const rising = mean > 0.001 && s30.b > prev.b;
-    const regime = rising ? 'TRENDING' : 'CHOPPY';
+    const regime = rising ? 'trending' : 'choppy';
     return {
       ys, s30, s14, s7, prev, drift, sigma, regime,
       level: spot,
@@ -423,7 +423,7 @@
     ctx.strokeStyle = 'rgba(124,255,242,0.8)';
     ctx.strokeRect(x - 16, top + 2, 32, 14);
     ctx.fillStyle = '#7CFFF2';
-    ctx.fillText('NOW', x, top + 13);
+    ctx.fillText('now', x, top + 13);
     ctx.restore();
   }
   function project(h01, value, z, plot, nowX, yOf) {
@@ -631,11 +631,11 @@
     ctx.font = 'italic 11px JetBrains Mono, ui-monospace, monospace';
     ctx.textAlign = 'left';
     ctx.fillStyle = '#041014';
-    ctx.fillRect(rx + 18, ry - 18, 62, 14);
+    ctx.fillRect(rx + 18, ry - 18, 58, 14);
     ctx.strokeStyle = 'rgba(124,255,242,0.75)';
-    ctx.strokeRect(rx + 18, ry - 18, 62, 14);
+    ctx.strokeRect(rx + 18, ry - 18, 58, 14);
     ctx.fillStyle = '#d7fff8';
-    ctx.fillText('KRONOS', rx + 22, ry - 7);
+    ctx.fillText('kronos', rx + 22, ry - 7);
     ctx.restore();
   }
   function drawStamp(nowX, y, t, grow) {
@@ -647,7 +647,7 @@
     ctx.globalAlpha = age;
     ctx.font = 'italic 12px JetBrains Mono, ui-monospace, monospace';
     ctx.textAlign = 'left';
-    const text = hit ? 'HIT' : 'MISS';
+    const text = hit ? 'hit' : 'miss';
     const x = nowX + 28;
     const yy = y + 16 - age * 10;
     ctx.fillStyle = hit ? 'rgba(14,50,36,0.9)' : 'rgba(60,12,28,0.9)';
@@ -667,7 +667,10 @@
     const span = yHi - yLo;
     for (let i = 0; i <= 4; i++) {
       const v = yLo + span * (i / 4);
-      const label = span > 50 ? String(Math.round(v)) : v.toFixed(0);
+      const abs = Math.abs(v);
+      const label = abs >= 1000
+        ? (v < 0 ? '-' : '') + Math.round(abs / 1000) + 'k'
+        : String(Math.round(v));
       ctx.fillText(label, plot.right + 6, yOf(v));
     }
     ctx.restore();
@@ -681,7 +684,7 @@
     if (!model) return;
     setText('btc-read', fmt(model.level));
     const r = (Math.max(0, roundId) % 5) + 1;
-    setText('k-round', 'ROUND ' + r + '/5 · ' + model.regime.toLowerCase());
+    setText('k-round', 'round ' + r + '/5 · ' + model.regime);
   }
 
   function frame(now) {
