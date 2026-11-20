@@ -3,7 +3,7 @@
     {
       "c": "all",
       "e": "all",
-      "n": 492
+      "n": 493
     },
     {
       "c": "movies",
@@ -23,7 +23,7 @@
     {
       "c": "albums",
       "e": "💿",
-      "n": 164
+      "n": 165
     },
     {
       "c": "games",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 35
+      "n": 36
     },
     {
       "m": "2025",
@@ -83,6 +83,17 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "albums-kinda-hard-2026-11-19-a3e925",
+      "d": "2026-11-19",
+      "c": "albums",
+      "t": "KINDA HARD",
+      "a": "Bilmuri",
+      "r": null,
+      "img": "albums-kinda-hard-2026-11-19-a3e925.jpg",
+      "src": "music 🎧",
+      "blurb": null
+    },
     {
       "i": "albums-life-is-not-a-waiting-room-2026-11-18-b4f117",
       "d": "2026-11-18",
