@@ -32,25 +32,29 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 8px 12px;
   min-width: 0;
 }
 
-.btc-kicker {
+.btc-now,
+.btc-ath {
   margin: 0;
-  color: var(--dim);
+  min-width: 0;
+  max-width: 100%;
   font-size: 12px;
   line-height: 1.4;
+  white-space: nowrap;
 }
 
-.btc-read {
-  margin: 0;
-  min-width: 0;
+.btc-now {
+  color: var(--teal);
+}
+
+.btc-ath {
   color: var(--gold);
-  font-size: 12px;
-  line-height: 1.4;
   text-align: right;
-  overflow-wrap: anywhere;
+  margin-left: auto;
 }
 
 .btc-plot {
@@ -83,7 +87,3 @@
   .btc-plot { height: 220px; }
 }
 
-@media (max-width: 374px) {
-  .btc-top { flex-wrap: wrap; }
-  .btc-read { text-align: left; }
-}

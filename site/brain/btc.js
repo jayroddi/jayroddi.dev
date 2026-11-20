@@ -1,7 +1,9 @@
 /* Homepage bitcoin tape, in the Kronos HUD language from Oct 31 2026.
    Last 90 daily closes from site/brain/btc.json. On load, the Coinbase
    BTC-USD spot (CoinGecko if that fails) replaces the last close and
-   the now-wall price. The spray starts there. Theoretical, not a forecast. */
+   the now-wall price. The spray starts there. Theoretical, not a forecast.
+   Header: teal live price at left, gold ATH at right. ATH is the max daily
+   close in btc.json (closes only; no highs) maxed with the live spot. */
 (() => {
   const root = document.getElementById('btc');
   if (!root || root.dataset.ready) return;
@@ -82,8 +84,8 @@
 
   root.innerHTML = `
     <header class="btc-top">
-      <p class="btc-kicker">btc</p>
-      <p class="btc-read" id="btc-read">—</p>
+      <p class="btc-now" id="btc-now">btc // —</p>
+      <p class="btc-ath" id="btc-ath">ath —</p>
     </header>
     <div class="btc-plot" id="btc-stage">
       <canvas id="btc-chart" aria-hidden="true"></canvas>
@@ -680,9 +682,16 @@
     const el = $(id);
     if (el && el.textContent !== text) el.textContent = text;
   }
+  function paintHeader() {
+    if (!model) return;
+    setText('btc-now', 'btc // ' + fmt(model.level));
+    const live = spot > 0 ? spot : model.level;
+    const ath = Math.max(bookAth || 0, live || 0);
+    setText('btc-ath', ath > 0 ? 'ath ' + fmt(ath) : 'ath —');
+  }
   function paint(t) {
     if (!model) return;
-    setText('btc-read', fmt(model.level));
+    paintHeader();
     const r = (Math.max(0, roundId) % 5) + 1;
     setText('k-round', 'round ' + r + '/5 · ' + model.regime);
   }
@@ -717,6 +726,7 @@
   }
 
   let bookSeries = null;
+  let bookAth = null;
   let spot = null;
 
   const io = new IntersectionObserver(entries => {
@@ -736,12 +746,14 @@
     if (!series) return;
     if (first || !model) {
       applySeries(series, false);
+      paintHeader();
       start();
       return;
     }
     model = buildModel(series);
     candles = makeCandles(series);
     beginRound(Math.max(0, roundId));
+    paintHeader();
   }
 
   function grab(url) {
@@ -770,8 +782,14 @@
     const px = (data && data.px) || [];
     const t0 = data && data.t0;
     if (!t0 || px.length < 30) return;
+    let ath = 0;
+    for (let i = 0; i < px.length; i++) {
+      const price = Number(px[i]);
+      if (price > ath) ath = price;
+    }
     const series = buildSeries(px, t0);
     if (series.length < 20) return;
+    bookAth = ath > 0 ? ath : null;
     bookSeries = series;
     publish(true);
     pullSpot();
