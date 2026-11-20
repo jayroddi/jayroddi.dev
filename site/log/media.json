@@ -3,7 +3,7 @@
     {
       "c": "all",
       "e": "all",
-      "n": 495
+      "n": 496
     },
     {
       "c": "movies",
@@ -23,7 +23,7 @@
     {
       "c": "albums",
       "e": "💿",
-      "n": 166
+      "n": 167
     },
     {
       "c": "games",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 38
+      "n": 39
     },
     {
       "m": "2025",
@@ -83,6 +83,17 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "albums-e-mortal-boy-2026-11-20-cf2f70",
+      "d": "2026-11-20",
+      "c": "albums",
+      "t": "E-Mortal Boy",
+      "a": "Rema",
+      "r": null,
+      "img": "albums-e-mortal-boy-2026-11-20-cf2f70.jpg",
+      "src": "music 🎧",
+      "blurb": null
+    },
     {
       "i": "albums-grand-theft-auto-vi-the-album-2026-11-20-41bd07",
       "d": "2026-11-20",
