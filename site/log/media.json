@@ -3,7 +3,7 @@
     {
       "c": "all",
       "e": "all",
-      "n": 493
+      "n": 494
     },
     {
       "c": "movies",
@@ -18,7 +18,7 @@
     {
       "c": "books",
       "e": "📚",
-      "n": 112
+      "n": 113
     },
     {
       "c": "albums",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 36
+      "n": 37
     },
     {
       "m": "2025",
@@ -83,6 +83,17 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "books-good-vibes-good-life-2026-11-19-ffc929",
+      "d": "2026-11-19",
+      "c": "books",
+      "t": "Good Vibes, Good Life",
+      "a": "Vex King",
+      "r": null,
+      "img": "books-good-vibes-good-life-2026-11-19-ffc929.jpg",
+      "src": "books 📚",
+      "blurb": null
+    },
     {
       "i": "albums-kinda-hard-2026-11-19-a3e925",
       "d": "2026-11-19",
