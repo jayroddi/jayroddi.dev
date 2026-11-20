@@ -4,8 +4,9 @@
   margin-inline: auto;
   text-align: left;
 }
-.support-block,
-.letter {
+/* Each section is its own module; the date stamp sits on the bare field. */
+.letter,
+.support-group {
   box-sizing: border-box;
   background: var(--mod-glass);
   padding: 10px 10px 12px;
@@ -22,7 +23,7 @@
   color: var(--ink, #f6efe9);
 }
 .support-date {
-  margin-bottom: 1.65em;
+  margin-bottom: 16px;
   color: var(--c, #1AADB3);
   text-align: center;
 }
@@ -52,10 +53,13 @@
 .letter p:last-child { margin-bottom: 0; }
 .support-group {
   list-style: none;
+  width: 100%;
   margin: 0;
-  padding: 0;
+  border-radius: 0;
+  box-shadow: inset 0 0 0 1px rgba(26, 173, 179, 0.42);
+  overflow-wrap: anywhere;
 }
-.support-group + .support-group { margin-top: 1.65em; }
+.support-group + .support-group { margin-top: 16px; }
 .support-group a {
   color: var(--c, #1AADB3);
   font: inherit;
