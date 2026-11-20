@@ -29,6 +29,28 @@ def test_short_names() -> None:
     assert sync_snaps.short_camera("Sony", "") is None
 
 
+def test_capture_wall_clock() -> None:
+    # RX100 still tagged -05:00 after Jay's -1h edit. Show 7:48, not 6:48.
+    rx = {"payload": {"captureDate": "2026-11-20T07:48:52.000-05:00"}}
+    dt, day = sync_snaps.when(rx)
+    assert (dt.hour, dt.minute, dt.second) == (7, 48, 52)
+    assert day == "2026-11-20"
+    assert sync_snaps.iso_at(dt) == "2026-11-20T07:48:52-06:00"
+    # No offset is already the wall clock.
+    bare = {"payload": {"captureDate": "2026-11-20T07:43:10"}}
+    dt, _ = sync_snaps.when(bare)
+    assert (dt.hour, dt.minute, dt.second) == (7, 43, 10)
+    # iPhone clocks are already Chicago. The hour stays.
+    phone = {"payload": {"captureDate": "2026-11-20T08:49:23.138-06:00"}}
+    dt, _ = sync_snaps.when(phone)
+    assert (dt.hour, dt.minute, dt.second) == (8, 49, 23)
+    assert sync_snaps.iso_at(dt) == "2026-11-20T08:49:23-06:00"
+    # A Z capture instant is UTC, not a camera clock.
+    utc = {"payload": {"captureDate": "2026-11-20T14:49:23Z"}}
+    dt, _ = sync_snaps.when(utc)
+    assert (dt.hour, dt.minute, dt.second) == (8, 49, 23)
+
+
 def test_camera_of_reads_xmp() -> None:
     asset = {"payload": {"xmp": {"tiff": {"Make": "Apple", "Model": "iPhone 16"}}}}
     make, model, short = sync_snaps.camera_of(asset)
@@ -60,6 +82,7 @@ if (caption(plain).endsWith('//')) process.exit(4);
 
 def main() -> int:
     test_short_names()
+    test_capture_wall_clock()
     test_camera_of_reads_xmp()
     test_caption_appends_camera()
     print("snap camera tests passed")
