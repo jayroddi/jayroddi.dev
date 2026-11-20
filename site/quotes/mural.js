@@ -70,6 +70,7 @@
   let todayBtn = null;
   let guideDone = false;
   const READ_KEY = "codylarae.read";
+  const SWOOSH_READ_KEY = "swoosh";
   let readKeys = new Set();
   let blockDismissUntil = 0;
   let keyboardNav = false;
@@ -138,6 +139,18 @@
     setGlyphFill(btn);
     if (todayBtn === btn) todayBtn = null;
     dismissGuide();
+  }
+
+  function markSwooshRead() {
+    if (!readKeys.has(SWOOSH_READ_KEY)) {
+      readKeys.add(SWOOSH_READ_KEY);
+      saveRead();
+    }
+    swooshBtn.classList.add("is-read");
+  }
+
+  function syncSwooshRead() {
+    if (readKeys.has(SWOOSH_READ_KEY)) swooshBtn.classList.add("is-read");
   }
 
   function starPoint(btn) {
@@ -922,6 +935,7 @@
     qText.textContent = SWOOSH_TEXT;
     qBy.textContent = "";
     opener = swooshBtn;
+    markSwooshRead();
     if (!dialog.open) dialog.showModal();
   }
 
@@ -1098,6 +1112,7 @@
   }
 
   loadRead();
+  syncSwooshRead();
   readImageSize();
   onResize();
   load();
