@@ -421,39 +421,12 @@ function bump(key) {
   setTimeout(() => btn.classList.remove('hit'), 250);
 }
 
-function playInstaller() {
-  const os = nowEl && nowEl.querySelector('.os');
-  if (!os || os.dataset.played === '1') return;
-  os.dataset.played = '1';
-  const log = os.querySelector('.os-log');
-  const steps = ['reading diablo', 'unmounting jayos2.0', 'writing skyline', 'verifying boot', 'install complete'];
-  if (reduceMotion) {
-    os.classList.add('is-done');
-    if (log) log.textContent = 'install complete';
-    return;
-  }
-  os.classList.add('is-run');
-  let step = 0;
-  if (log) log.textContent = steps[0];
-  const timer = setInterval(() => {
-    step += 1;
-    if (step >= steps.length - 1) {
-      clearInterval(timer);
-      if (log) log.textContent = steps[steps.length - 1];
-      os.classList.add('is-done');
-      return;
-    }
-    if (log) log.textContent = steps[step];
-  }, 800);
-}
-
 function showNow(intent) {
   if (!revealAllowed(pad.run.phase, intent) || revealed || !nowEl) return;
   revealed = true;
   nowEl.hidden = false;
   nowEl.removeAttribute('aria-hidden');
   nowEl.inert = false;
-  playInstaller();
   const go = () => nowEl.classList.add('is-in');
   if (reduceMotion) go();
   else requestAnimationFrame(() => requestAnimationFrame(go));
