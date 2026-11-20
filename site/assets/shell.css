@@ -52,34 +52,13 @@ body:not(.is-welcome) .habit-bg {
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%);
   mask-image: linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%);
 }
-body:not(.is-welcome):not(.no-veil) .habit-bg {
-  -webkit-mask-image:
-    linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%),
-    linear-gradient(90deg,
-      rgba(0, 0, 0, .7) 0,
-      rgba(0, 0, 0, .7) calc(var(--gutter) - 10px),
-      rgba(0, 0, 0, .14) var(--gutter),
-      rgba(0, 0, 0, .14) calc(100% - var(--gutter)),
-      rgba(0, 0, 0, .7) calc(100% - var(--gutter) + 10px),
-      rgba(0, 0, 0, .7) 100%);
-  mask-image:
-    linear-gradient(to bottom, transparent 0%, #000 8%, #000 92%, transparent 100%),
-    linear-gradient(90deg,
-      rgba(0, 0, 0, .7) 0,
-      rgba(0, 0, 0, .7) calc(var(--gutter) - 10px),
-      rgba(0, 0, 0, .14) var(--gutter),
-      rgba(0, 0, 0, .14) calc(100% - var(--gutter)),
-      rgba(0, 0, 0, .7) calc(100% - var(--gutter) + 10px),
-      rgba(0, 0, 0, .7) 100%);
-  -webkit-mask-composite: source-in;
-  mask-composite: intersect;
-}
+/* Dark glass lives in content modules, not as a page-wide or column veil.
+   The square field stays full strength in the gutters and between modules. */
 @media (max-width: 760px) {
   .habit-bg i { border-radius: 4px; }
   body.no-veil .habit-bg i.blink.faint,
   body.is-welcome .habit-bg i.blink.faint { animation-name: today-cursor; }
   body:not(.is-welcome) .habit-bg {
-    opacity: .18;
     -webkit-mask-image: linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent);
     mask-image: linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent);
     -webkit-mask-composite: source-over;
@@ -93,7 +72,25 @@ body:not(.is-welcome):not(.no-veil) .habit-bg {
 /* Classic scrollbars shrink the layout on long pages only. A stable gutter
    keeps the fixed pills on the same x on every route. */
 html { scrollbar-gutter: stable; }
-:root { --pill-inset: 14px; }
+:root {
+  --pill-inset: 14px;
+  /* Matches the old column-veil center: field at 14% strength (1 - 0.14). */
+  --mod-glass: rgba(0, 0, 0, 0.86);
+}
+.mod-glass,
+body.board:not(.is-quotes):not(.is-welcome) .copy > .quotes > li,
+body.is-confirmed .confirm-card {
+  box-sizing: border-box;
+  background: var(--mod-glass);
+}
+body.board:not(.is-quotes):not(.is-welcome) .copy > .quotes > li {
+  padding: 10px 10px 12px;
+}
+body.is-confirmed .confirm-card {
+  width: 100%;
+  padding: 10px 10px 12px;
+}
+
 .nav-stack {
   position: fixed;
   z-index: 40;

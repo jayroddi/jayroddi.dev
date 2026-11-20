@@ -4,6 +4,12 @@
   margin-inline: auto;
   text-align: left;
 }
+.support-block,
+.letter {
+  box-sizing: border-box;
+  background: var(--mod-glass);
+  padding: 10px 10px 12px;
+}
 .support-block + .support-block { margin-top: 1.65em; }
 .support-date,
 .support-group li {
@@ -27,7 +33,6 @@
   box-sizing: border-box;
   width: min(40em, 100%);
   margin: 0 0 1.65em;
-  padding: 0 8px;
   text-align: left;
 }
 .letter p {

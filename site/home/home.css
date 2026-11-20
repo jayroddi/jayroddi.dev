@@ -12,6 +12,17 @@ body.board {
   --col: min(777.6px, calc(100vw - 48px));
 }
 
+/* Same stacking habits.css gives other board pages. Without it the
+   fixed habit-bg field paints over the module glass. */
+body.board .stage {
+  position: relative;
+  z-index: 2;
+}
+body.board .copy {
+  position: relative;
+  z-index: 3;
+}
+
 /* Keep typography from inflating on wide tablets (Surface Duo, etc.). */
 html {
   -webkit-text-size-adjust: 100%;
@@ -46,7 +57,7 @@ html {
   padding: 10px 10px 12px;
   text-align: left;
   color: var(--ink);
-  background: transparent;
+  background: var(--mod-glass);
   box-shadow: inset 0 0 0 1px rgba(26, 173, 179, 0.42);
   overflow: hidden;
 }
@@ -98,7 +109,7 @@ html {
   width: 100%;
   margin: 1.65em 0 0;
   padding: 16px 18px;
-  background: transparent;
+  background: var(--mod-glass);
   box-shadow: inset 0 0 0 1px rgba(26, 173, 179, 0.42);
   color: #fff;
   font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
