@@ -18,9 +18,12 @@ width and height, the 640 / 1280 / 2048 rendition ids, a dominant
 color sampled from the 640 JPEG, and a short camera name. No GPS,
 filename, or other EXIF. The camera name comes from the asset XMP
 (tiff Make/Model, with exif Make/Model as a fallback). The public
-share only includes those fields when Show metadata is on. The time
-is the capture clock tagged America/Chicago, so the page can stamp
-it. The color cache is scripts/snaps_colors.json so a later run does
+share only includes those fields when Show metadata is on. The time is the capture wall clock, tagged America/Chicago so the
+page can stamp it. An offset on that clock is the camera's zone and
+is not reprojected: after the fall time change an RX100 still tagged
+-05:00 would otherwise lose an hour. A captureDate with no offset is
+already that wall clock. Import times, when there is no capture date,
+are converted to Chicago. The color cache is scripts/snaps_colors.json so a later run does
 not download a rendition that has not changed.
 
 Every photo stays the sharp Lightroom rendition. This script does not frost
@@ -89,14 +92,20 @@ def bytes_of(url: str) -> bytes:
 
 
 def when(asset: dict):
-    """Capture date, camera-local. Import time falls back to America/Chicago."""
+    """Capture wall clock. Import time falls back to America/Chicago.
+
+    captureDate is the camera clock. Keep those digits, offset or not.
+    Reprojecting a -05:00 RX100 stamp into November Chicago (UTC-6)
+    moves the hour. A trailing Z is a real UTC instant, not that clock,
+    so only that form is converted.
+    """
     payload = asset.get("payload") or {}
     capture = payload.get("captureDate")
     if isinstance(capture, str) and len(capture) >= 10:
         dt = datetime.fromisoformat(capture.replace("Z", "+00:00"))
-        if dt.tzinfo is not None:
-            dt = dt.astimezone(CHICAGO).replace(tzinfo=None)
-        return dt, dt.date().isoformat()
+        if capture.endswith(("Z", "z")):
+            dt = dt.astimezone(CHICAGO)
+        return dt.replace(tzinfo=None), dt.replace(tzinfo=None).date().isoformat()
     source = payload.get("importSource") or {}
     stamp = source.get("importTimestamp") or payload.get("userCreated") or asset.get("created")
     if not isinstance(stamp, str) or len(stamp) < 10:
@@ -159,10 +168,10 @@ def naive(dt: datetime) -> datetime:
 
 
 def iso_at(dt: datetime) -> str:
-    """Capture clock as an ISO instant in America/Chicago.
+    """Capture wall clock tagged America/Chicago.
 
-    when() already returns that wall clock (naive). Tagging it does not
-    shift the hour, including a Lightroom captureDate with no zone.
+    when() already returns that clock with no zone. Tagging it does not
+    shift the hour.
     """
     local = naive(dt).replace(microsecond=0)
     return local.replace(tzinfo=CHICAGO).isoformat(timespec="seconds")
