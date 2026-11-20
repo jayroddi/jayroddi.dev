@@ -90,7 +90,7 @@
     document.querySelectorAll([
       '.hands', '.hero-title', '.hero-sub', '.chain-lead', '.phrase', '.splash-quote', '.heart', '.scroll-hint', '.home-quotes',
       '.subhead', '.kicker', '.stat', '.legend', '.months', '.dow',
-      '.os', '.pill-box', '.btc', '.grind-line', '.tweet-line', '.tweet-post', '.tweet-empty',
+      '.os', '.pill-box', '.ennea', '.btc', '.grind-line', '.tweet-line', '.tweet-post', '.tweet-empty',
       '.quotes .d', '.quotes .q', '.quotes .by',
       '.month h2', '.socials a', '.socials p'
     ].join(',')).forEach((el) => pushBox(blocked, el, 6));
