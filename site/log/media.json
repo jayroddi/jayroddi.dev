@@ -3,7 +3,7 @@
     {
       "c": "all",
       "e": "all",
-      "n": 494
+      "n": 495
     },
     {
       "c": "movies",
@@ -23,7 +23,7 @@
     {
       "c": "albums",
       "e": "💿",
-      "n": 165
+      "n": 166
     },
     {
       "c": "games",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 37
+      "n": 38
     },
     {
       "m": "2025",
@@ -83,6 +83,17 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "albums-grand-theft-auto-vi-the-album-2026-11-20-41bd07",
+      "d": "2026-11-20",
+      "c": "albums",
+      "t": "Grand Theft Auto VI: The Album",
+      "a": "Grand Theft Auto VI",
+      "r": null,
+      "img": "albums-grand-theft-auto-vi-the-album-2026-11-20-41bd07.jpg",
+      "src": "music 🎧",
+      "blurb": null
+    },
     {
       "i": "books-good-vibes-good-life-2026-11-19-ffc929",
       "d": "2026-11-19",
