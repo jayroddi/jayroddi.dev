@@ -10,6 +10,18 @@
   color: var(--c, #1AADB3);
 }
 
+/* Thoughts-to-destiny lines sit in their own module, centered in the
+   column. The teal header stays on the bare field above. */
+body.board.is-grind .chain {
+  width: max-content;
+  max-width: 100%;
+  margin: 0 auto var(--habit-gap, 16px);
+  padding: 10px 10px 12px;
+  background: var(--mod-glass);
+  box-shadow: inset 0 0 0 1px rgba(26, 173, 179, 0.42);
+  border-radius: 0;
+}
+
 /* Same frame as the homepage jayos, ennea, and btc modules.
    Weekday labels stay inside the box, so the desktop hang
    (habits.css, min-width 900px) does not overflow it. */
