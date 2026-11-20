@@ -1,29 +1,38 @@
-/* Short posts, newest first. The header matches the old homepage line. */
+/* Short posts, newest first. The header matches the old homepage line.
+   Header and feed fill body.board .copy, which uses --col from habits.css:
+   min(777.6px, calc(100vw - 48px)). That is the same column as /love, /log,
+   and /grind, with 24px side gutters on a 390px phone.
+   Type is the same 12px / 1.65 italic mono as /love body text, with
+   text-size-adjust locked so wide tablets (Surface Duo) cannot inflate it. */
+.tweet-line,
 .tweets {
   box-sizing: border-box;
-  width: min(40em, 100%);
+  width: 100%;
+  max-width: 100%;
   margin-inline: auto;
-  text-align: left;
+}
+.tweets { text-align: left; }
+.tweet-line,
+.tweet-empty,
+.tweet-post,
+.tweet-when,
+.tweet-text,
+.tweet-text a {
+  font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.65;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 .tweet-line {
   margin: 0 0 1.65em;
   text-align: center;
-  font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
-  font-size: 12px;
-  font-weight: 500;
-  font-style: italic;
-  line-height: 1.65;
   color: var(--c, #1AADB3);
 }
 .tweet-empty,
-.tweet-post {
-  margin: 0;
-  font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
-  font-size: 12px;
-  font-weight: 500;
-  font-style: italic;
-  line-height: 1.65;
-}
+.tweet-post { margin: 0; }
 .tweet-empty {
   color: rgba(246, 239, 233, 0.45);
   text-align: center;
@@ -32,26 +41,14 @@
 .tweet-when {
   margin: 0 0 0.35em;
   color: var(--c, #1AADB3);
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  font-style: italic;
-  line-height: 1.65;
 }
 .tweet-text {
   margin: 0;
   color: var(--fg, #f6efe9);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 500;
-  font-style: italic;
-  line-height: 1.65;
 }
 .tweet-text a {
   color: var(--c, #1AADB3);
-  font: inherit;
-  font-style: italic;
   text-decoration: none;
 }
