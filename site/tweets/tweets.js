@@ -1,6 +1,6 @@
-/* Timeline from /outloud/posts.json. Newest first. Text stays text. */
+/* Timeline from /tweets/posts.json. Newest first. Text stays text. */
 (() => {
-  const root = document.getElementById('outloud');
+  const root = document.getElementById('tweets');
   const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
   function stamp(iso) {
@@ -51,8 +51,8 @@
 
   function empty() {
     const note = document.createElement('p');
-    note.className = 'out-empty';
-    note.textContent = 'nothing out loud yet';
+    note.className = 'tweet-empty';
+    note.textContent = 'nothing here yet';
     root.replaceChildren(note);
   }
 
@@ -73,12 +73,12 @@
     const frag = document.createDocumentFragment();
     items.forEach((row) => {
       const article = document.createElement('article');
-      article.className = 'out-post';
+      article.className = 'tweet-post';
       const when = document.createElement('p');
-      when.className = 'out-when';
+      when.className = 'tweet-when';
       when.textContent = stamp(row.ts);
       const body = document.createElement('p');
-      body.className = 'out-text';
+      body.className = 'tweet-text';
       linkText(body, row.text);
       article.append(when, body);
       frag.append(article);
@@ -86,7 +86,7 @@
     root.replaceChildren(frag);
   }
 
-  fetch('/outloud/posts.json', { cache: 'no-cache' })
+  fetch('/tweets/posts.json', { cache: 'no-cache' })
     .then((res) => res.ok ? res.json() : [])
     .then(render)
     .catch(() => empty());

@@ -1,11 +1,11 @@
 /* live shell. pill nav, square field, quote list on /quotes/. no audio.
-   the pill is 🤓 📷 💭 🍿 💛 🗓️ 🎥 ✨ 🧠.
+   the pill is 🤓 📷 🐦 🍿 💛 🗓️ 🎥 ✨ 🧠.
    / and /redpill/ are the same homepage. /quotes/ reads /quote-of-the-day/quotes.json. */
 (() => {
   const pages = [
     ['/redpill/', '🤓', 'home'],
     ['/snaps/', '📷', 'snaps'],
-    ['/outloud/', '💭', 'outloud'],
+    ['/tweets/', '🐦', 'tweets'],
     ['/log/', '🍿', 'log'],
     ['/love/', '💛', 'love'],
     ['/grind/', '🗓️', 'grind'],
@@ -90,7 +90,7 @@
     document.querySelectorAll([
       '.hands', '.hero-title', '.hero-sub', '.chain-lead', '.phrase', '.splash-quote', '.heart', '.scroll-hint', '.home-quotes',
       '.subhead', '.kicker', '.stat', '.legend', '.months', '.dow',
-      '.os', '.pill-box', '.btc', '.grind-line', '.out-post', '.out-empty',
+      '.os', '.pill-box', '.btc', '.grind-line', '.tweet-line', '.tweet-post', '.tweet-empty',
       '.quotes .d', '.quotes .q', '.quotes .by',
       '.month h2', '.socials a', '.socials p'
     ].join(',')).forEach((el) => pushBox(blocked, el, 6));

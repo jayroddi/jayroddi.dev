@@ -1,12 +1,22 @@
-/* Short posts, newest first. */
-.outloud {
+/* Short posts, newest first. The header matches the old homepage line. */
+.tweets {
   box-sizing: border-box;
   width: min(40em, 100%);
   margin-inline: auto;
   text-align: left;
 }
-.out-empty,
-.out-post {
+.tweet-line {
+  margin: 0 0 1.65em;
+  text-align: center;
+  font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
+  font-size: 12px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.65;
+  color: var(--c, #1AADB3);
+}
+.tweet-empty,
+.tweet-post {
   margin: 0;
   font-family: var(--mono, "JetBrains Mono", ui-monospace, monospace);
   font-size: 12px;
@@ -14,12 +24,12 @@
   font-style: italic;
   line-height: 1.65;
 }
-.out-empty {
+.tweet-empty {
   color: rgba(246, 239, 233, 0.45);
   text-align: center;
 }
-.out-post + .out-post { margin-top: 1.65em; }
-.out-when {
+.tweet-post + .tweet-post { margin-top: 1.65em; }
+.tweet-when {
   margin: 0 0 0.35em;
   color: var(--c, #1AADB3);
   font-family: inherit;
@@ -28,7 +38,7 @@
   font-style: italic;
   line-height: 1.65;
 }
-.out-text {
+.tweet-text {
   margin: 0;
   color: var(--fg, #f6efe9);
   white-space: pre-wrap;
@@ -39,7 +49,7 @@
   font-style: italic;
   line-height: 1.65;
 }
-.out-text a {
+.tweet-text a {
   color: var(--c, #1AADB3);
   font: inherit;
   font-style: italic;
