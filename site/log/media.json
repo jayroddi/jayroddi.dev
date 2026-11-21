@@ -3,12 +3,12 @@
     {
       "c": "all",
       "e": "all",
-      "n": 498
+      "n": 499
     },
     {
       "c": "movies",
       "e": "🍿",
-      "n": 181
+      "n": 182
     },
     {
       "c": "shows",
@@ -34,7 +34,7 @@
   "months": [
     {
       "m": "2026",
-      "n": 41
+      "n": 42
     },
     {
       "m": "2025",
@@ -83,6 +83,17 @@
   ],
   "groupBy": "year",
   "items": [
+    {
+      "i": "movies-the-truman-show-2026-11-20-131e52",
+      "d": "2026-11-20",
+      "c": "movies",
+      "t": "The Truman Show",
+      "a": "Peter Weir",
+      "r": null,
+      "img": "movies-the-truman-show-2026-11-20-131e52.jpg",
+      "src": "movies 🍿",
+      "blurb": null
+    },
     {
       "i": "albums-ride-the-lightning-deluxe-remaster-2026-11-20-38cff7",
       "d": "2026-11-20",
